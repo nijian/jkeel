@@ -1,0 +1,112 @@
+{
+  "name": "[tenantCode:Baoviet_VN, productCode:BV-NCUVL01, productVersion:v1, illustrationCode:MAIN_LB, illustrationVersion:v1]",
+  "strategyName": "OUTPUT",
+  "outputNames": "LB_payment_H,LB_payment_L,LB_payment_G",
+  "layouts": [
+    {
+      "layoutCount": "LayoutCount",
+      "parallelAreas": [
+        {
+          "items": [
+            {
+              "name": "Price_BOM_H_k",
+              "out": true,
+              "scale": 6
+            },
+            {
+              "name": "Price_BOM_L_k",
+              "out": true,
+              "scale": 6
+            },
+            {
+              "name": "Price_BOM_G_k",
+              "out": true,
+              "scale": 6
+            },
+            {
+              "name": "Price_EOM_H_k",
+              "out": true,
+              "scale": 6
+            },
+            {
+              "name": "Price_EOM_L_k",
+              "out": true,
+              "scale": 6
+            },
+            {
+              "name": "Price_EOM_G_k",
+              "out": true,
+              "scale": 6
+            },
+            {
+              "name": "Price_EOM_G_k",
+              "out": true,
+              "scale": 6
+            },
+            {
+              "name": "LB_rem_month_k",
+              "out": true
+            }
+          ]
+        },
+        {
+          "items": [
+            {
+              "name": "PAV_Longevity_BD_unit_H_k",
+              "out": true,
+              "scale": 6
+            },
+            {
+              "name": "PAV_Longevity_BD_unit_L_k",
+              "out": true,
+              "scale": 6
+            },
+            {
+              "name": "PAV_Longevity_BD_unit_G_k",
+              "out": true,
+              "scale": 6
+            }
+          ]
+        },
+        {
+          "items": [
+            {
+              "name": "LB_payment_H_k",
+              "out": true,
+              "scale": 6
+            },
+            {
+              "name": "LB_payment_L_k",
+              "out": true,
+              "scale": 6
+            },
+            {
+              "name": "LB_payment_G_k",
+              "out": true,
+              "scale": 6
+            }
+          ]
+        },
+        {
+          "items": [
+            {
+              "name": "PAV_Longevity_AD_unit_H_k",
+              "out": true,
+              "scale": 6
+            },
+            {
+              "name": "PAV_Longevity_AD_unit_L_k",
+              "out": true,
+              "scale": 6
+            },
+            {
+              "name": "PAV_Longevity_AD_unit_G_k",
+              "out": true,
+              "scale": 6
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
