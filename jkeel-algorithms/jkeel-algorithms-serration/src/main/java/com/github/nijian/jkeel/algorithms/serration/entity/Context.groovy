@@ -1,6 +1,8 @@
 package com.github.nijian.jkeel.algorithms.serration.entity
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import com.github.nijian.jkeel.algorithms.AlgorithmContext
+import com.github.nijian.jkeel.algorithms.Template
 import com.github.nijian.jkeel.algorithms.serration.CalcCache
 import com.github.nijian.jkeel.algorithms.serration.MixinFuncs
 
@@ -23,9 +25,9 @@ final class Context<I> implements MixinFuncs {
     Map<String, ItemInstanceAnchor> itemLocationMap
     Map<String, LayoutOutputInstance> itemOutMap
 
-    Context(I input, LayoutTemplate layoutTemplate) {
+    Context(I input, AlgorithmContext ac) {
         this.input = input
-        this.layoutTemplate = layoutTemplate
+        this.layoutTemplate = ac.getTemplate()
         this.outputMap = new HashMap<String, List<BigDecimal>>()
         this.itemLocationMap = new HashMap<String, ItemInstanceAnchor>()
         this.itemOutMap = new HashMap<String, LayoutOutputInstance>()

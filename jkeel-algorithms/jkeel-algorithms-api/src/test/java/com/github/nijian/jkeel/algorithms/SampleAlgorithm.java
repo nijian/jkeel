@@ -8,4 +8,10 @@ public class SampleAlgorithm extends Algorithm<String, Map> {
     public Map calc(String rawInput, Map<String, ?> var, AlgorithmContext ac) {
         return null;
     }
+
+    @Override
+    public String getName() {
+        return getClass().getName();
+    }
+
 }

@@ -1,9 +1,18 @@
 package com.github.nijian.jkeel.algorithms.serration
 
+import com.github.nijian.jkeel.algorithms.Config
 
-class CalcConfig implements MixinFuncs {
+import javax.cache.Cache
+import javax.cache.CacheManager
+import javax.cache.Caching
+import javax.cache.spi.CachingProvider
 
+class CalcConfig implements Config, MixinFuncs {
+
+    CacheManager cacheManager
+    Cache<String, Closure> closureCache
     String cid
+    boolean lock = false
 
     def cid(String cid) {
         this.cid = cid
@@ -16,23 +25,68 @@ class CalcConfig implements MixinFuncs {
     }
 
     def Convert(Closure closure) {
-        CalcCache.put(cid, Const.CONVERT, closure)
+        getCache().put(cid + Const.CONVERT, closure)
     }
 
     def ItemGroupCount(Closure closure) {
-        CalcCache.put(cid, Const.ITEM_GROUP_COUNT, closure)
+        getCache().put(cid + Const.ITEM_GROUP_COUNT, closure)
     }
 
     def LayoutCount(Closure closure) {
-        CalcCache.put(cid, Const.LAYOUT_COUNT, closure)
+        getCache().put(cid + Const.LAYOUT_COUNT, closure)
     }
 
     def strategy(String name, Closure closure) {
-        CalcCache.put(cid, name, closure)
+        getCache().put(cid + name, closure)
     }
 
     def formula(String name, Closure closure) {
-        CalcCache.put(cid, name, closure)
+        getCache().put(cid + name, closure)
     }
 
+    @Override
+    <K, V> Cache<K, V> getCache() {
+        //get default cache
+        if (closureCache == null) {
+            lock = true
+            synchronized (lock) {
+                if (closureCache == null) {
+                    closureCache = getCacheManager().getCache('closure-cache', String.class, Closure.class)
+                }
+            }
+            lock = false
+        }
+        return closureCache
+    }
+
+    @Override
+    <K, V> Cache<K, V> getCache(String name, Class<K> keyClz, Class<V> valueClz) {
+        if (closureCache == null) {
+            lock = true
+            synchronized (lock) {
+                if (closureCache == null) {
+                    closureCache = getCacheManager().getCache(name, K.class, V.class)
+                }
+            }
+            lock = false
+        }
+        return closureCache
+    }
+
+    CacheManager getCacheManager() {
+        if (cacheManager == null) {
+            synchronized (lock) {
+                lock = true
+                if (cacheManager == null) {
+                    CachingProvider cachingProvider = Caching.getCachingProvider("org.ehcache.jsr107.EhcacheCachingProvider")
+                    cacheManager = cachingProvider.getCacheManager(
+                            getClass().getResource("/serration-ehcache.xml").toURI(),
+                            getClass().getClassLoader())
+                }
+                lock = false
+            }
+
+        }
+        return cacheManager
+    }
 }

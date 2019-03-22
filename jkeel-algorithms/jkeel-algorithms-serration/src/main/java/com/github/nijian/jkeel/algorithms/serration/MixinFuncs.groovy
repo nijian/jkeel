@@ -123,7 +123,7 @@ trait MixinFuncs {
     }
 
     /**
-     * Get item value from Layout Output
+     * Get item value from Template Output
      *
      * @param paramName name of item
      * @return value of item
@@ -134,7 +134,7 @@ trait MixinFuncs {
     }
 
     /**
-     * Get item value from Layout Output by item index
+     * Get item value from Template Output by item index
      *
      * @param index index of item
      * @param paramName name of item

@@ -1,23 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>com.github.nijian.jkeel</groupId>
-		<artifactId>jkeel-algorithms</artifactId>
-		<version>${revision}</version>
-	</parent>
-	<artifactId>jkeel-algorithms-api</artifactId>
-	<name>JKeel Algorithms API</name>
-	<description>JKeel Algorithms API</description>
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+        xmlns="http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.github.nijian.jkeel</groupId>
+        <artifactId>jkeel-algorithms</artifactId>
+        <version>${revision}</version>
+    </parent>
+    <artifactId>jkeel-algorithms-api</artifactId>
+    <name>JKeel Algorithms API</name>
+    <description>JKeel Algorithms API</description>
 
-	<dependencies>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+    <dependencies>
+        <dependency>
+            <groupId>javax.cache</groupId>
+            <artifactId>cache-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 </project>

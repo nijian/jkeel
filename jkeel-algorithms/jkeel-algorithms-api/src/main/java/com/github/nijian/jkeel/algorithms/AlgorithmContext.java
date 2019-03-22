@@ -1,5 +1,6 @@
 package com.github.nijian.jkeel.algorithms;
 
+import javax.cache.CacheManager;
 import java.io.Serializable;
 
 /**
@@ -7,16 +8,24 @@ import java.io.Serializable;
  */
 public class AlgorithmContext implements Serializable {
 
-    private Layout layout;
+    private Template template;
 
     private Config config;
 
-    public Layout getLayout() {
-        return layout;
+    private CacheManager cacheManager;
+
+    public AlgorithmContext(Template template, Config config, CacheManager cacheManager) {
+        this.template = template;
+        this.config = config;
+        this.cacheManager = cacheManager;
     }
 
-    public void setLayout(Layout layout) {
-        this.layout = layout;
+    public Template getTemplate() {
+        return template;
+    }
+
+    public void setTemplate(Template template) {
+        this.template = template;
     }
 
     public Config getConfig() {
@@ -25,5 +34,13 @@ public class AlgorithmContext implements Serializable {
 
     public void setConfig(Config config) {
         this.config = config;
+    }
+
+    public CacheManager getCacheManager() {
+        return cacheManager;
+    }
+
+    public void setCacheManager(CacheManager cacheManager) {
+        this.cacheManager = cacheManager;
     }
 }

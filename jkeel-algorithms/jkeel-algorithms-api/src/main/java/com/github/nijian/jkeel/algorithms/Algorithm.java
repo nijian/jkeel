@@ -7,19 +7,14 @@ import java.util.Map;
  */
 public abstract class Algorithm<I, R> {
 
-    private String name;
-
     public R calc(I rawInput, AlgorithmContext ac) {
         return calc(rawInput, null, ac);
     }
 
     public abstract R calc(I rawInput, Map<String, ?> var, AlgorithmContext ac);
 
-    public String getName() {
-        return name;
-    }
+    public abstract String getName();
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    protected abstract Map<String, ?> convertInput(I rawInput, Map<String, ?> var);
+
 }
