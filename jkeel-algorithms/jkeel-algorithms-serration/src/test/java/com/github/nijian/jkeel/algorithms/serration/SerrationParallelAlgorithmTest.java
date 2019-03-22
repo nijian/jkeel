@@ -52,7 +52,7 @@ public class SerrationParallelAlgorithmTest {
 //        InvokerHelper.createScript(clazz, binding).run();
 
         LayoutTemplate layoutTemplate1 = objectMapper.readValue(getClass().getResourceAsStream("/a.json"), LayoutTemplate.class);
-//        LayoutTemplate layoutTemplate2 = objectMapper.readValue(getClass().getResourceAsStream("/b.json"), LayoutTemplate.class);
+//        Template layoutTemplate2 = objectMapper.readValue(getClass().getResourceAsStream("/b.json"), Template.class);
 
         illustrationCalcTemplateKey1 = "[tenantCode:Baoviet_VN, productCode:BV-NCUVL01, productVersion:v1, illustrationCode:MAIN, illustrationVersion:v1]";
         CalcCache.put(illustrationCalcTemplateKey1, layoutTemplate1);
@@ -78,11 +78,11 @@ public class SerrationParallelAlgorithmTest {
         varMap.put("unitPriceMapG", unitPriceMapG);
 
         Serration<Date> algorithm = new Serration<>();
-        algorithm.perform(null, varMap, CalcCache.get(illustrationCalcTemplateKey1));
+//        algorithm.perform(null, varMap, CalcCache.get(illustrationCalcTemplateKey1));
 
         for (int i = 0; i < 100; i++) {
             long start = System.currentTimeMillis();
-            algorithm.perform(null, varMap, CalcCache.get(illustrationCalcTemplateKey1));
+//            algorithm.perform(null, varMap, CalcCache.get(illustrationCalcTemplateKey1));
             logger.info("execution time : {}ms", (System.currentTimeMillis() - start));
         }
 

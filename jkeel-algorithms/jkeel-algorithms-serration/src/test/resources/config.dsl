@@ -115,7 +115,7 @@ CalcConfig {
         i.count
     }
 
-    ///////////////////////////////////// Calculation Layout 1 //////////////////
+    ///////////////////////////////////// Calculation Template 1 //////////////////
     ///////////////// Parallel Area 1 /////////////////////
     /**
      * Age of the Insured at Illustration date
@@ -205,7 +205,7 @@ CalcConfig {
             i.premTermOpt
         }
     }
-    ///////////////////////////////////// Calculation Layout 2 //////////////////
+    ///////////////////////////////////// Calculation Template 2 //////////////////
     ///////////////// Parallel Area 1 /////////////////////
     /**
      * Main Premium paid at begin of tth month:
@@ -397,7 +397,7 @@ CalcConfig {
     formula "Alloc_topup_unit_G_t", { i, int index ->
         getx(index, 'Alloc_topup_t') / getx(index, 'Price_BOM_G_t')
     }
-    ///////////////////////////////////// Calculation Layout 3 //////////////////
+    ///////////////////////////////////// Calculation Template 3 //////////////////
     ///////////////// Parallel Area 1 /////////////////////
     /**
      * Total main premium paid from issue until tth month
