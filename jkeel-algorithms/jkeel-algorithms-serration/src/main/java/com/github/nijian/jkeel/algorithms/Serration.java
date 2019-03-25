@@ -1,6 +1,5 @@
 package com.github.nijian.jkeel.algorithms;
 
-import com.github.nijian.jkeel.algorithms.serration.CalcCache;
 import com.github.nijian.jkeel.algorithms.serration.Const;
 import com.github.nijian.jkeel.algorithms.serration.entity.*;
 import groovy.lang.Closure;
@@ -17,31 +16,25 @@ import java.util.Map;
  * <p>
  * Created by johnson.ni
  */
-public final class Serration<I> extends Algorithm<I, Context<I>> {
+public final class Serration<I> extends Algorithm<I, Context<I>, Closure> {
 
     private static Logger logger = LoggerFactory.getLogger(Serration.class);
 
-    private Cache<String, Closure> closureCache;
-
     @Override
-    public String getName() {
-        return getClass().getName();
+    protected Map<String, ?> convertInput(I rawInput, Map<String, ?> var, AlgorithmContext<Closure> ac) {
+        final Map<String, ?> input = new HashMap();
+        Closure closure = ac.getCache().get(StringUtils.joinWith(":", ac.getTemplate().getName(), Const.CONVERT));
+        closure.call(rawInput, var, input);
+        return input;
     }
 
     @Override
-    public Context<I> calc(I rawInput, Map<String, ?> var, AlgorithmContext ac) {
-
-        if (closureCache == null) {
-            closureCache = ac.getCacheManager().getCache("closure-cache", String.class, Closure.class);
-        }
-
-        //convert raw input to required format
-        final Map<String, ?> input = new HashMap();
-        Closure closure = closureCache.get(StringUtils.join(ac.getTemplate().getName(), Const.CONVERT));
-        closure.call(rawInput, var, input);
+    protected Context<I> calc(final Map<String, ?> input, final AlgorithmContext<Closure> ac) {
+        logger.info("Serration algorithm context is initializing");
+        Context<I> context = new Context(input, ac);
+        logger.info("Serration algorithm context has been initialized");
 
         Template template = ac.getTemplate();
-        Context<I> context = new Context(input, ac);
         for (LayoutInstance layoutInstance : context.getLayoutInstances()) {
             Layout layout = layoutInstance.getLayout();
             int layoutCount = layoutInstance.getLayoutCount();
@@ -54,7 +47,7 @@ public final class Serration<I> extends Algorithm<I, Context<I>> {
                                         itemInstanceAnchor.getItemInstances().parallelStream().forEach(
                                                 itemInstance ->
                                                 {
-                                                    calc(closureCache, context, input, template.getName(), layoutInstance, itemInstance);
+                                                    calc(ac.getCache(), context, input, template.getName(), layoutInstance, itemInstance);
                                                 }));
                     } else {
                         parallelAreaInstance.getItemInstanceAnchors().stream().forEach(
@@ -62,28 +55,27 @@ public final class Serration<I> extends Algorithm<I, Context<I>> {
                                         itemInstanceAnchor.getItemInstances().stream().forEach(
                                                 itemInstance ->
                                                 {
-                                                    calc(closureCache, context, input, template.getName(), layoutInstance, itemInstance);
+                                                    calc(ac.getCache(), context, input, template.getName(), layoutInstance, itemInstance);
                                                 }));
                     }
-                    parallelAreaInstance.getParallelArea().exec(template.getName(), parallelAreaInstance);
+                    parallelAreaInstance.getParallelArea().exec(template.getName(), parallelAreaInstance, ac.getCache());
                 }
-                layout.exec(template.getName(), layoutInstance);
+                layout.exec(template.getName(), layoutInstance, ac.getCache());
                 layoutIndex++;
                 layoutInstance.setLayoutIndex(layoutIndex);
             }
         }
-        context.exec(template.getName());
-//        context.clear();
+
+        logger.info("Serration algorithm output is processing");
+        context.exec(template.getName(), ac.getCache());
+        logger.info("Serration algorithm output is processed");
+
         return context;
     }
 
-    @Override
-    protected Map<String, ?> convertInput(I rawInput, Map<String, ?> var) {
-        return null;
-    }
 
     private void calc(Cache<String, Closure> closureCache, Context<I> context, Map<String, ?> input, String layoutTemplateName, LayoutInstance layoutInstance, ItemInstance itemInstance) {
-        Closure closure = closureCache.get(layoutTemplateName + itemInstance.getItem().getName());
+        Closure closure = closureCache.get(StringUtils.joinWith(":", layoutTemplateName, itemInstance.getItem().getName()));
         if (closure != null) {
             closure.setDelegate(layoutInstance);
             closure.setResolveStrategy(Closure.DELEGATE_ONLY);

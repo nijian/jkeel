@@ -1,11 +1,14 @@
 package com.github.nijian.jkeel.algorithms.serration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.nijian.jkeel.algorithms.AlgorithmContext;
+import com.github.nijian.jkeel.algorithms.Config;
 import com.github.nijian.jkeel.algorithms.Serration;
 
 
 import com.github.nijian.jkeel.algorithms.serration.entity.LayoutTemplate;
 import groovy.lang.Binding;
+import groovy.lang.Closure;
 import groovy.lang.GroovyClassLoader;
 import org.codehaus.groovy.control.CompilerConfiguration;
 import org.codehaus.groovy.runtime.IOGroovyMethods;
@@ -16,6 +19,10 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.cache.Cache;
+import javax.cache.CacheManager;
+import javax.cache.Caching;
+import javax.cache.spi.CachingProvider;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,21 +35,33 @@ public class SerrationParallelAlgorithmTest {
 
     private final static ObjectMapper objectMapper = new ObjectMapper();
 
+    private CacheManager cacheManager;
+    private Cache<String, LayoutTemplate> templateCache;
+    private Cache<String, Closure> closureCache;
     private String illustrationCalcTemplateKey1;
 
 //    private String illustrationCalcTemplateKey2;
 
     @Before
     public void setUp() throws Exception {
+        CachingProvider cachingProvider = Caching.getCachingProvider("org.ehcache.jsr107.EhcacheCachingProvider");
+        cacheManager = cachingProvider.getCacheManager(
+                getClass().getResource("/serration-ehcache.xml").toURI(),
+                getClass().getClassLoader());
+        templateCache = cacheManager.getCache("template-cache", String.class, LayoutTemplate.class);
+        closureCache = cacheManager.getCache("closure-cache", String.class, Closure.class);
+
         //compile DSL and cache closure
         CompilerConfiguration compilerConfiguration = new CompilerConfiguration();
         compilerConfiguration.setSourceEncoding("UTF-8");
         compilerConfiguration.setTargetBytecode(CompilerConfiguration.JDK8);
         GroovyClassLoader loader = new GroovyClassLoader(Thread.currentThread().getContextClassLoader(), compilerConfiguration, false);
-        String content = IOGroovyMethods.getText(getClass().getResourceAsStream("/config.dsl"));
+        String content = IOGroovyMethods.getText(getClass().getResourceAsStream("/config.illus"));
         Class<?> clazz = loader.parseClass(content);
         Binding binding = new Binding();
-        binding.setVariable("CalcConfig", new CalcConfig());
+        Config config = new CalcConfig();
+        config.init(closureCache);
+        binding.setVariable("CalcConfig", config);
         InvokerHelper.createScript(clazz, binding).run();
 
 //        content = IOGroovyMethods.getText(getClass().getResourceAsStream("/longevity.dsl"));
@@ -55,7 +74,7 @@ public class SerrationParallelAlgorithmTest {
 //        Template layoutTemplate2 = objectMapper.readValue(getClass().getResourceAsStream("/b.json"), Template.class);
 
         illustrationCalcTemplateKey1 = "[tenantCode:Baoviet_VN, productCode:BV-NCUVL01, productVersion:v1, illustrationCode:MAIN, illustrationVersion:v1]";
-        CalcCache.put(illustrationCalcTemplateKey1, layoutTemplate1);
+        templateCache.put(illustrationCalcTemplateKey1, layoutTemplate1);
 //        illustrationCalcTemplateKey2 = "[tenantCode:Baoviet_VN, productCode:BV-NCUVL01, productVersion:v1, illustrationCode:MAIN_LB, illustrationVersion:v1]";
 //        CalcCache.put(illustrationCalcTemplateKey2, layoutTemplate2);
 
@@ -78,14 +97,12 @@ public class SerrationParallelAlgorithmTest {
         varMap.put("unitPriceMapG", unitPriceMapG);
 
         Serration<Date> algorithm = new Serration<>();
-//        algorithm.perform(null, varMap, CalcCache.get(illustrationCalcTemplateKey1));
+        AlgorithmContext ac = new AlgorithmContext(templateCache.get(illustrationCalcTemplateKey1), closureCache);
+        algorithm.perform(null, varMap, ac);
 
         for (int i = 0; i < 100; i++) {
-            long start = System.currentTimeMillis();
-//            algorithm.perform(null, varMap, CalcCache.get(illustrationCalcTemplateKey1));
-            logger.info("execution time : {}ms", (System.currentTimeMillis() - start));
+            algorithm.perform(null, varMap, ac);
         }
-
 //        varMap.put("lbTermM", 60);
 //        varMap.put("lbStartIndex", 10);
 //        varMap.put("PAV_AB_end_H", 100000000);

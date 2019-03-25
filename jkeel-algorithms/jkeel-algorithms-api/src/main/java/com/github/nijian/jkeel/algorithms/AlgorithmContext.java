@@ -1,23 +1,20 @@
 package com.github.nijian.jkeel.algorithms;
 
-import javax.cache.CacheManager;
+import javax.cache.Cache;
 import java.io.Serializable;
 
 /**
  * Created by Johnson.Ni
  */
-public class AlgorithmContext implements Serializable {
+public class AlgorithmContext<T> implements Serializable {
 
     private Template template;
 
-    private Config config;
+    private Cache<String, T> cache;
 
-    private CacheManager cacheManager;
-
-    public AlgorithmContext(Template template, Config config, CacheManager cacheManager) {
+    public AlgorithmContext(Template template, Cache<String, T> cache) {
         this.template = template;
-        this.config = config;
-        this.cacheManager = cacheManager;
+        this.cache = cache;
     }
 
     public Template getTemplate() {
@@ -28,19 +25,11 @@ public class AlgorithmContext implements Serializable {
         this.template = template;
     }
 
-    public Config getConfig() {
-        return config;
+    public Cache<String, T> getCache() {
+        return cache;
     }
 
-    public void setConfig(Config config) {
-        this.config = config;
-    }
-
-    public CacheManager getCacheManager() {
-        return cacheManager;
-    }
-
-    public void setCacheManager(CacheManager cacheManager) {
-        this.cacheManager = cacheManager;
+    public void setCache(Cache<String, T> cache) {
+        this.cache = cache;
     }
 }

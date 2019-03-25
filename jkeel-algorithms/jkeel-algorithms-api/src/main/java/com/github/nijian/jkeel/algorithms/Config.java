@@ -6,20 +6,10 @@ import java.io.Serializable;
 /**
  * Created by Johnson.Ni
  */
-public abstract class Config implements Serializable {
+public interface Config<T> extends Serializable {
 
-    private String configId;
+    void init(Cache<String, T> cache);
 
-    //get default cache
-    <K, V> Cache<K, V> getCache();
+    String getCid();
 
-    <K, V> Cache<K, V> getCache(String name, Class<K> keyClz, Class<V> valueClz);
-
-    public String getConfigId() {
-        return configId;
-    }
-
-    public void setConfigId(String configId) {
-        this.configId = configId;
-    }
 }

@@ -2,7 +2,9 @@ package com.github.nijian.jkeel.algorithms.serration.entity
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import com.github.nijian.jkeel.algorithms.serration.CalcCache
+import org.apache.commons.lang3.StringUtils
+
+import javax.cache.Cache
 
 /**
  * DO NOT CHANGE THIS CLASS UNLESS YOU ARE CLEAR WHAT EXACT IMPACT FOR PERFORMANCE!!!
@@ -14,9 +16,9 @@ final class ParallelArea {
     String processorName
     List<Item> items
 
-    void exec(String region, ParallelAreaInstance parallelAreaInstance) {
-        if (region != null && processorName != null) {
-            Closure closure = CalcCache.get(region, processorName)
+    void exec(String cid, ParallelAreaInstance parallelAreaInstance, Cache closureCache) {
+        if (cid != null && processorName != null) {
+            Closure closure = closureCache.get(StringUtils.joinWith(':', cid, processorName))
             if (closure != null) {
                 closure.setDelegate(parallelAreaInstance)
                 closure.setResolveStrategy(Closure.DELEGATE_ONLY)

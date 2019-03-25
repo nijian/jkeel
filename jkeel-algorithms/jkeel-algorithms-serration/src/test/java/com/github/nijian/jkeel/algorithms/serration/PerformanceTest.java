@@ -1,11 +1,15 @@
 package com.github.nijian.jkeel.algorithms.serration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.nijian.jkeel.algorithms.AlgorithmContext;
+import com.github.nijian.jkeel.algorithms.Config;
 import com.github.nijian.jkeel.algorithms.Serration;
 
 
+import com.github.nijian.jkeel.algorithms.Template;
 import com.github.nijian.jkeel.algorithms.serration.entity.LayoutTemplate;
 import groovy.lang.Binding;
+import groovy.lang.Closure;
 import groovy.lang.GroovyClassLoader;
 import org.codehaus.groovy.control.CompilerConfiguration;
 import org.codehaus.groovy.runtime.IOGroovyMethods;
@@ -13,6 +17,10 @@ import org.codehaus.groovy.runtime.InvokerHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.cache.Cache;
+import javax.cache.CacheManager;
+import javax.cache.Caching;
+import javax.cache.spi.CachingProvider;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,14 +50,24 @@ public class PerformanceTest {
     }
 
     public void perform() throws Exception {
+        CachingProvider cachingProvider = Caching.getCachingProvider("org.ehcache.jsr107.EhcacheCachingProvider");
+        CacheManager cacheManager = cachingProvider.getCacheManager(
+                getClass().getResource("/serration-ehcache.xml").toURI(),
+                getClass().getClassLoader());
+        Cache<String, LayoutTemplate> templateCache = cacheManager.getCache("template-cache", String.class, LayoutTemplate.class);
+        Cache<String, Closure> closureCache = cacheManager.getCache("closure-cache", String.class, Closure.class);
+
+        //compile DSL and cache closure
         CompilerConfiguration compilerConfiguration = new CompilerConfiguration();
         compilerConfiguration.setSourceEncoding("UTF-8");
         compilerConfiguration.setTargetBytecode(CompilerConfiguration.JDK8);
         GroovyClassLoader loader = new GroovyClassLoader(Thread.currentThread().getContextClassLoader(), compilerConfiguration, false);
-        String content = IOGroovyMethods.getText(getClass().getResourceAsStream("/config.dsl"));
+        String content = IOGroovyMethods.getText(getClass().getResourceAsStream("/config.illus"));
         Class<?> clazz = loader.parseClass(content);
         Binding binding = new Binding();
-        binding.setVariable("CalcConfig", new CalcConfig());
+        Config config = new CalcConfig();
+        config.init(closureCache);
+        binding.setVariable("CalcConfig", config);
         InvokerHelper.createScript(clazz, binding).run();
 
         logger.info("xxxxxxxxxxxxxxxxxx");
@@ -64,7 +82,7 @@ public class PerformanceTest {
 //        Template layoutTemplate2 = objectMapper.readValue(getClass().getResourceAsStream("/b.json"), Template.class);
 
         illustrationCalcTemplateKey1 = "[tenantCode:Baoviet_VN, productCode:BV-NCUVL01, productVersion:v1, illustrationCode:MAIN, illustrationVersion:v1]";
-        CalcCache.put(illustrationCalcTemplateKey1, layoutTemplate1);
+        templateCache.put(illustrationCalcTemplateKey1, layoutTemplate1);
 //        illustrationCalcTemplateKey2 = "[tenantCode:Baoviet_VN, productCode:BV-NCUVL01, productVersion:v1, illustrationCode:MAIN_LB, illustrationVersion:v1]";
 //        CalcCache.put(illustrationCalcTemplateKey2, layoutTemplate2);
 
@@ -78,11 +96,12 @@ public class PerformanceTest {
         varMap.put("unitPriceMapG", unitPriceMapG);
 
         Serration<Date> algorithm = new Serration<>();
-//        algorithm.perform(null, varMap, CalcCache.get(illustrationCalcTemplateKey1));
+        AlgorithmContext ac = new AlgorithmContext(templateCache.get(illustrationCalcTemplateKey1), closureCache);
+        algorithm.perform(null, varMap, ac);
 
         for (int i = 0; i < 10; i++) {
             long start = System.currentTimeMillis();
-//            algorithm.perform(null, varMap, CalcCache.get(illustrationCalcTemplateKey1));
+            algorithm.perform(null, varMap, ac);
             logger.info("execution time : {}ms", (System.currentTimeMillis() - start));
         }
 

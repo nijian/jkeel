@@ -28,7 +28,6 @@ trait MixinFuncs {
         for (int i = 0; i < len; i++) {
             outputMap.get(paramName).add(i + base)
         }
-        //System.out.println("createGroupIndexOnBase:paramName " + paramName + ",groupCount:" + groupCount + ",groupByParamName:"+groupByParamName)
     }
 
     /**
@@ -36,7 +35,6 @@ trait MixinFuncs {
      */
     def putGroupSum(String paramName, int groupCount, String... sourceParamNames) {
         int len = itemLocationMap.get(sourceParamNames[0]).itemInstances.size().intdiv(groupCount)
-        //System.out.println("putGroupSum:paramName " + paramName + ",groupCount:" + groupCount + ",sourceParamNames:"+sourceParamNames)
         for (int i = 0; i < len; i++) {
             def value = 0
             for (int j = 0; j < groupCount; j++) {
@@ -51,7 +49,6 @@ trait MixinFuncs {
 
     def putLast(String paramName, String sourceParamName) {
         List list = itemLocationMap.get(sourceParamName).itemInstances
-        //System.out.println("putLast:paramName " + paramName + ",sourceParamNames:"+sourceParamName)
         outputMap.get(paramName).add(list.get(list.size() - 1).value)
     }
 
@@ -60,7 +57,6 @@ trait MixinFuncs {
      */
     def putLGroupSum(String paramName, int groupCount, String... sourceParamNames) {
         int len = itemOutMap.get(sourceParamNames[0]).map.get(sourceParamNames[0]).size().intdiv(groupCount)
-        //System.out.println("putLGroupSum:paramName " + paramName + ",sourceParamNames:"+sourceParamNames)
         for (int i = 0; i < len; i++) {
             def value = 0
             for (int j = 0; j < groupCount; j++) {
@@ -105,9 +101,7 @@ trait MixinFuncs {
      * @return value of item
      */
     def get(String paramName) {
-        //System.out.println("get:paramName " + paramName )
-//        Utils.get(context, paramName)
-        new BigDecimalOperand(BigDecimal.ONE)
+        Utils.get(context, paramName)
     }
 
     /**
@@ -118,8 +112,7 @@ trait MixinFuncs {
      * @return value of item
      */
     def getx(int index, String paramName) {
-        new BigDecimalOperand(BigDecimal.ONE)
-//        Utils.getx(context, index, paramName)
+        Utils.getx(context, index, paramName)
     }
 
     /**
@@ -129,8 +122,7 @@ trait MixinFuncs {
      * @return value of item
      */
     def getL(String paramName) {
-//        Utils.getL(context, paramName)
-        new BigDecimalOperand(BigDecimal.ONE)
+        Utils.getL(context, paramName)
     }
 
     /**
@@ -141,9 +133,7 @@ trait MixinFuncs {
      * @return value of item
      */
     def getLx(int index, String paramName) {
-        new BigDecimalOperand(BigDecimal.ONE)
-        //System.out.println("getLx:paramName: " + paramName +",index," + index )
-//        Utils.getLx(context, index, paramName)
+        Utils.getLx(context, index, paramName)
     }
 
     /**
@@ -155,9 +145,7 @@ trait MixinFuncs {
      * @return
      */
     def sumProduct(int index, int offset, String... arrayNames) {
-        //System.out.println("sumProduct:offset: " + offset +",arrayNames," + arrayNames )
-//        Utils.sumProduct(context, index, offset, arrayNames)
-        new BigDecimalOperand(BigDecimal.ONE)
+        Utils.sumProduct(context, index, offset, arrayNames)
     }
 
     /**
@@ -169,30 +157,7 @@ trait MixinFuncs {
      * @return
      */
     def sum(int index, int offset, String paraName) {
-        //System.out.println("sum:offset: " + offset +",paraName," + paraName + ",index," + index)
-        new BigDecimalOperand(BigDecimal.ONE)
-//        Utils.sum(context, index, offset, paraName)
-    }
-
-    /**
-     * Similar to MAX function in Excel
-     *
-     * @param a
-     * @param b
-     * @return
-     */
-    def getMax(Number a, Number b) {
-        new BigDecimalOperand(BigDecimal.ONE)
-//        if (a instanceof BigDecimalOperand && b instanceof BigDecimalOperand) {
-//            a.value > b.value ? a : b
-//        } else if (a instanceof BigDecimalOperand) {
-//            a.value > b ? a : b
-//        } else if (b instanceof BigDecimalOperand) {
-//            a > b.value ? a : b
-//        } else {
-//            a > b ? a : b
-//        }
-
+        Utils.sum(context, index, offset, paraName)
     }
 
     /**
@@ -203,9 +168,7 @@ trait MixinFuncs {
      * @return calculated value
      */
     def layerCalc(BigDecimal[] rateTable, BigDecimalOperand amount) {
-        //System.out.println("layerCalc:rateTable: " + rateTable +",amount," + amount )
-//        Utils.layerSum(rateTable, amount.value)
-        new BigDecimalOperand(BigDecimal.ONE)
+        Utils.layerSum(rateTable, amount.value)
     }
 
     /**
@@ -216,7 +179,6 @@ trait MixinFuncs {
      * @return
      */
     def nearestAge(Date d1, Date d2) {
-        //System.out.println("nearestAge:d1: " + Func.to_char(d1, 'yyyy-mm-dd') +",d2," + Func.to_char(d2, 'yyyy-mm-dd') )
         Utils.nearestAge(d1, d2)
     }
 
