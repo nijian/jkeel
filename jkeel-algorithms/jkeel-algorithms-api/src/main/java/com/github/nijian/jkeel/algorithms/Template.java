@@ -7,6 +7,6 @@ import java.io.Serializable;
  */
 public interface Template extends Serializable {
 
-    String getName();
+    String getCid();
 
 }

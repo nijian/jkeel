@@ -2,11 +2,20 @@ package com.github.nijian.jkeel.algorithms.serration.operands;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 
 /**
  * Created by Johnson.Ni
  */
 public class BigDecimalOperand extends NumberOperand<BigDecimal> implements Comparable<BigDecimalOperand> {
+
+    public BigDecimalOperand(BigDecimalOperand o, int scale) {
+        if (o.value.compareTo(BigDecimal.ZERO) <= 0) {
+            this.value = BigDecimal.ZERO;
+        } else {
+            this.value = o.value.setScale(scale, RoundingMode.HALF_UP);
+        }
+    }
 
     public BigDecimalOperand(BigDecimal value) {
         this.value = value;

@@ -1,18 +1,37 @@
 package com.github.nijian.jkeel.algorithms.serration
 
 import com.github.nijian.jkeel.algorithms.Config
-import org.apache.commons.lang3.StringUtils
+import org.codehaus.groovy.control.CompilerConfiguration
+import org.codehaus.groovy.runtime.IOGroovyMethods
+import org.codehaus.groovy.runtime.InvokerHelper
 
 import javax.cache.Cache
 
 class CalcConfig implements Config<Closure>, MixinFuncs {
 
-    Cache<String, Closure> closureCache
+    Cache<String, Closure<?>> closureCache
     String cid
+
+    CalcConfig() {
+
+    }
 
     @Override
     void init(Cache cache) {
-        closureCache = cache
+
+        if (closureCache == null) {
+            closureCache = cache
+
+            CompilerConfiguration compilerConfiguration = new CompilerConfiguration()
+            compilerConfiguration.setSourceEncoding("UTF-8")
+            compilerConfiguration.setTargetBytecode(CompilerConfiguration.JDK8)
+            GroovyClassLoader loader = new GroovyClassLoader(Thread.currentThread().getContextClassLoader(), compilerConfiguration, false)
+            String content = IOGroovyMethods.getText(getClass().getResourceAsStream("/config.illus"))
+            Class<?> clazz = loader.parseClass(content)
+            Binding binding = new Binding()
+            binding.setVariable("CalcConfig", this)
+            InvokerHelper.createScript(clazz, binding).run()
+        }
     }
 
     def cid(String cid) {
@@ -26,22 +45,22 @@ class CalcConfig implements Config<Closure>, MixinFuncs {
     }
 
     def Convert(Closure closure) {
-        closureCache.put(StringUtils.joinWith(":", cid, Const.CONVERT), closure)
-    }
-
-    def ItemGroupCount(Closure closure) {
-        closureCache.put(StringUtils.joinWith(":", cid, Const.ITEM_GROUP_COUNT), closure)
-    }
-
-    def LayoutCount(Closure closure) {
-        closureCache.put(StringUtils.joinWith(":", cid, Const.LAYOUT_COUNT), closure)
+        closureCache.put(Const.CONVERT, closure)
     }
 
     def Output(Closure closure) {
-        closureCache.put(StringUtils.joinWith(":", cid, Const.OUTPUT), closure)
+        closureCache.put(Const.OUTPUT, closure)
     }
 
-    def formula(String name, Closure closure) {
-        closureCache.put(StringUtils.joinWith(":", cid, name), closure)
+    def itemGroupCount(String name, Closure<Integer> closure) {
+        closureCache.put(name, closure)
+    }
+
+    def layoutCount(String name, Closure<Integer> closure) {
+        closureCache.put(name, closure)
+    }
+
+    def formula(String name, Closure<BigDecimal> closure) {
+        closureCache.put(name, closure)
     }
 }

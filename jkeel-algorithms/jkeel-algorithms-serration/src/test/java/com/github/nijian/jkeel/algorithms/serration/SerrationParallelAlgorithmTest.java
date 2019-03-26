@@ -36,11 +36,7 @@ public class SerrationParallelAlgorithmTest {
     private final static ObjectMapper objectMapper = new ObjectMapper();
 
     private CacheManager cacheManager;
-    private Cache<String, LayoutTemplate> templateCache;
-    private Cache<String, Closure> closureCache;
     private String illustrationCalcTemplateKey1;
-
-//    private String illustrationCalcTemplateKey2;
 
     @Before
     public void setUp() throws Exception {
@@ -48,35 +44,8 @@ public class SerrationParallelAlgorithmTest {
         cacheManager = cachingProvider.getCacheManager(
                 getClass().getResource("/serration-ehcache.xml").toURI(),
                 getClass().getClassLoader());
-        templateCache = cacheManager.getCache("template-cache", String.class, LayoutTemplate.class);
-        closureCache = cacheManager.getCache("closure-cache", String.class, Closure.class);
-
-        //compile DSL and cache closure
-        CompilerConfiguration compilerConfiguration = new CompilerConfiguration();
-        compilerConfiguration.setSourceEncoding("UTF-8");
-        compilerConfiguration.setTargetBytecode(CompilerConfiguration.JDK8);
-        GroovyClassLoader loader = new GroovyClassLoader(Thread.currentThread().getContextClassLoader(), compilerConfiguration, false);
-        String content = IOGroovyMethods.getText(getClass().getResourceAsStream("/config.illus"));
-        Class<?> clazz = loader.parseClass(content);
-        Binding binding = new Binding();
-        Config config = new CalcConfig();
-        config.init(closureCache);
-        binding.setVariable("CalcConfig", config);
-        InvokerHelper.createScript(clazz, binding).run();
-
-//        content = IOGroovyMethods.getText(getClass().getResourceAsStream("/longevity.dsl"));
-//        clazz = loader.parseClass(content);
-//        binding = new Binding();
-//        binding.setVariable("CalcConfig", new CalcConfig());
-//        InvokerHelper.createScript(clazz, binding).run();
-
-        LayoutTemplate layoutTemplate1 = objectMapper.readValue(getClass().getResourceAsStream("/a.json"), LayoutTemplate.class);
-//        Template layoutTemplate2 = objectMapper.readValue(getClass().getResourceAsStream("/b.json"), Template.class);
 
         illustrationCalcTemplateKey1 = "[tenantCode:Baoviet_VN, productCode:BV-NCUVL01, productVersion:v1, illustrationCode:MAIN, illustrationVersion:v1]";
-        templateCache.put(illustrationCalcTemplateKey1, layoutTemplate1);
-//        illustrationCalcTemplateKey2 = "[tenantCode:Baoviet_VN, productCode:BV-NCUVL01, productVersion:v1, illustrationCode:MAIN_LB, illustrationVersion:v1]";
-//        CalcCache.put(illustrationCalcTemplateKey2, layoutTemplate2);
 
     }
 
@@ -85,7 +54,9 @@ public class SerrationParallelAlgorithmTest {
     }
 
     @Test
-    public void perform() {
+    public void perform() throws Exception {
+
+        LayoutTemplate layoutTemplate1 = objectMapper.readValue(getClass().getResourceAsStream("/a.json"), LayoutTemplate.class);
 
         //prepare variables map
         Map<String, Object> varMap = new HashMap<>();
@@ -97,18 +68,14 @@ public class SerrationParallelAlgorithmTest {
         varMap.put("unitPriceMapG", unitPriceMapG);
 
         Serration<Date> algorithm = new Serration<>();
-        AlgorithmContext ac = new AlgorithmContext(templateCache.get(illustrationCalcTemplateKey1), closureCache);
+        AlgorithmContext ac = new AlgorithmContext(illustrationCalcTemplateKey1, layoutTemplate1, new CalcConfig(), cacheManager);
         algorithm.perform(null, varMap, ac);
 
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 20; i++) {
             algorithm.perform(null, varMap, ac);
         }
-//        varMap.put("lbTermM", 60);
-//        varMap.put("lbStartIndex", 10);
-//        varMap.put("PAV_AB_end_H", 100000000);
-//        varMap.put("PAV_AB_end_L", 100000000);
-//        varMap.put("PAV_AB_end_G", new Integer(100000000));
-//        algorithm.perform(null, varMap, CalcCache.get(illustrationCalcTemplateKey2));
+
+        algorithm.perform(null, varMap, ac);
 
         assertEquals(1, 1);
     }

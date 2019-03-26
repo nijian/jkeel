@@ -1,8 +1,6 @@
 package com.github.nijian.jkeel.algorithms.serration.entity
 
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import org.apache.commons.lang3.StringUtils
 
 import javax.cache.Cache
 
@@ -18,7 +16,7 @@ final class ParallelArea {
 
     void exec(String cid, ParallelAreaInstance parallelAreaInstance, Cache closureCache) {
         if (cid != null && processorName != null) {
-            Closure closure = closureCache.get(StringUtils.joinWith(':', cid, processorName))
+            Closure closure = closureCache.get(processorName)
             if (closure != null) {
                 closure.setDelegate(parallelAreaInstance)
                 closure.setResolveStrategy(Closure.DELEGATE_ONLY)

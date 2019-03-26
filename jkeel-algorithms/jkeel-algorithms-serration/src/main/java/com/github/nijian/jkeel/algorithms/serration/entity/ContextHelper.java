@@ -17,15 +17,20 @@ public final class ContextHelper {
     private ContextHelper() {
     }
 
-    public static void populate(final AlgorithmContext ac, final Context context, final List<LayoutInstance> layoutInstances, final Map<String, LayoutOutputInstance> itemOutMap,
+    public static void populate(final AlgorithmContext ac, final Context context, final Map<String, LayoutOutputInstance> itemOutMap,
                                 final Map<String, ItemInstanceAnchor> itemLocationMap, final Map<String, List<BigDecimal>> outputMap) {
         LayoutTemplate layoutTemplate = (LayoutTemplate) ac.getTemplate();
-        final String templateName = layoutTemplate.getName();
+        final String cid = layoutTemplate.getCid();
+
+        LayoutTemplateInstance layoutTemplateInstance = new LayoutTemplateInstance(context);
+        context.setLayoutTemplateInstance(layoutTemplateInstance);
+        List<LayoutInstance> layoutInstances = layoutTemplateInstance.getLayoutInstances();
 
         layoutTemplate.getLayouts().stream().forEach(layout ->
                 {
-                    LayoutInstance layoutInstance = new LayoutInstance(context, templateName, layout, ac.getCache());
+                    LayoutInstance layoutInstance = new LayoutInstance(context, cid, layout, ac.getCache());
                     layoutInstances.add(layoutInstance);
+                    LayoutOutputInstance layoutOutputInstance = layoutInstance.getLayoutOutputInstance();
 
                     List<ParallelAreaInstance> pAreaIList = new ArrayList<>();
                     layoutInstance.setParallelAreaInstances(pAreaIList);
@@ -40,9 +45,9 @@ public final class ContextHelper {
 
                                 pArea.getItems().stream().forEach(item ->
                                         {
-                                            if (item.getOut()) {
-                                                itemOutMap.put(item.getName(), layoutInstance.getLayoutOutputInstance());
-                                                layoutInstance.getLayoutOutputInstance().getMap().put(item.getName(), new ArrayList<>());
+                                            if (item.isOut()) {
+                                                itemOutMap.put(item.getName(), layoutOutputInstance);
+                                                layoutOutputInstance.getMap().put(item.getName(), new ArrayList<>());
                                             }
 
                                             ItemInstanceAnchor itemInstanceAnchor = new ItemInstanceAnchor(item, layoutInstance.getItemGroupCount());
@@ -61,8 +66,8 @@ public final class ContextHelper {
                 }
         );
 
-        if (layoutTemplate.getOutputNames() != null) {
-            String[] outputNameArray = layoutTemplate.getOutputNames().split(",");
+        if (layoutTemplate.getOutputFields() != null) {
+            String[] outputNameArray = layoutTemplate.getOutputFields().split(",");
             Arrays.stream(outputNameArray).forEach(outputName ->
                     outputMap.put(outputName, new ArrayList<BigDecimal>())
             );

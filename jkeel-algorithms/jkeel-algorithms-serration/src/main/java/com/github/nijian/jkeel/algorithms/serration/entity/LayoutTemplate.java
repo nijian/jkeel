@@ -8,25 +8,25 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class LayoutTemplate implements Template {
 
-    private String name;
-    private String outputNames;
+    private String cid;
+    private String outputFields;
     private List<Layout> layouts;
 
     @Override
-    public String getName() {
-        return name;
+    public String getCid() {
+        return cid;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCid(String cid) {
+        this.cid = cid;
     }
 
-    public String getOutputNames() {
-        return outputNames;
+    public String getOutputFields() {
+        return outputFields;
     }
 
-    public void setOutputNames(String outputNames) {
-        this.outputNames = outputNames;
+    public void setOutputFields(String outputFields) {
+        this.outputFields = outputFields;
     }
 
     public List<Layout> getLayouts() {

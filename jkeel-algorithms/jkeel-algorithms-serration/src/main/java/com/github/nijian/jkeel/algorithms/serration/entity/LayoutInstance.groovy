@@ -16,16 +16,15 @@ final class LayoutInstance implements MixinFuncs {
     int itemGroupCount = 1
     int layoutCount = 1
     int LayoutIndex = 0
-    LayoutOutputInstance layoutOutputInstance
+    LayoutOutputInstance layoutOutputInstance = new LayoutOutputInstance()
     List<ParallelAreaInstance> parallelAreaInstances
 
     LayoutInstance(Context<?> context, String cid, Layout layout, Cache closureCache) {
         this.context = context
         this.layout = layout
-        this.layoutOutputInstance = new LayoutOutputInstance()
 
         if (layout.itemGroupCount != null) {
-            Closure closure = closureCache.get(StringUtils.joinWith(':', cid, layout.itemGroupCount))
+            Closure closure = closureCache.get(layout.itemGroupCount)
             if (closure != null) {
                 closure.setDelegate(this)
                 closure.setResolveStrategy(Closure.DELEGATE_ONLY)
@@ -34,7 +33,7 @@ final class LayoutInstance implements MixinFuncs {
         }
 
         if (layout.layoutCount != null) {
-            Closure closure = closureCache.get(StringUtils.joinWith(':', cid, layout.layoutCount))
+            Closure closure = closureCache.get(layout.layoutCount)
             if (closure != null) {
                 closure.setDelegate(this)
                 closure.setResolveStrategy(Closure.DELEGATE_ONLY)

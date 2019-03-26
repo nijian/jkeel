@@ -27,7 +27,6 @@ import java.util.Map;
 
 /**
  * For performance tuning
- *
  */
 public class PerformanceTest {
 
@@ -96,10 +95,10 @@ public class PerformanceTest {
         varMap.put("unitPriceMapG", unitPriceMapG);
 
         Serration<Date> algorithm = new Serration<>();
-        AlgorithmContext ac = new AlgorithmContext(templateCache.get(illustrationCalcTemplateKey1), closureCache);
+        AlgorithmContext ac = new AlgorithmContext(illustrationCalcTemplateKey1, layoutTemplate1, new CalcConfig(), cacheManager);
         algorithm.perform(null, varMap, ac);
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 100; i++) {
             long start = System.currentTimeMillis();
             algorithm.perform(null, varMap, ac);
             logger.info("execution time : {}ms", (System.currentTimeMillis() - start));

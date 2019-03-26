@@ -1,7 +1,6 @@
 {
-  "name": "[tenantCode:Baoviet_VN, productCode:BV-NCUVL01, productVersion:v1, illustrationCode:MAIN, illustrationVersion:v1]",
-  "strategyName": "NCV001_OUTPUT",
-  "outputNames": "Policy year,Age,Total premiums paid in year,Initial charge,Allocated premium into Policy Account Value,Death benefit(H),Fund size bonus benefit(H),Policy Account Value(H),Surrender value(H),Death benefit(L),Fund size bonus benefit(L),Policy Account Value(L),Surrender value(L),Cost of Insurance of the main policy(G),Death benefit(G),Fund size bonus benefit(G),Policy Account Value(G),Surrender value(G),PAV_AB_end(H),PAV_AB_end(L),PAV_AB_end(G),LB_term_m,LY_bonus_acc_H_end,LY_bonus_acc_L_end,LY_bonus_acc_G_end,FS_bonus_acc_H_end,FS_bonus_acc_L_end,FS_bonus_acc_G_end",
+  "cid": "[tenantCode:Baoviet_VN, productCode:BV-NCUVL01, productVersion:v1, illustrationCode:MAIN, illustrationVersion:v1]",
+  "outputFields": "Policy year,Age,Total premiums paid in year,Initial charge,Allocated premium into Policy Account Value,Death benefit(H),Fund size bonus benefit(H),Policy Account Value(H),Surrender value(H),Death benefit(L),Fund size bonus benefit(L),Policy Account Value(L),Surrender value(L),Cost of Insurance of the main policy(G),Death benefit(G),Fund size bonus benefit(G),Policy Account Value(G),Surrender value(G),PAV_AB_end(H),PAV_AB_end(L),PAV_AB_end(G),LB_term_m,LY_bonus_acc_H_end,LY_bonus_acc_L_end,LY_bonus_acc_G_end,FS_bonus_acc_H_end,FS_bonus_acc_L_end,FS_bonus_acc_G_end",
   "layouts": [
     {
       "parallelAreas": [
@@ -44,7 +43,7 @@
       ]
     },
     {
-      "itemGroupCount": "ItemGroupCount",
+      "itemGroupCount": "Layout-2-ItemGroupCount",
       "parallel": true,
       "parallelAreas": [
         {
@@ -138,7 +137,7 @@
       ]
     },
     {
-      "layoutCount": "LayoutCount",
+      "layoutCount": "Layout-3-LayoutCount",
       "parallelAreas": [
         {
           "items": [

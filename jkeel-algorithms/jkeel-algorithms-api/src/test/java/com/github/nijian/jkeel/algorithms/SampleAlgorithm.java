@@ -5,7 +5,7 @@ import java.util.Map;
 public class SampleAlgorithm extends Algorithm<String, Map, String> {
 
     @Override
-    public Map<String, ?> calc(Map<String, ?> input, AlgorithmContext<String> ac) {
+    public Map<String, ?> calc(Map<String, ?> input, AlgorithmContext<?, ?, String> ac) {
         return null;
     }
 
@@ -15,7 +15,7 @@ public class SampleAlgorithm extends Algorithm<String, Map, String> {
     }
 
     @Override
-    protected Map<String, ?> convertInput(String rawInput, Map<String, ?> var, AlgorithmContext<String> ac) {
+    protected Map<String, ?> convertInput(String rawInput, Map<String, ?> var, AlgorithmContext<?, ?, String> ac) {
         return null;
     }
 }

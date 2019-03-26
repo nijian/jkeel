@@ -1,9 +1,6 @@
 package com.github.nijian.jkeel.algorithms.serration.entity
 
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import com.github.nijian.jkeel.algorithms.serration.Const
-import org.apache.commons.lang3.StringUtils
 
 import javax.cache.Cache
 
@@ -23,7 +20,7 @@ final class Layout {
 
     void exec(String cid, LayoutInstance layoutInstance, Cache closureCache) {
         if (cid != null && strategyName != null) {
-            Closure closure = closureCache.get(StringUtils.joinWith(":", cid, strategyName))
+            Closure closure = closureCache.get(strategyName)
             if (closure != null) {
                 closure.setDelegate(layoutInstance)
                 closure.setResolveStrategy(Closure.DELEGATE_ONLY)

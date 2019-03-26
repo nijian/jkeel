@@ -14,19 +14,16 @@ trait MixinFuncs {
      *
      */
     def createGroupIndex(String paramName, int groupCount, String groupByParamName) {
-        int len = itemLocationMap.get(groupByParamName).itemInstances.size().intdiv(groupCount)
-        for (int i = 1; i < len + 1; i++) {
-            outputMap.get(paramName).add(i)
-        }
+        context.createGroupIndex(paramName, groupCount, groupByParamName)
     }
 
     /**
      *
      */
     def createGroupIndexOnBase(String paramName, int groupCount, int base, String groupByParamName) {
-        int len = itemLocationMap.get(groupByParamName).itemInstances.size().intdiv(groupCount)
+        int len = context.itemLocationMap.get(groupByParamName).itemInstances.size().intdiv(groupCount)
         for (int i = 0; i < len; i++) {
-            outputMap.get(paramName).add(i + base)
+            context.outputMap.get(paramName).add(i + base)
         }
     }
 
@@ -34,46 +31,46 @@ trait MixinFuncs {
      *
      */
     def putGroupSum(String paramName, int groupCount, String... sourceParamNames) {
-        int len = itemLocationMap.get(sourceParamNames[0]).itemInstances.size().intdiv(groupCount)
+        int len = context.itemLocationMap.get(sourceParamNames[0]).itemInstances.size().intdiv(groupCount)
         for (int i = 0; i < len; i++) {
             def value = 0
             for (int j = 0; j < groupCount; j++) {
                 int index = i * groupCount + j
                 sourceParamNames.each { pn ->
-                    value = value + itemLocationMap.get(pn).itemInstances.get(index).value
+                    value = value + context.itemLocationMap.get(pn).itemInstances.get(index).value
                 }
             }
-            outputMap.get(paramName).add(value)
+            context.outputMap.get(paramName).add(value)
         }
     }
 
     def putLast(String paramName, String sourceParamName) {
-        List list = itemLocationMap.get(sourceParamName).itemInstances
-        outputMap.get(paramName).add(list.get(list.size() - 1).value)
+        List list = context.itemLocationMap.get(sourceParamName).itemInstances
+        context.outputMap.get(paramName).add(list.get(list.size() - 1).value)
     }
 
     /**
      *
      */
     def putLGroupSum(String paramName, int groupCount, String... sourceParamNames) {
-        int len = itemOutMap.get(sourceParamNames[0]).map.get(sourceParamNames[0]).size().intdiv(groupCount)
+        int len = context.itemOutMap.get(sourceParamNames[0]).map.get(sourceParamNames[0]).size().intdiv(groupCount)
         for (int i = 0; i < len; i++) {
             def value = 0
             for (int j = 0; j < groupCount; j++) {
                 int index = i * groupCount + j
                 sourceParamNames.each { pn ->
-                    value = value + itemOutMap.get(pn).map.get(pn).get(index)
+                    value = value + context.itemOutMap.get(pn).map.get(pn).get(index)
                 }
             }
-            outputMap.get(paramName).add(value)
+            context.outputMap.get(paramName).add(value)
         }
     }
 
     def putLGroupFirst(String paramName, int groupCount, String sourceParamName) {
-        int len = itemOutMap.get(sourceParamName).map.get(sourceParamName).size().intdiv(groupCount)
+        int len = context.itemOutMap.get(sourceParamName).map.get(sourceParamName).size().intdiv(groupCount)
         //System.out.println("putLGroupFirst:paramName " + paramName +  ",groupCount:" + groupCount +",sourceParamNames:"+sourceParamName)
         for (int i = 0; i < len; i++) {
-            outputMap.get(paramName).add(itemOutMap.get(sourceParamName).map.get(sourceParamName).get(i * groupCount))
+            context.outputMap.get(paramName).add(context.itemOutMap.get(sourceParamName).map.get(sourceParamName).get(i * groupCount))
         }
     }
 
@@ -81,17 +78,17 @@ trait MixinFuncs {
      *
      */
     def putLGroupLast(String paramName, int groupCount, String sourceParamName) {
-        int len = itemOutMap.get(sourceParamName).map.get(sourceParamName).size().intdiv(groupCount)
+        int len = context.itemOutMap.get(sourceParamName).map.get(sourceParamName).size().intdiv(groupCount)
         //System.out.println("putLGroupLast:paramName " + paramName +  ",groupCount:" + groupCount +",sourceParamNames:"+sourceParamName)
         for (int i = 1; i < len + 1; i++) {
-            outputMap.get(paramName).add(itemOutMap.get(sourceParamName).map.get(sourceParamName).get(i * groupCount - 1))
+            context.outputMap.get(paramName).add(context.itemOutMap.get(sourceParamName).map.get(sourceParamName).get(i * groupCount - 1))
         }
     }
 
     def putLLast(String paramName, String sourceParamName) {
         //System.out.println("putLLast:paramName " + paramName + ",sourceParamNames:"+sourceParamName)
-        List list = itemOutMap.get(sourceParamName).map.get(sourceParamName)
-        outputMap.get(paramName).add(list.get(list.size() - 1))
+        List list = context.itemOutMap.get(sourceParamName).map.get(sourceParamName)
+        context.outputMap.get(paramName).add(list.get(list.size() - 1))
     }
 
     /**
@@ -101,7 +98,8 @@ trait MixinFuncs {
      * @return value of item
      */
     def get(String paramName) {
-        Utils.get(context, paramName)
+//        new BigDecimalOperand(1)
+        context.get(paramName)
     }
 
     /**
@@ -112,7 +110,8 @@ trait MixinFuncs {
      * @return value of item
      */
     def getx(int index, String paramName) {
-        Utils.getx(context, index, paramName)
+//        new BigDecimalOperand(1)
+        context.getx(index, paramName)
     }
 
     /**
@@ -122,7 +121,8 @@ trait MixinFuncs {
      * @return value of item
      */
     def getL(String paramName) {
-        Utils.getL(context, paramName)
+//        new BigDecimalOperand(1)
+        context.getL(paramName)
     }
 
     /**
@@ -133,7 +133,8 @@ trait MixinFuncs {
      * @return value of item
      */
     def getLx(int index, String paramName) {
-        Utils.getLx(context, index, paramName)
+//        new BigDecimalOperand(1)
+        context.getLx(index, paramName)
     }
 
     /**

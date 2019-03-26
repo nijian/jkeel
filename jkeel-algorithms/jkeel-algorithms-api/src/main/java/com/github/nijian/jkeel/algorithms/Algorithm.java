@@ -10,17 +10,17 @@ import java.util.Map;
  *
  * @param <I> input type
  * @param <R> return type
- * @param <T> cache type
+ * @param <V> cache value type
  */
-public abstract class Algorithm<I, R, T> {
+public abstract class Algorithm<I, R, V> {
 
     private static Logger logger = LoggerFactory.getLogger(Algorithm.class);
 
-    public R perform(I rawInput, AlgorithmContext<T> ac) {
+    public R perform(I rawInput, AlgorithmContext<?, ?, V> ac) {
         return perform(rawInput, null, ac);
     }
 
-    public R perform(I rawInput, Map<String, ?> var, AlgorithmContext<T> ac) {
+    public R perform(I rawInput, Map<String, ?> var, AlgorithmContext<?, ?, V> ac) {
 
         long start = System.currentTimeMillis();
         Map<String, ?> input = convertInput(rawInput, var, ac);
@@ -40,8 +40,8 @@ public abstract class Algorithm<I, R, T> {
         return getClass().getName();
     }
 
-    protected abstract Map<String, ?> convertInput(I rawInput, Map<String, ?> var, AlgorithmContext<T> ac);
+    protected abstract Map<String, ?> convertInput(I rawInput, Map<String, ?> var, AlgorithmContext<?, ?, V> ac);
 
-    protected abstract R calc(Map<String, ?> input, AlgorithmContext<T> ac);
+    protected abstract R calc(Map<String, ?> input, AlgorithmContext<?, ?, V> ac);
 
 }
