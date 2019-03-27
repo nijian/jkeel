@@ -1,12 +1,12 @@
 package com.github.nijian.jkeel.algorithms.serration.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.github.nijian.jkeel.algorithms.Template;
+import com.github.nijian.jkeel.algorithms.AlgorithmTemplate;
 
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class LayoutTemplate implements Template {
+public class LayoutTemplate implements AlgorithmTemplate {
 
     private String cid;
     private String outputFields;

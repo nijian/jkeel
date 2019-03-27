@@ -1,12 +1,9 @@
 package com.github.nijian.jkeel.algorithms.serration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.nijian.jkeel.algorithms.AlgorithmContext;
-import com.github.nijian.jkeel.algorithms.Config;
-import com.github.nijian.jkeel.algorithms.Serration;
+import com.github.nijian.jkeel.algorithms.*;
 
 
-import com.github.nijian.jkeel.algorithms.Template;
 import com.github.nijian.jkeel.algorithms.serration.entity.LayoutTemplate;
 import groovy.lang.Binding;
 import groovy.lang.Closure;
@@ -57,17 +54,17 @@ public class PerformanceTest {
         Cache<String, Closure> closureCache = cacheManager.getCache("closure-cache", String.class, Closure.class);
 
         //compile DSL and cache closure
-        CompilerConfiguration compilerConfiguration = new CompilerConfiguration();
-        compilerConfiguration.setSourceEncoding("UTF-8");
-        compilerConfiguration.setTargetBytecode(CompilerConfiguration.JDK8);
-        GroovyClassLoader loader = new GroovyClassLoader(Thread.currentThread().getContextClassLoader(), compilerConfiguration, false);
-        String content = IOGroovyMethods.getText(getClass().getResourceAsStream("/config.illus"));
-        Class<?> clazz = loader.parseClass(content);
-        Binding binding = new Binding();
-        Config config = new CalcConfig();
-        config.init(closureCache);
-        binding.setVariable("CalcConfig", config);
-        InvokerHelper.createScript(clazz, binding).run();
+//        CompilerConfiguration compilerConfiguration = new CompilerConfiguration();
+//        compilerConfiguration.setSourceEncoding("UTF-8");
+//        compilerConfiguration.setTargetBytecode(CompilerConfiguration.JDK8);
+//        GroovyClassLoader loader = new GroovyClassLoader(Thread.currentThread().getContextClassLoader(), compilerConfiguration, false);
+//        String content = IOGroovyMethods.getText(getClass().getResourceAsStream("/config.illus"));
+//        Class<?> clazz = loader.parseClass(content);
+//        Binding binding = new Binding();
+//        AlgorithmConfig algorithmConfig = new CalcConfig();
+//        algorithmConfig.init(closureCache);
+//        binding.setVariable("CalcConfig", algorithmConfig);
+//        InvokerHelper.createScript(clazz, binding).run();
 
         logger.info("xxxxxxxxxxxxxxxxxx");
 
@@ -78,7 +75,7 @@ public class PerformanceTest {
 //        InvokerHelper.createScript(clazz, binding).run();
 
         LayoutTemplate layoutTemplate1 = objectMapper.readValue(getClass().getResourceAsStream("/a.json"), LayoutTemplate.class);
-//        Template layoutTemplate2 = objectMapper.readValue(getClass().getResourceAsStream("/b.json"), Template.class);
+//        AlgorithmTemplate layoutTemplate2 = objectMapper.readValue(getClass().getResourceAsStream("/b.json"), AlgorithmTemplate.class);
 
         illustrationCalcTemplateKey1 = "[tenantCode:Baoviet_VN, productCode:BV-NCUVL01, productVersion:v1, illustrationCode:MAIN, illustrationVersion:v1]";
         templateCache.put(illustrationCalcTemplateKey1, layoutTemplate1);
@@ -94,8 +91,8 @@ public class PerformanceTest {
         varMap.put("unitPriceMapL", unitPriceMapL);
         varMap.put("unitPriceMapG", unitPriceMapG);
 
-        Serration<Date> algorithm = new Serration<>();
-        AlgorithmContext ac = new AlgorithmContext(illustrationCalcTemplateKey1, layoutTemplate1, new CalcConfig(), cacheManager);
+        Algorithm<?, ?, ?, ?> algorithm = AlgorithmFactoryProvider.getInstance().getAlgorithm("com.github.nijian.jkeel.algorithms.Serration");
+        AlgorithmContext ac = null; //new AlgorithmContext(illustrationCalcTemplateKey1, layoutTemplate1, new CalcConfig(), cacheManager);
         algorithm.perform(null, varMap, ac);
 
         for (int i = 0; i < 100; i++) {

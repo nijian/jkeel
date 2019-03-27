@@ -1,13 +1,13 @@
 package com.github.nijian.jkeel.algorithms.serration.entity;
 
 import com.github.nijian.jkeel.algorithms.AlgorithmContext;
+import com.github.nijian.jkeel.algorithms.serration.CalcConfig;
 import com.github.nijian.jkeel.algorithms.serration.operands.BigDecimalOperand;
 import groovy.lang.Closure;
 
+import javax.cache.Cache;
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Context<I> {
 
@@ -17,14 +17,62 @@ public class Context<I> {
     private Map<String, LayoutOutputInstance> itemOutMap;
     private LayoutTemplateInstance layoutTemplateInstance;
 
-    public Context(I input, AlgorithmContext<?, ?, Closure> ac) {
+    public Context(I input, AlgorithmContext<LayoutTemplate, CalcConfig> ac, Cache<String, Closure> cache) {
 
         this.input = input;
         this.outputMap = new HashMap<>();
         this.itemLocationMap = new HashMap<>();
         this.itemOutMap = new HashMap<>();
 
-        ContextHelper.populate(ac, this, itemOutMap, itemLocationMap, outputMap);
+        layoutTemplateInstance = new LayoutTemplateInstance(this);
+        List<LayoutInstance> layoutInstances = layoutTemplateInstance.getLayoutInstances();
+        LayoutTemplate layoutTemplate = ac.getTemplate();
+        layoutTemplate.getLayouts().stream().forEach(layout ->
+                {
+                    LayoutInstance layoutInstance = new LayoutInstance(this, layout, cache);
+                    layoutInstances.add(layoutInstance);
+                    LayoutOutputInstance layoutOutputInstance = layoutInstance.getLayoutOutputInstance();
+
+                    List<ParallelAreaInstance> pAreaIList = new ArrayList<>();
+                    layoutInstance.setParallelAreaInstances(pAreaIList);
+
+                    layout.getParallelAreas().stream().forEach(pArea ->
+                            {
+                                ParallelAreaInstance pAreaI = new ParallelAreaInstance(pArea);
+                                pAreaIList.add(pAreaI);
+
+                                List<ItemInstanceAnchor> itemIAList = new ArrayList<>();
+                                pAreaI.setItemInstanceAnchors(itemIAList);
+
+                                pArea.getItems().stream().forEach(item ->
+                                        {
+                                            if (item.isOut()) {
+                                                itemOutMap.put(item.getName(), layoutOutputInstance);
+                                                layoutOutputInstance.getMap().put(item.getName(), new ArrayList<>());
+                                            }
+
+                                            ItemInstanceAnchor itemInstanceAnchor = new ItemInstanceAnchor(item, layoutInstance.getItemGroupCount());
+                                            itemLocationMap.put(item.getName(), itemInstanceAnchor);
+                                            itemIAList.add(itemInstanceAnchor);
+
+
+                                            for (int i = 0; i < itemInstanceAnchor.getItemInstances().size(); i++) {
+                                                itemInstanceAnchor.getItemInstances().get(i).setIndex(i);
+                                            }
+
+                                        }
+                                );
+                            }
+                    );
+                }
+        );
+
+        if (layoutTemplate.getOutputFields() != null) {
+            String[] outputNameArray = layoutTemplate.getOutputFields().split(",");
+            Arrays.stream(outputNameArray).forEach(outputName ->
+                    outputMap.put(outputName, new ArrayList<BigDecimal>())
+            );
+        }
     }
 
     public void createGroupIndex(String paramName, int groupCount, String groupByParamName) {
@@ -73,7 +121,4 @@ public class Context<I> {
         return layoutTemplateInstance;
     }
 
-    public void setLayoutTemplateInstance(LayoutTemplateInstance layoutTemplateInstance) {
-        this.layoutTemplateInstance = layoutTemplateInstance;
-    }
 }

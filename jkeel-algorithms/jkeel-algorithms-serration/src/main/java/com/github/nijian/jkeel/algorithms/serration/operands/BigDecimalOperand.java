@@ -17,6 +17,20 @@ public class BigDecimalOperand extends NumberOperand<BigDecimal> implements Comp
         }
     }
 
+    public BigDecimalOperand(Number value) {
+        if (value instanceof BigDecimal) {
+            this.value = (BigDecimal) value;
+        } else if (value instanceof BigDecimalOperand) {
+            this.value = ((BigDecimalOperand) value).getValue();
+        } else if (value instanceof Integer) {
+            this.value = new BigDecimal((Integer) value);
+        } else if (value instanceof Double) {
+            this.value = BigDecimal.valueOf((Double) value);
+        } else {
+            throw new RuntimeException("Unsupported number type");
+        }
+    }
+
     public BigDecimalOperand(BigDecimal value) {
         this.value = value;
     }

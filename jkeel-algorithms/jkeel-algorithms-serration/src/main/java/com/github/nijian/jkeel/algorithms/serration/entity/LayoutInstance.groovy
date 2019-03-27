@@ -19,7 +19,7 @@ final class LayoutInstance implements MixinFuncs {
     LayoutOutputInstance layoutOutputInstance = new LayoutOutputInstance()
     List<ParallelAreaInstance> parallelAreaInstances
 
-    LayoutInstance(Context<?> context, String cid, Layout layout, Cache closureCache) {
+    LayoutInstance(Context<?> context, Layout layout, Cache closureCache) {
         this.context = context
         this.layout = layout
 

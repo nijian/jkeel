@@ -115,7 +115,7 @@ trait MixinFuncs {
     }
 
     /**
-     * Get item value from Template Output
+     * Get item value from AlgorithmTemplate Output
      *
      * @param paramName name of item
      * @return value of item
@@ -126,7 +126,7 @@ trait MixinFuncs {
     }
 
     /**
-     * Get item value from Template Output by item index
+     * Get item value from AlgorithmTemplate Output by item index
      *
      * @param index index of item
      * @param paramName name of item

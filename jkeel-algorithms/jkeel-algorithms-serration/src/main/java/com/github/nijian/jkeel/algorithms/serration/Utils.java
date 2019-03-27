@@ -1,6 +1,7 @@
 package com.github.nijian.jkeel.algorithms.serration;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.nijian.jkeel.algorithms.serration.entity.Context;
 import com.github.nijian.jkeel.algorithms.serration.entity.ItemInstance;
 import com.github.nijian.jkeel.algorithms.serration.operands.BigDecimalOperand;
@@ -18,6 +19,8 @@ import java.util.List;
  * Created by johnson.ni
  */
 public final class Utils {
+
+    public final static ObjectMapper objectMapper = new ObjectMapper();
 
     public static BigDecimalOperand get(Context<?> context, String paramName) {
         try {

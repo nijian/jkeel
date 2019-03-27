@@ -1,37 +1,51 @@
 package com.github.nijian.jkeel.algorithms.serration
 
-import com.github.nijian.jkeel.algorithms.Config
+import com.github.nijian.jkeel.algorithms.AlgorithmConfig
 import org.codehaus.groovy.control.CompilerConfiguration
 import org.codehaus.groovy.runtime.IOGroovyMethods
 import org.codehaus.groovy.runtime.InvokerHelper
 
 import javax.cache.Cache
+import javax.cache.CacheManager
+import javax.cache.Caching
+import javax.cache.configuration.MutableConfiguration
+import javax.cache.spi.CachingProvider
 
-class CalcConfig implements Config<Closure>, MixinFuncs {
+class CalcConfig implements AlgorithmConfig, MixinFuncs {
 
-    Cache<String, Closure<?>> closureCache
+    Cache<String, Closure> cache
     String cid
+    boolean inited = false
 
-    CalcConfig() {
-
-    }
-
-    @Override
-    void init(Cache cache) {
-
-        if (closureCache == null) {
-            closureCache = cache
+    void init(String cid, String configUri, Properties env) {
+        if (!inited) {
+            CachingProvider cachingProvider = Caching.getCachingProvider("org.ehcache.jsr107.EhcacheCachingProvider")
+            CacheManager cacheManager = cachingProvider.getCacheManager(
+                    getClass().getResource("/serration-ehcache.xml").toURI(),
+                    getClass().getClassLoader())
+            MutableConfiguration<String, Closure> configuration = new MutableConfiguration<String, Closure>().setStoreByValue(false)
+            cache = cacheManager.createCache(cid, configuration)
 
             CompilerConfiguration compilerConfiguration = new CompilerConfiguration()
             compilerConfiguration.setSourceEncoding("UTF-8")
             compilerConfiguration.setTargetBytecode(CompilerConfiguration.JDK8)
             GroovyClassLoader loader = new GroovyClassLoader(Thread.currentThread().getContextClassLoader(), compilerConfiguration, false)
-            String content = IOGroovyMethods.getText(getClass().getResourceAsStream("/config.illus"))
+            String content = IOGroovyMethods.getText(getClass().getResourceAsStream(configUri))
             Class<?> clazz = loader.parseClass(content)
             Binding binding = new Binding()
             binding.setVariable("CalcConfig", this)
             InvokerHelper.createScript(clazz, binding).run()
+            inited = true
         }
+    }
+
+    Cache<String, Closure> getCache() {
+        return cache
+    }
+
+    @Override
+    boolean isDebugEnabled() {
+        return false
     }
 
     def cid(String cid) {
@@ -45,22 +59,22 @@ class CalcConfig implements Config<Closure>, MixinFuncs {
     }
 
     def Convert(Closure closure) {
-        closureCache.put(Const.CONVERT, closure)
+        cache.put(Const.CONVERT, closure)
     }
 
     def Output(Closure closure) {
-        closureCache.put(Const.OUTPUT, closure)
+        cache.put(Const.OUTPUT, closure)
     }
 
     def itemGroupCount(String name, Closure<Integer> closure) {
-        closureCache.put(name, closure)
+        cache.put(name, closure)
     }
 
     def layoutCount(String name, Closure<Integer> closure) {
-        closureCache.put(name, closure)
+        cache.put(name, closure)
     }
 
     def formula(String name, Closure<BigDecimal> closure) {
-        closureCache.put(name, closure)
+        cache.put(name, closure)
     }
 }

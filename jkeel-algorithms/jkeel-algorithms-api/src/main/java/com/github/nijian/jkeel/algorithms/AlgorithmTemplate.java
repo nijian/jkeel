@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by Johnson
  */
-public interface Template extends Serializable {
+public interface AlgorithmTemplate extends Serializable {
 
     String getCid();
 

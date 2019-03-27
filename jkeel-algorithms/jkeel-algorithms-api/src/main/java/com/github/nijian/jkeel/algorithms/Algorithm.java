@@ -10,17 +10,16 @@ import java.util.Map;
  *
  * @param <I> input type
  * @param <R> return type
- * @param <V> cache value type
  */
-public abstract class Algorithm<I, R, V> {
+public abstract class Algorithm<I, R, T extends AlgorithmTemplate, C extends AlgorithmConfig> {
 
     private static Logger logger = LoggerFactory.getLogger(Algorithm.class);
 
-    public R perform(I rawInput, AlgorithmContext<?, ?, V> ac) {
+    public R perform(I rawInput, AlgorithmContext<T, C> ac) {
         return perform(rawInput, null, ac);
     }
 
-    public R perform(I rawInput, Map<String, ?> var, AlgorithmContext<?, ?, V> ac) {
+    public R perform(I rawInput, Map<String, ?> var, AlgorithmContext<T, C> ac) {
 
         long start = System.currentTimeMillis();
         Map<String, ?> input = convertInput(rawInput, var, ac);
@@ -32,16 +31,18 @@ public abstract class Algorithm<I, R, V> {
         logger.info("Calculation completed with [{}]ms", calculated - converted);
 
         //TODO missing other functions, e.g. log calculation details for verification
+//        if (ac.getConfig().isDebugEnabled()) {
+//            debug(result);
+//        }
+        debug(result);
 
         return result;
     }
 
-    public String getName() {
-        return getClass().getName();
-    }
+    protected abstract Map<String, ?> convertInput(I rawInput, Map<String, ?> var, AlgorithmContext<T, C> ac);
 
-    protected abstract Map<String, ?> convertInput(I rawInput, Map<String, ?> var, AlgorithmContext<?, ?, V> ac);
+    protected abstract R calc(Map<String, ?> input, AlgorithmContext<T, C> ac);
 
-    protected abstract R calc(Map<String, ?> input, AlgorithmContext<?, ?, V> ac);
+    protected abstract String debug(R result);
 
 }

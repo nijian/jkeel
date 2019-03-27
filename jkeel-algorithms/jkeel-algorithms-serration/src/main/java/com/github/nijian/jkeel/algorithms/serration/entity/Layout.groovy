@@ -16,7 +16,6 @@ final class Layout {
     boolean parallel = false
     List<ParallelArea> parallelAreas
     String strategyName
-    String outputNames
 
     void exec(String cid, LayoutInstance layoutInstance, Cache closureCache) {
         if (cid != null && strategyName != null) {

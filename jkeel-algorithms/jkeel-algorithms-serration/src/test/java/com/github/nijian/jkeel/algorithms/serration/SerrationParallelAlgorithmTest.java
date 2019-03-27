@@ -1,9 +1,7 @@
 package com.github.nijian.jkeel.algorithms.serration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.nijian.jkeel.algorithms.AlgorithmContext;
-import com.github.nijian.jkeel.algorithms.Config;
-import com.github.nijian.jkeel.algorithms.Serration;
+import com.github.nijian.jkeel.algorithms.*;
 
 
 import com.github.nijian.jkeel.algorithms.serration.entity.LayoutTemplate;
@@ -34,19 +32,22 @@ public class SerrationParallelAlgorithmTest {
     Logger logger = LoggerFactory.getLogger(SerrationParallelAlgorithmTest.class);
 
     private final static ObjectMapper objectMapper = new ObjectMapper();
-
-    private CacheManager cacheManager;
-    private String illustrationCalcTemplateKey1;
+    private String cid;
+    private LayoutTemplate layoutTemplate1;
+    private Map<String, Object> varMap = new HashMap<>();
 
     @Before
     public void setUp() throws Exception {
-        CachingProvider cachingProvider = Caching.getCachingProvider("org.ehcache.jsr107.EhcacheCachingProvider");
-        cacheManager = cachingProvider.getCacheManager(
-                getClass().getResource("/serration-ehcache.xml").toURI(),
-                getClass().getClassLoader());
+        //prepare variables map
+        Map<String, Double> unitPriceMapH = IllustrationHelper.buildUnitPriceRateTable0(new Date(119, 1, 1), new Date(118, 0, 1), 10000d, 'H');
+        Map<String, Double> unitPriceMapL = IllustrationHelper.buildUnitPriceRateTable0(new Date(119, 1, 1), new Date(118, 0, 1), 10000d, 'L');
+        Map<String, Double> unitPriceMapG = IllustrationHelper.buildUnitPriceRateTable0(new Date(119, 1, 1), new Date(118, 0, 1), 10000d, 'G');
+        varMap.put("unitPriceMapH", unitPriceMapH);
+        varMap.put("unitPriceMapL", unitPriceMapL);
+        varMap.put("unitPriceMapG", unitPriceMapG);
 
-        illustrationCalcTemplateKey1 = "[tenantCode:Baoviet_VN, productCode:BV-NCUVL01, productVersion:v1, illustrationCode:MAIN, illustrationVersion:v1]";
-
+        cid = "[tenantCode:Baoviet_VN, productCode:BV-NCUVL01, productVersion:v1, illustrationCode:MAIN, illustrationVersion:v1]";
+        layoutTemplate1 = objectMapper.readValue(getClass().getResourceAsStream("/a.json"), LayoutTemplate.class);
     }
 
     @After
@@ -56,26 +57,16 @@ public class SerrationParallelAlgorithmTest {
     @Test
     public void perform() throws Exception {
 
-        LayoutTemplate layoutTemplate1 = objectMapper.readValue(getClass().getResourceAsStream("/a.json"), LayoutTemplate.class);
-
-        //prepare variables map
-        Map<String, Object> varMap = new HashMap<>();
-        Map<String, Double> unitPriceMapH = IllustrationHelper.buildUnitPriceRateTable0(new Date(119, 1, 1), new Date(118, 0, 1), 10000d, 'H');
-        Map<String, Double> unitPriceMapL = IllustrationHelper.buildUnitPriceRateTable0(new Date(119, 1, 1), new Date(118, 0, 1), 10000d, 'L');
-        Map<String, Double> unitPriceMapG = IllustrationHelper.buildUnitPriceRateTable0(new Date(119, 1, 1), new Date(118, 0, 1), 10000d, 'G');
-        varMap.put("unitPriceMapH", unitPriceMapH);
-        varMap.put("unitPriceMapL", unitPriceMapL);
-        varMap.put("unitPriceMapG", unitPriceMapG);
-
-        Serration<Date> algorithm = new Serration<>();
-        AlgorithmContext ac = new AlgorithmContext(illustrationCalcTemplateKey1, layoutTemplate1, new CalcConfig(), cacheManager);
-        algorithm.perform(null, varMap, ac);
-
-        for (int i = 0; i < 20; i++) {
-            algorithm.perform(null, varMap, ac);
-        }
+        Algorithm algorithm = AlgorithmFactoryProvider.getInstance().getAlgorithm(Serration.class.getName());
+        AlgorithmContext ac = AlgorithmContextManager.getInstance().createContext(cid, layoutTemplate1, "/config.illus", CalcConfig.class, null);
 
         algorithm.perform(null, varMap, ac);
+
+//        for (int i = 0; i < 20; i++) {
+//            algorithm.perform(null, varMap, ac);
+//        }
+//
+//        algorithm.perform(null, varMap, ac);
 
         assertEquals(1, 1);
     }
