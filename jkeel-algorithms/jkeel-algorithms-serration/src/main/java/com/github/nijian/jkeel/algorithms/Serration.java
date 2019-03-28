@@ -1,10 +1,9 @@
 package com.github.nijian.jkeel.algorithms;
 
+import com.github.nijian.jkeel.algorithms.debug.OutputFactoryProvider;
 import com.github.nijian.jkeel.algorithms.serration.CalcConfig;
 import com.github.nijian.jkeel.algorithms.serration.Const;
-import com.github.nijian.jkeel.algorithms.serration.Utils;
-import com.github.nijian.jkeel.algorithms.serration.debug.Iterables;
-import com.github.nijian.jkeel.algorithms.serration.debug.Table;
+import com.github.nijian.jkeel.algorithms.serration.debug.CSVOutput;
 import com.github.nijian.jkeel.algorithms.serration.entity.*;
 import com.github.nijian.jkeel.algorithms.serration.operands.BigDecimalOperand;
 import groovy.lang.Closure;
@@ -12,10 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.cache.Cache;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * DO NOT CHANGE THIS CLASS UNLESS YOU ARE CLEAR WHAT EXACT IMPACT FOR PERFORMANCE!!!
@@ -122,48 +118,66 @@ public final class Serration<I> extends Algorithm<I, Context<I>, LayoutTemplate,
     }
 
     @Override
-    protected String debug(Context<I> result) {
-        Table table = new Table();
-        List<Table.Row> rows = new ArrayList();
-        table.setRows(rows);
+    protected void debug(Context<I> result) {
+
+        List<String> headers = new ArrayList();
+        List<List<String>> dataTable = new ArrayList();
+        List<String> dataRows = new ArrayList();
+        dataTable.add(dataRows);
+
+        int maxRowNum = 0;
+        List<LayoutInstance> layoutInstances = result.getLayoutTemplateInstance().getLayoutInstances();
+        for (LayoutInstance layoutInstance : layoutInstances) {
+            int itemGC = layoutInstance.getItemGroupCount();
+            int loutC = layoutInstance.getLayoutCount();
+            if (itemGC > maxRowNum) {
+                maxRowNum = itemGC;
+            }
+            if (loutC > maxRowNum) {
+                maxRowNum = loutC;
+            }
+        }
 
         Map<String, LayoutOutputInstance> itemOutMap = result.getItemOutMap();
-        itemOutMap.keySet().stream().forEach(key ->
-        {
+        Iterator<String> keyIter = itemOutMap.keySet().iterator();
+        while (keyIter.hasNext()) {
+            String key = keyIter.next();
+            headers.add(key);
             LayoutOutputInstance loutI = itemOutMap.get(key);
-            Map<String, List<BigDecimalOperand>> valueMap = loutI.getMap();
-            valueMap.keySet().stream().forEach(key1 ->
+            List<BigDecimalOperand> valueList = loutI.getMap().get(key);
+            for (int i = 0; i < maxRowNum; i++) {
 
-
-            {
-                List<BigDecimalOperand> valueList = valueMap.get(key1);
-                for (int i = 0; i < valueList.size(); i++) {
-                    Table.Row row;
-                    if (rows.size() <= i) {
-                        row = new Table.Row();
-                        rows.add(row);
-
-                        List<Table.Cell> cells = new ArrayList();
-                        row.setCells(cells);
-                    } else {
-                        row = rows.get(i);
-                    }
-                    Table.Cell cell = new Table.Cell();
-                    row.getCells().add(cell);
-                    cell.setName(key1);
-                    cell.setValue(valueList.get(i).toString());
+                List<String> row;
+                if (dataRows.size() <= i) {
+                    row = new ArrayList();
+                    dataTable.add(row);
                 }
-
-            });
-        });
-
-        try {
-            String debugInfo = Utils.objectMapper.writeValueAsString(table);
-            System.out.println(debugInfo);
-            return debugInfo;
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
+                row = dataTable.get(i);
+                row.add(valueList.get(i).getValue().toString());
+            }
         }
+
+        Map<String, ItemInstanceAnchor> itemLocationMap = result.getItemLocationMap();
+        keyIter = itemLocationMap.keySet().iterator();
+        while (keyIter.hasNext()) {
+            String key = keyIter.next();
+            if (itemOutMap.containsKey(key)) {
+                continue;
+            }
+            headers.add(key);
+            ItemInstanceAnchor itemIA = itemLocationMap.get(key);
+            List<ItemInstance> itemIList = itemIA.getItemInstances();
+            for (int i = 0; i < maxRowNum; i++) {
+                List<String> row = dataTable.get(i);
+                if (itemIList.size() > i) {
+                    row.add(itemIList.get(i).getValue().getValue().toString());
+                } else {
+                    row.add("");
+                }
+            }
+        }
+
+        OutputFactoryProvider.getInstance().getOutput(CSVOutput.class.getName()).write(dataTable, headers);
+
     }
 }

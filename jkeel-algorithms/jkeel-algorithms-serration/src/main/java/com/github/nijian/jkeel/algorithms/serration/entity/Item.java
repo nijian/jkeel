@@ -12,7 +12,7 @@ public class Item<I> {
     private int scale = 2;
 
     public void calc(I input, Closure<Number> closure, ItemInstance itemInstance, int index, List<BigDecimalOperand> outValueList) {
-        BigDecimalOperand operand = new BigDecimalOperand(closure.call(input, index));
+        BigDecimalOperand operand = new BigDecimalOperand(closure.call(input, index), scale, true);
 
         itemInstance.setValue(operand);
         if (outValueList != null) {

@@ -43,6 +43,6 @@ public abstract class Algorithm<I, R, T extends AlgorithmTemplate, C extends Alg
 
     protected abstract R calc(Map<String, ?> input, AlgorithmContext<T, C> ac);
 
-    protected abstract String debug(R result);
+    protected abstract void debug(R result);
 
 }

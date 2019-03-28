@@ -543,7 +543,7 @@ CalcConfig {
         if (layoutIndex == 0) {
             getx(layoutIndex, 'Alloc_topup_unit_H_t')
         } else {
-            getLx(layoutIndex - 1, 'Sum_alloc_topup_unit_H_t') - getx(layoutIndex, 'Alloc_topup_unit_H_t')
+            getLx(layoutIndex - 1, 'Sum_alloc_topup_unit_H_t') + getx(layoutIndex, 'Alloc_topup_unit_H_t')
         }
     }
     /**
@@ -553,7 +553,7 @@ CalcConfig {
         if (layoutIndex == 0) {
             getx(layoutIndex, 'Alloc_topup_unit_L_t')
         } else {
-            getLx(layoutIndex - 1, 'Sum_alloc_topup_unit_L_t') - getx(layoutIndex, 'Alloc_topup_unit_L_t')
+            getLx(layoutIndex - 1, 'Sum_alloc_topup_unit_L_t') + getx(layoutIndex, 'Alloc_topup_unit_L_t')
         }
     }
     /**
@@ -563,7 +563,7 @@ CalcConfig {
         if (layoutIndex == 0) {
             getx(layoutIndex, 'Alloc_topup_unit_G_t')
         } else {
-            getLx(layoutIndex - 1, 'Sum_alloc_topup_unit_G_t') - getx(layoutIndex, 'Alloc_topup_unit_G_t')
+            getLx(layoutIndex - 1, 'Sum_alloc_topup_unit_G_t') + getx(layoutIndex, 'Alloc_topup_unit_G_t')
         }
     }
     ///////////////// Parallel Area 5 /////////////////////

@@ -15,7 +15,7 @@ public class SampleAlgorithm extends Algorithm<String, Map, SimpleTemplate, Simp
     }
 
     @Override
-    protected String debug(Map result) {
-        return null;
+    protected void debug(Map result) {
+
     }
 }

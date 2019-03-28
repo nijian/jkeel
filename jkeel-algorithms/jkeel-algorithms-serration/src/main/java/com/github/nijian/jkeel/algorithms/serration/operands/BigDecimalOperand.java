@@ -9,25 +9,24 @@ import java.math.RoundingMode;
  */
 public class BigDecimalOperand extends NumberOperand<BigDecimal> implements Comparable<BigDecimalOperand> {
 
-    public BigDecimalOperand(BigDecimalOperand o, int scale) {
-        if (o.value.compareTo(BigDecimal.ZERO) <= 0) {
-            this.value = BigDecimal.ZERO;
-        } else {
-            this.value = o.value.setScale(scale, RoundingMode.HALF_UP);
-        }
+    public BigDecimalOperand(Number value, int scale) {
+        this(value, scale, false);
     }
 
-    public BigDecimalOperand(Number value) {
+    public BigDecimalOperand(Number value, int scale, boolean isPositive) {
         if (value instanceof BigDecimal) {
-            this.value = (BigDecimal) value;
+            this.value = ((BigDecimal) value).setScale(scale, RoundingMode.HALF_UP);
         } else if (value instanceof BigDecimalOperand) {
-            this.value = ((BigDecimalOperand) value).getValue();
+            this.value = ((BigDecimalOperand) value).getValue().setScale(scale, RoundingMode.HALF_UP);
         } else if (value instanceof Integer) {
-            this.value = new BigDecimal((Integer) value);
+            this.value = new BigDecimal((Integer) value).setScale(scale, RoundingMode.HALF_UP);
         } else if (value instanceof Double) {
-            this.value = BigDecimal.valueOf((Double) value);
+            this.value = BigDecimal.valueOf((Double) value).setScale(scale, RoundingMode.HALF_UP);
         } else {
             throw new RuntimeException("Unsupported number type");
+        }
+        if (this.value.compareTo(BigDecimal.ZERO) < 0) {
+            this.value = BigDecimal.ZERO;
         }
     }
 
