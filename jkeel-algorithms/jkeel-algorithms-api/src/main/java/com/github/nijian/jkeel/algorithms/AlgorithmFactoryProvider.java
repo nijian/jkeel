@@ -3,6 +3,12 @@ package com.github.nijian.jkeel.algorithms;
 import java.util.Iterator;
 import java.util.ServiceLoader;
 
+/**
+ * AlgorithmFactoryProvider
+ *
+ * @author nj
+ * @since 0.0.1
+ */
 public class AlgorithmFactoryProvider {
 
     private static AlgorithmFactoryProvider provider;
@@ -26,13 +32,13 @@ public class AlgorithmFactoryProvider {
         }
     }
 
-    public Algorithm getAlgorithm(String text) {
+    public Algorithm getAlgorithm(String name) {
 
         Algorithm algorithm = null;
         Iterator<AlgorithmFactory> factories = loader.iterator();
         while (algorithm == null && factories.hasNext()) {
             AlgorithmFactory factory = factories.next();
-            algorithm = factory.getAlgorithm(text);
+            algorithm = factory.getAlgorithm(name);
         }
         return algorithm;
     }

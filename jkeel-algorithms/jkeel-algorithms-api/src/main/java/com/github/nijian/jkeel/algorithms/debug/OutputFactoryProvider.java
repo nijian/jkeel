@@ -3,6 +3,12 @@ package com.github.nijian.jkeel.algorithms.debug;
 import java.util.Iterator;
 import java.util.ServiceLoader;
 
+/**
+ * OutputFactoryProvider
+ *
+ * @author nj
+ * @since 0.0.1
+ */
 public class OutputFactoryProvider {
 
     private static OutputFactoryProvider provider;
@@ -26,13 +32,13 @@ public class OutputFactoryProvider {
         }
     }
 
-    public Output getOutput(String text) {
+    public Output getOutput(String name) {
 
         Output output = null;
         Iterator<OutputFactory> factories = loader.iterator();
         while (output == null && factories.hasNext()) {
             OutputFactory factory = factories.next();
-            output = factory.getOutput(text);
+            output = factory.getOutput(name);
         }
         return output;
     }

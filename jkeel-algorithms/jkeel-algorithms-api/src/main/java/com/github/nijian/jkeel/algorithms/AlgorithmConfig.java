@@ -4,12 +4,28 @@ import java.io.Serializable;
 import java.util.Properties;
 
 /**
- * Created by Johnson.Ni
+ * Algorithm is always based on algorithm context to calculate values. AlgorithmConfig is an important part of the
+ * context. The config usually includes raw input converter, formulas, etc.
+ *
+ * @author nj
+ * @since 0.0.1
  */
 public interface AlgorithmConfig extends Serializable {
 
+    /**
+     * Initialize the algorithm config.
+     *
+     * @param cid       algorithm context global identifier
+     * @param configUri uri of the algorithm config resource
+     * @param env       environment variables
+     */
     void init(String cid, String configUri, Properties env);
 
+    /**
+     * Get algorithm context global identifier.
+     *
+     * @return algorithm context global identifier
+     */
     String getCid();
 
 }
