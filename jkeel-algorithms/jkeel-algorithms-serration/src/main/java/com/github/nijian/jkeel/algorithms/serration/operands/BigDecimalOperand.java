@@ -5,7 +5,7 @@ import java.math.BigInteger;
 import java.math.RoundingMode;
 
 /**
- * Created by Johnson.Ni
+ * hello
  */
 public class BigDecimalOperand extends NumberOperand<BigDecimal> implements Comparable<BigDecimalOperand> {
 

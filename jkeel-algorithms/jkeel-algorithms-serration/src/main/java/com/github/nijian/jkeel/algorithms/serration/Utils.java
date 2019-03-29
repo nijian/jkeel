@@ -22,48 +22,6 @@ public final class Utils {
 
     public final static ObjectMapper objectMapper = new ObjectMapper();
 
-    public static BigDecimalOperand get(Context<?> context, String paramName) {
-        try {
-            return context.getItemLocationMap().get(paramName).getItemInstances().get(0).getValue();
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to get value of " + paramName, e);
-        }
-    }
-
-    public static BigDecimalOperand getx(Context<?> context, int index, String paramName) {
-        if (index < 0) {
-            return new BigDecimalOperand(0);
-        }
-
-        try {
-            return context.getItemLocationMap().get(paramName).getItemInstances().get(index).getValue();
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to getx value of " + paramName, e);
-        }
-    }
-
-    public static BigDecimalOperand getL(Context<?> context, String paramName) {
-        try {
-            return context.getItemOutMap().get(paramName).getMap().get(paramName).get(0);
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to getL value of " + paramName, e);
-        }
-    }
-
-    public static BigDecimalOperand getLx(Context<?> context, int index, String paramName) {
-        if (index < 0) {
-            return new BigDecimalOperand(0);
-        }
-        try {
-            return context.getItemOutMap().get(paramName).getMap().get(paramName).get(index);
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to getLx value of " + paramName, e);
-        }
-    }
-
-    /**
-     * Similar to SUMPRODUCT function in Excel
-     */
     public static BigDecimalOperand sumProduct(Context<?> context, int index, int offset, String[] arrayNames) {
 
         BigDecimal retValue = BigDecimal.ZERO;
@@ -103,9 +61,7 @@ public final class Utils {
         return new BigDecimalOperand(retValue);
     }
 
-    /**
-     * Similar to SUM function in Excel
-     */
+
     public static BigDecimalOperand sum(Context<?> context, int index, int offset, String paramName) {
 
         BigDecimal retValue = BigDecimal.ZERO;
@@ -137,13 +93,7 @@ public final class Utils {
         return new BigDecimalOperand(retValue);
     }
 
-    /**
-     * TODO
-     *
-     * @param rateTable
-     * @param amount
-     * @return
-     */
+
     public static BigDecimal layerSum(BigDecimal[] rateTable, BigDecimal amount) {
         BigDecimal retValue = BigDecimal.ZERO;
         BigDecimal deductedAmount = amount;
@@ -205,14 +155,6 @@ public final class Utils {
         }
     }
 
-    /**
-     * =IF(DATE(YEAR(G21),MONTH($C$13),DAY($C$13))<=G21,YEAR(G21)-YEAR($C$13),YEAR(G21)-YEAR($C$13)-1)
-     *
-     * @param date
-     * @param birthdate
-     * @param monthIndex
-     * @return
-     */
     public static int actualAge(boolean isBeginOfMonth, Date date, Date birthdate, int monthIndex) {
         Calendar a = Calendar.getInstance();
         a.setTime(date);
@@ -268,14 +210,7 @@ public final class Utils {
         return a.get(Calendar.YEAR) + "-" + a.get(Calendar.DAY_OF_YEAR);
     }
 
-    /**
-     * for avoiding the low performance of Calendar compare to. ignore hour
-     *
-     * @param a
-     * @param endYear
-     * @param endDayOfYear
-     * @return
-     */
+
     public static int compareTo(Calendar a, int endYear, int endDayOfYear) {
         int year = a.get(Calendar.YEAR);
         if (year < endYear) {

@@ -3,9 +3,9 @@ package com.github.nijian.jkeel.algorithms.serration.operands;
 import java.math.MathContext;
 
 /**
- * Created by Johnson.Ni
+ * hello
  *
- * @param < T >
+ * @param <T> number type
  */
 public abstract class NumberOperand<T extends Number> extends Number {
     public T getValue() {
