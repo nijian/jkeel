@@ -17,6 +17,7 @@ class CalcConfig implements AlgorithmConfig, MixinFuncs {
     String cid
     boolean inited = false
 
+    @Override
     void init(String cid, String configUri, Properties env) {
         if (!inited) {
             CachingProvider cachingProvider = Caching.getCachingProvider("org.ehcache.jsr107.EhcacheCachingProvider")

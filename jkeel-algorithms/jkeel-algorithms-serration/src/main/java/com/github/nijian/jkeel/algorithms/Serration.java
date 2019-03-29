@@ -13,22 +13,41 @@ import org.slf4j.LoggerFactory;
 import javax.cache.Cache;
 import java.util.*;
 
+
 /**
- * DO NOT CHANGE THIS CLASS UNLESS YOU ARE CLEAR WHAT EXACT IMPACT FOR PERFORMANCE!!!
- * <p>
- * Created by johnson.ni
+ * Serration is a kind of template algorithm.
+ *
+ * @param <I> raw input type
+ * @author nj
+ * @since 0.0.1
  */
 public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorithmContext> {
 
     private static Logger logger = LoggerFactory.getLogger(Serration.class);
 
+    /**
+     * Serration singleton instance
+     */
     private static Serration instance;
 
+    /**
+     * Serration algorithm is based on Groovy closure.
+     * IMPORTANT!!!
+     * Closure is thread safe since Groovy 2.4.13
+     */
     private Cache<String, Closure> cache;
 
+    /**
+     * private construction
+     */
     private Serration() {
     }
 
+    /**
+     * Get serration instance
+     *
+     * @return serration instance
+     */
     public static Serration getInstance() {
         if (instance == null) {
             synchronized (Serration.class) {
@@ -49,14 +68,17 @@ public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorit
 
     @Override
     protected Map<String, ?> convertInput(I rawInput, Map<String, ?> var, TemplateAlgorithmContext ac) {
-        final Map<String, ?> input = new HashMap();
         Closure closure = getCache(ac).get(Const.CONVERT);
-        closure.call(rawInput, var, input);
-        return input;
+        if (closure != null) {
+            final Map<String, ?> input = new HashMap();
+            closure.call(rawInput, var, input);
+            return input;
+        }
+        return null;
     }
 
     @Override
-    protected Context<I> calc(final Map<String, ?> input, final TemplateAlgorithmContext ac) {
+    protected <T> Context<I> calc(final T input, final TemplateAlgorithmContext ac) {
         logger.info("Serration algorithm context is initializing");
         Context<I> context = new Context(input, ac, getCache(ac));
         logger.info("Serration algorithm context has been initialized");
@@ -102,7 +124,7 @@ public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorit
         return context;
     }
 
-    private void calc(Cache<String, Closure> closureCache, Context<I> context, Map<String, ?> input, LayoutInstance layoutInstance, ItemInstance itemInstance) {
+    private <T> void calc(Cache<String, Closure> closureCache, Context<I> context, T input, LayoutInstance layoutInstance, ItemInstance itemInstance) {
         Item item = itemInstance.getItem();
         String itemName = item.getName();
         Closure closure = closureCache.get(itemName);

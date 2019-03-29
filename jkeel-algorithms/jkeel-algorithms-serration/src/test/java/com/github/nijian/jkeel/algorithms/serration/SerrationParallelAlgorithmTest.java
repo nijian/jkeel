@@ -62,11 +62,11 @@ public class SerrationParallelAlgorithmTest {
 
         algorithm.perform(null, varMap, ac);
 
-//        for (int i = 0; i < 20; i++) {
-//            algorithm.perform(null, varMap, ac);
-//        }
-//
-//        algorithm.perform(null, varMap, ac);
+        for (int i = 0; i < 100; i++) {
+            algorithm.perform(null, varMap, ac);
+        }
+
+        algorithm.perform(null, varMap, ac);
 
         assertEquals(1, 1);
     }

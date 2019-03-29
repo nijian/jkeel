@@ -67,16 +67,33 @@ public abstract class Algorithm<I, R, C extends AlgorithmContext> {
 
         long start = System.currentTimeMillis();
 
-        Map<String, ?> input = convertInput(rawInput, var, ac);
+        Map<String, ?> input;
+        try {
+            input = convertInput(rawInput, var, ac);
+        } catch (Exception e) {
+            logger.error("Failed to convert raw input", e);
+            throw new RuntimeException("Failed to convert raw input", e);
+        }
 
         long converted = System.currentTimeMillis();
         logger.info("Converting input completed with [{}]ms", converted - start);
 
-        R result = calc(input, ac);
+        R result;
+        try {
+            if (input == null) {
+                result = calc(rawInput, ac);
+            } else {
+                result = calc(input, ac);
+            }
+        } catch (Exception e) {
+            logger.error("Failed to perform calculation", e);
+            throw new RuntimeException("Failed to perform calculation", e);
+        }
 
         long calculated = System.currentTimeMillis();
         logger.info("Calc completed with [{}]ms", calculated - converted);
 
+        //should be a new thread, and ignore any failed
         if (isDebugMode) {
             debug(result);
         }
@@ -99,9 +116,10 @@ public abstract class Algorithm<I, R, C extends AlgorithmContext> {
      *
      * @param input converted input
      * @param ac    algorithm context
+     * @param <T>   real input type
      * @return calculation result
      */
-    protected abstract R calc(Map<String, ?> input, C ac);
+    protected abstract <T> R calc(T input, C ac);
 
     /**
      * Delegate debug output to algorithm implementation.
