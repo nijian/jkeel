@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import javax.cache.Cache;
 import java.util.*;
 
-
 /**
  * Serration is a kind of template algorithm.
  *
@@ -59,6 +58,12 @@ public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorit
         return instance;
     }
 
+    /**
+     * Get cache
+     *
+     * @param ac algorithm context
+     * @return cache
+     */
     private Cache<String, Closure> getCache(TemplateAlgorithmContext ac) {
         if (cache == null) {
             cache = ((CalcConfig) ac.getConfig()).getCache();
@@ -66,6 +71,14 @@ public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorit
         return cache;
     }
 
+    /**
+     * Convert raw input to Map
+     *
+     * @param rawInput raw input
+     * @param var      variables collection
+     * @param ac       algorithm context
+     * @return converted input
+     */
     @Override
     protected Map<String, ?> convertInput(I rawInput, Map<String, ?> var, TemplateAlgorithmContext ac) {
         Closure closure = getCache(ac).get(Const.CONVERT);
@@ -77,6 +90,14 @@ public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorit
         return null;
     }
 
+    /**
+     * Serration algorithm core
+     *
+     * @param input converted input
+     * @param ac    algorithm context
+     * @param <T>   raw input type
+     * @return calculation result
+     */
     @Override
     protected <T> Context<I> calc(final T input, final TemplateAlgorithmContext ac) {
         logger.info("Serration algorithm context is initializing");
@@ -124,6 +145,16 @@ public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorit
         return context;
     }
 
+    /**
+     * Calculation support.
+     *
+     * @param closureCache   cache
+     * @param context        calculation result reference
+     * @param input          real input
+     * @param layoutInstance layout instance
+     * @param itemInstance   item instance
+     * @param <T>            real input type
+     */
     private <T> void calc(Cache<String, Closure> closureCache, Context<I> context, T input, LayoutInstance layoutInstance, ItemInstance itemInstance) {
         Item item = itemInstance.getItem();
         String itemName = item.getName();
@@ -139,6 +170,11 @@ public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorit
         }
     }
 
+    /**
+     * Debug
+     *
+     * @param result calculation result
+     */
     @Override
     protected void debug(Context<I> result) {
 
