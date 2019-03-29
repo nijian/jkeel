@@ -43,11 +43,6 @@ class CalcConfig implements AlgorithmConfig, MixinFuncs {
         return cache
     }
 
-    @Override
-    boolean isDebugEnabled() {
-        return false
-    }
-
     def cid(String cid) {
         this.cid = cid
     }

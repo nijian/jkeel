@@ -13,8 +13,4 @@ public class SimpleConfig implements AlgorithmConfig {
         return null;
     }
 
-    @Override
-    public boolean isDebugEnabled() {
-        return false;
-    }
 }

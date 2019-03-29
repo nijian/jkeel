@@ -11,15 +11,23 @@ import java.util.Map;
  * @param <I> input type
  * @param <R> return type
  */
-public abstract class Algorithm<I, R, T extends AlgorithmTemplate, C extends AlgorithmConfig> {
+public abstract class Algorithm<I, R, C extends AlgorithmContext> {
 
     private static Logger logger = LoggerFactory.getLogger(Algorithm.class);
 
-    public R perform(I rawInput, AlgorithmContext<T, C> ac) {
-        return perform(rawInput, null, ac);
+    public R perform(I rawInput, C ac) {
+        return perform(rawInput, ac, false);
     }
 
-    public R perform(I rawInput, Map<String, ?> var, AlgorithmContext<T, C> ac) {
+    public R perform(I rawInput, C ac, boolean isDebugMode) {
+        return perform(rawInput, null, ac, isDebugMode);
+    }
+
+    public R perform(I rawInput, Map<String, ?> var, C ac) {
+        return perform(rawInput, var, ac, false);
+    }
+
+    public R perform(I rawInput, Map<String, ?> var, C ac, boolean isDebugMode) {
 
         long start = System.currentTimeMillis();
         Map<String, ?> input = convertInput(rawInput, var, ac);
@@ -30,18 +38,16 @@ public abstract class Algorithm<I, R, T extends AlgorithmTemplate, C extends Alg
         long calculated = System.currentTimeMillis();
         logger.info("Calculation completed with [{}]ms", calculated - converted);
 
-        //TODO missing other functions, e.g. log calculation details for verification
-//        if (ac.getConfig().isDebugEnabled()) {
-//            debug(result);
-//        }
-        debug(result);
+        if (isDebugMode) {
+            debug(result);
+        }
 
         return result;
     }
 
-    protected abstract Map<String, ?> convertInput(I rawInput, Map<String, ?> var, AlgorithmContext<T, C> ac);
+    protected abstract Map<String, ?> convertInput(I rawInput, Map<String, ?> var, C ac);
 
-    protected abstract R calc(Map<String, ?> input, AlgorithmContext<T, C> ac);
+    protected abstract R calc(Map<String, ?> input, C ac);
 
     protected abstract void debug(R result);
 

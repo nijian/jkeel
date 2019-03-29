@@ -91,8 +91,9 @@ public class PerformanceTest {
         varMap.put("unitPriceMapL", unitPriceMapL);
         varMap.put("unitPriceMapG", unitPriceMapG);
 
-        Algorithm<?, ?, ?, ?> algorithm = AlgorithmFactoryProvider.getInstance().getAlgorithm("com.github.nijian.jkeel.algorithms.Serration");
-        AlgorithmContext ac = null; //new AlgorithmContext(illustrationCalcTemplateKey1, layoutTemplate1, new CalcConfig(), cacheManager);
+        Algorithm algorithm = AlgorithmFactoryProvider.getInstance().getAlgorithm(Serration.class.getName());
+        AlgorithmContext ac = AlgorithmContextManager.getInstance().createTemplateContext(illustrationCalcTemplateKey1, layoutTemplate1, "/config.illus", CalcConfig.class, null);
+
         algorithm.perform(null, varMap, ac);
 
         for (int i = 0; i < 100; i++) {

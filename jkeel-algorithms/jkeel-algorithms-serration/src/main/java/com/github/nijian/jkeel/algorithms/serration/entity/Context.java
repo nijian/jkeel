@@ -1,6 +1,8 @@
 package com.github.nijian.jkeel.algorithms.serration.entity;
 
+import com.github.nijian.jkeel.algorithms.AlgorithmConfig;
 import com.github.nijian.jkeel.algorithms.AlgorithmContext;
+import com.github.nijian.jkeel.algorithms.TemplateAlgorithmContext;
 import com.github.nijian.jkeel.algorithms.serration.CalcConfig;
 import com.github.nijian.jkeel.algorithms.serration.operands.BigDecimalOperand;
 import groovy.lang.Closure;
@@ -17,7 +19,7 @@ public class Context<I> {
     private Map<String, LayoutOutputInstance> itemOutMap;
     private LayoutTemplateInstance layoutTemplateInstance;
 
-    public Context(I input, AlgorithmContext<LayoutTemplate, CalcConfig> ac, Cache<String, Closure> cache) {
+    public Context(I input, TemplateAlgorithmContext<LayoutTemplate, AlgorithmConfig> ac, Cache<String, Closure> cache) {
 
         this.input = input;
         this.outputMap = new HashMap<>();

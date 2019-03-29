@@ -2,15 +2,15 @@ package com.github.nijian.jkeel.algorithms;
 
 import java.util.Map;
 
-public class SampleAlgorithm extends Algorithm<String, Map, SimpleTemplate, SimpleConfig> {
+public class SampleAlgorithm extends Algorithm<String, Map, AlgorithmContext> {
 
     @Override
-    public Map<String, ?> calc(Map<String, ?> input, AlgorithmContext<SimpleTemplate, SimpleConfig> ac) {
+    public Map<String, ?> calc(Map<String, ?> input, AlgorithmContext ac) {
         return null;
     }
 
     @Override
-    protected Map<String, ?> convertInput(String rawInput, Map<String, ?> var, AlgorithmContext<SimpleTemplate, SimpleConfig> ac) {
+    protected Map<String, ?> convertInput(String rawInput, Map<String, ?> var, AlgorithmContext ac) {
         return null;
     }
 

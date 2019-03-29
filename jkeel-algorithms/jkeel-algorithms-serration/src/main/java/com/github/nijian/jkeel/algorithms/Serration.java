@@ -18,7 +18,7 @@ import java.util.*;
  * <p>
  * Created by johnson.ni
  */
-public final class Serration<I> extends Algorithm<I, Context<I>, LayoutTemplate, CalcConfig> {
+public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorithmContext> {
 
     private static Logger logger = LoggerFactory.getLogger(Serration.class);
 
@@ -40,15 +40,15 @@ public final class Serration<I> extends Algorithm<I, Context<I>, LayoutTemplate,
         return instance;
     }
 
-    private Cache<String, Closure> getCache(AlgorithmContext<LayoutTemplate, CalcConfig> ac) {
+    private Cache<String, Closure> getCache(TemplateAlgorithmContext ac) {
         if (cache == null) {
-            cache = ac.getConfig().getCache();
+            cache = ((CalcConfig) ac.getConfig()).getCache();
         }
         return cache;
     }
 
     @Override
-    protected Map<String, ?> convertInput(I rawInput, Map<String, ?> var, AlgorithmContext<LayoutTemplate, CalcConfig> ac) {
+    protected Map<String, ?> convertInput(I rawInput, Map<String, ?> var, TemplateAlgorithmContext ac) {
         final Map<String, ?> input = new HashMap();
         Closure closure = getCache(ac).get(Const.CONVERT);
         closure.call(rawInput, var, input);
@@ -56,7 +56,7 @@ public final class Serration<I> extends Algorithm<I, Context<I>, LayoutTemplate,
     }
 
     @Override
-    protected Context<I> calc(final Map<String, ?> input, final AlgorithmContext<LayoutTemplate, CalcConfig> ac) {
+    protected Context<I> calc(final Map<String, ?> input, final TemplateAlgorithmContext ac) {
         logger.info("Serration algorithm context is initializing");
         Context<I> context = new Context(input, ac, getCache(ac));
         logger.info("Serration algorithm context has been initialized");

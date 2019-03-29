@@ -8,8 +8,6 @@ import java.util.Properties;
  */
 public interface AlgorithmConfig extends Serializable {
 
-    boolean isDebugEnabled();
-
     void init(String cid, String configUri, Properties env);
 
     String getCid();
