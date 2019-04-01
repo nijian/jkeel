@@ -5,17 +5,19 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import javax.cache.Cache
 
 /**
- * DO NOT CHANGE THIS CLASS UNLESS YOU ARE CLEAR WHAT EXACT IMPACT FOR PERFORMANCE!!!
+ * ParallelArea
  *
- * Created by johnson.ni
+ * @author nj
+ * @since 0.0.1
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 final class ParallelArea {
+
     String processorName
     List<Item> items
 
-    void exec(String cid, ParallelAreaInstance parallelAreaInstance, Cache closureCache) {
-        if (cid != null && processorName != null) {
+    void exec(final ParallelAreaInstance parallelAreaInstance, final Cache<String, Closure> closureCache) {
+        if (processorName != null) {
             Closure closure = closureCache.get(processorName)
             if (closure != null) {
                 closure.setDelegate(parallelAreaInstance)

@@ -2,115 +2,19 @@ package com.github.nijian.jkeel.algorithms.serration;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.nijian.jkeel.algorithms.serration.entity.Context;
-import com.github.nijian.jkeel.algorithms.serration.entity.ItemInstance;
-import com.github.nijian.jkeel.algorithms.serration.operands.BigDecimalOperand;
 
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 /**
- * DO NOT CHANGE THIS CLASS UNLESS YOU ARE CLEAR WHAT EXACT IMPACT FOR PERFORMANCE!!!
- * <p>
- * Created by johnson.ni
+ * Utils
+ *
+ * @author nj
+ * @since 0.0.1
  */
 public final class Utils {
 
     public final static ObjectMapper objectMapper = new ObjectMapper();
-
-    public static BigDecimalOperand sumProduct(Context<?> context, int index, int offset, String[] arrayNames) {
-
-        BigDecimal retValue = BigDecimal.ZERO;
-
-        int from;
-        int to;
-        if (offset < 0) {
-            from = index + offset;
-            to = index;
-        } else {
-            from = index;
-            to = index + offset;
-        }
-
-        List<BigDecimalOperand> valuesList = new ArrayList();
-
-        for (int i = 0; i < arrayNames.length; i++) {
-            if (context.getItemOutMap().containsKey(arrayNames[i])) {
-                valuesList.addAll(context.getItemOutMap().get(arrayNames[i]).getMap().get(arrayNames[i]).subList(from, to + 1));
-            } else {
-                List<ItemInstance> itemList = context.getItemLocationMap().get(arrayNames[i]).getItemInstances().subList(from, to + 1);
-                for (int j = 0; j < itemList.size(); j++) {
-                    valuesList.add(itemList.get(j).getValue());
-                }
-            }
-        }
-
-        int len = to - from + 1;
-        for (int m = 0; m < len; m++) {
-            BigDecimal baseValue = BigDecimal.ONE;
-            for (int n = 0; n < arrayNames.length; n++) {
-                baseValue = baseValue.multiply(valuesList.get(n * len + m).getValue());
-            }
-            retValue = retValue.add(baseValue);
-        }
-
-        return new BigDecimalOperand(retValue);
-    }
-
-
-    public static BigDecimalOperand sum(Context<?> context, int index, int offset, String paramName) {
-
-        BigDecimal retValue = BigDecimal.ZERO;
-
-        int from;
-        int to;
-        if (offset < 0) {
-            from = index + offset;
-            to = index;
-        } else {
-            from = index;
-            to = index + offset;
-        }
-
-        List<BigDecimalOperand> valuesList = new ArrayList();
-        if (context.getItemOutMap().containsKey(paramName)) {
-            valuesList.addAll(context.getItemOutMap().get(paramName).getMap().get(paramName).subList(from, to));
-        } else {
-            List<ItemInstance> itemList = context.getItemLocationMap().get(paramName).getItemInstances().subList(from, to);
-            for (int j = 0; j < itemList.size(); j++) {
-                valuesList.add(itemList.get(j).getValue());
-            }
-        }
-
-        for (int i = 0; i < valuesList.size(); i++) {
-            retValue = retValue.add(valuesList.get(i).getValue());
-        }
-
-        return new BigDecimalOperand(retValue);
-    }
-
-
-    public static BigDecimal layerSum(BigDecimal[] rateTable, BigDecimal amount) {
-        BigDecimal retValue = BigDecimal.ZERO;
-        BigDecimal deductedAmount = amount;
-        for (int layer = 0; layer * 3 < rateTable.length; layer++) {
-            BigDecimal startValue = rateTable[layer * 3];
-            BigDecimal endValue = rateTable[layer * 3 + 1];
-            BigDecimal rate = rateTable[layer * 3 + 2];
-            BigDecimal rangeValue = endValue.subtract(startValue);
-            if (endValue.compareTo(BigDecimal.ZERO) < 0 || deductedAmount.compareTo(rangeValue) < 0) {
-                return retValue.add(deductedAmount.multiply(rate));
-            } else {
-                retValue = retValue.add(rangeValue.multiply(rate));
-                deductedAmount = deductedAmount.subtract(rangeValue);
-            }
-        }
-        return BigDecimal.ZERO;
-    }
 
     /**
      * is nearest age at date
@@ -121,9 +25,9 @@ public final class Utils {
      * 6 months after nearest passed birthday is: 28/02/2018  which is also date
      * => Final age is: 2017 – 1989 + 1  = 29 years old
      *
-     * @param date
-     * @param birthdate
-     * @return
+     * @param date date
+     * @param birthdate birthday
+     * @return nearest age
      */
     public static int nearestAge(Date date, Date birthdate) {
         Calendar a = Calendar.getInstance();

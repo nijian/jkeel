@@ -21,74 +21,40 @@ trait MixinFuncs {
      *
      */
     def createGroupIndexOnBase(String paramName, int groupCount, int base, String groupByParamName) {
-        int len = context.itemLocationMap.get(groupByParamName).itemInstances.size().intdiv(groupCount)
-        for (int i = 0; i < len; i++) {
-            context.outputMap.get(paramName).add(i + base)
-        }
+        context.createGroupIndexOnBase(paramName, groupCount, base, groupByParamName)
     }
 
     /**
      *
      */
     def putGroupSum(String paramName, int groupCount, String... sourceParamNames) {
-        int len = context.itemLocationMap.get(sourceParamNames[0]).itemInstances.size().intdiv(groupCount)
-        for (int i = 0; i < len; i++) {
-            def value = 0
-            for (int j = 0; j < groupCount; j++) {
-                int index = i * groupCount + j
-                sourceParamNames.each { pn ->
-                    value = value + context.itemLocationMap.get(pn).itemInstances.get(index).value
-                }
-            }
-            context.outputMap.get(paramName).add(value)
-        }
-    }
-
-    def putLast(String paramName, String sourceParamName) {
-        List list = context.itemLocationMap.get(sourceParamName).itemInstances
-        context.outputMap.get(paramName).add(list.get(list.size() - 1).value)
+        context.putGroupSum(paramName, groupCount, sourceParamNames)
     }
 
     /**
      *
      */
     def putLGroupSum(String paramName, int groupCount, String... sourceParamNames) {
-        int len = context.itemOutMap.get(sourceParamNames[0]).map.get(sourceParamNames[0]).size().intdiv(groupCount)
-        for (int i = 0; i < len; i++) {
-            def value = 0
-            for (int j = 0; j < groupCount; j++) {
-                int index = i * groupCount + j
-                sourceParamNames.each { pn ->
-                    value = value + context.itemOutMap.get(pn).map.get(pn).get(index)
-                }
-            }
-            context.outputMap.get(paramName).add(value)
-        }
+        context.putLGroupSum(paramName, groupCount, sourceParamNames)
+    }
+
+    def putLast(String paramName, String sourceParamName) {
+        context.putLast(paramName, sourceParamName)
+    }
+
+    def putLLast(String paramName, String sourceParamName) {
+        context.putLLast(paramName, sourceParamName)
     }
 
     def putLGroupFirst(String paramName, int groupCount, String sourceParamName) {
-        int len = context.itemOutMap.get(sourceParamName).map.get(sourceParamName).size().intdiv(groupCount)
-        //System.out.println("putLGroupFirst:paramName " + paramName +  ",groupCount:" + groupCount +",sourceParamNames:"+sourceParamName)
-        for (int i = 0; i < len; i++) {
-            context.outputMap.get(paramName).add(context.itemOutMap.get(sourceParamName).map.get(sourceParamName).get(i * groupCount))
-        }
+        context.putLGroupFirst(paramName, groupCount, sourceParamName)
     }
 
     /**
      *
      */
     def putLGroupLast(String paramName, int groupCount, String sourceParamName) {
-        int len = context.itemOutMap.get(sourceParamName).map.get(sourceParamName).size().intdiv(groupCount)
-        //System.out.println("putLGroupLast:paramName " + paramName +  ",groupCount:" + groupCount +",sourceParamNames:"+sourceParamName)
-        for (int i = 1; i < len + 1; i++) {
-            context.outputMap.get(paramName).add(context.itemOutMap.get(sourceParamName).map.get(sourceParamName).get(i * groupCount - 1))
-        }
-    }
-
-    def putLLast(String paramName, String sourceParamName) {
-        //System.out.println("putLLast:paramName " + paramName + ",sourceParamNames:"+sourceParamName)
-        List list = context.itemOutMap.get(sourceParamName).map.get(sourceParamName)
-        context.outputMap.get(paramName).add(list.get(list.size() - 1))
+        context.putLGroupLast(paramName, groupCount, sourceParamName)
     }
 
     /**
@@ -98,7 +64,6 @@ trait MixinFuncs {
      * @return value of item
      */
     def get(String paramName) {
-//        new BigDecimalOperand(1)
         context.get(paramName)
     }
 
@@ -110,7 +75,6 @@ trait MixinFuncs {
      * @return value of item
      */
     def getx(int index, String paramName) {
-//        new BigDecimalOperand(1)
         context.getx(index, paramName)
     }
 
@@ -121,7 +85,6 @@ trait MixinFuncs {
      * @return value of item
      */
     def getL(String paramName) {
-//        new BigDecimalOperand(1)
         context.getL(paramName)
     }
 
@@ -133,7 +96,6 @@ trait MixinFuncs {
      * @return value of item
      */
     def getLx(int index, String paramName) {
-//        new BigDecimalOperand(1)
         context.getLx(index, paramName)
     }
 
@@ -146,7 +108,7 @@ trait MixinFuncs {
      * @return
      */
     def sumProduct(int index, int offset, String... arrayNames) {
-        Utils.sumProduct(context, index, offset, arrayNames)
+        context.sumProduct(context, index, offset, arrayNames)
     }
 
     /**
@@ -158,7 +120,7 @@ trait MixinFuncs {
      * @return
      */
     def sum(int index, int offset, String paraName) {
-        Utils.sum(context, index, offset, paraName)
+        context.sum(context, index, offset, paraName)
     }
 
     /**
@@ -169,7 +131,7 @@ trait MixinFuncs {
      * @return calculated value
      */
     def layerCalc(BigDecimal[] rateTable, BigDecimalOperand amount) {
-        Utils.layerSum(rateTable, amount.value)
+        context.layerSum(rateTable, amount.value)
     }
 
     /**

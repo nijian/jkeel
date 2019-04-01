@@ -13,4 +13,8 @@ public class SimpleConfig implements AlgorithmConfig {
         return null;
     }
 
+    @Override
+    public Properties getEnv() {
+        return null;
+    }
 }

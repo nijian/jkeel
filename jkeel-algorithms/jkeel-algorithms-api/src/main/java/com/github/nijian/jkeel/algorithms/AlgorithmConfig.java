@@ -28,4 +28,11 @@ public interface AlgorithmConfig extends Serializable {
      */
     String getCid();
 
+    /**
+     * Get environment variables
+     *
+     * @return environment variables
+     */
+    Properties getEnv();
+
 }

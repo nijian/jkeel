@@ -5,12 +5,7 @@ import com.github.nijian.jkeel.algorithms.*;
 
 
 import com.github.nijian.jkeel.algorithms.serration.entity.LayoutTemplate;
-import groovy.lang.Binding;
 import groovy.lang.Closure;
-import groovy.lang.GroovyClassLoader;
-import org.codehaus.groovy.control.CompilerConfiguration;
-import org.codehaus.groovy.runtime.IOGroovyMethods;
-import org.codehaus.groovy.runtime.InvokerHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

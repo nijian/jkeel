@@ -5,21 +5,23 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import javax.cache.Cache
 
 /**
- * DO NOT CHANGE THIS CLASS UNLESS YOU ARE CLEAR WHAT EXACT IMPACT FOR PERFORMANCE!!!
+ * Layout
  *
- * Created by johnson.ni
+ * @author nj
+ * @since 0.0.1
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 final class Layout {
+
     String layoutCount
     String itemGroupCount
     boolean parallel = false
     List<ParallelArea> parallelAreas
     String strategyName
 
-    void exec(String cid, LayoutInstance layoutInstance, Cache closureCache) {
-        if (cid != null && strategyName != null) {
-            Closure closure = closureCache.get(strategyName)
+    void exec(final LayoutInstance layoutInstance, final Cache<String, Closure> closureCache) {
+        if (strategyName != null) {
+            Closure<String, Closure> closure = closureCache.get(strategyName)
             if (closure != null) {
                 closure.setDelegate(layoutInstance)
                 closure.setResolveStrategy(Closure.DELEGATE_ONLY)

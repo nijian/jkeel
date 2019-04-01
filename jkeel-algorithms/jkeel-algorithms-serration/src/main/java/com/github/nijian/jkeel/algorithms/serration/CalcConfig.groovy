@@ -15,11 +15,14 @@ class CalcConfig implements AlgorithmConfig, MixinFuncs {
 
     Cache<String, Closure> cache
     String cid
+    Properties env
     boolean inited = false
 
     @Override
     void init(String cid, String configUri, Properties env) {
         if (!inited) {
+            this.env = env
+
             CachingProvider cachingProvider = Caching.getCachingProvider("org.ehcache.jsr107.EhcacheCachingProvider")
             CacheManager cacheManager = cachingProvider.getCacheManager(
                     getClass().getResource("/serration-ehcache.xml").toURI(),

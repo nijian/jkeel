@@ -2,6 +2,12 @@ package com.github.nijian.jkeel.algorithms.serration.entity;
 
 import java.util.List;
 
+/**
+ * ParallelAreaInstance
+ *
+ * @author nj
+ * @since 0.0.1
+ */
 public class ParallelAreaInstance {
 
     private final ParallelArea parallelArea;

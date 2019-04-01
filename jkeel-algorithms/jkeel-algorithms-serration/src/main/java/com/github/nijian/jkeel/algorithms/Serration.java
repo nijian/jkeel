@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.cache.Cache;
+import java.io.FileWriter;
 import java.util.*;
 
 /**
@@ -83,7 +84,7 @@ public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorit
     protected Map<String, ?> convertInput(I rawInput, Map<String, ?> var, TemplateAlgorithmContext ac) {
         Closure closure = getCache(ac).get(Const.CONVERT);
         if (closure != null) {
-            final Map<String, ?> input = new HashMap();
+            final Map<String, ?> input = new HashMap<>();
             closure.call(rawInput, var, input);
             return input;
         }
@@ -105,7 +106,6 @@ public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorit
         logger.info("Serration algorithm context has been initialized");
 
         LayoutTemplateInstance loutTI = context.getLayoutTemplateInstance();
-        AlgorithmTemplate algorithmTemplate = ac.getTemplate();
         List<LayoutInstance> loutIs = loutTI.getLayoutInstances();
         for (LayoutInstance loutI : loutIs) {
             Layout lout = loutI.getLayout();
@@ -122,24 +122,24 @@ public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorit
                                                     calc(getCache(ac), context, input, loutI, itemI);
                                                 }));
                     } else {
-                        pAreaI.getItemInstanceAnchors().stream().forEach(
+                        pAreaI.getItemInstanceAnchors().forEach(
                                 itemIA ->
-                                        itemIA.getItemInstances().stream().forEach(
+                                        itemIA.getItemInstances().forEach(
                                                 itemI ->
                                                 {
                                                     calc(getCache(ac), context, input, loutI, itemI);
                                                 }));
                     }
-                    pAreaI.getParallelArea().exec(algorithmTemplate.getCid(), pAreaI, getCache(ac));
+                    pAreaI.getParallelArea().exec(pAreaI, getCache(ac));
                 }
-                lout.exec(algorithmTemplate.getCid(), loutI, getCache(ac));
+                lout.exec(loutI, getCache(ac));
                 loutIndex++;
                 loutI.setLayoutIndex(loutIndex);
             }
         }
 
         logger.info("Serration algorithm output is processing");
-        loutTI.exec(getCache(ac));
+        loutTI.getLayoutTemplate().exec(input, loutTI, getCache(ac));
         logger.info("Serration algorithm output is processed");
 
         return context;
@@ -150,10 +150,10 @@ public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorit
      *
      * @param closureCache   cache
      * @param context        calculation result reference
-     * @param input          real input
+     * @param input          final input
      * @param layoutInstance layout instance
      * @param itemInstance   item instance
-     * @param <T>            real input type
+     * @param <T>            final input type
      */
     private <T> void calc(Cache<String, Closure> closureCache, Context<I> context, T input, LayoutInstance layoutInstance, ItemInstance itemInstance) {
         Item item = itemInstance.getItem();
@@ -163,9 +163,9 @@ public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorit
             closure.setDelegate(layoutInstance);
             closure.setResolveStrategy(Closure.DELEGATE_ONLY);
             if (item.isOut()) {
-                item.calc(input, closure, itemInstance, itemInstance.getIndex(), context.getItemOutMap().get(itemName).getMap().get(itemName));
+                item.calc(input, itemInstance, closure, context.getItemOutMap().get(itemName).getMap().get(itemName));
             } else {
-                item.calc(input, closure, itemInstance, itemInstance.getIndex(), null);
+                item.calc(input, itemInstance, closure);
             }
         }
     }
@@ -177,10 +177,9 @@ public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorit
      */
     @Override
     protected void debug(Context<I> result) {
-
-        List<String> headers = new ArrayList();
-        List<List<String>> dataTable = new ArrayList();
-        List<String> dataRows = new ArrayList();
+        List<String> headers = new ArrayList<>();
+        List<List<String>> dataTable = new ArrayList<>();
+        List<String> dataRows = new ArrayList<>();
         dataTable.add(dataRows);
 
         int maxRowNum = 0;
@@ -204,10 +203,9 @@ public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorit
             LayoutOutputInstance loutI = itemOutMap.get(key);
             List<BigDecimalOperand> valueList = loutI.getMap().get(key);
             for (int i = 0; i < maxRowNum; i++) {
-
                 List<String> row;
                 if (dataRows.size() <= i) {
-                    row = new ArrayList();
+                    row = new ArrayList<>();
                     dataTable.add(row);
                 }
                 row = dataTable.get(i);
@@ -235,7 +233,12 @@ public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorit
             }
         }
 
-        OutputFactoryProvider.getInstance().getOutput(CSVOutput.class.getName()).write(dataTable, headers);
+        try {
+            FileWriter fileWriter = new FileWriter("a.csv");
+            OutputFactoryProvider.getInstance().getOutput(CSVOutput.class.getName()).write(dataTable, headers, fileWriter);
+        } catch (Exception e) {
+            logger.warn("Failed to write debug output", e);
+        }
 
     }
 }

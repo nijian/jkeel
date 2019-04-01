@@ -1,25 +1,21 @@
 package com.github.nijian.jkeel.algorithms.serration.entity
 
-import com.github.nijian.jkeel.algorithms.serration.Const
 import com.github.nijian.jkeel.algorithms.serration.MixinFuncs
 
-import javax.cache.Cache
+/**
+ * LayoutTemplateInstance
+ *
+ * @author nj
+ * @since 0.0.1
+ */
+final class LayoutTemplateInstance implements MixinFuncs {
 
-final class LayoutTemplateInstance<I> implements MixinFuncs {
-
-    Context<I> context
+    Context<?> context
+    LayoutTemplate layoutTemplate
     List<LayoutInstance> layoutInstances = new ArrayList<LayoutInstance>()
 
-    LayoutTemplateInstance(Context<?> context) {
+    LayoutTemplateInstance(Context<?> context, LayoutTemplate layoutTemplate) {
         this.context = context
-    }
-
-    void exec(Cache<String, Closure> closureCache) {
-        Closure closure = closureCache.get(Const.OUTPUT)
-        if (closure != null) {
-            closure.setDelegate(this)
-            closure.setResolveStrategy(Closure.DELEGATE_ONLY)
-            closure.call(context.input)
-        }
+        this.layoutTemplate = layoutTemplate
     }
 }
