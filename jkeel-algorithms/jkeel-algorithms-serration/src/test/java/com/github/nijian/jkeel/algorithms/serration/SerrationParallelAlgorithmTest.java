@@ -7,6 +7,7 @@ import com.github.nijian.jkeel.algorithms.*;
 import com.github.nijian.jkeel.algorithms.serration.entity.LayoutTemplate;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,12 +23,15 @@ public class SerrationParallelAlgorithmTest {
     Logger logger = LoggerFactory.getLogger(SerrationParallelAlgorithmTest.class);
 
     private final static ObjectMapper objectMapper = new ObjectMapper();
-    private String cid;
-    private LayoutTemplate layoutTemplate1;
-    private Map<String, Object> varMap = new HashMap<>();
+    private static String cid;
+    private static LayoutTemplate layoutTemplate1;
+    private static Map<String, Object> varMap = new HashMap<>();
+    private static Algorithm algorithm;
+    private static AlgorithmContext ac;
 
-    @Before
-    public void setUp() throws Exception {
+
+    @BeforeClass
+    public static void setUp0() throws Exception {
         //prepare variables map
         Map<String, Double> unitPriceMapH = IllustrationHelper.buildUnitPriceRateTable0(new Date(119, 1, 1), new Date(118, 0, 1), 10000d, 'H');
         Map<String, Double> unitPriceMapL = IllustrationHelper.buildUnitPriceRateTable0(new Date(119, 1, 1), new Date(118, 0, 1), 10000d, 'L');
@@ -37,18 +41,22 @@ public class SerrationParallelAlgorithmTest {
         varMap.put("unitPriceMapG", unitPriceMapG);
 
         cid = "[tenantCode:Baoviet_VN, productCode:BV-NCUVL01, productVersion:v1, illustrationCode:MAIN, illustrationVersion:v1]";
-        layoutTemplate1 = objectMapper.readValue(getClass().getResourceAsStream("/a.json"), LayoutTemplate.class);
+        layoutTemplate1 = objectMapper.readValue(cid.getClass().getResourceAsStream("/a.json"), LayoutTemplate.class);
+
+        algorithm = AlgorithmFactoryProvider.getInstance().getAlgorithm(Serration.class.getName());
+        ac = AlgorithmContextManager.getInstance().createTemplateContext(cid, layoutTemplate1, "/config.illus", SerrationConfig.class, null);
     }
 
+    @Before
+    public void setUp() throws Exception {
+
+    }
     @After
     public void tearDown() throws Exception {
     }
 
     @Test
     public void perform() throws Exception {
-
-        Algorithm algorithm = AlgorithmFactoryProvider.getInstance().getAlgorithm(Serration.class.getName());
-        AlgorithmContext ac = AlgorithmContextManager.getInstance().createTemplateContext(cid, layoutTemplate1, "/config.illus", SerrationConfig.class, null);
 
         algorithm.perform(null, varMap, ac);
 
