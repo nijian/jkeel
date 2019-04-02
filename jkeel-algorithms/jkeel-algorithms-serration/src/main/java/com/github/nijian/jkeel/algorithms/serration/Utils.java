@@ -23,7 +23,7 @@ public final class Utils {
      * birthdate = 30/08/1989
      * Then Nearest Passed Birthday 30/08/2017
      * 6 months after nearest passed birthday is: 28/02/2018  which is also date
-     * => Final age is: 2017 – 1989 + 1  = 29 years old
+     * Final age is: 2017 - 1989 + 1  = 29 years old
      *
      * @param date date
      * @param birthdate birthday

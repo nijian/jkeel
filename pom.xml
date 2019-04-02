@@ -46,11 +46,14 @@
 
         <main.basedir>${basedir}</main.basedir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.plugin.version>3.5.1</maven.compiler.plugin.version>
+        <maven.compiler.plugin.version>3.8.0</maven.compiler.plugin.version>
         <maven.source.plugin.version>3.0.1</maven.source.plugin.version>
         <maven.javadoc.plugin.version>3.1.0</maven.javadoc.plugin.version>
         <jdk.version>1.8</jdk.version>
-        <groovy.version>2.4.7</groovy.version>
+        <groovy.version>2.4.13</groovy.version>
+        <groovy-eclipse-compiler.version>3.3.0-01</groovy-eclipse-compiler.version>
+        <groovy-eclipse-batch.version>2.5.6-02</groovy-eclipse-batch.version>
+        <build-helper-maven-plugin.version>3.0.0</build-helper-maven-plugin.version>
         <javax.cache.version>1.1.0</javax.cache.version>
 
         <junit.version>4.12</junit.version>
@@ -162,7 +165,6 @@
                 <groupId>org.codehaus.groovy</groupId>
                 <artifactId>groovy-all</artifactId>
                 <version>${groovy.version}</version>
-                <classifier>indy</classifier>
             </dependency>
         </dependencies>
     </dependencyManagement>

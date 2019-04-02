@@ -16,11 +16,11 @@ class CalcConfig implements AlgorithmConfig, MixinFuncs {
     Cache<String, Closure> cache
     String cid
     Properties env
-    boolean inited = false
+    boolean init = false
 
     @Override
     void init(String cid, String configUri, Properties env) {
-        if (!inited) {
+        if (!init) {
             this.env = env
 
             CachingProvider cachingProvider = Caching.getCachingProvider("org.ehcache.jsr107.EhcacheCachingProvider")
@@ -39,7 +39,7 @@ class CalcConfig implements AlgorithmConfig, MixinFuncs {
             Binding binding = new Binding()
             binding.setVariable("CalcConfig", this)
             InvokerHelper.createScript(clazz, binding).run()
-            inited = true
+            init = true
         }
     }
 

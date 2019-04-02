@@ -80,7 +80,7 @@ public final class AlgorithmContextManager {
      * Create TemplateAlgorithmContext with global identifier
      *
      * @param cid       algorithm context global identifier
-     * @param template
+     * @param template  algorithm template
      * @param configUri uri of the algorithm config resource
      * @param clz       class instance of algorithm config
      * @param env       environment variables
