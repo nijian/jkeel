@@ -35,7 +35,7 @@ public class Context<I> {
 
         //build layout instance
         LayoutTemplate layoutTemplate = ac.getTemplate();
-        layoutTemplateInstance = new LayoutTemplateInstance(this, layoutTemplate);
+        layoutTemplateInstance = new LayoutTemplateInstance(layoutTemplate);
         List<LayoutInstance> layoutInstances = layoutTemplateInstance.getLayoutInstances();
         List<Layout> loutList = layoutTemplate.getLayouts();
         loutList.forEach(layout ->

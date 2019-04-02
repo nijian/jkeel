@@ -15,10 +15,10 @@ public class LayoutTemplate<I> implements AlgorithmTemplate {
     private String outputFields;
     private List<Layout> layouts;
 
-    public void exec(I input, LayoutTemplateInstance layoutTemplateInstance, Cache<String, Closure> closureCache) {
+    public void exec(I input, Object calc, Cache<String, Closure> closureCache) {
         Closure closure = closureCache.get(Const.OUTPUT);
         if (closure != null) {
-            closure.setDelegate(layoutTemplateInstance);
+            closure.setDelegate(calc);
             closure.setResolveStrategy(Closure.DELEGATE_ONLY);
             closure.call(input);
         }

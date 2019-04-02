@@ -105,6 +105,15 @@ public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorit
         Context<I> context = new Context(input, ac, getCache(ac));
         logger.info("Serration algorithm context has been initialized");
 
+        Object calc;
+        try {
+            Class calcClz = Class.forName("com.github.nijian.jkeel.algorithms.serration.Calc");
+            calc = calcClz.getDeclaredConstructor(Context.class).newInstance(context);
+        } catch (Exception e) {
+            logger.error("Failed to load Calc", e);
+            throw new RuntimeException("Failed to load Calc", e);
+        }
+
         LayoutTemplateInstance loutTI = context.getLayoutTemplateInstance();
         List<LayoutInstance> loutIs = loutTI.getLayoutInstances();
         for (LayoutInstance loutI : loutIs) {
@@ -139,7 +148,7 @@ public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorit
         }
 
         logger.info("Serration algorithm output is processing");
-        loutTI.getLayoutTemplate().exec(input, loutTI, getCache(ac));
+        loutTI.getLayoutTemplate().exec(input, calc, getCache(ac));
         logger.info("Serration algorithm output is processed");
 
         return context;
