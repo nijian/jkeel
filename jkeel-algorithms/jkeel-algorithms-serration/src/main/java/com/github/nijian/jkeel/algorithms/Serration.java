@@ -1,8 +1,8 @@
 package com.github.nijian.jkeel.algorithms;
 
 import com.github.nijian.jkeel.algorithms.debug.OutputFactoryProvider;
-import com.github.nijian.jkeel.algorithms.serration.CalcConfig;
 import com.github.nijian.jkeel.algorithms.serration.Const;
+import com.github.nijian.jkeel.algorithms.serration.SerrationConfig;
 import com.github.nijian.jkeel.algorithms.serration.debug.CSVOutput;
 import com.github.nijian.jkeel.algorithms.serration.entity.*;
 import com.github.nijian.jkeel.algorithms.serration.operands.BigDecimalOperand;
@@ -67,7 +67,7 @@ public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorit
      */
     private Cache<String, Closure> getCache(TemplateAlgorithmContext ac) {
         if (cache == null) {
-            cache = ((CalcConfig) ac.getConfig()).getCache();
+            cache = ((SerrationConfig) ac.getConfig()).getCache();
         }
         return cache;
     }

@@ -48,7 +48,7 @@ public class SerrationParallelAlgorithmTest {
     public void perform() throws Exception {
 
         Algorithm algorithm = AlgorithmFactoryProvider.getInstance().getAlgorithm(Serration.class.getName());
-        AlgorithmContext ac = AlgorithmContextManager.getInstance().createTemplateContext(cid, layoutTemplate1, "/config.illus", CalcConfig.class, null);
+        AlgorithmContext ac = AlgorithmContextManager.getInstance().createTemplateContext(cid, layoutTemplate1, "/config.illus", SerrationConfig.class, null);
 
         algorithm.perform(null, varMap, ac);
 

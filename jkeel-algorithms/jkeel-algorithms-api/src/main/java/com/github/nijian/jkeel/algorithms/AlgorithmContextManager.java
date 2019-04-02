@@ -96,7 +96,7 @@ public final class AlgorithmContextManager {
                 if (context == null) {
                     AlgorithmConfig aConfig;
                     try {
-                        aConfig = clz.newInstance();
+                        aConfig = clz.getConstructor().newInstance();
                         aConfig.init(cid, configUri, env);
                     } catch (Exception e) {
                         throw new RuntimeException("Algorithm config can not be initialized", e);
