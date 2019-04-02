@@ -484,10 +484,10 @@ CalcConfig {
      * Total_main_premium_paid_t = Sum of (Main_prem_i) with i from 1 to t
      */
     formula "Total_main_premium_paid_t", { i, int index ->
-        if (layoutIndex == 0) {
-            getx(layoutIndex, 'Main_Prem_t')
+        if (index == 0) {
+            getx(index, 'Main_Prem_t')
         } else {
-            getLx(layoutIndex - 1, 'Total_main_premium_paid_t') + getx(layoutIndex, 'Main_Prem_t')
+            getLx(index - 1, 'Total_main_premium_paid_t') + getx(index, 'Main_Prem_t')
         }
     }
     /**
@@ -496,10 +496,10 @@ CalcConfig {
      * Total_premium_paid_t = Sum of (Main_prem_i and topup_i) with i from 1 to t
      */
     formula "Total_premium_paid_t", { i, int index ->
-        if (layoutIndex == 0) {
-            getx(layoutIndex, 'Main_Prem_t') + getx(layoutIndex, 'Topup_t')
+        if (index == 0) {
+            getx(index, 'Main_Prem_t') + getx(index, 'Topup_t')
         } else {
-            getLx(layoutIndex - 1, 'Total_premium_paid_t') + getx(layoutIndex, 'Main_Prem_t') + getx(layoutIndex, 'Topup_t')
+            getLx(index - 1, 'Total_premium_paid_t') + getx(index, 'Main_Prem_t') + getx(index, 'Topup_t')
         }
     }
     ///////////////// Parallel Area 2 /////////////////////
@@ -508,10 +508,10 @@ CalcConfig {
      * = PAV_unit_AD_no_bonus_t-1 + Allocated_unit_t
      */
     formula "PAV_unit_BD_no_bonus_H_t", { i, int index ->
-        if (layoutIndex == 0) {
-            getx(layoutIndex, 'Allocated_unit_H_t')
+        if (index == 0) {
+            getx(index, 'Allocated_unit_H_t')
         } else {
-            getLx(layoutIndex - 1, 'PAV_unit_AD_no_bonus_H_t') + getx(layoutIndex, 'Allocated_unit_H_t')
+            getLx(index - 1, 'PAV_unit_AD_no_bonus_H_t') + getx(index, 'Allocated_unit_H_t')
         }
     }
     /**
@@ -519,10 +519,10 @@ CalcConfig {
      * = PAV_unit_AD_no_bonus_t-1 + Allocated_unit_t
      */
     formula "PAV_unit_BD_no_bonus_L_t", { i, int index ->
-        if (layoutIndex == 0) {
-            getx(layoutIndex, 'Allocated_unit_L_t')
+        if (index == 0) {
+            getx(index, 'Allocated_unit_L_t')
         } else {
-            getLx(layoutIndex - 1, 'PAV_unit_AD_no_bonus_L_t') + getx(layoutIndex, 'Allocated_unit_L_t')
+            getLx(index - 1, 'PAV_unit_AD_no_bonus_L_t') + getx(index, 'Allocated_unit_L_t')
         }
     }
     /**
@@ -530,40 +530,40 @@ CalcConfig {
      * = PAV_unit_AD_no_bonus_t-1 + Allocated_unit_t
      */
     formula "PAV_unit_BD_no_bonus_G_t", { i, int index ->
-        if (layoutIndex == 0) {
-            getx(layoutIndex, 'Allocated_unit_G_t')
+        if (index == 0) {
+            getx(index, 'Allocated_unit_G_t')
         } else {
-            getLx(layoutIndex - 1, 'PAV_unit_AD_no_bonus_G_t') + getx(layoutIndex, 'Allocated_unit_G_t')
+            getLx(index - 1, 'PAV_unit_AD_no_bonus_G_t') + getx(index, 'Allocated_unit_G_t')
         }
     }
     /**
      * Total allocated topup unit up to tth month
      */
     formula "Sum_alloc_topup_unit_H_t", { i, int index ->
-        if (layoutIndex == 0) {
-            getx(layoutIndex, 'Alloc_topup_unit_H_t')
+        if (index == 0) {
+            getx(index, 'Alloc_topup_unit_H_t')
         } else {
-            getLx(layoutIndex - 1, 'Sum_alloc_topup_unit_H_t') + getx(layoutIndex, 'Alloc_topup_unit_H_t')
+            getLx(index - 1, 'Sum_alloc_topup_unit_H_t') + getx(index, 'Alloc_topup_unit_H_t')
         }
     }
     /**
      * Total allocated topup unit up to tth month
      */
     formula "Sum_alloc_topup_unit_L_t", { i, int index ->
-        if (layoutIndex == 0) {
-            getx(layoutIndex, 'Alloc_topup_unit_L_t')
+        if (index == 0) {
+            getx(index, 'Alloc_topup_unit_L_t')
         } else {
-            getLx(layoutIndex - 1, 'Sum_alloc_topup_unit_L_t') + getx(layoutIndex, 'Alloc_topup_unit_L_t')
+            getLx(index - 1, 'Sum_alloc_topup_unit_L_t') + getx(index, 'Alloc_topup_unit_L_t')
         }
     }
     /**
      * Total allocated topup unit up to tth month
      */
     formula "Sum_alloc_topup_unit_G_t", { i, int index ->
-        if (layoutIndex == 0) {
-            getx(layoutIndex, 'Alloc_topup_unit_G_t')
+        if (index == 0) {
+            getx(index, 'Alloc_topup_unit_G_t')
         } else {
-            getLx(layoutIndex - 1, 'Sum_alloc_topup_unit_G_t') + getx(layoutIndex, 'Alloc_topup_unit_G_t')
+            getLx(index - 1, 'Sum_alloc_topup_unit_G_t') + getx(index, 'Alloc_topup_unit_G_t')
         }
     }
     ///////////////// Parallel Area 5 /////////////////////
@@ -572,10 +572,10 @@ CalcConfig {
      * =PAV_unit_BD_no_bonus_t + Sum_bonus_unit_t-1
      */
     formula "PAV_unit_BD_bonus_H_t", { i, int index ->
-        if (layoutIndex == 0) {
+        if (index == 0) {
             get('PAV_unit_BD_no_bonus_H_t')
         } else {
-            getLx(layoutIndex - 1, 'Sum_bonus_unit_H_t') + get('PAV_unit_BD_no_bonus_H_t')
+            getLx(index - 1, 'Sum_bonus_unit_H_t') + get('PAV_unit_BD_no_bonus_H_t')
         }
     }
     /**
@@ -583,10 +583,10 @@ CalcConfig {
      * =PAV_unit_BD_no_bonus_t + Sum_bonus_unit_t-1
      */
     formula "PAV_unit_BD_bonus_L_t", { i, int index ->
-        if (layoutIndex == 0) {
+        if (index == 0) {
             get('PAV_unit_BD_no_bonus_L_t')
         } else {
-            getLx(layoutIndex - 1, 'Sum_bonus_unit_L_t') + get('PAV_unit_BD_no_bonus_L_t')
+            getLx(index - 1, 'Sum_bonus_unit_L_t') + get('PAV_unit_BD_no_bonus_L_t')
         }
     }
     /**
@@ -594,18 +594,18 @@ CalcConfig {
      * =PAV_unit_BD_no_bonus_t + Sum_bonus_unit_t-1
      */
     formula "PAV_unit_BD_bonus_G_t", { i, int index ->
-        if (layoutIndex == 0) {
+        if (index == 0) {
             get('PAV_unit_BD_no_bonus_G_t')
         } else {
-            getLx(layoutIndex - 1, 'Sum_bonus_unit_G_t') + get('PAV_unit_BD_no_bonus_G_t')
+            getLx(index - 1, 'Sum_bonus_unit_G_t') + get('PAV_unit_BD_no_bonus_G_t')
         }
     }
     /**
      * Average of top-up amount last year by TOTAL Top-up amount allocated into PAV within 02 year preceding the calculation date up to the mth date of calculation year
      */
     formula "Adj_topup_H_t", { i, int index ->
-        if ((layoutIndex + 1) % 12 == 0) {
-            ((sumProduct(layoutIndex, -11, 'Sum_alloc_topup_unit_H_t', 'Price_BOM_H_t') + sumProduct(layoutIndex, -11, 'Sum_alloc_topup_unit_H_t', 'Price_EOM_H_t')) / 2 - getLx(layoutIndex - 24, 'Adj_topup_H_t') * (sum(layoutIndex, -11, 'Price_BOM_H_t') + sum(layoutIndex, -11, 'Price_EOM_H_t')) / 2) / 12
+        if ((index + 1) % 12 == 0) {
+            ((sumProduct(index, -11, 'Sum_alloc_topup_unit_H_t', 'Price_BOM_H_t') + sumProduct(index, -11, 'Sum_alloc_topup_unit_H_t', 'Price_EOM_H_t')) / 2 - getLx(index - 24, 'Adj_topup_H_t') * (sum(index, -11, 'Price_BOM_H_t') + sum(index, -11, 'Price_EOM_H_t')) / 2) / 12
         } else {
             0
         }
@@ -614,8 +614,8 @@ CalcConfig {
      * Average of top-up amount last year by TOTAL Top-up amount allocated into PAV within 02 year preceding the calculation date up to the mth date of calculation year
      */
     formula "Adj_topup_L_t", { i, int index ->
-        if ((layoutIndex + 1) % 12 == 0) {
-            ((sumProduct(layoutIndex, -11, 'Sum_alloc_topup_unit_L_t', 'Price_BOM_L_t') + sumProduct(layoutIndex, -11, 'Sum_alloc_topup_unit_L_t', 'Price_EOM_L_t')) / 2 - getLx(layoutIndex - 24, 'Adj_topup_L_t') * (sum(layoutIndex, -11, 'Price_BOM_L_t') + sum(layoutIndex, -11, 'Price_EOM_L_t')) / 2) / 12
+        if ((index + 1) % 12 == 0) {
+            ((sumProduct(index, -11, 'Sum_alloc_topup_unit_L_t', 'Price_BOM_L_t') + sumProduct(index, -11, 'Sum_alloc_topup_unit_L_t', 'Price_EOM_L_t')) / 2 - getLx(index - 24, 'Adj_topup_L_t') * (sum(index, -11, 'Price_BOM_L_t') + sum(index, -11, 'Price_EOM_L_t')) / 2) / 12
         } else {
             0
         }
@@ -624,8 +624,8 @@ CalcConfig {
      * Average of top-up amount last year by TOTAL Top-up amount allocated into PAV within 02 year preceding the calculation date up to the mth date of calculation year
      */
     formula "Adj_topup_G_t", { i, int index ->
-        if ((layoutIndex + 1) % 12 == 0) {
-            ((sumProduct(layoutIndex, -11, 'Sum_alloc_topup_unit_G_t', 'Price_BOM_G_t') + sumProduct(layoutIndex, -11, 'Sum_alloc_topup_unit_G_t', 'Price_EOM_G_t')) / 2 - getLx(layoutIndex - 24, 'Adj_topup_G_t') * (sum(layoutIndex, -11, 'Price_BOM_G_t') + sum(layoutIndex, -11, 'Price_EOM_G_t')) / 2) / 12
+        if ((index + 1) % 12 == 0) {
+            ((sumProduct(index, -11, 'Sum_alloc_topup_unit_G_t', 'Price_BOM_G_t') + sumProduct(index, -11, 'Sum_alloc_topup_unit_G_t', 'Price_EOM_G_t')) / 2 - getLx(index - 24, 'Adj_topup_G_t') * (sum(index, -11, 'Price_BOM_G_t') + sum(index, -11, 'Price_EOM_G_t')) / 2) / 12
         } else {
             0
         }
@@ -636,21 +636,21 @@ CalcConfig {
      * =PAV_unit_BD_bonus_t * Price_BOM
      */
     formula "PAV_BD_H_t", { i, int index ->
-        get('PAV_unit_BD_bonus_H_t') * getx(layoutIndex, 'Price_BOM_H_t')
+        get('PAV_unit_BD_bonus_H_t') * getx(index, 'Price_BOM_H_t')
     }
     /**
      * Policy account value before deduce:
      * =PAV_unit_BD_bonus_t * Price_BOM
      */
     formula "PAV_BD_L_t", { i, int index ->
-        get('PAV_unit_BD_bonus_L_t') * getx(layoutIndex, 'Price_BOM_L_t')
+        get('PAV_unit_BD_bonus_L_t') * getx(index, 'Price_BOM_L_t')
     }
     /**
      * Policy account value before deduce:
      * =PAV_unit_BD_bonus_t * Price_BOM
      */
     formula "PAV_BD_G_t", { i, int index ->
-        get('PAV_unit_BD_bonus_G_t') * getx(layoutIndex, 'Price_BOM_G_t')
+        get('PAV_unit_BD_bonus_G_t') * getx(index, 'Price_BOM_G_t')
     }
     ///////////////// Parallel Area 7 /////////////////////
     /**
@@ -686,16 +686,16 @@ CalcConfig {
     formula "DB_bom_H_t", { i, int index ->
         def PAV_bef_COI_H_t = get('PAV_bef_COI_H_t')
         def rate = 1.0
-        int age = actualAge(true, i.illusDate, i.insuredDOB, layoutIndex)
+        int age = actualAge(true, i.illusDate, i.insuredDOB, index)
         if (age < dbFactorRate.length) {
             rate = dbFactorRate[age]
         }
         if (i.DBOpt == 1 || age >= 70) {
-            (getx(layoutIndex, 'Inc_SI_t').max(PAV_bef_COI_H_t) * rate).max(get('Total_premium_paid_t').max(PAV_bef_COI_H_t))
-//            Math.max(Math.max(getx(layoutIndex, 'Inc_SI_t'), PAV_bef_COI_H_t) * rate, Math.max(get('Total_premium_paid_t'), PAV_bef_COI_H_t))
+            (getx(index, 'Inc_SI_t').max(PAV_bef_COI_H_t) * rate).max(get('Total_premium_paid_t').max(PAV_bef_COI_H_t))
+//            Math.max(Math.max(getx(index, 'Inc_SI_t'), PAV_bef_COI_H_t) * rate, Math.max(get('Total_premium_paid_t'), PAV_bef_COI_H_t))
         } else {
-            ((getx(layoutIndex, 'Inc_SI_t') + PAV_bef_COI_H_t) * rate).max(get('Total_premium_paid_t').max(PAV_bef_COI_H_t))
-//            Math.max((getx(layoutIndex, 'Inc_SI_t') + PAV_bef_COI_H_t) * rate, Math.max(get('Total_premium_paid_t'), PAV_bef_COI_H_t))
+            ((getx(index, 'Inc_SI_t') + PAV_bef_COI_H_t) * rate).max(get('Total_premium_paid_t').max(PAV_bef_COI_H_t))
+//            Math.max((getx(index, 'Inc_SI_t') + PAV_bef_COI_H_t) * rate, Math.max(get('Total_premium_paid_t'), PAV_bef_COI_H_t))
         }
     }
     /**
@@ -709,16 +709,16 @@ CalcConfig {
     formula "DB_bom_L_t", { i, int index ->
         def PAV_bef_COI_L_t = get('PAV_bef_COI_L_t')
         def rate = 1.0
-        int age = actualAge(true, i.illusDate, i.insuredDOB, layoutIndex)
+        int age = actualAge(true, i.illusDate, i.insuredDOB, index)
         if (age < dbFactorRate.length) {
             rate = dbFactorRate[age]
         }
         if (i.DBOpt == 1 || age >= 70) {
-            (getx(layoutIndex, 'Inc_SI_t').max(PAV_bef_COI_L_t) * rate).max(get('Total_premium_paid_t').max(PAV_bef_COI_L_t))
-//            Math.max(Math.max(getx(layoutIndex, 'Inc_SI_t'), PAV_bef_COI_L_t) * rate, Math.max(get('Total_premium_paid_t'), PAV_bef_COI_L_t))
+            (getx(index, 'Inc_SI_t').max(PAV_bef_COI_L_t) * rate).max(get('Total_premium_paid_t').max(PAV_bef_COI_L_t))
+//            Math.max(Math.max(getx(index, 'Inc_SI_t'), PAV_bef_COI_L_t) * rate, Math.max(get('Total_premium_paid_t'), PAV_bef_COI_L_t))
         } else {
-            ((getx(layoutIndex, 'Inc_SI_t') + PAV_bef_COI_L_t) * rate).max(get('Total_premium_paid_t').max(PAV_bef_COI_L_t))
-//            Math.max((getx(layoutIndex, 'Inc_SI_t') + PAV_bef_COI_L_t) * rate, Math.max(get('Total_premium_paid_t'), PAV_bef_COI_L_t))
+            ((getx(index, 'Inc_SI_t') + PAV_bef_COI_L_t) * rate).max(get('Total_premium_paid_t').max(PAV_bef_COI_L_t))
+//            Math.max((getx(index, 'Inc_SI_t') + PAV_bef_COI_L_t) * rate, Math.max(get('Total_premium_paid_t'), PAV_bef_COI_L_t))
         }
     }
     /**
@@ -732,16 +732,16 @@ CalcConfig {
     formula "DB_bom_G_t", { i, int index ->
         def PAV_bef_COI_G_t = get('PAV_bef_COI_G_t')
         def rate = 1.0
-        int age = actualAge(true, i.illusDate, i.insuredDOB, layoutIndex)
+        int age = actualAge(true, i.illusDate, i.insuredDOB, index)
         if (age < dbFactorRate.length) {
             rate = dbFactorRate[age]
         }
         if (i.DBOpt == 1 || age >= 70) {
-            (getx(layoutIndex, 'Inc_SI_t').max(PAV_bef_COI_G_t) * rate).max(get('Total_premium_paid_t').max(PAV_bef_COI_G_t))
-//            Math.max(Math.max(getx(layoutIndex, 'Inc_SI_t'), PAV_bef_COI_G_t) * rate, Math.max(get('Total_premium_paid_t'), PAV_bef_COI_G_t))
+            (getx(index, 'Inc_SI_t').max(PAV_bef_COI_G_t) * rate).max(get('Total_premium_paid_t').max(PAV_bef_COI_G_t))
+//            Math.max(Math.max(getx(index, 'Inc_SI_t'), PAV_bef_COI_G_t) * rate, Math.max(get('Total_premium_paid_t'), PAV_bef_COI_G_t))
         } else {
-            ((getx(layoutIndex, 'Inc_SI_t') + PAV_bef_COI_G_t) * rate).max(get('Total_premium_paid_t').max(PAV_bef_COI_G_t))
-//            Math.max((getx(layoutIndex, 'Inc_SI_t') + PAV_bef_COI_G_t) * rate, Math.max(get('Total_premium_paid_t'), PAV_bef_COI_G_t))
+            ((getx(index, 'Inc_SI_t') + PAV_bef_COI_G_t) * rate).max(get('Total_premium_paid_t').max(PAV_bef_COI_G_t))
+//            Math.max((getx(index, 'Inc_SI_t') + PAV_bef_COI_G_t) * rate, Math.max(get('Total_premium_paid_t'), PAV_bef_COI_G_t))
         }
     }
     ///////////////// Parallel Area 9 /////////////////////
@@ -750,24 +750,24 @@ CalcConfig {
      * SAAR_t = DB_bom_t – Max(PAV_bef_COI_t – SC_t, 0)
      */
     formula "SAAR_H_t", { i, int index ->
-        get('DB_bom_H_t') - (get('PAV_bef_COI_H_t') - getx(layoutIndex, 'SC_t')).max(0)
-//        get('DB_bom_H_t') - Math.max(get('PAV_bef_COI_H_t') - getx(layoutIndex, 'SC_t'), 0.0)
+        get('DB_bom_H_t') - (get('PAV_bef_COI_H_t') - getx(index, 'SC_t')).max(0)
+//        get('DB_bom_H_t') - Math.max(get('PAV_bef_COI_H_t') - getx(index, 'SC_t'), 0.0)
     }
     /**
      * Sum Insured at Risk at beginning of tth month:
      * SAAR_t = DB_bom_t – Max(PAV_bef_COI_t – SC_t, 0)
      */
     formula "SAAR_L_t", { i, int index ->
-        get('DB_bom_L_t') - (get('PAV_bef_COI_L_t') - getx(layoutIndex, 'SC_t')).max(0)
-//        get('DB_bom_L_t') - Math.max(get('PAV_bef_COI_L_t') - getx(layoutIndex, 'SC_t'), 0.0)
+        get('DB_bom_L_t') - (get('PAV_bef_COI_L_t') - getx(index, 'SC_t')).max(0)
+//        get('DB_bom_L_t') - Math.max(get('PAV_bef_COI_L_t') - getx(index, 'SC_t'), 0.0)
     }
     /**
      * Sum Insured at Risk at beginning of tth month:
      * SAAR_t = DB_bom_t – Max(PAV_bef_COI_t – SC_t, 0)
      */
     formula "SAAR_G_t", { i, int index ->
-        get('DB_bom_G_t') - (get('PAV_bef_COI_G_t') - getx(layoutIndex, 'SC_t')).max(0)
-//        get('DB_bom_G_t') - Math.max(get('PAV_bef_COI_G_t') - getx(layoutIndex, 'SC_t'), 0.0)
+        get('DB_bom_G_t') - (get('PAV_bef_COI_G_t') - getx(index, 'SC_t')).max(0)
+//        get('DB_bom_G_t') - Math.max(get('PAV_bef_COI_G_t') - getx(index, 'SC_t'), 0.0)
     }
     ///////////////// Parallel Area 10 /////////////////////
     /**
@@ -778,7 +778,7 @@ CalcConfig {
     formula "COI_H_t", { i, int index ->
         def rate
         int age = get 'Age_TI_t0'
-        int year = layoutIndex.intdiv(12)
+        int year = index.intdiv(12)
         int location = (age + year) * 2
         if (i.gender == 0) {
             rate = coiRate[location]
@@ -795,7 +795,7 @@ CalcConfig {
     formula "COI_L_t", { i, int index ->
         def rate
         int age = get 'Age_TI_t0'
-        int year = layoutIndex.intdiv(12)
+        int year = index.intdiv(12)
         int location = (age + year) * 2
         if (i.gender == 0) {
             rate = coiRate[location]
@@ -812,7 +812,7 @@ CalcConfig {
     formula "COI_G_t", { i, int index ->
         def rate
         int age = get 'Age_TI_t0'
-        int year = layoutIndex.intdiv(12)
+        int year = index.intdiv(12)
         int location = (age + year) * 2
         if (i.gender == 0) {
             rate = coiRate[location]
@@ -827,21 +827,21 @@ CalcConfig {
      * =( COI_t + Admin_fee)/Price_BOM
      */
     formula "FC_unit_H_t", { i, int index ->
-        (get('COI_H_t') + 20000.0) / getx(layoutIndex, 'Price_BOM_H_t')
+        (get('COI_H_t') + 20000.0) / getx(index, 'Price_BOM_H_t')
     }
     /**
      * Fee and charge : includes COI and Admin fee unit:
      * =( COI_t + Admin_fee)/Price_BOM
      */
     formula "FC_unit_L_t", { i, int index ->
-        (get('COI_L_t') + 20000.0) / getx(layoutIndex, 'Price_BOM_L_t')
+        (get('COI_L_t') + 20000.0) / getx(index, 'Price_BOM_L_t')
     }
     /**
      * Fee and charge : includes COI and Admin fee unit:
      * =( COI_t + Admin_fee)/Price_BOM
      */
     formula "FC_unit_G_t", { i, int index ->
-        (get('COI_G_t') + 20000.0) / getx(layoutIndex, 'Price_BOM_G_t')
+        (get('COI_G_t') + 20000.0) / getx(index, 'Price_BOM_G_t')
     }
     ///////////////// Parallel Area 12 /////////////////////
     /**
@@ -871,10 +871,10 @@ CalcConfig {
      * = (PAV_unit_AD_no_bonus + Sum_bonus_unit_t-1) * Price_EOM
      */
     formula "PAV_BB_H_t", { i, int index ->
-        if (layoutIndex == 0) {
-            get('PAV_unit_AD_no_bonus_H_t') * getx(layoutIndex, 'Price_EOM_H_t')
+        if (index == 0) {
+            get('PAV_unit_AD_no_bonus_H_t') * getx(index, 'Price_EOM_H_t')
         } else {
-            ((get('PAV_unit_AD_no_bonus_H_t') + getLx(layoutIndex - 1, 'Sum_bonus_unit_H_t'))) * getx(layoutIndex, 'Price_EOM_H_t')
+            ((get('PAV_unit_AD_no_bonus_H_t') + getLx(index - 1, 'Sum_bonus_unit_H_t'))) * getx(index, 'Price_EOM_H_t')
         }
     }
     /**
@@ -882,10 +882,10 @@ CalcConfig {
      * = (PAV_unit_AD_no_bonus + Sum_bonus_unit_t-1) * Price_EOM
      */
     formula "PAV_BB_L_t", { i, int index ->
-        if (layoutIndex == 0) {
-            get('PAV_unit_AD_no_bonus_L_t') * getx(layoutIndex, 'Price_EOM_L_t')
+        if (index == 0) {
+            get('PAV_unit_AD_no_bonus_L_t') * getx(index, 'Price_EOM_L_t')
         } else {
-            ((get('PAV_unit_AD_no_bonus_L_t') + getLx(layoutIndex - 1, 'Sum_bonus_unit_L_t'))) * getx(layoutIndex, 'Price_EOM_L_t')
+            ((get('PAV_unit_AD_no_bonus_L_t') + getLx(index - 1, 'Sum_bonus_unit_L_t'))) * getx(index, 'Price_EOM_L_t')
         }
     }
     /**
@@ -893,10 +893,10 @@ CalcConfig {
      * = (PAV_unit_AD_no_bonus + Sum_bonus_unit_t-1) * Price_EOM
      */
     formula "PAV_BB_G_t", { i, int index ->
-        if (layoutIndex == 0) {
-            get('PAV_unit_AD_no_bonus_G_t') * getx(layoutIndex, 'Price_EOM_G_t')
+        if (index == 0) {
+            get('PAV_unit_AD_no_bonus_G_t') * getx(index, 'Price_EOM_G_t')
         } else {
-            ((get('PAV_unit_AD_no_bonus_G_t') + getLx(layoutIndex - 1, 'Sum_bonus_unit_G_t'))) * getx(layoutIndex, 'Price_EOM_G_t')
+            ((get('PAV_unit_AD_no_bonus_G_t') + getLx(index - 1, 'Sum_bonus_unit_G_t'))) * getx(index, 'Price_EOM_G_t')
         }
     }
     /**
@@ -907,8 +907,8 @@ CalcConfig {
      * - Else Average_PAV_no_Bonus = 0
      */
     formula "Average_PAV_no_bonus_H_t", { i, int index ->
-        if ((layoutIndex + 1) % 12 == 0) {
-            (sumProduct(layoutIndex, -11, 'PAV_unit_AD_no_bonus_H_t', 'Price_BOM_H_t') + sumProduct(layoutIndex, -11, 'PAV_unit_AD_no_bonus_H_t', 'Price_EOM_H_t')) / 2 / 12
+        if ((index + 1) % 12 == 0) {
+            (sumProduct(index, -11, 'PAV_unit_AD_no_bonus_H_t', 'Price_BOM_H_t') + sumProduct(index, -11, 'PAV_unit_AD_no_bonus_H_t', 'Price_EOM_H_t')) / 2 / 12
         } else {
             0
         }
@@ -921,8 +921,8 @@ CalcConfig {
      * - Else Average_PAV_no_Bonus = 0
      */
     formula "Average_PAV_no_bonus_L_t", { i, int index ->
-        if ((layoutIndex + 1) % 12 == 0) {
-            (sumProduct(layoutIndex, -11, 'PAV_unit_AD_no_bonus_L_t', 'Price_BOM_L_t') + sumProduct(layoutIndex, -11, 'PAV_unit_AD_no_bonus_L_t', 'Price_EOM_L_t')) / 2 / 12
+        if ((index + 1) % 12 == 0) {
+            (sumProduct(index, -11, 'PAV_unit_AD_no_bonus_L_t', 'Price_BOM_L_t') + sumProduct(index, -11, 'PAV_unit_AD_no_bonus_L_t', 'Price_EOM_L_t')) / 2 / 12
         } else {
             0
         }
@@ -935,8 +935,8 @@ CalcConfig {
      * - Else Average_PAV_no_Bonus = 0
      */
     formula "Average_PAV_no_bonus_G_t", { i, int index ->
-        if ((layoutIndex + 1) % 12 == 0) {
-            (sumProduct(layoutIndex, -11, 'PAV_unit_AD_no_bonus_G_t', 'Price_BOM_G_t') + sumProduct(layoutIndex, -11, 'PAV_unit_AD_no_bonus_G_t', 'Price_EOM_G_t')) / 2 / 12
+        if ((index + 1) % 12 == 0) {
+            (sumProduct(index, -11, 'PAV_unit_AD_no_bonus_G_t', 'Price_BOM_G_t') + sumProduct(index, -11, 'PAV_unit_AD_no_bonus_G_t', 'Price_EOM_G_t')) / 2 / 12
         } else {
             0
         }
@@ -947,11 +947,11 @@ CalcConfig {
      * LY_bonus_t =(PAV_unit_AD_no_bonus_t -(Sum_alloc_topup_unit_t-Sum_alloc_topup_unit_t-24))* Price_EOM_t *LY_bonus_rate_t
      */
     formula "LY_bonus_H_t", { i, int index ->
-        int year = layoutIndex.intdiv(12) + 1
-        if (year == 10 && (layoutIndex + 1) % 12 == 0) {
-            (get('PAV_unit_AD_no_bonus_H_t') - (get('Sum_alloc_topup_unit_H_t') - getLx(-24, 'Sum_alloc_topup_unit_H_t'))) * getx(layoutIndex, 'Price_EOM_H_t') * 0.015
-        } else if (year > 10 && (layoutIndex + 1) % 12 == 0) {
-            (get('PAV_unit_AD_no_bonus_H_t') - (get('Sum_alloc_topup_unit_H_t') - getLx(-24, 'Sum_alloc_topup_unit_H_t'))) * getx(layoutIndex, 'Price_EOM_H_t') * 0.01
+        int year = index.intdiv(12) + 1
+        if (year == 10 && (index + 1) % 12 == 0) {
+            (get('PAV_unit_AD_no_bonus_H_t') - (get('Sum_alloc_topup_unit_H_t') - getLx(-24, 'Sum_alloc_topup_unit_H_t'))) * getx(index, 'Price_EOM_H_t') * 0.015
+        } else if (year > 10 && (index + 1) % 12 == 0) {
+            (get('PAV_unit_AD_no_bonus_H_t') - (get('Sum_alloc_topup_unit_H_t') - getLx(-24, 'Sum_alloc_topup_unit_H_t'))) * getx(index, 'Price_EOM_H_t') * 0.01
         } else {
             0
         }
@@ -962,11 +962,11 @@ CalcConfig {
      * LY_bonus_t =(PAV_unit_AD_no_bonus_t -(Sum_alloc_topup_unit_t-Sum_alloc_topup_unit_t-24))* Price_EOM_t *LY_bonus_rate_t
      */
     formula "LY_bonus_L_t", { i, int index ->
-        int year = layoutIndex.intdiv(12) + 1
-        if (year == 10 && (layoutIndex + 1) % 12 == 0) {
-            (get('PAV_unit_AD_no_bonus_L_t') - (get('Sum_alloc_topup_unit_L_t') - getLx(-24, 'Sum_alloc_topup_unit_L_t'))) * getx(layoutIndex, 'Price_EOM_L_t') * 0.015
-        } else if (year > 10 && (layoutIndex + 1) % 12 == 0) {
-            (get('PAV_unit_AD_no_bonus_L_t') - (get('Sum_alloc_topup_unit_L_t') - getLx(-24, 'Sum_alloc_topup_unit_L_t'))) * getx(layoutIndex, 'Price_EOM_L_t') * 0.01
+        int year = index.intdiv(12) + 1
+        if (year == 10 && (index + 1) % 12 == 0) {
+            (get('PAV_unit_AD_no_bonus_L_t') - (get('Sum_alloc_topup_unit_L_t') - getLx(-24, 'Sum_alloc_topup_unit_L_t'))) * getx(index, 'Price_EOM_L_t') * 0.015
+        } else if (year > 10 && (index + 1) % 12 == 0) {
+            (get('PAV_unit_AD_no_bonus_L_t') - (get('Sum_alloc_topup_unit_L_t') - getLx(-24, 'Sum_alloc_topup_unit_L_t'))) * getx(index, 'Price_EOM_L_t') * 0.01
         } else {
             0
         }
@@ -977,11 +977,11 @@ CalcConfig {
      * LY_bonus_t =(PAV_unit_AD_no_bonus_t -(Sum_alloc_topup_unit_t-Sum_alloc_topup_unit_t-24))* Price_EOM_t *LY_bonus_rate_t
      */
     formula "LY_bonus_G_t", { i, int index ->
-        int year = layoutIndex.intdiv(12) + 1
-        if (year == 10 && (layoutIndex + 1) % 12 == 0) {
-            (get('PAV_unit_AD_no_bonus_G_t') - (get('Sum_alloc_topup_unit_G_t') - getLx(-24, 'Sum_alloc_topup_unit_G_t'))) * getx(layoutIndex, 'Price_EOM_G_t') * 0.015
-        } else if (year > 10 && (layoutIndex + 1) % 12 == 0) {
-            (get('PAV_unit_AD_no_bonus_G_t') - (get('Sum_alloc_topup_unit_G_t') - getLx(-24, 'Sum_alloc_topup_unit_G_t'))) * getx(layoutIndex, 'Price_EOM_G_t') * 0.01
+        int year = index.intdiv(12) + 1
+        if (year == 10 && (index + 1) % 12 == 0) {
+            (get('PAV_unit_AD_no_bonus_G_t') - (get('Sum_alloc_topup_unit_G_t') - getLx(-24, 'Sum_alloc_topup_unit_G_t'))) * getx(index, 'Price_EOM_G_t') * 0.015
+        } else if (year > 10 && (index + 1) % 12 == 0) {
+            (get('PAV_unit_AD_no_bonus_G_t') - (get('Sum_alloc_topup_unit_G_t') - getLx(-24, 'Sum_alloc_topup_unit_G_t'))) * getx(index, 'Price_EOM_G_t') * 0.01
         } else {
             0
         }
@@ -992,21 +992,21 @@ CalcConfig {
      * =LY_bonus_t/Price_EOM_t
      */
     formula "LY_bonus_unit_H_t", { i, int index ->
-        get('LY_bonus_H_t') / getx(layoutIndex, 'Price_EOM_H_t')
+        get('LY_bonus_H_t') / getx(index, 'Price_EOM_H_t')
     }
     /**
      * Loyal Bonus unit at the end of tth month:
      * =LY_bonus_t/Price_EOM_t
      */
     formula "LY_bonus_unit_L_t", { i, int index ->
-        get('LY_bonus_L_t') / getx(layoutIndex, 'Price_EOM_L_t')
+        get('LY_bonus_L_t') / getx(index, 'Price_EOM_L_t')
     }
     /**
      * Loyal Bonus unit at the end of tth month:
      * =LY_bonus_t/Price_EOM_t
      */
     formula "LY_bonus_unit_G_t", { i, int index ->
-        get('LY_bonus_G_t') / getx(layoutIndex, 'Price_EOM_G_t')
+        get('LY_bonus_G_t') / getx(index, 'Price_EOM_G_t')
     }
     /**
      * Death Benefit at end of tth month:
@@ -1024,11 +1024,11 @@ CalcConfig {
             rate = dbFactorRate[age]
         }
         if (i.DBOpt == 1 || age >= 70) {
-            (getx(layoutIndex, 'Inc_SI_t').max(PAV_BB_H_t) * rate).max(get('Total_premium_paid_t').max(PAV_BB_H_t))
-//            Math.max(Math.max(getx(layoutIndex, 'Inc_SI_t'), PAV_BB_H_t) * rate, Math.max(get('Total_premium_paid_t'), PAV_BB_H_t))
+            (getx(index, 'Inc_SI_t').max(PAV_BB_H_t) * rate).max(get('Total_premium_paid_t').max(PAV_BB_H_t))
+//            Math.max(Math.max(getx(index, 'Inc_SI_t'), PAV_BB_H_t) * rate, Math.max(get('Total_premium_paid_t'), PAV_BB_H_t))
         } else {
-            ((getx(layoutIndex, 'Inc_SI_t') + PAV_BB_H_t) * rate).max(get('Total_premium_paid_t').max(PAV_BB_H_t))
-//            Math.max((getx(layoutIndex, 'Inc_SI_t') + PAV_BB_H_t) * rate, Math.max(get('Total_premium_paid_t'), PAV_BB_H_t))
+            ((getx(index, 'Inc_SI_t') + PAV_BB_H_t) * rate).max(get('Total_premium_paid_t').max(PAV_BB_H_t))
+//            Math.max((getx(index, 'Inc_SI_t') + PAV_BB_H_t) * rate, Math.max(get('Total_premium_paid_t'), PAV_BB_H_t))
         }
     }
     /**
@@ -1047,11 +1047,11 @@ CalcConfig {
             rate = dbFactorRate[age]
         }
         if (i.DBOpt == 1 || age >= 70) {
-            (getx(layoutIndex, 'Inc_SI_t').max(PAV_BB_L_t) * rate).max(get('Total_premium_paid_t').max(PAV_BB_L_t))
-//            Math.max(Math.max(getx(layoutIndex, 'Inc_SI_t'), PAV_BB_L_t) * rate, Math.max(get('Total_premium_paid_t'), PAV_BB_L_t))
+            (getx(index, 'Inc_SI_t').max(PAV_BB_L_t) * rate).max(get('Total_premium_paid_t').max(PAV_BB_L_t))
+//            Math.max(Math.max(getx(index, 'Inc_SI_t'), PAV_BB_L_t) * rate, Math.max(get('Total_premium_paid_t'), PAV_BB_L_t))
         } else {
-            ((getx(layoutIndex, 'Inc_SI_t') + PAV_BB_L_t) * rate).max(get('Total_premium_paid_t').max(PAV_BB_L_t))
-//            Math.max((getx(layoutIndex, 'Inc_SI_t') + PAV_BB_L_t) * rate, Math.max(get('Total_premium_paid_t'), PAV_BB_L_t))
+            ((getx(index, 'Inc_SI_t') + PAV_BB_L_t) * rate).max(get('Total_premium_paid_t').max(PAV_BB_L_t))
+//            Math.max((getx(index, 'Inc_SI_t') + PAV_BB_L_t) * rate, Math.max(get('Total_premium_paid_t'), PAV_BB_L_t))
         }
     }
     /**
@@ -1070,11 +1070,11 @@ CalcConfig {
             rate = dbFactorRate[age]
         }
         if (i.DBOpt == 1 || age >= 70) {
-            (getx(layoutIndex, 'Inc_SI_t').max(PAV_BB_G_t) * rate).max(get('Total_premium_paid_t').max(PAV_BB_G_t))
-//            Math.max(Math.max(getx(layoutIndex, 'Inc_SI_t'), PAV_BB_G_t) * rate, Math.max(get('Total_premium_paid_t'), PAV_BB_G_t))
+            (getx(index, 'Inc_SI_t').max(PAV_BB_G_t) * rate).max(get('Total_premium_paid_t').max(PAV_BB_G_t))
+//            Math.max(Math.max(getx(index, 'Inc_SI_t'), PAV_BB_G_t) * rate, Math.max(get('Total_premium_paid_t'), PAV_BB_G_t))
         } else {
-            ((getx(layoutIndex, 'Inc_SI_t') + PAV_BB_G_t) * rate).max(get('Total_premium_paid_t').max(PAV_BB_G_t))
-//            Math.max((getx(layoutIndex, 'Inc_SI_t') + PAV_BB_G_t) * rate, Math.max(get('Total_premium_paid_t'), PAV_BB_G_t))
+            ((getx(index, 'Inc_SI_t') + PAV_BB_G_t) * rate).max(get('Total_premium_paid_t').max(PAV_BB_G_t))
+//            Math.max((getx(index, 'Inc_SI_t') + PAV_BB_G_t) * rate, Math.max(get('Total_premium_paid_t'), PAV_BB_G_t))
         }
     }
     /**
@@ -1082,24 +1082,24 @@ CalcConfig {
      * SV_t = max(PAV_BB_t – SC_t,0)
      */
     formula "SV_H_t", { i, int index ->
-        (get('PAV_BB_H_t') - getx(layoutIndex, 'SC_t')).max(0)
-//        max(get('PAV_BB_H_t') - getx(layoutIndex, 'SC_t'), 0)
+        (get('PAV_BB_H_t') - getx(index, 'SC_t')).max(0)
+//        max(get('PAV_BB_H_t') - getx(index, 'SC_t'), 0)
     }
     /**
      * Surrender Value at end of tth month:
      * SV_t = max(PAV_BB_t – SC_t,0)
      */
     formula "SV_L_t", { i, int index ->
-        (get('PAV_BB_L_t') - getx(layoutIndex, 'SC_t')).max(0)
-//        max(get('PAV_BB_L_t') - getx(layoutIndex, 'SC_t'), 0)
+        (get('PAV_BB_L_t') - getx(index, 'SC_t')).max(0)
+//        max(get('PAV_BB_L_t') - getx(index, 'SC_t'), 0)
     }
     /**
      * Surrender Value at end of tth month:
      * SV_t = max(PAV_BB_t – SC_t,0)
      */
     formula "SV_G_t", { i, int index ->
-        (get('PAV_BB_G_t') - getx(layoutIndex, 'SC_t')).max(0)
-//        max(get('PAV_BB_G_t') - getx(layoutIndex, 'SC_t'), 0)
+        (get('PAV_BB_G_t') - getx(index, 'SC_t')).max(0)
+//        max(get('PAV_BB_G_t') - getx(index, 'SC_t'), 0)
     }
     /**
      * Adjustment Policy Account Value at end of tth month:
@@ -1128,21 +1128,21 @@ CalcConfig {
      * =LY_bonus_unit_acc_t-1 + LY_bonus_unit_t
      */
     formula "LY_bonus_unit_acc_H_t", { i, int index ->
-        getLx(layoutIndex - 1, 'LY_bonus_unit_acc_H_t') + get('LY_bonus_unit_H_t')
+        getLx(index - 1, 'LY_bonus_unit_acc_H_t') + get('LY_bonus_unit_H_t')
     }
     /**
      * Loyal Bonus unit accumulation at the end of t th month:
      * =LY_bonus_unit_acc_t-1 + LY_bonus_unit_t
      */
     formula "LY_bonus_unit_acc_L_t", { i, int index ->
-        getLx(layoutIndex - 1, 'LY_bonus_unit_acc_L_t') + get('LY_bonus_unit_L_t')
+        getLx(index - 1, 'LY_bonus_unit_acc_L_t') + get('LY_bonus_unit_L_t')
     }
     /**
      * Loyal Bonus unit accumulation at the end of t th month:
      * =LY_bonus_unit_acc_t-1 + LY_bonus_unit_t
      */
     formula "LY_bonus_unit_acc_G_t", { i, int index ->
-        getLx(layoutIndex - 1, 'LY_bonus_unit_acc_G_t') + get('LY_bonus_unit_G_t')
+        getLx(index - 1, 'LY_bonus_unit_acc_G_t') + get('LY_bonus_unit_G_t')
     }
     /**
      * Fund Size bonus at end of tth month:
@@ -1159,7 +1159,7 @@ CalcConfig {
      * = 6.300.000
      */
     formula "FS_bonus_H_t", { i, int index ->
-        if ((layoutIndex + 1) % 12 == 0) {
+        if ((index + 1) % 12 == 0) {
             layerCalc(fsBonusRate, get('Adj_PAV_H_t'))
         } else {
             0
@@ -1180,7 +1180,7 @@ CalcConfig {
      * = 6.300.000
      */
     formula "FS_bonus_L_t", { i, int index ->
-        if ((layoutIndex + 1) % 12 == 0) {
+        if ((index + 1) % 12 == 0) {
             layerCalc(fsBonusRate, get('Adj_PAV_L_t'))
         } else {
             0
@@ -1201,7 +1201,7 @@ CalcConfig {
      * = 6.300.000
      */
     formula "FS_bonus_G_t", { i, int index ->
-        if ((layoutIndex + 1) % 12 == 0) {
+        if ((index + 1) % 12 == 0) {
             layerCalc(fsBonusRate, get('Adj_PAV_G_t'))
         } else {
             0
@@ -1213,42 +1213,42 @@ CalcConfig {
      * LY_bonus_acc_t = (LY_bonus_unit_acc_t-1 + LY_bonus_unit_t) * Price_EOM_t
      */
     formula 'LY_bonus_acc_H_t', { i, int index ->
-        get('LY_bonus_unit_acc_H_t') * getx(layoutIndex, 'Price_EOM_H_t')
+        get('LY_bonus_unit_acc_H_t') * getx(index, 'Price_EOM_H_t')
     }
     /**
      * Loyal bonus accumulation at end of tth month:
      * LY_bonus_acc_t = (LY_bonus_unit_acc_t-1 + LY_bonus_unit_t) * Price_EOM_t
      */
     formula 'LY_bonus_acc_L_t', { i, int index ->
-        get('LY_bonus_unit_acc_L_t') * getx(layoutIndex, 'Price_EOM_L_t')
+        get('LY_bonus_unit_acc_L_t') * getx(index, 'Price_EOM_L_t')
     }
     /**
      * Loyal bonus accumulation at end of tth month:
      * LY_bonus_acc_t = (LY_bonus_unit_acc_t-1 + LY_bonus_unit_t) * Price_EOM_t
      */
     formula 'LY_bonus_acc_G_t', { i, int index ->
-        get('LY_bonus_unit_acc_G_t') * getx(layoutIndex, 'Price_EOM_G_t')
+        get('LY_bonus_unit_acc_G_t') * getx(index, 'Price_EOM_G_t')
     }
     /**
      * Fund Size Bonus unit at the end of tth month:
      * =FS_bonus_t/Price_EOM_t
      */
     formula 'FS_bonus_unit_H_t', { i, int index ->
-        get('FS_bonus_H_t') / getx(layoutIndex, 'Price_EOM_H_t')
+        get('FS_bonus_H_t') / getx(index, 'Price_EOM_H_t')
     }
     /**
      * Fund Size Bonus unit at the end of tth month:
      * =FS_bonus_t/Price_EOM_t
      */
     formula 'FS_bonus_unit_L_t', { i, int index ->
-        get('FS_bonus_L_t') / getx(layoutIndex, 'Price_EOM_L_t')
+        get('FS_bonus_L_t') / getx(index, 'Price_EOM_L_t')
     }
     /**
      * Fund Size Bonus unit at the end of tth month:
      * =FS_bonus_t/Price_EOM_t
      */
     formula 'FS_bonus_unit_G_t', { i, int index ->
-        get('FS_bonus_G_t') / getx(layoutIndex, 'Price_EOM_G_t')
+        get('FS_bonus_G_t') / getx(index, 'Price_EOM_G_t')
     }
     /**
      * Policy Account Value after bonus at end of tth month.
@@ -1277,42 +1277,42 @@ CalcConfig {
      * =FS_bonus_unit_acc_t-1 + FS_bonus_unit_t
      */
     formula "FS_bonus_unit_acc_H_t", { i, int index ->
-        getLx(layoutIndex - 1, 'FS_bonus_unit_acc_H_t') + get('FS_bonus_unit_H_t')
+        getLx(index - 1, 'FS_bonus_unit_acc_H_t') + get('FS_bonus_unit_H_t')
     }
     /**
      * Fund Size Bonus unit accumulation at the end of t th month:
      * =FS_bonus_unit_acc_t-1 + FS_bonus_unit_t
      */
     formula "FS_bonus_unit_acc_L_t", { i, int index ->
-        getLx(layoutIndex - 1, 'FS_bonus_unit_acc_L_t') + get('FS_bonus_unit_L_t')
+        getLx(index - 1, 'FS_bonus_unit_acc_L_t') + get('FS_bonus_unit_L_t')
     }
     /**
      * Fund Size Bonus unit accumulation at the end of t th month:
      * =FS_bonus_unit_acc_t-1 + FS_bonus_unit_t
      */
     formula "FS_bonus_unit_acc_G_t", { i, int index ->
-        getLx(layoutIndex - 1, 'FS_bonus_unit_acc_G_t') + get('FS_bonus_unit_G_t')
+        getLx(index - 1, 'FS_bonus_unit_acc_G_t') + get('FS_bonus_unit_G_t')
     }
     /**
      * Sum bonus unit from Loyalty bonus and Fund size bonus:
      * = Sum_bonus_unit_t-1 + LY_bonus_unit_t + FS_bonus_unit_t
      */
     formula "Sum_bonus_unit_H_t", { i, int index ->
-        getLx(layoutIndex - 1, 'Sum_bonus_unit_H_t') + get('LY_bonus_unit_H_t') + get('FS_bonus_unit_H_t')
+        getLx(index - 1, 'Sum_bonus_unit_H_t') + get('LY_bonus_unit_H_t') + get('FS_bonus_unit_H_t')
     }
     /**
      * Sum bonus unit from Loyalty bonus and Fund size bonus:
      * = Sum_bonus_unit_t-1 + LY_bonus_unit_t + FS_bonus_unit_t
      */
     formula "Sum_bonus_unit_L_t", { i, int index ->
-        getLx(layoutIndex - 1, 'Sum_bonus_unit_L_t') + get('LY_bonus_unit_L_t') + get('FS_bonus_unit_L_t')
+        getLx(index - 1, 'Sum_bonus_unit_L_t') + get('LY_bonus_unit_L_t') + get('FS_bonus_unit_L_t')
     }
     /**
      * Sum bonus unit from Loyalty bonus and Fund size bonus:
      * = Sum_bonus_unit_t-1 + LY_bonus_unit_t + FS_bonus_unit_t
      */
     formula "Sum_bonus_unit_G_t", { i, int index ->
-        getLx(layoutIndex - 1, 'Sum_bonus_unit_G_t') + get('LY_bonus_unit_G_t') + get('FS_bonus_unit_G_t')
+        getLx(index - 1, 'Sum_bonus_unit_G_t') + get('LY_bonus_unit_G_t') + get('FS_bonus_unit_G_t')
     }
     ///////////////// Parallel Area 18 /////////////////////
     /**
@@ -1320,20 +1320,20 @@ CalcConfig {
      * FS_bonus_acc_t = (FS_bonus_unit_acc_t-1 + FS_bonus_unit_t) * Price_EOM_t
      */
     formula "FS_bonus_acc_H_t", { i, int index ->
-        get('FS_bonus_unit_acc_H_t') * getx(layoutIndex, 'Price_EOM_H_t')
+        get('FS_bonus_unit_acc_H_t') * getx(index, 'Price_EOM_H_t')
     }
     /**
      * Fund Size bonus accumulation at end of tth month:
      * FS_bonus_acc_t = (FS_bonus_unit_acc_t-1 + FS_bonus_unit_t) * Price_EOM_t
      */
     formula "FS_bonus_acc_L_t", { i, int index ->
-        get('FS_bonus_unit_acc_L_t') * getx(layoutIndex, 'Price_EOM_L_t')
+        get('FS_bonus_unit_acc_L_t') * getx(index, 'Price_EOM_L_t')
     }
     /**
      * Fund Size bonus accumulation at end of tth month:
      * FS_bonus_acc_t = (FS_bonus_unit_acc_t-1 + FS_bonus_unit_t) * Price_EOM_t
      */
     formula "FS_bonus_acc_G_t", { i, int index ->
-        get('FS_bonus_unit_acc_G_t') * getx(layoutIndex, 'Price_EOM_G_t')
+        get('FS_bonus_unit_acc_G_t') * getx(index, 'Price_EOM_G_t')
     }
 }

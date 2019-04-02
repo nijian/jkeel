@@ -35,14 +35,19 @@ public class Item<I> {
      */
     private int scale = 2;
 
-    public void calc(I input, ItemInstance itemInstance, Closure<Number> closure, List<BigDecimalOperand> outValueList) {
-        calc(input, itemInstance, closure);
+    public void calc(I input, ItemInstance itemInstance, LayoutInstance layoutInstance, boolean isLidx, Closure<Number> closure, List<BigDecimalOperand> outValueList) {
+        calc(input, itemInstance, layoutInstance, isLidx, closure);
         outValueList.add(itemInstance.getValue());
     }
 
-    public void calc(I input, ItemInstance itemInstance, Closure<Number> closure) {
+    public void calc(I input, ItemInstance itemInstance, LayoutInstance layoutInstance, boolean isLidx, Closure<Number> closure) {
         try {
-            Number rawValue = closure.call(input, itemInstance.getIndex());
+            Number rawValue;
+            if (isLidx) {
+                rawValue = closure.call(input, layoutInstance.getLayoutIndex());
+            } else {
+                rawValue = closure.call(input, itemInstance.getIndex());
+            }
             BigDecimalOperand operand = new BigDecimalOperand(rawValue, scale, true);
             itemInstance.setValue(operand);
         } catch (Exception e) {

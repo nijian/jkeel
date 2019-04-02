@@ -30,6 +30,7 @@ public class SerrationConfig implements AlgorithmConfig {
     private Cache<String, Closure> cache;
     private String cid;
     private Properties env;
+    private Object delegate;
     private boolean init = false;
 
     @Override
@@ -50,6 +51,7 @@ public class SerrationConfig implements AlgorithmConfig {
 
                 Class configClz = Class.forName("com.github.nijian.jkeel.algorithms.serration.CalcConfig");
                 Object configInstance = configClz.getDeclaredConstructor(Cache.class).newInstance(cache);
+                this.delegate = configInstance;
 
                 CompilerConfiguration compilerConfiguration = new CompilerConfiguration();
                 compilerConfiguration.setSourceEncoding("UTF-8");
@@ -100,5 +102,14 @@ public class SerrationConfig implements AlgorithmConfig {
 
     public void setInit(boolean init) {
         this.init = init;
+    }
+
+    @Override
+    public Object getDelegate() {
+        return delegate;
+    }
+
+    public void setDelegate(Object delegate) {
+        this.delegate = delegate;
     }
 }

@@ -17,4 +17,9 @@ public class SimpleConfig implements AlgorithmConfig {
     public Properties getEnv() {
         return null;
     }
+
+    @Override
+    public Object getDelegate() {
+        return null;
+    }
 }

@@ -101,8 +101,11 @@ public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorit
      */
     @Override
     protected <T> Context<I> calc(final T input, final TemplateAlgorithmContext ac) {
+
+        Cache<String, Closure> myCache = getCache(ac);
+
         logger.info("Serration algorithm context is initializing");
-        Context<I> context = new Context(input, ac, getCache(ac));
+        Context<I> context = new Context(input, ac, myCache, ac.getConfig().getDelegate());
         logger.info("Serration algorithm context has been initialized");
 
         Object calc;
@@ -114,11 +117,14 @@ public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorit
             throw new RuntimeException("Failed to load Calc", e);
         }
 
+
+
         LayoutTemplateInstance loutTI = context.getLayoutTemplateInstance();
         List<LayoutInstance> loutIs = loutTI.getLayoutInstances();
         for (LayoutInstance loutI : loutIs) {
             Layout lout = loutI.getLayout();
             int loutCount = loutI.getLayoutCount();
+            boolean isLidx = loutCount > 1 ? true : false;
             int loutIndex = loutI.getLayoutIndex();
             while (loutIndex < loutCount) {
                 for (ParallelAreaInstance pAreaI : loutI.getParallelAreaInstances()) {
@@ -128,7 +134,7 @@ public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorit
                                         itemIA.getItemInstances().parallelStream().forEach(
                                                 itemI ->
                                                 {
-                                                    calc(getCache(ac), context, input, loutI, itemI);
+                                                    calc(myCache, context, input, loutI, itemI, isLidx, calc);
                                                 }));
                     } else {
                         pAreaI.getItemInstanceAnchors().forEach(
@@ -136,19 +142,19 @@ public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorit
                                         itemIA.getItemInstances().forEach(
                                                 itemI ->
                                                 {
-                                                    calc(getCache(ac), context, input, loutI, itemI);
+                                                    calc(myCache, context, input, loutI, itemI, isLidx, calc);
                                                 }));
                     }
-                    pAreaI.getParallelArea().exec(pAreaI, getCache(ac));
+                    pAreaI.getParallelArea().exec(pAreaI, myCache);
                 }
-                lout.exec(loutI, getCache(ac));
+                lout.exec(loutI, myCache);
                 loutIndex++;
                 loutI.setLayoutIndex(loutIndex);
             }
         }
 
         logger.info("Serration algorithm output is processing");
-        loutTI.getLayoutTemplate().exec(input, calc, getCache(ac));
+        loutTI.getLayoutTemplate().exec(input, calc, myCache);
         logger.info("Serration algorithm output is processed");
 
         return context;
@@ -164,17 +170,17 @@ public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorit
      * @param itemInstance   item instance
      * @param <T>            final input type
      */
-    private <T> void calc(Cache<String, Closure> closureCache, Context<I> context, T input, LayoutInstance layoutInstance, ItemInstance itemInstance) {
+    private <T> void calc(Cache<String, Closure> closureCache, Context<I> context, T input, LayoutInstance layoutInstance, ItemInstance itemInstance, boolean isLidx, Object calc) {
         Item item = itemInstance.getItem();
         String itemName = item.getName();
         Closure closure = closureCache.get(itemName);
         if (closure != null) {
-            closure.setDelegate(layoutInstance);
+            closure.setDelegate(calc);
             closure.setResolveStrategy(Closure.DELEGATE_ONLY);
             if (item.isOut()) {
-                item.calc(input, itemInstance, closure, context.getItemOutMap().get(itemName).getMap().get(itemName));
+                item.calc(input, itemInstance, layoutInstance, isLidx, closure, context.getItemOutMap().get(itemName).getMap().get(itemName));
             } else {
-                item.calc(input, itemInstance, closure);
+                item.calc(input, itemInstance, layoutInstance, isLidx, closure);
             }
         }
     }

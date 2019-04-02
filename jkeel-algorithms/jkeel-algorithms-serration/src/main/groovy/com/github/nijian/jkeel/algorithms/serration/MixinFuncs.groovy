@@ -2,38 +2,20 @@ package com.github.nijian.jkeel.algorithms.serration
 
 import com.github.nijian.jkeel.algorithms.serration.operands.BigDecimalOperand
 
-
-/**
- * DO NOT CHANGE THIS CLASS UNLESS YOU ARE CLEAR WHAT EXACT IMPACT FOR PERFORMANCE!!!
- *
- * Created by johnson.ni
- */
 trait MixinFuncs {
 
-    /**
-     *
-     */
     def createGroupIndex(String paramName, int groupCount, String groupByParamName) {
         context.createGroupIndex(paramName, groupCount, groupByParamName)
     }
 
-    /**
-     *
-     */
     def createGroupIndexOnBase(String paramName, int groupCount, int base, String groupByParamName) {
         context.createGroupIndexOnBase(paramName, groupCount, base, groupByParamName)
     }
 
-    /**
-     *
-     */
     def putGroupSum(String paramName, int groupCount, String... sourceParamNames) {
         context.putGroupSum(paramName, groupCount, sourceParamNames)
     }
 
-    /**
-     *
-     */
     def putLGroupSum(String paramName, int groupCount, String... sourceParamNames) {
         context.putLGroupSum(paramName, groupCount, sourceParamNames)
     }
@@ -50,63 +32,26 @@ trait MixinFuncs {
         context.putLGroupFirst(paramName, groupCount, sourceParamName)
     }
 
-    /**
-     *
-     */
     def putLGroupLast(String paramName, int groupCount, String sourceParamName) {
         context.putLGroupLast(paramName, groupCount, sourceParamName)
     }
 
-    /**
-     * Get item value from Parallel Area
-     *
-     * @param paramName name of item
-     * @return value of item
-     */
     def get(String paramName) {
         context.get(paramName)
     }
 
-    /**
-     * Get item value from Parallel Area by item index
-     *
-     * @param index index of item
-     * @param paramName name of item
-     * @return value of item
-     */
     def getx(int index, String paramName) {
         context.getx(index, paramName)
     }
 
-    /**
-     * Get item value from AlgorithmTemplate Output
-     *
-     * @param paramName name of item
-     * @return value of item
-     */
     def getL(String paramName) {
         context.getL(paramName)
     }
 
-    /**
-     * Get item value from AlgorithmTemplate Output by item index
-     *
-     * @param index index of item
-     * @param paramName name of item
-     * @return value of item
-     */
     def getLx(int index, String paramName) {
         context.getLx(index, paramName)
     }
 
-    /**
-     * Similar to SUMPRODUCT function in Excel
-     *
-     * @param index
-     * @param offset
-     * @param arrayNames
-     * @return
-     */
     def sumProduct(int index, int offset, String... arrayNames) {
         context.sumProduct(context, index, offset, arrayNames)
     }

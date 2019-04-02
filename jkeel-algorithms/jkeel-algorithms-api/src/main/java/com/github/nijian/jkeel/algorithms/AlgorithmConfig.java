@@ -35,4 +35,11 @@ public interface AlgorithmConfig extends Serializable {
      */
     Properties getEnv();
 
+    /**
+     * Get config delegate
+     *
+     * @return delegate object
+     */
+    Object getDelegate();
+
 }
