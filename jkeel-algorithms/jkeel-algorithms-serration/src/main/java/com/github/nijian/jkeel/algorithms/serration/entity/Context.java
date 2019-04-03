@@ -25,7 +25,7 @@ public class Context<I> {
     private LayoutTemplateInstance layoutTemplateInstance;
     private Properties env;
 
-    public Context(I input, TemplateAlgorithmContext<LayoutTemplate, AlgorithmConfig> ac, Cache<String, Closure> cache, Object calcConfig) {
+    public Context(I input, TemplateAlgorithmContext<LayoutTemplate, AlgorithmConfig> ac, Map<String, Closure> closureMap, Object calcConfig) {
 
         this.input = input;
         this.outputMap = new HashMap<>();
@@ -40,7 +40,7 @@ public class Context<I> {
         List<Layout> loutList = layoutTemplate.getLayouts();
         loutList.forEach(layout ->
                 {
-                    LayoutInstance layoutInstance = new LayoutInstance(this, layout, cache, calcConfig);
+                    LayoutInstance layoutInstance = new LayoutInstance(this, layout, closureMap, calcConfig);
                     layoutInstances.add(layoutInstance);
                     LayoutOutputInstance layoutOutputInstance = layoutInstance.getLayoutOutputInstance();
 

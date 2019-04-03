@@ -51,21 +51,36 @@ public class SerrationParallelAlgorithmTest {
     public void setUp() throws Exception {
 
     }
+
     @After
     public void tearDown() throws Exception {
     }
 
     @Test
-    public void perform() throws Exception {
+    public void perform0() throws Exception {
 
         algorithm.perform(null, varMap, ac);
 
-//        for (int i = 0; i < 100; i++) {
-//            algorithm.perform(null, varMap, ac);
-//        }
+        for (int i = 0; i < 100; i++) {
+            algorithm.perform(null, varMap, ac);
+        }
 //
 //        algorithm.perform(null, varMap, ac);
+        Thread.sleep(1000 * 5);
+        assertEquals(1, 1);
+    }
 
+    @Test
+    public void perform1() throws Exception {
+
+        algorithm.perform(null, varMap, ac);
+
+        for (int i = 0; i < 100; i++) {
+            algorithm.perform(null, varMap, ac);
+        }
+//
+//        algorithm.perform(null, varMap, ac);
+        Thread.sleep(1000 * 5);
         assertEquals(1, 1);
     }
 }

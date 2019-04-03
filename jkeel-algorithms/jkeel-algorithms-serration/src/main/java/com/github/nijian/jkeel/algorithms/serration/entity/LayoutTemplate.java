@@ -7,6 +7,7 @@ import groovy.lang.Closure;
 
 import javax.cache.Cache;
 import java.util.List;
+import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class LayoutTemplate<I> implements AlgorithmTemplate {
@@ -15,8 +16,8 @@ public class LayoutTemplate<I> implements AlgorithmTemplate {
     private String outputFields;
     private List<Layout> layouts;
 
-    public void exec(I input, Object calc, Cache<String, Closure> closureCache) {
-        Closure closure = closureCache.get(Const.OUTPUT);
+    public void exec(I input, Object calc, final Map<String, Closure> closureMap) {
+        Closure closure = closureMap.get(Const.OUTPUT);
         if (closure != null) {
             closure.setDelegate(calc);
             closure.setResolveStrategy(Closure.DELEGATE_ONLY);

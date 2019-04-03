@@ -4,6 +4,7 @@ import groovy.lang.Closure;
 
 import javax.cache.Cache;
 import java.util.List;
+import java.util.Map;
 
 public class LayoutInstance {
 
@@ -14,12 +15,12 @@ public class LayoutInstance {
     private LayoutOutputInstance layoutOutputInstance = new LayoutOutputInstance();
     private List<ParallelAreaInstance> parallelAreaInstances;
 
-    public LayoutInstance(Context<?> context, Layout layout, Cache<String, Closure> closureCache, Object calcConfig) {
+    public LayoutInstance(Context<?> context, Layout layout, Map<String, Closure> closureMap, Object calcConfig) {
         this.layout = layout;
         String itemGroupName = layout.getItemGroupCount();
         String loutCountName = layout.getLayoutCount();
         if (itemGroupName != null) {
-            Closure closure = closureCache.get(itemGroupName);
+            Closure closure = closureMap.get(itemGroupName);
             if (closure != null) {
                 closure.setDelegate(calcConfig);
                 closure.setResolveStrategy(Closure.DELEGATE_ONLY);
@@ -28,7 +29,7 @@ public class LayoutInstance {
         }
 
         if (loutCountName != null) {
-            Closure closure = closureCache.get(loutCountName);
+            Closure closure = closureMap.get(loutCountName);
             if (closure != null) {
                 closure.setDelegate(calcConfig);
                 closure.setResolveStrategy(Closure.DELEGATE_ONLY);

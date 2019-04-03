@@ -5,6 +5,7 @@ import groovy.lang.Closure;
 
 import javax.cache.Cache;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Layout
@@ -21,9 +22,9 @@ public class Layout {
     private List<ParallelArea> parallelAreas;
     private String strategyName;
 
-    public void exec(final LayoutInstance layoutInstance, final Cache<String, Closure> closureCache) {
+    public void exec(final LayoutInstance layoutInstance, final Map<String, Closure> closureMap) {
         if (strategyName != null) {
-            Closure closure = closureCache.get(strategyName);
+            Closure closure = closureMap.get(strategyName);
             if (closure != null) {
                 closure.setDelegate(layoutInstance);
                 closure.setResolveStrategy(Closure.DELEGATE_ONLY);

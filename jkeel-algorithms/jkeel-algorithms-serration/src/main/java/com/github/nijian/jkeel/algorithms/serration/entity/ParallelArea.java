@@ -5,6 +5,7 @@ import groovy.lang.Closure;
 
 import javax.cache.Cache;
 import java.util.List;
+import java.util.Map;
 
 /**
  * ParallelArea
@@ -18,9 +19,9 @@ public class ParallelArea {
     private String processorName;
     private List<Item> items;
 
-    public void exec(final ParallelAreaInstance parallelAreaInstance, final Cache<String, Closure> closureCache) {
+    public void exec(final ParallelAreaInstance parallelAreaInstance, final Map<String, Closure> closureMap) {
         if (processorName != null) {
-            Closure closure = closureCache.get(processorName);
+            Closure closure = closureMap.get(processorName);
             if (closure != null) {
                 closure.setDelegate(parallelAreaInstance);
                 closure.setResolveStrategy(Closure.DELEGATE_ONLY);

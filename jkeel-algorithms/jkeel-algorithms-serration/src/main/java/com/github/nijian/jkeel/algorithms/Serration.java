@@ -33,7 +33,7 @@ public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorit
     /**
      * Serration algorithm is based on Groovy closure.
      * IMPORTANT!!!
-     * Closure is thread safe since Groovy 2.4.13
+     * Closure is not thread safe, will be cloned to closures map
      */
     private Cache<String, Closure> cache;
 
@@ -69,6 +69,7 @@ public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorit
         if (cache == null) {
             cache = ((SerrationConfig) ac.getConfig()).getCache();
         }
+
         return cache;
     }
 
@@ -85,7 +86,7 @@ public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorit
         Closure closure = getCache(ac).get(Const.CONVERT);
         if (closure != null) {
             final Map<String, ?> input = new HashMap<>();
-            closure.call(rawInput, var, input);
+            ((Closure) closure.clone()).call(rawInput, var, input);
             return input;
         }
         return null;
@@ -102,10 +103,19 @@ public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorit
     @Override
     protected <T> Context<I> calc(final T input, final TemplateAlgorithmContext ac) {
 
-        Cache<String, Closure> myCache = getCache(ac);
+        logger.info("Serration algorithm is preparing closure map");
+        Map<String, Closure> closureMap = new HashMap<>();
+        getCache(ac).forEach(item ->
+                {
+                    String key = item.getKey();
+                    Closure closure = (Closure) item.getValue().clone();
+                    closureMap.put(key, closure);
+                }
+        );
+        logger.info("Serration algorithm closure map is ready");
 
         logger.info("Serration algorithm context is initializing");
-        Context<I> context = new Context(input, ac, myCache, ac.getConfig().getDelegate());
+        Context<I> context = new Context(input, ac, closureMap, ac.getConfig().getDelegate());
         logger.info("Serration algorithm context has been initialized");
 
         Object calc;
@@ -116,7 +126,6 @@ public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorit
             logger.error("Failed to load Calc", e);
             throw new RuntimeException("Failed to load Calc", e);
         }
-
 
 
         LayoutTemplateInstance loutTI = context.getLayoutTemplateInstance();
@@ -134,7 +143,7 @@ public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorit
                                         itemIA.getItemInstances().parallelStream().forEach(
                                                 itemI ->
                                                 {
-                                                    calc(myCache, context, input, loutI, itemI, isLidx, calc);
+                                                    calc(closureMap, context, input, loutI, itemI, isLidx, calc);
                                                 }));
                     } else {
                         pAreaI.getItemInstanceAnchors().forEach(
@@ -142,19 +151,19 @@ public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorit
                                         itemIA.getItemInstances().forEach(
                                                 itemI ->
                                                 {
-                                                    calc(myCache, context, input, loutI, itemI, isLidx, calc);
+                                                    calc(closureMap, context, input, loutI, itemI, isLidx, calc);
                                                 }));
                     }
-                    pAreaI.getParallelArea().exec(pAreaI, myCache);
+                    pAreaI.getParallelArea().exec(pAreaI, closureMap);
                 }
-                lout.exec(loutI, myCache);
+                lout.exec(loutI, closureMap);
                 loutIndex++;
                 loutI.setLayoutIndex(loutIndex);
             }
         }
 
         logger.info("Serration algorithm output is processing");
-        loutTI.getLayoutTemplate().exec(input, calc, myCache);
+        loutTI.getLayoutTemplate().exec(input, calc, closureMap);
         logger.info("Serration algorithm output is processed");
 
         return context;
@@ -163,17 +172,17 @@ public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorit
     /**
      * Calculation support.
      *
-     * @param closureCache   cache
+     * @param closureMap     cache
      * @param context        calculation result reference
      * @param input          final input
      * @param layoutInstance layout instance
      * @param itemInstance   item instance
      * @param <T>            final input type
      */
-    private <T> void calc(Cache<String, Closure> closureCache, Context<I> context, T input, LayoutInstance layoutInstance, ItemInstance itemInstance, boolean isLidx, Object calc) {
+    private <T> void calc(Map<String, Closure> closureMap, Context<I> context, T input, LayoutInstance layoutInstance, ItemInstance itemInstance, boolean isLidx, Object calc) {
         Item item = itemInstance.getItem();
         String itemName = item.getName();
-        Closure closure = closureCache.get(itemName);
+        Closure closure = closureMap.get(itemName);
         if (closure != null) {
             closure.setDelegate(calc);
             closure.setResolveStrategy(Closure.DELEGATE_ONLY);
