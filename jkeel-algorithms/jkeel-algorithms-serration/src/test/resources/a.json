@@ -43,7 +43,7 @@
       ]
     },
     {
-      "itemGroupCount": "Layout-2-ItemGroupCount",
+      "itemCountName": "Layout-2-ItemGroupCount",
       "parallel": true,
       "parallelAreas": [
         {
@@ -137,7 +137,7 @@
       ]
     },
     {
-      "layoutCount": "Layout-3-LayoutCount",
+      "loutCountName": "Layout-3-LayoutCount",
       "parallelAreas": [
         {
           "items": [

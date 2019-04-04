@@ -11,26 +11,41 @@ import java.util.List;
  */
 public class LayoutTemplateInstance {
 
-    private LayoutTemplate layoutTemplate;
-    private List<LayoutInstance> layoutInstances = new ArrayList<>();
+    /**
+     * layout template
+     */
+    private final LayoutTemplate layoutTemplate;
 
+    /**
+     * layout instance list
+     */
+    private final List<LayoutInstance> layoutInstances = new ArrayList<>();
+
+    /**
+     * Constructor
+     *
+     * @param layoutTemplate layout template
+     */
     LayoutTemplateInstance(LayoutTemplate layoutTemplate) {
         this.layoutTemplate = layoutTemplate;
     }
 
+    /**
+     * Get layout template
+     *
+     * @return layout template
+     */
     public LayoutTemplate getLayoutTemplate() {
         return layoutTemplate;
     }
 
-    public void setLayoutTemplate(LayoutTemplate layoutTemplate) {
-        this.layoutTemplate = layoutTemplate;
-    }
-
+    /**
+     * Get layout instance
+     *
+     * @return layout instance
+     */
     public List<LayoutInstance> getLayoutInstances() {
         return layoutInstances;
     }
 
-    public void setLayoutInstances(List<LayoutInstance> layoutInstances) {
-        this.layoutInstances = layoutInstances;
-    }
 }

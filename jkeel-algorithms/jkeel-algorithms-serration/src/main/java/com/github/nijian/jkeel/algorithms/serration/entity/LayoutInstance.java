@@ -2,29 +2,42 @@ package com.github.nijian.jkeel.algorithms.serration.entity;
 
 import groovy.lang.Closure;
 
-import javax.cache.Cache;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Layout instance
+ *
+ * @author nj
+ * @since 0.0.1
+ */
 public class LayoutInstance {
 
-    private Layout layout;
-    private int itemGroupCount = 1;
-    private int layoutCount = 1;
-    private int LayoutIndex = 0;
-    private LayoutOutputInstance layoutOutputInstance = new LayoutOutputInstance();
+    private final Layout lout;
+    private int itemCount = 1;
+    private int loutCount = 1;
+    private int index = 0;
+    private final LayoutOutputInstance layoutOutputInstance = new LayoutOutputInstance();
     private List<ParallelAreaInstance> parallelAreaInstances;
 
+    /**
+     * Constructor
+     *
+     * @param context context
+     * @param layout layout
+     * @param closureMap closure map
+     * @param calcConfig calc config
+     */
     public LayoutInstance(Context<?> context, Layout layout, Map<String, Closure> closureMap, Object calcConfig) {
-        this.layout = layout;
-        String itemGroupName = layout.getItemGroupCount();
-        String loutCountName = layout.getLayoutCount();
+        this.lout = layout;
+        String itemGroupName = layout.getItemCountName();
+        String loutCountName = layout.getLoutCountName();
         if (itemGroupName != null) {
             Closure closure = closureMap.get(itemGroupName);
             if (closure != null) {
                 closure.setDelegate(calcConfig);
                 closure.setResolveStrategy(Closure.DELEGATE_ONLY);
-                this.itemGroupCount = (int) closure.call(context.getInput());
+                this.itemCount = (int) closure.call(context.getInput());
             }
         }
 
@@ -33,49 +46,33 @@ public class LayoutInstance {
             if (closure != null) {
                 closure.setDelegate(calcConfig);
                 closure.setResolveStrategy(Closure.DELEGATE_ONLY);
-                this.layoutCount = (int) closure.call(context.getInput());
+                this.loutCount = (int) closure.call(context.getInput());
             }
         }
     }
 
-    public Layout getLayout() {
-        return layout;
+    public Layout getLout() {
+        return lout;
     }
 
-    public void setLayout(Layout layout) {
-        this.layout = layout;
+    public int getItemCount() {
+        return itemCount;
     }
 
-    public int getItemGroupCount() {
-        return itemGroupCount;
+    public int getLoutCount() {
+        return loutCount;
     }
 
-    public void setItemGroupCount(int itemGroupCount) {
-        this.itemGroupCount = itemGroupCount;
+    public int getIndex() {
+        return index;
     }
 
-    public int getLayoutCount() {
-        return layoutCount;
-    }
-
-    public void setLayoutCount(int layoutCount) {
-        this.layoutCount = layoutCount;
-    }
-
-    public int getLayoutIndex() {
-        return LayoutIndex;
-    }
-
-    public void setLayoutIndex(int layoutIndex) {
-        LayoutIndex = layoutIndex;
+    public void setIndex(int index) {
+        this.index = index;
     }
 
     public LayoutOutputInstance getLayoutOutputInstance() {
         return layoutOutputInstance;
-    }
-
-    public void setLayoutOutputInstance(LayoutOutputInstance layoutOutputInstance) {
-        this.layoutOutputInstance = layoutOutputInstance;
     }
 
     public List<ParallelAreaInstance> getParallelAreaInstances() {

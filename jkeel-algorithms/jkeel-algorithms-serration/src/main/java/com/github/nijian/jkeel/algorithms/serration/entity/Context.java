@@ -5,33 +5,57 @@ import com.github.nijian.jkeel.algorithms.TemplateAlgorithmContext;
 import com.github.nijian.jkeel.algorithms.serration.operands.BigDecimalOperand;
 import groovy.lang.Closure;
 
-import javax.cache.Cache;
 import java.math.BigDecimal;
 import java.util.*;
 
 /**
  * Each serration algorithm calculation has a specific Context.
  *
- * @param <I> final input type
+ * @param <I> final/converted input type
  * @author nj
  * @since 0.0.1
  */
 public class Context<I> {
 
+    /**
+     * final/converted input
+     */
     private I input;
-    private Map<String, List<BigDecimal>> outputMap;
-    private Map<String, ItemInstanceAnchor> itemLocationMap;
-    private Map<String, LayoutOutputInstance> itemOutMap;
-    private LayoutTemplateInstance layoutTemplateInstance;
-    private Properties env;
 
+    /**
+     * final output data
+     */
+    private Map<String, List<BigDecimal>> outputMap;
+
+    /**
+     * item map in location
+     */
+    private Map<String, ItemInstanceAnchor> itemLocationMap;
+
+    /**
+     * item map in layout output instance
+     */
+    private Map<String, LayoutOutputInstance> itemOutMap;
+
+    /**
+     * layout template instance
+     */
+    private LayoutTemplateInstance layoutTemplateInstance;
+
+    /**
+     * Context Constructor. Generate layout template instance by template.
+     *
+     * @param input      final/converted input
+     * @param ac         algorithm context
+     * @param closureMap closure map
+     * @param calcConfig extend config for specific algorithm implementation
+     */
     public Context(I input, TemplateAlgorithmContext<LayoutTemplate, AlgorithmConfig> ac, Map<String, Closure> closureMap, Object calcConfig) {
 
         this.input = input;
         this.outputMap = new HashMap<>();
         this.itemLocationMap = new HashMap<>();
         this.itemOutMap = new HashMap<>();
-        this.env = ac.getConfig().getEnv();
 
         //build layout instance
         LayoutTemplate layoutTemplate = ac.getTemplate();
@@ -62,7 +86,7 @@ public class Context<I> {
                                                 layoutOutputInstance.getMap().put(item.getName(), new ArrayList<>());
                                             }
 
-                                            ItemInstanceAnchor itemInstanceAnchor = new ItemInstanceAnchor(item, layoutInstance.getItemGroupCount());
+                                            ItemInstanceAnchor itemInstanceAnchor = new ItemInstanceAnchor(item, layoutInstance.getItemCount());
                                             itemLocationMap.put(item.getName(), itemInstanceAnchor);
                                             itemIAList.add(itemInstanceAnchor);
 
@@ -86,28 +110,49 @@ public class Context<I> {
         }
     }
 
+    /**
+     * Get final/converted input.
+     *
+     * @return final/converted input
+     */
     public I getInput() {
         return input;
     }
 
+    /**
+     * Get final result
+     *
+     * @return final result
+     */
     public Map<String, List<BigDecimal>> getOutputMap() {
         return outputMap;
     }
 
+    /**
+     * Get item location map
+     *
+     * @return item location map
+     */
     public Map<String, ItemInstanceAnchor> getItemLocationMap() {
         return itemLocationMap;
     }
 
+    /**
+     * Get item out map
+     *
+     * @return item out map
+     */
     public Map<String, LayoutOutputInstance> getItemOutMap() {
         return itemOutMap;
     }
 
+    /**
+     * Get layout template instance
+     *
+     * @return layout template instance
+     */
     public LayoutTemplateInstance getLayoutTemplateInstance() {
         return layoutTemplateInstance;
-    }
-
-    public Properties getEnv() {
-        return env;
     }
 
     ///////////////////////

@@ -166,7 +166,7 @@ CalcConfig {
         putLLast 'FS_bonus_acc_G_end', 'FS_bonus_acc_G_t'
     }
 
-    itemGroupCount "Layout-2-ItemGroupCount", { i ->
+    itemCount "Layout-2-ItemGroupCount", { i ->
         int age = nearestAge i.illusDate, i.insuredDOB
         if (i.polTermOpt == 1) {
             (90 - age) * 12
@@ -179,7 +179,7 @@ CalcConfig {
         }
     }
 
-    layoutCount "Layout-3-LayoutCount", { i ->
+    loutCount "Layout-3-LayoutCount", { i ->
         int age = nearestAge i.illusDate, i.insuredDOB
         if (i.polTermOpt == 1) {
             (90 - age) * 12

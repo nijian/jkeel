@@ -59,11 +59,11 @@ public class SerrationParallelAlgorithmTest {
     @Test
     public void perform0() throws Exception {
 
-        algorithm.perform(null, varMap, ac);
+        algorithm.perform(null, varMap, ac, true);
 
-        for (int i = 0; i < 100; i++) {
-            algorithm.perform(null, varMap, ac);
-        }
+//        for (int i = 0; i < 100; i++) {
+//            algorithm.perform(null, varMap, ac);
+//        }
 //
 //        algorithm.perform(null, varMap, ac);
         Thread.sleep(1000 * 5);
@@ -75,9 +75,9 @@ public class SerrationParallelAlgorithmTest {
 
         algorithm.perform(null, varMap, ac);
 
-        for (int i = 0; i < 100; i++) {
-            algorithm.perform(null, varMap, ac);
-        }
+//        for (int i = 0; i < 100; i++) {
+//            algorithm.perform(null, varMap, ac);
+//        }
 //
 //        algorithm.perform(null, varMap, ac);
         Thread.sleep(1000 * 5);

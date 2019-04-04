@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 /**
- * Item is Serration algorithm calculation minimum unit. It's defined in the LayoutTemplate.
+ * Item is Serration algorithm calculation minimum unit.
  *
  * @param <I> final input type
  * @author nj
@@ -35,16 +35,37 @@ public class Item<I> {
      */
     private int scale = 2;
 
-    public void calc(I input, ItemInstance itemInstance, LayoutInstance layoutInstance, boolean isLidx, Closure<Number> closure, List<BigDecimalOperand> outValueList) {
+    /**
+     * Calculate item instance value and output to item out map
+     *
+     * @param input          final/converted input
+     * @param itemInstance   item instance
+     * @param layoutInstance layout instance
+     * @param isLidx         is layout index or not
+     * @param closure        formula closure
+     * @param outValueList   out value list in item out map
+     */
+    public void calc(final I input, final ItemInstance itemInstance, final LayoutInstance layoutInstance,
+                     final boolean isLidx, final Closure<Number> closure, final List<BigDecimalOperand> outValueList) {
         calc(input, itemInstance, layoutInstance, isLidx, closure);
         outValueList.add(itemInstance.getValue());
     }
 
-    public void calc(I input, ItemInstance itemInstance, LayoutInstance layoutInstance, boolean isLidx, Closure<Number> closure) {
+    /**
+     * Calculate item instance value
+     *
+     * @param input          final/converted input
+     * @param itemInstance   item instance
+     * @param layoutInstance layout instance
+     * @param isLidx         is layout index or not
+     * @param closure        formula closure
+     */
+    public void calc(final I input, final ItemInstance itemInstance, final LayoutInstance layoutInstance,
+                     final boolean isLidx, final Closure<Number> closure) {
         try {
             Number rawValue;
             if (isLidx) {
-                rawValue = closure.call(input, layoutInstance.getLayoutIndex());
+                rawValue = closure.call(input, layoutInstance.getIndex());
             } else {
                 rawValue = closure.call(input, itemInstance.getIndex());
             }
@@ -56,26 +77,56 @@ public class Item<I> {
         }
     }
 
+    /**
+     * Get item name
+     *
+     * @return item name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Set item name
+     *
+     * @param name item name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Output item value to item out map or not?
+     *
+     * @return true or false
+     */
     public boolean isOut() {
         return out;
     }
 
+    /**
+     * Set output flag
+     *
+     * @param out true or false
+     */
     public void setOut(boolean out) {
         this.out = out;
     }
 
+    /**
+     * Get the scale config of item value
+     *
+     * @return scale config
+     */
     public int getScale() {
         return scale;
     }
 
+    /**
+     * Set the scale config for item value
+     *
+     * @param scale scale config
+     */
     public void setScale(int scale) {
         this.scale = scale;
     }

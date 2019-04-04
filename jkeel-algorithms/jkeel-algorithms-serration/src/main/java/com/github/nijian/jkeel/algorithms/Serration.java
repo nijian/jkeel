@@ -131,10 +131,10 @@ public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorit
         LayoutTemplateInstance loutTI = context.getLayoutTemplateInstance();
         List<LayoutInstance> loutIs = loutTI.getLayoutInstances();
         for (LayoutInstance loutI : loutIs) {
-            Layout lout = loutI.getLayout();
-            int loutCount = loutI.getLayoutCount();
+            Layout lout = loutI.getLout();
+            int loutCount = loutI.getLoutCount();
             boolean isLidx = loutCount > 1 ? true : false;
-            int loutIndex = loutI.getLayoutIndex();
+            int loutIndex = loutI.getIndex();
             while (loutIndex < loutCount) {
                 for (ParallelAreaInstance pAreaI : loutI.getParallelAreaInstances()) {
                     if (lout.isParallel()) {
@@ -154,11 +154,11 @@ public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorit
                                                     calc(closureMap, context, input, loutI, itemI, isLidx, calc);
                                                 }));
                     }
-                    pAreaI.getParallelArea().exec(pAreaI, closureMap);
+                    pAreaI.getParallelArea().exec(pAreaI, closureMap, calc);
                 }
-                lout.exec(loutI, closureMap);
+                lout.exec(loutI, closureMap, calc);
                 loutIndex++;
-                loutI.setLayoutIndex(loutIndex);
+                loutI.setIndex(loutIndex);
             }
         }
 
@@ -209,8 +209,8 @@ public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorit
         int maxRowNum = 0;
         List<LayoutInstance> layoutInstances = result.getLayoutTemplateInstance().getLayoutInstances();
         for (LayoutInstance layoutInstance : layoutInstances) {
-            int itemGC = layoutInstance.getItemGroupCount();
-            int loutC = layoutInstance.getLayoutCount();
+            int itemGC = layoutInstance.getItemCount();
+            int loutC = layoutInstance.getLoutCount();
             if (itemGC > maxRowNum) {
                 maxRowNum = itemGC;
             }

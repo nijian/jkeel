@@ -2,6 +2,12 @@ package com.github.nijian.jkeel.algorithms.serration
 
 import com.github.nijian.jkeel.algorithms.serration.operands.BigDecimalOperand
 
+/**
+ * Provide a set of DSL for algorithm config
+ *
+ * @author nj
+ * @since 0.0.1
+ */
 trait MixinFuncs {
 
     def createGroupIndex(String paramName, int groupCount, String groupByParamName) {

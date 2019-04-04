@@ -2,12 +2,18 @@ package com.github.nijian.jkeel.algorithms.serration
 
 import javax.cache.Cache
 
+/**
+ * Stands for Algorithm Config in Groovy.
+ *
+ * @author nj
+ * @since 0.0.1
+ */
 class CalcConfig implements MixinFuncs {
 
     Cache<String, Closure> cache
     String cid
 
-    CalcConfig(Cache<String, Closure> cache){
+    CalcConfig(Cache<String, Closure> cache) {
         this.cache = cache
     }
 
@@ -29,11 +35,11 @@ class CalcConfig implements MixinFuncs {
         cache.put(Const.OUTPUT, closure)
     }
 
-    def itemGroupCount(String name, Closure<Integer> closure) {
+    def itemCount(String name, Closure<Integer> closure) {
         cache.put(name, closure)
     }
 
-    def layoutCount(String name, Closure<Integer> closure) {
+    def loutCount(String name, Closure<Integer> closure) {
         cache.put(name, closure)
     }
 
