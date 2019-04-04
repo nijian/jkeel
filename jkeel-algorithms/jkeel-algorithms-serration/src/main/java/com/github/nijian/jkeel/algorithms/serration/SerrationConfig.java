@@ -27,23 +27,51 @@ public class SerrationConfig implements AlgorithmConfig {
 
     private static Logger logger = LoggerFactory.getLogger(SerrationConfig.class);
 
+    /**
+     * closure cache
+     */
     private Cache<String, Closure> cache;
+
+    /**
+     * algorithm context global identifier
+     */
     private String cid;
+
+    /**
+     * environment variables
+     */
     private Properties env;
+
+    /**
+     * config delegate
+     */
     private Object delegate;
+
+    /**
+     * initialized or not
+     */
     private boolean init = false;
 
     @Override
-    public void init(String cid, String configUri, Properties env) {
+    public void init(final String cid, final String configUri, final Properties env) {
         try {
             if (!init) {
                 this.env = env;
+                this.cid = cid;
 
-                String cachingProviderName = "org.ehcache.jsr107.EhcacheCachingProvider";
+                String cachingProviderName = env == null ? null : env.getProperty(Const.CACHING_PROVIDER_NAME_KEY);
+                if (cachingProviderName == null) {
+                    cachingProviderName = Const.CACHING_PROVIDER_NAME;
+                }
                 CachingProvider cachingProvider = Caching.getCachingProvider(cachingProviderName);
                 logger.info("Cache Provider:{}", cachingProviderName);
+
+                String cacheConfigFileName = env == null ? null : env.getProperty(Const.CACHING_CONFIG_FILE_NAME_KEY);
+                if (cacheConfigFileName == null) {
+                    cacheConfigFileName = Const.CACHING_CONFIG_FILE_NAME;
+                }
                 CacheManager cacheManager = cachingProvider.getCacheManager(
-                        getClass().getResource("/serration-ehcache.xml").toURI(),
+                        getClass().getResource(cacheConfigFileName).toURI(),
                         getClass().getClassLoader());
                 MutableConfiguration<String, Closure> configuration = new MutableConfiguration<String, Closure>().setStoreByValue(false);
                 cache = cacheManager.createCache(cid, configuration);
@@ -74,17 +102,9 @@ public class SerrationConfig implements AlgorithmConfig {
         return cache;
     }
 
-    public void setCache(Cache<String, Closure> cache) {
-        this.cache = cache;
-    }
-
     @Override
     public String getCid() {
         return cid;
-    }
-
-    public void setCid(String cid) {
-        this.cid = cid;
     }
 
     @Override
@@ -92,24 +112,8 @@ public class SerrationConfig implements AlgorithmConfig {
         return env;
     }
 
-    public void setEnv(Properties env) {
-        this.env = env;
-    }
-
-    public boolean isInit() {
-        return init;
-    }
-
-    public void setInit(boolean init) {
-        this.init = init;
-    }
-
     @Override
     public Object getDelegate() {
         return delegate;
-    }
-
-    public void setDelegate(Object delegate) {
-        this.delegate = delegate;
     }
 }
