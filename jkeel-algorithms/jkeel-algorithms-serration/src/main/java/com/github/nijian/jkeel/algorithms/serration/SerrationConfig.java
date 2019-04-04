@@ -15,6 +15,9 @@ import javax.cache.CacheManager;
 import javax.cache.Caching;
 import javax.cache.configuration.MutableConfiguration;
 import javax.cache.spi.CachingProvider;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URL;
 import java.util.Properties;
 
 /**
@@ -85,7 +88,9 @@ public class SerrationConfig implements AlgorithmConfig {
                 compilerConfiguration.setSourceEncoding("UTF-8");
                 compilerConfiguration.setTargetBytecode(CompilerConfiguration.JDK8);
                 GroovyClassLoader loader = new GroovyClassLoader(Thread.currentThread().getContextClassLoader(), compilerConfiguration, false);
-                String content = IOGroovyMethods.getText(getClass().getResourceAsStream(configUri));
+
+                InputStream config = new URI(configUri).toURL().openStream();
+                String content = IOGroovyMethods.getText(config);
                 Class<?> clazz = loader.parseClass(content);
                 Binding binding = new Binding();
                 binding.setVariable("CalcConfig", configInstance);

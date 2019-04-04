@@ -40,11 +40,11 @@ public class SerrationParallelAlgorithmTest {
         varMap.put("unitPriceMapL", unitPriceMapL);
         varMap.put("unitPriceMapG", unitPriceMapG);
 
-        cid = "[tenantCode:Baoviet_VN, productCode:BV-NCUVL01, productVersion:v1, illustrationCode:MAIN, illustrationVersion:v1]";
+        cid = "[Test1]";
         layoutTemplate1 = objectMapper.readValue(cid.getClass().getResourceAsStream("/a.json"), LayoutTemplate.class);
 
         algorithm = AlgorithmFactoryProvider.getInstance().getAlgorithm(Serration.class.getName());
-        ac = AlgorithmContextManager.getInstance().createTemplateContext(cid, layoutTemplate1, "/config.illus", SerrationConfig.class, null);
+        ac = AlgorithmContextManager.getInstance().createTemplateContext(cid, layoutTemplate1, "file:///D:/git/jkeel/jkeel-algorithms/jkeel-algorithms-serration/src/test/resources/config.illus", SerrationConfig.class, null);
     }
 
     @Before

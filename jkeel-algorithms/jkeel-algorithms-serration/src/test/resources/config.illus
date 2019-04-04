@@ -2,7 +2,7 @@ import com.github.nijian.jkeel.algorithms.serration.operands.BigDecimalOperand
 
 CalcConfig {
 
-    cid '[tenantCode:Baoviet_VN, productCode:BV-NCUVL01, productVersion:v1, illustrationCode:MAIN, illustrationVersion:v1]'
+    cid '[Test1]'
 
     /**
      * in order to reach better performance, rate table is defined in array format
