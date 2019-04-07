@@ -71,11 +71,11 @@
 
     <repositories>
         <repository>
-            <id>ossrh</id>
+            <id>ossrh1</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </repository>
         <repository>
-            <id>ossrh</id>
+            <id>ossrh2</id>
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </repositories>
