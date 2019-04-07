@@ -1,10 +1,11 @@
 package com.github.nijian.jkeel.algorithms;
 
+import java.net.URI;
 import java.util.Properties;
 
 public class SimpleConfig implements AlgorithmConfig {
     @Override
-    public void init(String cid, String configUri, Properties env) {
+    public void init(String cid, URI configUri, Properties env) {
 
     }
 
