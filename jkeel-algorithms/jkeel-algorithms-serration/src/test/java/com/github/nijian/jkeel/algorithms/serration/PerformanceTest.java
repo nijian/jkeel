@@ -13,6 +13,7 @@ import javax.cache.Cache;
 import javax.cache.CacheManager;
 import javax.cache.Caching;
 import javax.cache.spi.CachingProvider;
+import java.net.URL;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -87,7 +88,8 @@ public class PerformanceTest {
         varMap.put("unitPriceMapG", unitPriceMapG);
 
         Algorithm algorithm = AlgorithmFactoryProvider.getInstance().getAlgorithm(Serration.class.getName());
-        AlgorithmContext ac = AlgorithmContextManager.getInstance().createTemplateContext(illustrationCalcTemplateKey1, layoutTemplate1, "/config.illus", SerrationConfig.class, null);
+        URL url = algorithm.getClass().getResource("/config.illus");
+        AlgorithmContext ac = AlgorithmContextManager.getInstance().createTemplateContext(illustrationCalcTemplateKey1, layoutTemplate1, url.toURI(), SerrationConfig.class, null);
 
         algorithm.perform(null, varMap, ac);
 

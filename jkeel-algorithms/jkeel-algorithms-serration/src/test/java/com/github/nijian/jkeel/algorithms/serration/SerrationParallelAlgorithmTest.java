@@ -12,6 +12,8 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.URI;
+import java.net.URL;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,9 +44,9 @@ public class SerrationParallelAlgorithmTest {
 
         cid = "[Test1]";
         layoutTemplate1 = objectMapper.readValue(cid.getClass().getResourceAsStream("/a.json"), LayoutTemplate.class);
-
+        URL url = cid.getClass().getResource("/config.illus");
         algorithm = AlgorithmFactoryProvider.getInstance().getAlgorithm(Serration.class.getName());
-        ac = AlgorithmContextManager.getInstance().createTemplateContext(cid, layoutTemplate1, "file:///D:/git/jkeel/jkeel-algorithms/jkeel-algorithms-serration/src/test/resources/config.illus", SerrationConfig.class, null);
+        ac = AlgorithmContextManager.getInstance().createTemplateContext(cid, layoutTemplate1, url.toURI(), SerrationConfig.class, null);
     }
 
     @Before

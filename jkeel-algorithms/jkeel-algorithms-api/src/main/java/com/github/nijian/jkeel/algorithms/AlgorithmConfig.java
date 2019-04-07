@@ -1,6 +1,7 @@
 package com.github.nijian.jkeel.algorithms;
 
 import java.io.Serializable;
+import java.net.URI;
 import java.util.Properties;
 
 /**
@@ -19,7 +20,7 @@ public interface AlgorithmConfig extends Serializable {
      * @param configUri uri of the algorithm config resource
      * @param env       environment variables
      */
-    void init(String cid, String configUri, Properties env);
+    void init(String cid, URI configUri, Properties env);
 
     /**
      * Get algorithm context global identifier.

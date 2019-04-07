@@ -56,7 +56,7 @@ public class SerrationConfig implements AlgorithmConfig {
     private boolean init = false;
 
     @Override
-    public void init(final String cid, final String configUri, final Properties env) {
+    public void init(final String cid, final URI configUri, final Properties env) {
         try {
             if (!init) {
                 this.env = env;
@@ -89,7 +89,7 @@ public class SerrationConfig implements AlgorithmConfig {
                 compilerConfiguration.setTargetBytecode(CompilerConfiguration.JDK8);
                 GroovyClassLoader loader = new GroovyClassLoader(Thread.currentThread().getContextClassLoader(), compilerConfiguration, false);
 
-                InputStream config = new URI(configUri).toURL().openStream();
+                InputStream config = configUri.toURL().openStream();
                 String content = IOGroovyMethods.getText(config);
                 Class<?> clazz = loader.parseClass(content);
                 Binding binding = new Binding();

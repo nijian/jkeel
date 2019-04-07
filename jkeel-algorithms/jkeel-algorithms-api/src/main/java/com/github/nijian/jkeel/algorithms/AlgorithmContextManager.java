@@ -1,5 +1,6 @@
 package com.github.nijian.jkeel.algorithms;
 
+import java.net.URI;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -54,7 +55,7 @@ public final class AlgorithmContextManager {
      * @param <C>       class type of algorithm config
      * @return algorithm context
      */
-    public <C extends AlgorithmConfig> AlgorithmContext createContext(String cid, String configUri, Class<C> clz, Properties env) {
+    public <C extends AlgorithmConfig> AlgorithmContext createContext(String cid, URI configUri, Class<C> clz, Properties env) {
 
         AlgorithmContext context = contexts.get(cid);
         if (context == null) {
@@ -87,7 +88,11 @@ public final class AlgorithmContextManager {
      * @param <C>       class type of algorithm config
      * @return template algorithm context
      */
-    public <C extends AlgorithmConfig> TemplateAlgorithmContext createTemplateContext(String cid, AlgorithmTemplate template, String configUri, Class<C> clz, Properties env) {
+    public <C extends AlgorithmConfig> TemplateAlgorithmContext createTemplateContext(final String cid,
+                                                                                      final AlgorithmTemplate template,
+                                                                                      final URI configUri,
+                                                                                      final Class<C> clz,
+                                                                                      final Properties env) {
 
         TemplateAlgorithmContext context = (TemplateAlgorithmContext) contexts.get(cid);
         if (context == null) {
