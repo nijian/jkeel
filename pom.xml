@@ -42,7 +42,7 @@
 
     <properties>
 
-        <revision>0.0.1</revision>
+        <revision>0.0.1-SNAPSHOT</revision>
 
         <main.basedir>${basedir}</main.basedir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -216,9 +216,20 @@
                         <threadCount>10</threadCount>
                     </configuration>
                 </plugin>
-                <!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-gpg-plugin</artifactId>
-                    <version>1.5</version> <executions> <execution> <id>sign-artifacts</id> <phase>verify</phase>
-                    <goals> <goal>sign</goal> </goals> </execution> </executions> </plugin> -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-gpg-plugin</artifactId>
+                    <version>1.5</version>
+                    <executions>
+                        <execution>
+                            <id>sign-artifacts</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>sign</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
             </plugins>
         </pluginManagement>
 
@@ -238,8 +249,10 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
             </plugin>
-            <!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-gpg-plugin</artifactId>
-                </plugin> -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+            </plugin>
         </plugins>
     </build>
 
