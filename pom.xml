@@ -35,8 +35,8 @@
 
     <scm>
         <url>https://github.com/nijian/jkeel.git</url>
-        <connection>scm:git:git@github.com/nijian/jkeel.git</connection>
-        <developerConnection>scm:git:git@github.com/nijian/jkeel.git</developerConnection>
+        <connection>scm:git:https://github.com/nijian/jkeel.git</connection>
+        <developerConnection>scm:git:https://github.com/nijian/jkeel.git</developerConnection>
         <tag>${revision}</tag>
     </scm>
 
