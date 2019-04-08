@@ -1,7 +1,6 @@
 package com.github.nijian.jkeel.algorithms;
 
 import com.github.nijian.jkeel.algorithms.debug.OutputFactoryProvider;
-import com.github.nijian.jkeel.algorithms.serration.CalcConfig;
 import com.github.nijian.jkeel.algorithms.serration.Const;
 import com.github.nijian.jkeel.algorithms.serration.SerrationConfig;
 import com.github.nijian.jkeel.algorithms.serration.debug.CSVOutput;
