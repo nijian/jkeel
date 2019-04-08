@@ -113,4 +113,15 @@ public final class AlgorithmContextManager {
         }
         return context;
     }
+
+    /**
+     * Contains the algorithm context or not?
+     *
+     * @param cid algorithm context global identifier
+     * @return true or false
+     * @since 0.0.2
+     */
+    public boolean contains(String cid){
+        return contexts.containsKey(cid);
+    }
 }

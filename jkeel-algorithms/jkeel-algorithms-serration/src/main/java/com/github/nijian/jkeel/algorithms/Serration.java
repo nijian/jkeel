@@ -1,6 +1,7 @@
 package com.github.nijian.jkeel.algorithms;
 
 import com.github.nijian.jkeel.algorithms.debug.OutputFactoryProvider;
+import com.github.nijian.jkeel.algorithms.serration.CalcConfig;
 import com.github.nijian.jkeel.algorithms.serration.Const;
 import com.github.nijian.jkeel.algorithms.serration.SerrationConfig;
 import com.github.nijian.jkeel.algorithms.serration.debug.CSVOutput;
@@ -118,15 +119,20 @@ public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorit
         Context<I> context = new Context(input, ac, closureMap, ac.getConfig().getDelegate());
         logger.info("Serration algorithm context has been initialized");
 
+        Properties env = ac.getConfig().getEnv();
+        String calcClzName =  env == null ? null : env.getProperty(Const.CALC_CLASS_NAME_KEY);
+        if (calcClzName == null) {
+            calcClzName = Const.CALC_CLASS_NAME;
+        }
+        logger.info("Calc class name:{}", calcClzName);
         Object calc;
         try {
-            Class calcClz = Class.forName("com.github.nijian.jkeel.algorithms.serration.Calc");
+            Class calcClz = Class.forName(calcClzName);
             calc = calcClz.getDeclaredConstructor(Context.class).newInstance(context);
         } catch (Exception e) {
             logger.error("Failed to load Calc", e);
             throw new RuntimeException("Failed to load Calc", e);
         }
-
 
         LayoutTemplateInstance loutTI = context.getLayoutTemplateInstance();
         List<LayoutInstance> loutIs = loutTI.getLayoutInstances();

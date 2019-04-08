@@ -17,7 +17,6 @@ import javax.cache.configuration.MutableConfiguration;
 import javax.cache.spi.CachingProvider;
 import java.io.InputStream;
 import java.net.URI;
-import java.net.URL;
 import java.util.Properties;
 
 /**
@@ -80,9 +79,20 @@ public class SerrationConfig implements AlgorithmConfig {
                 cache = cacheManager.createCache(cid, configuration);
                 logger.info("Cache is ready for {}", cid);
 
-                Class configClz = Class.forName("com.github.nijian.jkeel.algorithms.serration.CalcConfig");
-                Object configInstance = configClz.getDeclaredConstructor(Cache.class).newInstance(cache);
-                this.delegate = configInstance;
+                String calcConfigClzName = env == null ? null : env.getProperty(Const.CALC_CONFIG_CLASS_NAME_KEY);
+                if (calcConfigClzName == null) {
+                    calcConfigClzName = Const.CALC_CONFIG_CLASS_NAME;
+                }
+                logger.info("Calc config class name:{}", calcConfigClzName);
+                Class configClz = Class.forName(calcConfigClzName);
+                Object configInstance;
+                try {
+                    configInstance = configClz.getDeclaredConstructor(Cache.class).newInstance(cache);
+                    this.delegate = configInstance;
+                } catch (Exception e) {
+                    logger.error("Calc config class type should be CalcConfig", e);
+                    throw new RuntimeException("Calc config class type should be CalcConfig", e);
+                }
 
                 CompilerConfiguration compilerConfiguration = new CompilerConfiguration();
                 compilerConfiguration.setSourceEncoding("UTF-8");
@@ -93,9 +103,10 @@ public class SerrationConfig implements AlgorithmConfig {
                 String content = IOGroovyMethods.getText(config);
                 Class<?> clazz = loader.parseClass(content);
                 Binding binding = new Binding();
-                binding.setVariable("CalcConfig", configInstance);
+                binding.setVariable(configClz.getSimpleName(), configInstance);
                 InvokerHelper.createScript(clazz, binding).run();
                 init = true;
+                logger.info("SerrationConfig is initialized for {}", cid);
             }
         } catch (Exception e) {
             logger.error("Failed to init algorithm config", e);
