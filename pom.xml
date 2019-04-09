@@ -11,6 +11,7 @@
 
     <modules>
         <module>jkeel-algorithms</module>
+        <module>jkeel-report</module>
     </modules>
 
     <url>https://github.com/nijian/jkeel</url>
@@ -66,6 +67,10 @@
         <org.slf4j.version>1.7.25</org.slf4j.version>
         <org.apache.logging.log4j.version>2.11.2</org.apache.logging.log4j.version>
 
+        <jasper.version>6.7.0</jasper.version>
+        <jthaipdf.version>1.0.1</jthaipdf.version>
+        <xalan.version>2.7.0</xalan.version>
+
     </properties>
 
     <repositories>
@@ -112,6 +117,21 @@
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-slf4j-impl</artifactId>
                 <version>${org.apache.logging.log4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.sf.jasperreports</groupId>
+                <artifactId>jasperreports</artifactId>
+                <version>${jasper.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>xalan</groupId>
+                <artifactId>xalan</artifactId>
+                <version>${xalan.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.googlecode.jthaipdf</groupId>
+                <artifactId>jthaipdf</artifactId>
+                <version>${jthaipdf.version}</version>
             </dependency>
             <!-- cache -->
             <dependency>
@@ -254,11 +274,30 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-            </plugin>
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-gpg-plugin</artifactId>-->
+            <!--</plugin>-->
         </plugins>
     </build>
 
+    <profiles>
+        <profile>
+            <id>release-sign-artifacts</id>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
