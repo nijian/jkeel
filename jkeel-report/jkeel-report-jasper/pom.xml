@@ -12,6 +12,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.github.nijian.jkeel</groupId>
+            <artifactId>jkeel-report-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports</artifactId>
         </dependency>
@@ -63,13 +68,6 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-csv</artifactId>
         </dependency>
-        <!-- -->
-        <dependency>
-            <groupId>com.github.nijian.jkeel</groupId>
-            <artifactId>jkeel-algorithms-api</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
         <!-- for test -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>

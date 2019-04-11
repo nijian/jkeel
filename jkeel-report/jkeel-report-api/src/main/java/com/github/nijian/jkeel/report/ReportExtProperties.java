@@ -1,48 +1,54 @@
 package com.github.nijian.jkeel.report;
 
+/**
+ * ReportProxy use the ext properties to driver different Report tool.
+ *
+ * @author nj
+ * @since 0.0.2
+ */
 public abstract class ReportExtProperties {
 
     /**
-     * Min size of crystal report client document instance pool
+     * pool min size
      */
     private int minSize = 4;
 
     /**
-     * Max size of crystal report client document instance pool
+     * pool max size
      */
     private int maxSize = 8;
 
     /**
-     * Get min size of crystal report client document instance pool
+     * Get pool min size
      *
-     * @return min size of crystal report client document instance pool
+     * @return pool min size
      */
     public int getMinSize() {
         return minSize;
     }
 
     /**
-     * Set min size of crystal report client document instance pool
+     * Set pool min size
      *
-     * @param minSize min size of crystal report client document instance pool
+     * @param minSize pool min size
      */
     public void setMinSize(int minSize) {
         this.minSize = minSize;
     }
 
     /**
-     * Get max size of crystal report client document instance pool
+     * Get pool max size
      *
-     * @return max size of crystal report client document instance pool
+     * @return pool max size
      */
     public int getMaxSize() {
         return maxSize;
     }
 
     /**
-     * Set max size of crystal report client document instance pool
+     * Set pool max size
      *
-     * @param maxSize max size of crystal report client document instance pool
+     * @param maxSize pool max size
      */
     public void setMaxSize(int maxSize) {
         this.maxSize = maxSize;

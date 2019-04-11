@@ -1,36 +1,18 @@
-package com.github.nijian.jkeel.report;
+package com.github.nijian.jkeel.report.jasper;
+
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.github.nijian.jkeel.commons.ObjectHolder;
+import com.github.nijian.jkeel.report.ReportExtProperties;
 
 /**
- * ReportMeta provides generated report info.
+ * JasperReportProperties
  *
  * @author nj
  * @since 0.0.2
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ReportMeta {
-
-    private String protocol;
-
-    private String uri;
-
-    public String getProtocol() {
-        return protocol;
-    }
-
-    public void setProtocol(String protocol) {
-        this.protocol = protocol;
-    }
-
-    public String getUri() {
-        return uri;
-    }
-
-    public void setUri(String uri) {
-        this.uri = uri;
-    }
+public final class JasperReportProperties extends ReportExtProperties {
 
     /**
      * Time-consuming operation, just for error diagnostics

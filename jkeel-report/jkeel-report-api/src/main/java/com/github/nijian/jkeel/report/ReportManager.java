@@ -1,6 +1,6 @@
 package com.github.nijian.jkeel.report;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.nijian.jkeel.commons.ObjectHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,42 +12,46 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * ReportManager is responsible for report proxy initialization, and provides report export interface as well.
+ *
+ * @author nj
+ * @since 0.0.2
+ */
 public final class ReportManager {
 
     private static Logger logger = LoggerFactory.getLogger(ReportManager.class);
 
-    private static ObjectMapper objectMapper = new ObjectMapper();
-
     /**
-     * default printer id
+     * default ReportProxy name
      */
     private final static String DEFAULT = "_DEFAULT";
 
     /**
-     * print client instance
+     * ReportManager singleton instance
      */
     private static ReportManager manager;
 
     /**
-     * printer map
+     * ReportProxy map
      */
-    private Map<String, ReportPoolProxy> printerMap = new HashMap<>();
+    private Map<String, ReportProxy> reportMap = new HashMap<>();
 
     /**
-     * init flag of print client
+     * init flag
      */
-    private boolean inited = false;
+    private boolean init = false;
 
     /**
-     * private print client constructor
+     * private constructor
      */
     private ReportManager() {
     }
 
     /**
-     * Get print client instance
+     * Get ReportManager instance
      *
-     * @return print client
+     * @return ReportManager instance
      */
     public static ReportManager getInstance() {
         if (manager == null) {
@@ -57,7 +61,7 @@ public final class ReportManager {
                     if (config == null) {
                         throw new RuntimeException("The default config.json file is not found");
                     }
-                    logger.info("Initialize print manager with default config.json from root classpath");
+                    logger.info("Initialize ReportManager with default config.json from root classpath");
                     manager = getInstance(config);
                 }
             }
@@ -65,17 +69,23 @@ public final class ReportManager {
         return manager;
     }
 
+    /**
+     * Get ReportManager instance
+     *
+     * @param config config file
+     * @return ReportManager instance
+     */
     public static ReportManager getInstance(File config) {
         if (manager == null) {
             synchronized (ReportManager.class) {
                 if (manager == null) {
                     manager = new ReportManager();
                     try {
-                        logger.info("Initialize print manager with config file: {}", config.getAbsolutePath());
-                        manager.init0(objectMapper.readValue(config, ReportConfig.class));
+                        logger.info("Initialize ReportManager with config file: {}", config.getAbsolutePath());
+                        manager.init(ObjectHolder.objectMapper.readValue(config, ReportConfig.class));
                     } catch (Exception e) {
-                        logger.error("An error has occurred", e);
-                        throw new RuntimeException("Failed to init print manager", e);
+                        logger.error("Failed to init ReportManager", e);
+                        throw new RuntimeException("Failed to init ReportManager", e);
                     }
                 }
             }
@@ -83,17 +93,23 @@ public final class ReportManager {
         return manager;
     }
 
+    /**
+     * Get ReportManager instance
+     *
+     * @param config config stream
+     * @return ReportManager instance
+     */
     public static ReportManager getInstance(InputStream config) {
         if (manager == null) {
             synchronized (ReportManager.class) {
                 if (manager == null) {
                     manager = new ReportManager();
                     try {
-                        logger.info("Initialize print manager with config input stream");
-                        manager.init0(objectMapper.readValue(config, ReportConfig.class));
+                        logger.info("Initialize ReportManager with config input stream");
+                        manager.init(ObjectHolder.objectMapper.readValue(config, ReportConfig.class));
                     } catch (Exception e) {
-                        logger.error("An error has occurred", e);
-                        throw new RuntimeException("Failed to init print manager", e);
+                        logger.error("Failed to init ReportManager", e);
+                        throw new RuntimeException("Failed to init ReportManager", e);
                     } finally {
                         try {
                             if (config != null) {
@@ -110,17 +126,23 @@ public final class ReportManager {
         return manager;
     }
 
+    /**
+     * Get ReportManager instance
+     *
+     * @param config config string
+     * @return ReportManager instance
+     */
     public static ReportManager getInstance(String config) {
         if (manager == null) {
             synchronized (ReportManager.class) {
                 if (manager == null) {
                     manager = new ReportManager();
                     try {
-                        logger.info("Initialize print manager with config string:\t\n{}", config);
-                        manager.init0(objectMapper.readValue(config, ReportConfig.class));
+                        logger.info("Initialize ReportManager with config string:\t\n{}", config);
+                        manager.init(ObjectHolder.objectMapper.readValue(config, ReportConfig.class));
                     } catch (Exception e) {
-                        logger.error("An error has occurred", e);
-                        throw new RuntimeException("Failed to init print manager", e);
+                        logger.error("Failed to init ReportManager", e);
+                        throw new RuntimeException("Failed to init ReportManager", e);
                     }
                 }
             }
@@ -129,77 +151,113 @@ public final class ReportManager {
     }
 
     /**
-     * Initialize print client internally.
+     * Initialize ReportManager internally.
      *
-     * @param printConfig print configuration
+     * @param reportConfig report configuration
      */
-    private void init0(ReportConfig printConfig) {
-        List<ReportProxyConfig> printerConfigs = printConfig.getPrinterConfigs();
-        if (printerConfigs == null || printerConfigs.size() == 0) {
-            logger.error("Printer config is empty, please check: \t\n{}", printConfig);
-            throw new RuntimeException("Missing printer config");
+    private void init(ReportConfig reportConfig) {
+        List<ReportProxyConfig> reportProxyConfigs = reportConfig.getReportProxyConfigs();
+        if (reportProxyConfigs == null || reportProxyConfigs.size() == 0) {
+            logger.error("ReportProxy is not found, please check the configuration : \t\n{}", reportConfig);
+            throw new RuntimeException("Missing ReportProxy config");
         }
 
-        for (ReportProxyConfig printerConfig : printerConfigs) {
-            String printerId = printerConfig.getId();
-            String clzName = printerConfig.getClzName();
-            String properties = printerConfig.getProperties();
+        for (ReportProxyConfig reportProxyConfig : reportProxyConfigs) {
 
-            ReportPoolProxy printer;
+            String reportProxyId = reportProxyConfig.getId();
+            String clzName = reportProxyConfig.getClzName();
+            String properties = reportProxyConfig.getProperties();
+
+            ReportProxy reportProxy;
             try {
-                printer = (ReportPoolProxy) Class.forName(clzName).getDeclaredConstructor().newInstance();
+                reportProxy = (ReportProxy) Class.forName(clzName).getDeclaredConstructor().newInstance();
             } catch (Exception e) {
-                logger.error("An error has occurred", e);
-                throw new RuntimeException("Failed to load printer class", e);
+                logger.error("Failed to load ReportProxy", e);
+                throw new RuntimeException("Failed to load ReportProxy", e);
             }
-            printer.init(properties);
-            //find first default printer
-            if (printerConfig.isDefault() != null && printerConfig.isDefault() && !printerMap.containsKey(DEFAULT)) {
-                printerMap.put(DEFAULT, printer);
+            reportProxy.init(properties);
+
+            // find first default report proxy
+            if (reportProxyConfig.isDefault() != null && reportProxyConfig.isDefault() && !reportMap.containsKey(DEFAULT)) {
+                reportMap.put(DEFAULT, reportProxy);
             } else {
-                printerMap.put(printerId, printer);
+                reportMap.put(reportProxyId, reportProxy);
             }
         }
-        inited = true;
-        logger.info("Initialized print manager with config:\t\n{}", printConfig);
+        init = true;
+        logger.info("Initialized ReportManager with config:\t\n{}", reportConfig);
     }
 
     /**
-     * Get printer id list.
+     * Get ReportProxy id list.
      *
-     * @return printer id list
+     * @return ReportProxy identifier set
      */
-    public Set<String> getPrinterIds() {
-        return printerMap.keySet();
+    public Set<String> getReportProxyIds() {
+        return reportMap.keySet();
     }
 
-
-    public void printToStream(String rptURI, String printParams, OutputStream outputStream) throws Exception {
-        printToStream(DEFAULT, rptURI, printParams, outputStream);
+    /**
+     * Export to output stream
+     *
+     * @param rptURI       report template URI
+     * @param exportParams export parameters
+     * @param outputStream output stream
+     */
+    public void exportToStream(String rptURI, String exportParams, OutputStream outputStream) {
+        exportToStream(DEFAULT, rptURI, exportParams, outputStream);
     }
 
-
-
-    public void printToStream(String printerId, String rptURI, String printParams, OutputStream outputStream) throws Exception {
-        checkPrinter(printerId);
-        printerMap.get(printerId).printToStream(rptURI, printParams, outputStream);
+    /**
+     * Export to output stream
+     *
+     * @param reportProxyId report proxy identifier
+     * @param rptURI        report template URI
+     * @param exportParams  export parameters
+     * @param outputStream  output stream
+     */
+    public void exportToStream(String reportProxyId, String rptURI, String exportParams, OutputStream outputStream) {
+        check(reportProxyId);
+        reportMap.get(reportProxyId).printToStream(rptURI, exportParams, outputStream);
     }
 
-    public ReportMeta printToFile(String rptURI, String printParams) throws Exception {
-        return printToFile(DEFAULT, rptURI, printParams);
+    /**
+     * Export to file
+     *
+     * @param rptURI       report template URI
+     * @param exportParams export parameters
+     * @return ReportMeta
+     */
+    public ReportMeta exportToFile(String rptURI, String exportParams) {
+        return exportToFile(DEFAULT, rptURI, exportParams);
     }
 
-    public ReportMeta printToFile(String printerId, String rptURI, String printParams) throws Exception {
-        checkPrinter(printerId);
-        return printerMap.get(printerId).printToFile(rptURI, printParams);
+    /**
+     * Export to file
+     *
+     * @param reportProxyId report proxy identifier
+     * @param rptURI        report template URI
+     * @param exportParams  export parameters
+     * @return ReportMeta
+     */
+    public ReportMeta exportToFile(String reportProxyId, String rptURI, String exportParams) {
+        check(reportProxyId);
+        return reportMap.get(reportProxyId).printToFile(rptURI, exportParams);
     }
 
-    private void checkPrinter(String printerId) {
-        if (!inited) {
-            throw new RuntimeException("Print Manager has not been initialized");
+    /**
+     * Check the report proxy is available or not
+     *
+     * @param reportProxyId report proxy identifier
+     */
+    private void check(String reportProxyId) {
+        if (!init) {
+            logger.error("ReportManager has not been initialized");
+            throw new RuntimeException("ReportManager has not been initialized");
         }
-        if (!printerMap.containsKey(printerId)) {
-            throw new RuntimeException("The printer is not exist:" + printerId);
+        if (!reportMap.containsKey(reportProxyId)) {
+            logger.error("The ReportProxy is not exist : {}", reportProxyId);
+            throw new RuntimeException("The ReportProxy is not exist : " + reportProxyId);
         }
     }
 

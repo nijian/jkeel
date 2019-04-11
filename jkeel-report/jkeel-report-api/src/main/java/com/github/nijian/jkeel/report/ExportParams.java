@@ -3,9 +3,16 @@ package com.github.nijian.jkeel.report;
 import com.fasterxml.jackson.annotation.JsonRawValue;
 import com.fasterxml.jackson.databind.JsonNode;
 
+/**
+ * Export parameters
+ *
+ * @author nj
+ * @since 0.0.2
+ */
 public abstract class ExportParams {
 
     public final static String RP_DATA_TYPE_INLINE = "inline";
+
     public final static String RP_DATA_TYPE_URI = "uri";
 
     private String exportFileURI;

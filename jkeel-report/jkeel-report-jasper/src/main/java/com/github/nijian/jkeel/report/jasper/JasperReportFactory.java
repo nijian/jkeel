@@ -8,16 +8,22 @@ import org.apache.commons.pool2.impl.DefaultPooledObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * JasperReportFactory
+ *
+ * @author nj
+ * @since 0.0.2
+ */
 public final class JasperReportFactory extends BaseKeyedPooledObjectFactory<String, JasperReport> {
 
-    Logger logger = LoggerFactory.getLogger(JasperReportFactory.class);
+    private static Logger logger = LoggerFactory.getLogger(JasperReportFactory.class);
 
     @Override
     public JasperReport create(String rptURL) throws Exception {
         JasperReport jasperReport = (JasperReport) JRLoader.loadObject(getClass().getResourceAsStream(rptURL));
 
 //        JasperDesign design = JRXmlLoader.load(rptURL);
-//        JasperReport jasperReport = JasperCompileManager.compileReport(design);
+//        JasperReportProxy jasperReport = JasperCompileManager.compileReport(design);
         logger.info("A Jasper report instance is created with template {}", rptURL);
         return jasperReport;
     }

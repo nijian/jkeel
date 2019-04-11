@@ -1,46 +1,51 @@
 package com.github.nijian.jkeel.report;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.nijian.jkeel.commons.ObjectHolder;
 
 import java.util.List;
 
+/**
+ * ReportConfig is used to configure a set of ReportProxy
+ *
+ * @author nj
+ * @since 0.0.2
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class ReportConfig {
 
     /**
-     * Printer configuration list
+     * ReportProxyConfig list
      */
-    private List<ReportProxyConfig> printerConfigs;
+    private List<ReportProxyConfig> reportProxyConfigs;
 
     /**
-     * Get printer configuration list
+     * Get ReportProxyConfig list
      *
      * @return printer configuration list
      */
-    public List<ReportProxyConfig> getPrinterConfigs() {
-        return printerConfigs;
+    public List<ReportProxyConfig> getReportProxyConfigs() {
+        return reportProxyConfigs;
     }
 
     /**
-     * Set printer configuration list
+     * Set ReportProxyConfig list
      *
-     * @param printerConfigs printer configuration list
+     * @param reportProxyConfigs ReportProxyConfig list
      */
-    public void setPrinterConfigs(List<ReportProxyConfig> printerConfigs) {
-        this.printerConfigs = printerConfigs;
+    public void setReportProxyConfigs(List<ReportProxyConfig> reportProxyConfigs) {
+        this.reportProxyConfigs = reportProxyConfigs;
     }
 
     /**
      * Time-consuming operation, just for error diagnostics
      *
-     * @return object in json format
+     * @return json string
      */
     @Override
     public String toString() {
         try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(this);
+            return ObjectHolder.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(this);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

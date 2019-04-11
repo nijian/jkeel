@@ -3,70 +3,76 @@ package com.github.nijian.jkeel.report;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonRawValue;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.nijian.jkeel.commons.ObjectHolder;
 
+/**
+ * ReportProxyConfig
+ *
+ * @author nj
+ * @since 0.0.2
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class ReportProxyConfig {
 
     /**
-     * printer id
+     * ReportProxy id
      */
     private String id;
 
     /**
-     * implementation of printer
+     * ReportProxy class name
      */
     private String clzName;
 
     /**
-     * is default or not
+     * is default report proxy or not
      */
     private Boolean isDefault = true;
 
     /**
-     * properties of printer
+     * properties of ReportProxy
      */
     @JsonRawValue
     private Object properties;
 
     /**
-     * Get printer id
+     * Get ReportProxy id
      *
-     * @return printer id
+     * @return ReportProxy id
      */
     public String getId() {
         return id;
     }
 
     /**
-     * Set printer id
+     * Set ReportProxy id
      *
-     * @param id printer id
+     * @param id ReportProxy id
      */
     public void setId(String id) {
         this.id = id;
     }
 
     /**
-     * Get printer implementation class name
+     * Get ReportProxy class name
      *
-     * @return printer implementation class name
+     * @return ReportProxy class name
      */
     public String getClzName() {
         return clzName;
     }
 
     /**
-     * Set printer implementation class name
+     * Set ReportProxy class name
      *
-     * @param clzName printer implementation class name
+     * @param clzName ReportProxy class name
      */
     public void setClzName(String clzName) {
         this.clzName = clzName;
     }
 
     /**
-     * Is this printer default
+     * Is this ReportProxy default
      *
      * @return default flag
      */
@@ -75,7 +81,7 @@ public final class ReportProxyConfig {
     }
 
     /**
-     * Set printer as default printer
+     * Set ReportProxy as default
      *
      * @param aDefault default flag
      */
@@ -84,16 +90,16 @@ public final class ReportProxyConfig {
     }
 
     /**
-     * Get properties of printer
+     * Get properties of ReportProxy
      *
-     * @return string of properties (JSON format)
+     * @return properties (JSON format)
      */
     public String getProperties() {
         return properties == null ? null : properties.toString();
     }
 
     /**
-     * Set properties of printer
+     * Set properties of ReportProxy
      *
      * @param node JsonNode
      */
@@ -104,13 +110,12 @@ public final class ReportProxyConfig {
     /**
      * Time-consuming operation, just for error diagnostics
      *
-     * @return object in json format
+     * @return json string
      */
     @Override
     public String toString() {
         try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(this);
+            return ObjectHolder.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(this);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

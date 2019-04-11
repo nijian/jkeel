@@ -10,6 +10,7 @@
     <name>JKeel Parent</name>
 
     <modules>
+        <module>jkeel-commons</module>
         <module>jkeel-algorithms</module>
         <module>jkeel-report</module>
     </modules>

@@ -1,8 +1,6 @@
 package com.github.nijian.jkeel.algorithms.serration;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.util.Calendar;
 import java.util.Date;
 
@@ -13,8 +11,6 @@ import java.util.Date;
  * @since 0.0.1
  */
 public final class Utils {
-
-    public final static ObjectMapper objectMapper = new ObjectMapper();
 
     /**
      * is nearest age at date
