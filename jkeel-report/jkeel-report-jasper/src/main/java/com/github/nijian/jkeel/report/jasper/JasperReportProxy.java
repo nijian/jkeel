@@ -35,7 +35,7 @@ public final class JasperReportProxy extends ReportPoolProxy<JasperReport, Jaspe
     private static Logger logger = LoggerFactory.getLogger(JasperReportProxy.class);
 
     @Override
-    protected void initPool(String properties) {
+    protected void doInitPool(String properties) {
         JasperReportProperties printerProperties;
         try {
             printerProperties = ObjectHolder.objectMapper.readValue(properties, JasperReportProperties.class);

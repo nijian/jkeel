@@ -28,14 +28,15 @@ public abstract class ReportPoolProxy<T, P extends ExportParams> implements Repo
      *
      * @param properties properties
      */
+    @Override
     public synchronized void init(String properties) {
         if (!init) {
-            initPool(properties);
+            doInitPool(properties);
             init = true;
         }
     }
 
-    protected abstract void initPool(String properties);
+    protected abstract void doInitPool(String properties);
 
     protected GenericKeyedObjectPoolConfig buildPoolConfig(ReportExtProperties properties) {
         GenericKeyedObjectPoolConfig config = new GenericKeyedObjectPoolConfig();
