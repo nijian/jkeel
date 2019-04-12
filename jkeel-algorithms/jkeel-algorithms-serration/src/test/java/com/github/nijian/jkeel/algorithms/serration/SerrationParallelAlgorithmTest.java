@@ -30,6 +30,8 @@ public class SerrationParallelAlgorithmTest {
     private static Map<String, Object> varMap = new HashMap<>();
     private static Algorithm algorithm;
     private static AlgorithmContext ac;
+    private static String mycid;
+    private static AlgorithmContext myac;
 
 
     @BeforeClass
@@ -44,9 +46,12 @@ public class SerrationParallelAlgorithmTest {
 
         cid = "[Test1]";
         layoutTemplate1 = objectMapper.readValue(cid.getClass().getResourceAsStream("/a.json"), LayoutTemplate.class);
-        URL url = cid.getClass().getResource("/config.illus");
         algorithm = AlgorithmFactoryProvider.getInstance().getAlgorithm(Serration.class.getName());
+        URL url = cid.getClass().getResource("/config.illus");
         ac = AlgorithmContextManager.getInstance().createTemplateContext(cid, layoutTemplate1, url.toURI(), SerrationConfig.class, null);
+        mycid = "[Test2]";
+        URL myUrl = mycid.getClass().getResource("/myconfig.illus");
+        myac = AlgorithmContextManager.getInstance().createTemplateContext(mycid, layoutTemplate1, myUrl.toURI(), SerrationConfig.class, MyCalcConfig.class, null);
     }
 
     @Before
@@ -60,28 +65,22 @@ public class SerrationParallelAlgorithmTest {
 
     @Test
     public void perform0() throws Exception {
-
         algorithm.perform(null, varMap, ac);
-
-        for (int i = 0; i < 10; i++) {
-            algorithm.perform(null, varMap, ac);
-        }
-//
-//        algorithm.perform(null, varMap, ac);
         Thread.sleep(1000 * 5);
         assertEquals(1, 1);
     }
 
     @Test
     public void perform1() throws Exception {
-
         algorithm.perform(null, varMap, ac);
+        Thread.sleep(1000 * 5);
+        assertEquals(1, 1);
 
-        for (int i = 0; i < 10; i++) {
-            algorithm.perform(null, varMap, ac);
-        }
-//
-//        algorithm.perform(null, varMap, ac);
+    }
+
+    @Test
+    public void testMyCalcConfig() throws Exception {
+        algorithm.perform(null, varMap, myac);
         Thread.sleep(1000 * 5);
         assertEquals(1, 1);
     }

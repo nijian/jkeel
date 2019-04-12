@@ -65,7 +65,7 @@ public final class AlgorithmContextManager {
                     AlgorithmConfig aConfig;
                     try {
                         aConfig = clz.newInstance();
-                        aConfig.init(cid, configUri, env);
+                        aConfig.init(cid, configUri, null, env);
                     } catch (Exception e) {
                         throw new RuntimeException("Algorithm config can not be initialized", e);
                     }
@@ -93,6 +93,29 @@ public final class AlgorithmContextManager {
                                                                                       final URI configUri,
                                                                                       final Class<C> clz,
                                                                                       final Properties env) {
+        return createTemplateContext(cid, template, configUri, clz, null, env);
+    }
+
+    /**
+     * Create TemplateAlgorithmContext with global identifier
+     *
+     * @param cid         algorithm context global identifier
+     * @param template    algorithm template
+     * @param configUri   uri of the algorithm config resource
+     * @param clz         class instance of algorithm config
+     * @param delegateClz class instance of delegate config
+     * @param env         environment variables
+     * @param <C>         class type of algorithm config
+     * @param <T>         class type of delegate config
+     * @return template algorithm context
+     * @since 0.0.2
+     */
+    public <C extends AlgorithmConfig, T> TemplateAlgorithmContext createTemplateContext(final String cid,
+                                                                                         final AlgorithmTemplate template,
+                                                                                         final URI configUri,
+                                                                                         final Class<C> clz,
+                                                                                         final Class<T> delegateClz,
+                                                                                         final Properties env) {
 
         TemplateAlgorithmContext context = (TemplateAlgorithmContext) contexts.get(cid);
         if (context == null) {
@@ -102,7 +125,7 @@ public final class AlgorithmContextManager {
                     AlgorithmConfig aConfig;
                     try {
                         aConfig = clz.getConstructor().newInstance();
-                        aConfig.init(cid, configUri, env);
+                        aConfig.init(cid, configUri, delegateClz, env);
                     } catch (Exception e) {
                         throw new RuntimeException("Algorithm config can not be initialized", e);
                     }
@@ -121,7 +144,7 @@ public final class AlgorithmContextManager {
      * @return true or false
      * @since 0.0.2
      */
-    public boolean contains(String cid){
+    public boolean contains(String cid) {
         return contexts.containsKey(cid);
     }
 }

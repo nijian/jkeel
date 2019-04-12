@@ -16,11 +16,12 @@ public interface AlgorithmConfig extends Serializable {
     /**
      * Initialize the algorithm config.
      *
-     * @param cid       algorithm context global identifier
-     * @param configUri uri of the algorithm config resource
-     * @param env       environment variables
+     * @param cid               algorithm context global identifier
+     * @param configUri         uri of the algorithm config resource
+     * @param delegateConfigClz delegate config class
+     * @param env               environment variables
      */
-    void init(String cid, URI configUri, Properties env);
+    void init(String cid, URI configUri, Class<?> delegateConfigClz, Properties env);
 
     /**
      * Get algorithm context global identifier.

@@ -5,7 +5,7 @@ import java.util.Properties;
 
 public class SimpleConfig implements AlgorithmConfig {
     @Override
-    public void init(String cid, URI configUri, Properties env) {
+    public void init(String cid, URI configUri, Class<?> clz, Properties env) {
 
     }
 

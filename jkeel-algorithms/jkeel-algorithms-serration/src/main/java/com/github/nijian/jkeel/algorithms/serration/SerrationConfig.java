@@ -55,7 +55,7 @@ public class SerrationConfig implements AlgorithmConfig {
     private boolean init = false;
 
     @Override
-    public void init(final String cid, final URI configUri, final Properties env) {
+    public void init(final String cid, final URI configUri, final Class<?> delegateConfigClz, final Properties env) {
         try {
             if (!init) {
                 this.env = env;
@@ -79,15 +79,16 @@ public class SerrationConfig implements AlgorithmConfig {
                 cache = cacheManager.createCache(cid, configuration);
                 logger.info("Cache is ready for {}", cid);
 
-                String calcConfigClzName = env == null ? null : env.getProperty(Const.CALC_CONFIG_CLASS_NAME_KEY);
-                if (calcConfigClzName == null) {
-                    calcConfigClzName = Const.CALC_CONFIG_CLASS_NAME;
+                Class calcConfigClz;
+                if(delegateConfigClz == null){
+                    calcConfigClz = Class.forName(Const.CALC_CONFIG_CLASS_NAME);
+                }else{
+                    calcConfigClz = delegateConfigClz;
                 }
-                logger.info("Calc config class name:{}", calcConfigClzName);
-                Class configClz = Class.forName(calcConfigClzName);
+                logger.info("Calc config class name:{}", calcConfigClz);
                 Object configInstance;
                 try {
-                    configInstance = configClz.getDeclaredConstructor(Cache.class).newInstance(cache);
+                    configInstance = calcConfigClz.getDeclaredConstructor(Cache.class).newInstance(cache);
                     this.delegate = configInstance;
                 } catch (Exception e) {
                     logger.error("Calc config class type should be CalcConfig", e);
@@ -103,7 +104,7 @@ public class SerrationConfig implements AlgorithmConfig {
                 String content = IOGroovyMethods.getText(config);
                 Class<?> clazz = loader.parseClass(content);
                 Binding binding = new Binding();
-                binding.setVariable(configClz.getSimpleName(), configInstance);
+                binding.setVariable(calcConfigClz.getSimpleName(), configInstance);
                 InvokerHelper.createScript(clazz, binding).run();
                 init = true;
                 logger.info("SerrationConfig is initialized for {}", cid);
