@@ -11,12 +11,16 @@ public abstract class ReportExtProperties {
     /**
      * pool min size
      */
-    private int minSize = 4;
+    private int minSize = 0;
 
     /**
      * pool max size
      */
     private int maxSize = 8;
+
+    private long minEvictableIdleTimeMillis;
+
+    private long timeBetweenEvictionRunsMillis;
 
     /**
      * Get pool min size
@@ -54,4 +58,19 @@ public abstract class ReportExtProperties {
         this.maxSize = maxSize;
     }
 
+    public long getMinEvictableIdleTimeMillis() {
+        return minEvictableIdleTimeMillis;
+    }
+
+    public void setMinEvictableIdleTimeMillis(long minEvictableIdleTimeMillis) {
+        this.minEvictableIdleTimeMillis = minEvictableIdleTimeMillis;
+    }
+
+    public long getTimeBetweenEvictionRunsMillis() {
+        return timeBetweenEvictionRunsMillis;
+    }
+
+    public void setTimeBetweenEvictionRunsMillis(long timeBetweenEvictionRunsMillis) {
+        this.timeBetweenEvictionRunsMillis = timeBetweenEvictionRunsMillis;
+    }
 }

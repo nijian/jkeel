@@ -72,6 +72,10 @@
         <jthaipdf.version>1.0.1</jthaipdf.version>
         <xalan.version>2.7.0</xalan.version>
 
+        <ribbon.version>2.2.2</ribbon.version>
+        <com.google.collections.version>1.0-rc2</com.google.collections.version>
+        <io.reactivex.version>1.0.10</io.reactivex.version>
+
     </properties>
 
     <repositories>
@@ -176,6 +180,26 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-pool2</artifactId>
                 <version>${org.apache.commons.pool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.netflix.ribbon</groupId>
+                <artifactId>ribbon-loadbalancer</artifactId>
+                <version>${ribbon.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.netflix.ribbon</groupId>
+                <artifactId>ribbon-core</artifactId>
+                <version>${ribbon.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.collections</groupId>
+                <artifactId>google-collections</artifactId>
+                <version>${com.google.collections.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.reactivex</groupId>
+                <artifactId>rxjava</artifactId>
+                <version>${io.reactivex.version}</version>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>

@@ -26,7 +26,7 @@ public abstract class ReportPoolProxy<T, P extends ExportParams> implements Repo
     /**
      * Initialize ReportPoolProxy
      *
-     * @param properties
+     * @param properties properties
      */
     public synchronized void init(String properties) {
         if (!init) {
@@ -37,12 +37,14 @@ public abstract class ReportPoolProxy<T, P extends ExportParams> implements Repo
 
     protected abstract void initPool(String properties);
 
-    protected GenericKeyedObjectPoolConfig buildPoolConfig(ReportExtProperties printerProperties) {
+    protected GenericKeyedObjectPoolConfig buildPoolConfig(ReportExtProperties properties) {
         GenericKeyedObjectPoolConfig config = new GenericKeyedObjectPoolConfig();
         config.setTestOnBorrow(true);
-        config.setMinIdlePerKey(printerProperties.getMinSize());
-        config.setMaxIdlePerKey(printerProperties.getMaxSize());
-        config.setMaxTotalPerKey(printerProperties.getMaxSize());
+        config.setMinIdlePerKey(properties.getMinSize());
+        config.setMaxIdlePerKey(properties.getMaxSize());
+        config.setMaxTotalPerKey(properties.getMaxSize());
+        config.setMinEvictableIdleTimeMillis(properties.getMinEvictableIdleTimeMillis());
+        config.setTimeBetweenEvictionRunsMillis(properties.getTimeBetweenEvictionRunsMillis());
         return config;
     }
 
