@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fontFamilies>
+
+   <fontFamily name="Angsana New">
+       <normal><![CDATA[fonts/ANGSA.TTF]]></normal>
+       <bold><![CDATA[fonts/ANGSAB.TTF]]></bold>
+       <italic><![CDATA[fonts/ANGSAI.TTF]]></italic>
+       <pdfEncoding><![CDATA[Identity-H]]></pdfEncoding>
+       <pdfEmbedded><![CDATA[true]]></pdfEmbedded>
+   </fontFamily>
+
+
+   <fontFamily name="AngsanaUPC">
+       <normal><![CDATA[fonts/AngsaUPC.ttf]]></normal>
+       <bold><![CDATA[fonts/AngsabUPC.ttf]]></bold>
+       <italic><![CDATA[fonts/AngsaiUPC.ttf]]></italic>
+       <boldItalic><![CDATA[fonts/AngsabiUPC.ttf]]></boldItalic>
+       <pdfEncoding><![CDATA[Identity-H]]></pdfEncoding>
+       <pdfEmbedded><![CDATA[true]]></pdfEmbedded>
+   </fontFamily>
+
+
+</fontFamilies>

@@ -20,6 +20,7 @@ public final class JasperReportFactory extends BaseKeyedPooledObjectFactory<Stri
 
     @Override
     public JasperReport create(String rptURL) throws Exception {
+        //TODO change to URI
         JasperReport jasperReport = (JasperReport) JRLoader.loadObject(getClass().getResourceAsStream(rptURL));
 
         // JasperDesign design = JRXmlLoader.load(rptURL);
