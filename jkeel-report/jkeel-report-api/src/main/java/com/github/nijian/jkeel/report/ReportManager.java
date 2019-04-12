@@ -23,7 +23,7 @@ public final class ReportManager {
     private static Logger logger = LoggerFactory.getLogger(ReportManager.class);
 
     /**
-     * default ReportProxy name
+     * default ReportNonPoolProxy name
      */
     private final static String DEFAULT = "_DEFAULT";
 
@@ -33,7 +33,7 @@ public final class ReportManager {
     private static ReportManager manager;
 
     /**
-     * ReportProxy map
+     * ReportNonPoolProxy map
      */
     private Map<String, ReportProxy> reportMap = new HashMap<>();
 
@@ -158,8 +158,8 @@ public final class ReportManager {
     private void init(ReportConfig reportConfig) {
         List<ReportProxyConfig> reportProxyConfigs = reportConfig.getReportProxyConfigs();
         if (reportProxyConfigs == null || reportProxyConfigs.size() == 0) {
-            logger.error("ReportProxy is not found, please check the configuration : \t\n{}", reportConfig);
-            throw new RuntimeException("Missing ReportProxy config");
+            logger.error("ReportNonPoolProxy is not found, please check the configuration : \t\n{}", reportConfig);
+            throw new RuntimeException("Missing ReportNonPoolProxy config");
         }
 
         for (ReportProxyConfig reportProxyConfig : reportProxyConfigs) {
@@ -172,8 +172,8 @@ public final class ReportManager {
             try {
                 reportProxy = (ReportProxy) Class.forName(clzName).getDeclaredConstructor().newInstance();
             } catch (Exception e) {
-                logger.error("Failed to load ReportProxy", e);
-                throw new RuntimeException("Failed to load ReportProxy", e);
+                logger.error("Failed to load ReportNonPoolProxy", e);
+                throw new RuntimeException("Failed to load ReportNonPoolProxy", e);
             }
             reportProxy.init(properties);
 
@@ -189,9 +189,9 @@ public final class ReportManager {
     }
 
     /**
-     * Get ReportProxy id list.
+     * Get ReportNonPoolProxy id list.
      *
-     * @return ReportProxy identifier set
+     * @return ReportNonPoolProxy identifier set
      */
     public Set<String> getReportProxyIds() {
         return reportMap.keySet();
@@ -218,7 +218,7 @@ public final class ReportManager {
      */
     public void exportToStream(String reportProxyId, String rptURI, String exportParams, OutputStream outputStream) {
         check(reportProxyId);
-        reportMap.get(reportProxyId).printToStream(rptURI, exportParams, outputStream);
+        reportMap.get(reportProxyId).exportToStream(rptURI, exportParams, outputStream);
     }
 
     /**
@@ -242,7 +242,7 @@ public final class ReportManager {
      */
     public ReportMeta exportToFile(String reportProxyId, String rptURI, String exportParams) {
         check(reportProxyId);
-        return reportMap.get(reportProxyId).printToFile(rptURI, exportParams);
+        return reportMap.get(reportProxyId).exportToFile(rptURI, exportParams);
     }
 
     /**
@@ -256,8 +256,8 @@ public final class ReportManager {
             throw new RuntimeException("ReportManager has not been initialized");
         }
         if (!reportMap.containsKey(reportProxyId)) {
-            logger.error("The ReportProxy is not exist : {}", reportProxyId);
-            throw new RuntimeException("The ReportProxy is not exist : " + reportProxyId);
+            logger.error("The ReportNonPoolProxy is not exist : {}", reportProxyId);
+            throw new RuntimeException("The ReportNonPoolProxy is not exist : " + reportProxyId);
         }
     }
 

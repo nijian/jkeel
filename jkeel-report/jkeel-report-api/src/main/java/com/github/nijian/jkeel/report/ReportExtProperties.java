@@ -1,7 +1,7 @@
 package com.github.nijian.jkeel.report;
 
 /**
- * ReportProxy use the ext properties to driver different Report tool.
+ * ReportNonPoolProxy use the ext properties to driver different Report tool.
  *
  * @author nj
  * @since 0.0.2

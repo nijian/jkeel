@@ -15,12 +15,12 @@ import com.github.nijian.jkeel.commons.ObjectHolder;
 public final class ReportProxyConfig {
 
     /**
-     * ReportProxy id
+     * ReportNonPoolProxy id
      */
     private String id;
 
     /**
-     * ReportProxy class name
+     * ReportNonPoolProxy class name
      */
     private String clzName;
 
@@ -30,49 +30,49 @@ public final class ReportProxyConfig {
     private Boolean isDefault = true;
 
     /**
-     * properties of ReportProxy
+     * properties of ReportNonPoolProxy
      */
     @JsonRawValue
     private Object properties;
 
     /**
-     * Get ReportProxy id
+     * Get ReportNonPoolProxy id
      *
-     * @return ReportProxy id
+     * @return ReportNonPoolProxy id
      */
     public String getId() {
         return id;
     }
 
     /**
-     * Set ReportProxy id
+     * Set ReportNonPoolProxy id
      *
-     * @param id ReportProxy id
+     * @param id ReportNonPoolProxy id
      */
     public void setId(String id) {
         this.id = id;
     }
 
     /**
-     * Get ReportProxy class name
+     * Get ReportNonPoolProxy class name
      *
-     * @return ReportProxy class name
+     * @return ReportNonPoolProxy class name
      */
     public String getClzName() {
         return clzName;
     }
 
     /**
-     * Set ReportProxy class name
+     * Set ReportNonPoolProxy class name
      *
-     * @param clzName ReportProxy class name
+     * @param clzName ReportNonPoolProxy class name
      */
     public void setClzName(String clzName) {
         this.clzName = clzName;
     }
 
     /**
-     * Is this ReportProxy default
+     * Is this ReportNonPoolProxy default
      *
      * @return default flag
      */
@@ -81,7 +81,7 @@ public final class ReportProxyConfig {
     }
 
     /**
-     * Set ReportProxy as default
+     * Set ReportNonPoolProxy as default
      *
      * @param aDefault default flag
      */
@@ -90,7 +90,7 @@ public final class ReportProxyConfig {
     }
 
     /**
-     * Get properties of ReportProxy
+     * Get properties of ReportNonPoolProxy
      *
      * @return properties (JSON format)
      */
@@ -99,7 +99,7 @@ public final class ReportProxyConfig {
     }
 
     /**
-     * Set properties of ReportProxy
+     * Set properties of ReportNonPoolProxy
      *
      * @param node JsonNode
      */

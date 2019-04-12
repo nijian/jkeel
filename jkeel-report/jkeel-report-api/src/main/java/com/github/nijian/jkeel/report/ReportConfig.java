@@ -6,7 +6,7 @@ import com.github.nijian.jkeel.commons.ObjectHolder;
 import java.util.List;
 
 /**
- * ReportConfig is used to configure a set of ReportProxy
+ * ReportConfig is used to configure a set of ReportNonPoolProxy
  *
  * @author nj
  * @since 0.0.2

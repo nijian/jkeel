@@ -22,8 +22,8 @@ public final class JasperReportFactory extends BaseKeyedPooledObjectFactory<Stri
     public JasperReport create(String rptURL) throws Exception {
         JasperReport jasperReport = (JasperReport) JRLoader.loadObject(getClass().getResourceAsStream(rptURL));
 
-//        JasperDesign design = JRXmlLoader.load(rptURL);
-//        JasperReportProxy jasperReport = JasperCompileManager.compileReport(design);
+        // JasperDesign design = JRXmlLoader.load(rptURL);
+        // JasperReportProxy jasperReport = JasperCompileManager.compileReport(design);
         logger.info("A Jasper report instance is created with template {}", rptURL);
         return jasperReport;
     }

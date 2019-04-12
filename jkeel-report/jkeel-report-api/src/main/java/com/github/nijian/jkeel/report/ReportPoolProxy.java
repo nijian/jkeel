@@ -7,19 +7,31 @@ import org.slf4j.LoggerFactory;
 
 import java.io.OutputStream;
 
-
-public abstract class ReportPoolProxy<T, P extends ExportParams> {
+/**
+ * ReportPoolProxy
+ *
+ * @param <T> the type in pool
+ * @param <P> ExportParams type
+ * @author nj
+ * @since 0.0.2
+ */
+public abstract class ReportPoolProxy<T, P extends ExportParams> implements ReportProxy {
 
     private static Logger logger = LoggerFactory.getLogger(ReportPoolProxy.class);
 
-    protected boolean inited = false;
+    protected boolean init = false;
 
     protected KeyedObjectPool<String, T> pool;
 
-    public void init(String properties) {
-        if (!inited) {
+    /**
+     * Initialize ReportPoolProxy
+     *
+     * @param properties
+     */
+    public synchronized void init(String properties) {
+        if (!init) {
             initPool(properties);
-            inited = true;
+            init = true;
         }
     }
 
@@ -36,27 +48,22 @@ public abstract class ReportPoolProxy<T, P extends ExportParams> {
 
     protected abstract P buildPrintParams(String paramsJson);
 
-    public void printToStream(String rptURI, String paramsJson, OutputStream outputStream) {
-        if (!inited) {
-            throw new RuntimeException("The printer has not been initialized");
-        }
+    protected abstract void exportToStream(String rptURI, P printParams, OutputStream outputStream, int remainTries);
+
+    protected abstract ReportMeta exportToFile(String rptURI, P printParams, int remainTries);
+
+    @Override
+    public void exportToStream(String rptURI, String paramsJson, OutputStream outputStream) {
         logger.info("Start to print report with template {} to stream", rptURI);
-        printToStream(rptURI, buildPrintParams(paramsJson), outputStream, 3);
+        exportToStream(rptURI, buildPrintParams(paramsJson), outputStream, 3);
         logger.info("End to print report to stream");
     }
 
-    public ReportMeta printToFile(String rptURI, String paramsJson) {
-        if (!inited) {
-            throw new RuntimeException("The printer has not been initialized");
-        }
+    @Override
+    public ReportMeta exportToFile(String rptURI, String paramsJson) {
         logger.info("Start to print report with template {} to file", rptURI);
-        ReportMeta reportMeta = printToFile(rptURI, buildPrintParams(paramsJson), 3);
+        ReportMeta reportMeta = exportToFile(rptURI, buildPrintParams(paramsJson), 3);
         logger.info("End to print report to file");
         return reportMeta;
     }
-
-    protected abstract void printToStream(String rptURI, P printParams, OutputStream outputStream, int remainTries);
-
-    protected abstract ReportMeta printToFile(String rptURI, P printParams, int remainTries);
-
 }

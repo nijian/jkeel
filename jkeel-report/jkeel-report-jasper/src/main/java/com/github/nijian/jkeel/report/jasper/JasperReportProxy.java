@@ -34,7 +34,7 @@ public final class JasperReportProxy extends ReportPoolProxy<JasperReport, Jaspe
 
     private static Logger logger = LoggerFactory.getLogger(JasperReportProxy.class);
 
-
+    @Override
     protected void initPool(String properties) {
         JasperReportProperties printerProperties;
         try {
@@ -46,6 +46,7 @@ public final class JasperReportProxy extends ReportPoolProxy<JasperReport, Jaspe
         pool = new GenericKeyedObjectPool<>(new JasperReportFactory(), config);
     }
 
+    @Override
     protected JasperExportParams buildPrintParams(String paramsJson) {
         try {
             return ObjectHolder.objectMapper.readValue(paramsJson, JasperExportParams.class);
@@ -54,8 +55,8 @@ public final class JasperReportProxy extends ReportPoolProxy<JasperReport, Jaspe
         }
     }
 
-
-    protected void printToStream(String rptURI, JasperExportParams printParams, OutputStream outputStream, int remainTries) {
+    @Override
+    protected void exportToStream(String rptURI, JasperExportParams printParams, OutputStream outputStream, int remainTries) {
         logger.info("Jasper report pool has {} active instances and {} idle instances for {}", pool.getNumActive(rptURI), pool.getNumIdle(rptURI), rptURI);
         net.sf.jasperreports.engine.JasperReport jasperReport = null;
         try {
@@ -71,7 +72,7 @@ public final class JasperReportProxy extends ReportPoolProxy<JasperReport, Jaspe
                 throw new RuntimeException("Failed to print after 3 tries", e);
             }
             remainTries--;
-            printToStream(rptURI, printParams, outputStream, remainTries);
+            exportToStream(rptURI, printParams, outputStream, remainTries);
         } finally {
             try {
                 if (jasperReport != null) {
@@ -83,7 +84,8 @@ public final class JasperReportProxy extends ReportPoolProxy<JasperReport, Jaspe
         }
     }
 
-    protected ReportMeta printToFile(String rptURI, JasperExportParams printParams, int remainTries) {
+    @Override
+    protected ReportMeta exportToFile(String rptURI, JasperExportParams printParams, int remainTries) {
         net.sf.jasperreports.engine.JasperReport jasperReport = null;
         try {
             long start = System.currentTimeMillis();
@@ -101,7 +103,7 @@ public final class JasperReportProxy extends ReportPoolProxy<JasperReport, Jaspe
                 throw new RuntimeException("Failed to print after 3 tries", e);
             }
             remainTries--;
-            return printToFile(rptURI, printParams, remainTries);
+            return exportToFile(rptURI, printParams, remainTries);
         } finally {
             try {
                 if (jasperReport != null) {
@@ -112,7 +114,6 @@ public final class JasperReportProxy extends ReportPoolProxy<JasperReport, Jaspe
             }
         }
     }
-
 
     private JasperPrint buildJasperPrint(net.sf.jasperreports.engine.JasperReport jasperReport, JasperExportParams printParams) {
         try {
