@@ -33,10 +33,6 @@
             <groupId>xalan</groupId>
             <artifactId>xalan</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.googlecode.jthaipdf</groupId>
-            <artifactId>jthaipdf</artifactId>
-        </dependency>
         <!-- log -->
         <dependency>
             <groupId>org.slf4j</groupId>

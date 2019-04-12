@@ -4,11 +4,7 @@ import com.github.nijian.jkeel.commons.ObjectHolder;
 import com.github.nijian.jkeel.report.ExportParams;
 import com.github.nijian.jkeel.report.ReportMeta;
 import com.github.nijian.jkeel.report.ReportPoolProxy;
-import com.googlecode.jthaipdf.jasperreports.engine.ThaiExporterManager;
-import net.sf.jasperreports.engine.JRParameter;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.query.JRXPathQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.JRXmlUtils;
 import org.apache.commons.io.IOUtils;
@@ -63,7 +59,7 @@ public final class JasperReportProxy extends ReportPoolProxy<JasperReport, Jaspe
             long start = System.currentTimeMillis();
             jasperReport = pool.borrowObject(rptURI);
             JasperPrint jasperPrint = buildJasperPrint(jasperReport, printParams);
-            ThaiExporterManager.exportReportToPdfStream(jasperPrint, outputStream);
+            JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
             logger.info("JasperReportProxy:{} : execution time: {}ms", jasperReport.hashCode(), (System.currentTimeMillis() - start));
         } catch (Exception e) {
             logger.warn("Failed to print to stream by Jasper, remain tries {}", remainTries - 1);
@@ -91,7 +87,7 @@ public final class JasperReportProxy extends ReportPoolProxy<JasperReport, Jaspe
             long start = System.currentTimeMillis();
             jasperReport = pool.borrowObject(rptURI);
             JasperPrint jasperPrint = buildJasperPrint(jasperReport, printParams);
-            ThaiExporterManager.exportReportToPdfFile(jasperPrint, printParams.getExportFileURI());
+            JasperExportManager.exportReportToPdfFile(jasperPrint, printParams.getExportFileURI());
             logger.info("JasperReportProxy:{} : execution time: {}ms", jasperReport.hashCode(), (System.currentTimeMillis() - start));
             ReportMeta reportMeta = new ReportMeta();
             reportMeta.setUri(printParams.getExportFileURI());
