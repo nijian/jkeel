@@ -25,14 +25,14 @@ public class JasperReportProxyTest {
 
     @Test
     public void exportToFile() {
-        try {
-            ReportManager reportManager = ReportManager.getInstance(this.getClass().getResourceAsStream("/config.json"));
-            JasperExportParams jasperExportParams = objectMapper.readValue(this.getClass().getResourceAsStream("/exportparams.json"), JasperExportParams.class);
-            ReportMeta reportMeta = reportManager.exportToFile("/PolicyDocuments.jasper", jasperExportParams.toString());
-            System.out.print(reportMeta.toString());
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+//        try {
+//            ReportManager reportManager = ReportManager.getInstance(this.getClass().getResourceAsStream("/config.json"));
+//            JasperExportParams jasperExportParams = objectMapper.readValue(this.getClass().getResourceAsStream("/exportparams.json"), JasperExportParams.class);
+//            ReportMeta reportMeta = reportManager.exportToFile("/PolicyDocuments.jasper", jasperExportParams.toString());
+//            System.out.print(reportMeta.toString());
+//        }catch(Exception e){
+//            e.printStackTrace();
+//        }
 
     }
 }
