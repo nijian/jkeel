@@ -2,7 +2,7 @@
          xsi:noNamespaceSchemaLocation="../../main/config/ehcache.xsd"
          maxBytesLocalHeap="50%">
 
-    <sizeOfPolicy maxDepth="10000" maxDepthExceededBehavior="continue"/>
+    <!--<sizeOfPolicy maxDepth="100000" maxDepthExceededBehavior="continue"/>-->
 
     <defaultCache
            eternal="false"
