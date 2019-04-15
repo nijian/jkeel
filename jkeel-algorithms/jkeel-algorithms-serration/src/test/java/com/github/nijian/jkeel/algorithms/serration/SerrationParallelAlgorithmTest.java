@@ -55,9 +55,9 @@ public class SerrationParallelAlgorithmTest {
         algorithm = AlgorithmFactoryProvider.getInstance().getAlgorithm(Serration.class.getName());
         URL url = cid.getClass().getResource("/config.illus");
         ac = AlgorithmContextManager.getInstance().createTemplateContext(cid, layoutTemplate1, url.toURI(), SerrationConfig.class, env);
-//        mycid = "[Test2]";
-//        URL myUrl = mycid.getClass().getResource("/myconfig.illus");
-//        myac = AlgorithmContextManager.getInstance().createTemplateContext(mycid, layoutTemplate1, myUrl.toURI(), SerrationConfig.class, MyCalcConfig.class, env);
+        mycid = "[Test2]";
+        URL myUrl = mycid.getClass().getResource("/myconfig.illus");
+        myac = AlgorithmContextManager.getInstance().createTemplateContext(mycid, layoutTemplate1, myUrl.toURI(), SerrationConfig.class, MyCalcConfig.class, env);
     }
 
     @Before
@@ -84,10 +84,10 @@ public class SerrationParallelAlgorithmTest {
 
     }
 
-//    @Test
-//    public void testMyCalcConfig() throws Exception {
-//        algorithm.perform(null, varMap, myac);
-//        Thread.sleep(1000 * 5);
-//        assertEquals(1, 1);
-//    }
+    @Test
+    public void testMyCalcConfig() throws Exception {
+        algorithm.perform(null, varMap, myac);
+        Thread.sleep(1000 * 5);
+        assertEquals(1, 1);
+    }
 }
