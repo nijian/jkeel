@@ -33,12 +33,13 @@ public class SerrationParallelAlgorithmTest {
     private static AlgorithmContext ac;
     private static String mycid;
     private static AlgorithmContext myac;
+    private static Properties env = new Properties();
 
 
     @BeforeClass
     public static void setUp0() throws Exception {
 
-        Properties env = new Properties();
+
         env.setProperty(Const.CACHING_PROVIDER_NAME_KEY, "org.ehcache.jcache.JCacheCachingProvider");
 
         //prepare variables map
