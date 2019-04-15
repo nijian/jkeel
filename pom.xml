@@ -4,7 +4,7 @@
 
     <groupId>com.github.nijian.jkeel</groupId>
     <artifactId>jkeel-parent</artifactId>
-    <version>0.0.3-SNAPSHOT</version>
+    <version>0.0.3</version>
     <packaging>pom</packaging>
 
     <name>JKeel Parent</name>
@@ -38,7 +38,7 @@
         <url>https://github.com/nijian/jkeel.git</url>
         <connection>scm:git:https://github.com/nijian/jkeel.git</connection>
         <developerConnection>scm:git:https://github.com/nijian/jkeel.git</developerConnection>
-        <tag>${revision}</tag>
+        <tag>jkeel-parent-0.0.3</tag>
     </scm>
 
     <properties>
