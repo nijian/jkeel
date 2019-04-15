@@ -21,7 +21,7 @@ public final class AlgorithmContextManager {
     /**
      * AlgorithmContext cache, will be change to repository later.
      */
-    private final ConcurrentMap<String, AlgorithmContext> contexts = new ConcurrentHashMap();
+    private final static ConcurrentMap<String, AlgorithmContext> contexts = new ConcurrentHashMap();
 
     /**
      * private construction
@@ -144,7 +144,18 @@ public final class AlgorithmContextManager {
      * @return true or false
      * @since 0.0.2
      */
-    public boolean contains(String cid) {
+    public static boolean contains(String cid) {
         return contexts.containsKey(cid);
+    }
+
+    /**
+     * Get algorithm context
+     *
+     * @param cid algorithm context global identifier
+     * @return AlgorithmContext
+     * @since 0.0.3
+     */
+    public AlgorithmContext getAlgorithmContext(String cid) {
+        return contexts.get(cid);
     }
 }
