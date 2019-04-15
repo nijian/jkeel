@@ -4,7 +4,7 @@
 
     <groupId>com.github.nijian.jkeel</groupId>
     <artifactId>jkeel-parent</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.3-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>JKeel Parent</name>
@@ -43,7 +43,7 @@
 
     <properties>
 
-        <revision>0.0.2-SNAPSHOT</revision>
+        <revision>0.0.3-SNAPSHOT</revision>
 
         <main.basedir>${basedir}</main.basedir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
