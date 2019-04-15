@@ -78,9 +78,9 @@ public class SerrationParallelAlgorithmTest {
 
     @Test
     public void perform1() throws Exception {
-//        algorithm.perform(null, varMap, ac);
-//        Thread.sleep(1000 * 5);
-//        assertEquals(1, 1);
+        algorithm.perform(null, varMap, ac);
+        Thread.sleep(1000 * 5);
+        assertEquals(1, 1);
 
     }
 
