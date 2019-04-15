@@ -5,8 +5,6 @@
     <sizeOfPolicy maxDepth="100000" maxDepthExceededBehavior="continue"/>
 
     <defaultCache
-           maxEntriesLocalHeap="100000"
-           maxEntriesLocalDisk="100000"
            eternal="false"
            overflowToDisk="true"
            diskSpoolBufferSizeMB="200"
