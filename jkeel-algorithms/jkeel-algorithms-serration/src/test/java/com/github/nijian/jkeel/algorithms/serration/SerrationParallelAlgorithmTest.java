@@ -84,10 +84,10 @@ public class SerrationParallelAlgorithmTest {
 
     }
 
-    @Test
-    public void testMyCalcConfig() throws Exception {
-        algorithm.perform(null, varMap, myac);
-        Thread.sleep(1000 * 5);
-        assertEquals(1, 1);
-    }
+//    @Test
+//    public void testMyCalcConfig() throws Exception {
+//        algorithm.perform(null, varMap, myac);
+//        Thread.sleep(1000 * 5);
+//        assertEquals(1, 1);
+//    }
 }
