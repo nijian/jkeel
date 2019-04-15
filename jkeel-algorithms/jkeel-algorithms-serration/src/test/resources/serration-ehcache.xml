@@ -1,0 +1,19 @@
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../../main/config/ehcache.xsd"
+         maxBytesLocalHeap="50%">
+
+    <sizeOfPolicy maxDepth="1000000" maxDepthExceededBehavior="continue"/>
+
+    <defaultCache
+           maxEntriesLocalHeap="100000"
+           maxEntriesLocalDisk="100000"
+           eternal="false"
+           overflowToDisk="true"
+           diskSpoolBufferSizeMB="2000"
+           timeToIdleSeconds="300"
+           timeToLiveSeconds="600"
+           memoryStoreEvictionPolicy="LFU"
+           transactionalMode="off"
+    />
+
+</ehcache>

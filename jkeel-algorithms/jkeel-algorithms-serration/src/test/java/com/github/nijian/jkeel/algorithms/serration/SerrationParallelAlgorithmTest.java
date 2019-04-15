@@ -17,6 +17,7 @@ import java.net.URL;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import static org.junit.Assert.assertEquals;
 
@@ -36,6 +37,10 @@ public class SerrationParallelAlgorithmTest {
 
     @BeforeClass
     public static void setUp0() throws Exception {
+
+        Properties env = new Properties();
+        env.setProperty(Const.CACHING_PROVIDER_NAME_KEY, "org.ehcache.jcache.JCacheCachingProvider");
+
         //prepare variables map
         Map<String, Double> unitPriceMapH = IllustrationHelper.buildUnitPriceRateTable0(new Date(119, 1, 1), new Date(118, 0, 1), 10000d, 'H');
         Map<String, Double> unitPriceMapL = IllustrationHelper.buildUnitPriceRateTable0(new Date(119, 1, 1), new Date(118, 0, 1), 10000d, 'L');
@@ -48,10 +53,10 @@ public class SerrationParallelAlgorithmTest {
         layoutTemplate1 = objectMapper.readValue(cid.getClass().getResourceAsStream("/a.json"), LayoutTemplate.class);
         algorithm = AlgorithmFactoryProvider.getInstance().getAlgorithm(Serration.class.getName());
         URL url = cid.getClass().getResource("/config.illus");
-        ac = AlgorithmContextManager.getInstance().createTemplateContext(cid, layoutTemplate1, url.toURI(), SerrationConfig.class, null);
+        ac = AlgorithmContextManager.getInstance().createTemplateContext(cid, layoutTemplate1, url.toURI(), SerrationConfig.class, env);
         mycid = "[Test2]";
         URL myUrl = mycid.getClass().getResource("/myconfig.illus");
-        myac = AlgorithmContextManager.getInstance().createTemplateContext(mycid, layoutTemplate1, myUrl.toURI(), SerrationConfig.class, MyCalcConfig.class, null);
+        myac = AlgorithmContextManager.getInstance().createTemplateContext(mycid, layoutTemplate1, myUrl.toURI(), SerrationConfig.class, MyCalcConfig.class, env);
     }
 
     @Before

@@ -76,6 +76,7 @@ public class SerrationConfig implements AlgorithmConfig {
                         getClass().getResource(cacheConfigFileName).toURI(),
                         getClass().getClassLoader());
                 MutableConfiguration<String, Closure> configuration = new MutableConfiguration<String, Closure>().setStoreByValue(false);
+
                 cache = cacheManager.createCache(cid, configuration);
                 logger.info("Cache is ready for {}", cid);
 
