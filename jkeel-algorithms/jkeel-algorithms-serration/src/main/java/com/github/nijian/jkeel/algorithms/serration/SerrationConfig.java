@@ -80,12 +80,11 @@ public class SerrationConfig implements AlgorithmConfig {
                 cache = cacheManager.createCache(cid, configuration);
                 logger.info("Cache is ready for {}", cid);
 
-                Class calcConfigClz;
-                if(delegateConfigClz == null){
-                    calcConfigClz = Class.forName(Const.CALC_CONFIG_CLASS_NAME);
-                }else{
-                    calcConfigClz = delegateConfigClz;
+                String calcConfigClzName = env == null ? null : env.getProperty(Const.CALC_CONFIG_CLASS_NAME_KEY);
+                if (calcConfigClzName == null) {
+                    calcConfigClzName = Const.CALC_CONFIG_CLASS_NAME;
                 }
+                Class<?> calcConfigClz = Class.forName(calcConfigClzName);
                 logger.info("Calc config class name:{}", calcConfigClz);
                 Object configInstance;
                 try {

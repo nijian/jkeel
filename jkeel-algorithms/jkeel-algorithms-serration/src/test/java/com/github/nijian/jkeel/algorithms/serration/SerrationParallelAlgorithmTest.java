@@ -39,6 +39,8 @@ public class SerrationParallelAlgorithmTest {
 
 
         env.setProperty(Const.CACHING_PROVIDER_NAME_KEY, "org.ehcache.jcache.JCacheCachingProvider");
+        env.setProperty(Const.CALC_CLASS_NAME_KEY, "com.github.nijian.jkeel.algorithms.serration.MyCalc");
+        env.setProperty(Const.CALC_CONFIG_CLASS_NAME_KEY, "com.github.nijian.jkeel.algorithms.serration.MyCalcConfig");
 
         //prepare variables map
         Map<String, Double> unitPriceMapH = IllustrationHelper.buildUnitPriceRateTable0(new Date(119, 1, 1), new Date(118, 0, 1), 10000d, 'H');
@@ -66,9 +68,9 @@ public class SerrationParallelAlgorithmTest {
 
     @Test
     public void perform0() throws Exception {
-//        algorithm.perform(null, varMap, ac);
-//        Thread.sleep(1000 * 5);
-//        assertEquals(1, 1);
+        algorithm.perform(null, varMap, ac);
+        Thread.sleep(1000 * 5);
+        assertEquals(1, 1);
     }
 
     @Test

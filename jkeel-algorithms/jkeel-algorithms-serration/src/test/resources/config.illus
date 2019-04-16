@@ -1,6 +1,6 @@
 import com.github.nijian.jkeel.algorithms.serration.operands.BigDecimalOperand
 
-CalcConfig {
+MyCalcConfig {
 
     cid '[Test1]'
 
