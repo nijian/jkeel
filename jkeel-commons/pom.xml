@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.github.nijian.jkeel</groupId>
         <artifactId>jkeel-parent</artifactId>
-        <version>0.0.4</version>
+        <version>0.0.5-SNAPSHOT</version>
     </parent>
     <artifactId>jkeel-commons</artifactId>
     <name>JKeel Commons</name>
