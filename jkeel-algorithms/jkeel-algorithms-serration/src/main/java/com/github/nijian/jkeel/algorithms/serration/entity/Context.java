@@ -225,7 +225,12 @@ public class Context<I> {
     }
 
     public BigDecimalOperand get(String paramName) {
-        return itemLocationMap.get(paramName).getItemInstances().get(0).getValue();
+        BigDecimalOperand operand = itemLocationMap.get(paramName).getItemInstances().get(0).getValue();
+        if (operand == null || operand.getValue()==null) {
+            //TODO
+            return new BigDecimalOperand(1);
+        }
+        return operand;
     }
 
     public BigDecimalOperand getx(int index, String paramName) {

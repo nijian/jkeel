@@ -1,7 +1,9 @@
 package com.github.nijian.jkeel.algorithms.serration.entity;
 
+import com.github.nijian.jkeel.algorithms.serration.operands.BigDecimalOperand;
 import groovy.lang.Closure;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -23,8 +25,8 @@ public class LayoutInstance {
     /**
      * Constructor
      *
-     * @param context context
-     * @param layout layout
+     * @param context    context
+     * @param layout     layout
      * @param closureMap closure map
      * @param calcConfig calc config
      */
@@ -37,7 +39,13 @@ public class LayoutInstance {
             if (closure != null) {
                 closure.setDelegate(calcConfig);
                 closure.setResolveStrategy(Closure.DELEGATE_ONLY);
-                this.itemCount = (int) closure.call(context.getInput());
+                Object value = closure.call(context.getInput());
+                if (value instanceof Number) {
+                    BigDecimalOperand operand = new BigDecimalOperand((Number) value, 10);
+                    this.itemCount = operand.getValue().intValue();
+                } else {
+                    throw new RuntimeException("ItemGroupCount should be Integer");
+                }
             }
         }
 
@@ -46,7 +54,13 @@ public class LayoutInstance {
             if (closure != null) {
                 closure.setDelegate(calcConfig);
                 closure.setResolveStrategy(Closure.DELEGATE_ONLY);
-                this.loutCount = (int) closure.call(context.getInput());
+                Object value = closure.call(context.getInput());
+                if (value instanceof Number) {
+                    BigDecimalOperand operand = new BigDecimalOperand((Number) value, 10);
+                    this.loutCount = operand.getValue().intValue();
+                } else {
+                    throw new RuntimeException("LayoutCount should be Integer");
+                }
             }
         }
     }

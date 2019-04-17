@@ -31,13 +31,6 @@ public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorit
     private static Serration instance;
 
     /**
-     * Serration algorithm is based on Groovy closure.
-     * IMPORTANT!!!
-     * Closure is not thread safe, will be cloned to closures map
-     */
-    private Cache<String, Closure> cache;
-
-    /**
      * private construction
      */
     private Serration() {
@@ -60,20 +53,6 @@ public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorit
     }
 
     /**
-     * Get cache
-     *
-     * @param ac algorithm context
-     * @return cache
-     */
-    private Cache<String, Closure> getCache(TemplateAlgorithmContext ac) {
-        if (cache == null) {
-            cache = ((SerrationConfig) ac.getConfig()).getCache();
-        }
-
-        return cache;
-    }
-
-    /**
      * Convert raw input to Map
      *
      * @param rawInput raw input
@@ -83,10 +62,18 @@ public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorit
      */
     @Override
     protected Map<String, ?> convertInput(I rawInput, Map<String, ?> var, TemplateAlgorithmContext ac) {
-        Closure closure = getCache(ac).get(Const.CONVERT);
+        SerrationConfig serrationConfig = (SerrationConfig) ac.getConfig();
+        Closure closure = serrationConfig.getCache().get(Const.CONVERT);
         if (closure != null) {
-            final Map<String, ?> input = new HashMap<>();
+            final Map<String, Object> input = new HashMap<>();
             ((Closure) closure.clone()).call(rawInput, var, input);
+            input.keySet().forEach(key -> {
+                Object inputValue = input.get(key);
+                if (inputValue instanceof Number) {
+                    Object inputValueObj = new BigDecimalOperand((Number) inputValue, 10);
+                    input.put(key, inputValueObj);
+                }
+            });
             return input;
         }
         return null;
@@ -102,10 +89,10 @@ public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorit
      */
     @Override
     protected <T> Context<I> calc(final T input, final TemplateAlgorithmContext ac) {
-
+        SerrationConfig serrationConfig = (SerrationConfig) ac.getConfig();
         logger.info("Serration algorithm is preparing closure map");
         Map<String, Closure> closureMap = new HashMap<>();
-        getCache(ac).forEach(item ->
+        serrationConfig.getCache().forEach(item ->
                 {
                     String key = item.getKey();
                     Closure closure = (Closure) item.getValue().clone();
@@ -119,7 +106,7 @@ public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorit
         logger.info("Serration algorithm context has been initialized");
 
         Properties env = ac.getConfig().getEnv();
-        String calcClzName =  env == null ? null : env.getProperty(Const.CALC_CLASS_NAME_KEY);
+        String calcClzName = env == null ? null : env.getProperty(Const.CALC_CLASS_NAME_KEY);
         if (calcClzName == null) {
             calcClzName = Const.CALC_CLASS_NAME;
         }

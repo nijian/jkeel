@@ -144,7 +144,7 @@ public final class AlgorithmContextManager {
      * @return true or false
      * @since 0.0.2
      */
-    public static boolean contains(String cid) {
+    public boolean contains(String cid) {
         return contexts.containsKey(cid);
     }
 
