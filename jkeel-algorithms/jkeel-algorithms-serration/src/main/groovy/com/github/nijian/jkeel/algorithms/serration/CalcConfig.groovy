@@ -8,10 +8,11 @@ import javax.cache.Cache
  * @author nj
  * @since 0.0.1
  */
-class CalcConfig implements MixinFuncs {
+class CalcConfig extends AbstractCalcConfig implements MixinFuncs {
 
     Cache<String, Closure> cache
     String cid
+    boolean negToZero = false
 
     CalcConfig(Cache<String, Closure> cache) {
         this.cache = cache
@@ -19,6 +20,10 @@ class CalcConfig implements MixinFuncs {
 
     def cid(String cid) {
         this.cid = cid
+    }
+
+    def negToZero(boolean isNegToZero) {
+        this.negToZero = isNegToZero
     }
 
     def call(Closure closure) {
@@ -45,5 +50,10 @@ class CalcConfig implements MixinFuncs {
 
     def formula(String name, Closure<BigDecimal> closure) {
         cache.put(name, closure)
+    }
+
+    @Override
+    boolean isNegToZero() {
+        return negToZero
     }
 }

@@ -6,6 +6,7 @@ import groovy.lang.Closure;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -47,7 +48,24 @@ public class Item<I> {
      */
     public void calc(final I input, final ItemInstance itemInstance, final LayoutInstance layoutInstance,
                      final boolean isLidx, final Closure<Number> closure, final List<BigDecimalOperand> outValueList) {
-        calc(input, itemInstance, layoutInstance, isLidx, closure);
+        calc(input, itemInstance, layoutInstance, isLidx, closure, outValueList, false);
+    }
+
+    /**
+     * Calculate item instance value and output to item out map
+     *
+     * @param input          final/converted input
+     * @param itemInstance   item instance
+     * @param layoutInstance layout instance
+     * @param isLidx         is layout index or not
+     * @param closure        formula closure
+     * @param outValueList   out value list in item out map
+     * @param negToZero      negative to ZERO or not
+     */
+    public void calc(final I input, final ItemInstance itemInstance, final LayoutInstance layoutInstance,
+                     final boolean isLidx, final Closure<Number> closure, final List<BigDecimalOperand> outValueList,
+                     final boolean negToZero) {
+        calc(input, itemInstance, layoutInstance, isLidx, closure, negToZero);
         outValueList.add(itemInstance.getValue());
     }
 
@@ -62,12 +80,30 @@ public class Item<I> {
      */
     public void calc(final I input, final ItemInstance itemInstance, final LayoutInstance layoutInstance,
                      final boolean isLidx, final Closure<Number> closure) {
+        calc(input, itemInstance, layoutInstance, isLidx, closure, false);
+    }
+
+    /**
+     * Calculate item instance value
+     *
+     * @param input          final/converted input
+     * @param itemInstance   item instance
+     * @param layoutInstance layout instance
+     * @param isLidx         is layout index or not
+     * @param closure        formula closure
+     * @param negToZero      negative to ZERO or not
+     */
+    public void calc(final I input, final ItemInstance itemInstance, final LayoutInstance layoutInstance,
+                     final boolean isLidx, final Closure<Number> closure, final boolean negToZero) {
         try {
             Number rawValue;
             if (isLidx) {
                 rawValue = closure.call(input, layoutInstance.getIndex());
             } else {
                 rawValue = closure.call(input, itemInstance.getIndex());
+            }
+            if (negToZero && rawValue.intValue() < 0) {
+                rawValue = BigDecimal.ZERO;
             }
             BigDecimalOperand operand = new BigDecimalOperand(rawValue, scale, true);
             itemInstance.setValue(operand);
@@ -130,4 +166,5 @@ public class Item<I> {
     public void setScale(int scale) {
         this.scale = scale;
     }
+
 }

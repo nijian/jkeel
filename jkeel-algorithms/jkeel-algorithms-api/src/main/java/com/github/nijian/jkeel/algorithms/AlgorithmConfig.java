@@ -31,6 +31,13 @@ public interface AlgorithmConfig extends Serializable {
     String getCid();
 
     /**
+     * negative to zero or not
+     *
+     * @return true or false
+     */
+    boolean isNegToZero();
+
+    /**
      * Get environment variables
      *
      * @return environment variables

@@ -90,6 +90,10 @@ public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorit
     @Override
     protected <T> Context<I> calc(final T input, final TemplateAlgorithmContext ac) {
         SerrationConfig serrationConfig = (SerrationConfig) ac.getConfig();
+
+        //get associated properties
+        final boolean negToZero = serrationConfig.isNegToZero();
+
         logger.info("Serration algorithm is preparing closure map");
         Map<String, Closure> closureMap = new HashMap<>();
         serrationConfig.getCache().forEach(item ->
@@ -135,7 +139,7 @@ public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorit
                                         itemIA.getItemInstances().parallelStream().forEach(
                                                 itemI ->
                                                 {
-                                                    calc(closureMap, context, input, loutI, itemI, isLidx, calc);
+                                                    calc(closureMap, context, input, loutI, itemI, isLidx, calc, negToZero);
                                                 }));
                     } else {
                         pAreaI.getItemInstanceAnchors().forEach(
@@ -143,7 +147,7 @@ public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorit
                                         itemIA.getItemInstances().forEach(
                                                 itemI ->
                                                 {
-                                                    calc(closureMap, context, input, loutI, itemI, isLidx, calc);
+                                                    calc(closureMap, context, input, loutI, itemI, isLidx, calc, negToZero);
                                                 }));
                     }
                     pAreaI.getParallelArea().exec(pAreaI, closureMap, calc);
@@ -169,9 +173,13 @@ public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorit
      * @param input          final input
      * @param layoutInstance layout instance
      * @param itemInstance   item instance
+     * @param isLidx         is layout index or not
+     * @param calc           calculation object
+     * @param negToZero      negative to zero or not
      * @param <T>            final input type
      */
-    private <T> void calc(Map<String, Closure> closureMap, Context<I> context, T input, LayoutInstance layoutInstance, ItemInstance itemInstance, boolean isLidx, Object calc) {
+    private <T> void calc(Map<String, Closure> closureMap, Context<I> context, T input, LayoutInstance layoutInstance,
+                          ItemInstance itemInstance, boolean isLidx, Object calc, boolean negToZero) {
         Item item = itemInstance.getItem();
         String itemName = item.getName();
         Closure closure = closureMap.get(itemName);
@@ -179,9 +187,10 @@ public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorit
             closure.setDelegate(calc);
             closure.setResolveStrategy(Closure.DELEGATE_ONLY);
             if (item.isOut()) {
-                item.calc(input, itemInstance, layoutInstance, isLidx, closure, context.getItemOutMap().get(itemName).getMap().get(itemName));
+                item.calc(input, itemInstance, layoutInstance, isLidx, closure,
+                        context.getItemOutMap().get(itemName).getMap().get(itemName), negToZero);
             } else {
-                item.calc(input, itemInstance, layoutInstance, isLidx, closure);
+                item.calc(input, itemInstance, layoutInstance, isLidx, closure, negToZero);
             }
         }
     }
@@ -242,7 +251,11 @@ public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorit
             for (int i = 0; i < maxRowNum; i++) {
                 List<String> row = dataTable.get(i);
                 if (itemIList.size() > i) {
-                    row.add(itemIList.get(i).getValue().getValue().toString());
+                    try {
+                        row.add(itemIList.get(i).getValue().getValue().toString());
+                    } catch (Exception e) {
+                        row.add("UNDEFINED!");
+                    }
                 } else {
                     row.add("");
                 }

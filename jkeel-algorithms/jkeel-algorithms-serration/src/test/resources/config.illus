@@ -3,6 +3,7 @@ import com.github.nijian.jkeel.algorithms.serration.operands.BigDecimalOperand
 MyCalcConfig {
 
     cid '[Test1]'
+    negToZero true
 
     /**
      * in order to reach better performance, rate table is defined in array format

@@ -40,6 +40,11 @@ public class SerrationConfig implements AlgorithmConfig {
     private String cid;
 
     /**
+     * negative to zero or not
+     */
+    private boolean negToZero;
+
+    /**
      * environment variables
      */
     private Properties env;
@@ -86,9 +91,9 @@ public class SerrationConfig implements AlgorithmConfig {
                 }
                 Class<?> calcConfigClz = Class.forName(calcConfigClzName);
                 logger.info("Calc config class name:{}", calcConfigClz);
-                Object configInstance;
+                AbstractCalcConfig configInstance;
                 try {
-                    configInstance = calcConfigClz.getDeclaredConstructor(Cache.class).newInstance(cache);
+                    configInstance = (AbstractCalcConfig) calcConfigClz.getDeclaredConstructor(Cache.class).newInstance(cache);
                     this.delegate = configInstance;
                 } catch (Exception e) {
                     logger.error("Calc config class type should be CalcConfig", e);
@@ -106,6 +111,10 @@ public class SerrationConfig implements AlgorithmConfig {
                 Binding binding = new Binding();
                 binding.setVariable(calcConfigClz.getSimpleName(), configInstance);
                 InvokerHelper.createScript(clazz, binding).run();
+
+                //associated properties
+                this.negToZero = configInstance.isNegToZero();
+
                 init = true;
                 logger.info("SerrationConfig is initialized for {}", cid);
             }
@@ -122,6 +131,11 @@ public class SerrationConfig implements AlgorithmConfig {
     @Override
     public String getCid() {
         return cid;
+    }
+
+    @Override
+    public boolean isNegToZero() {
+        return negToZero;
     }
 
     @Override

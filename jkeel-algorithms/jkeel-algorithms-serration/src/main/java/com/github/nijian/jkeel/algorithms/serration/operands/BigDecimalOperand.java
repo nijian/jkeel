@@ -28,9 +28,6 @@ public class BigDecimalOperand extends NumberOperand<BigDecimal> implements Comp
         } else {
             throw new RuntimeException("Unsupported number type");
         }
-        if (this.value.compareTo(BigDecimal.ZERO) < 0) {
-            this.value = BigDecimal.ZERO;
-        }
     }
 
     public BigDecimalOperand(BigDecimal value) {
