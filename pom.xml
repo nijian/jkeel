@@ -38,13 +38,10 @@
         <url>https://github.com/nijian/jkeel.git</url>
         <connection>scm:git:https://github.com/nijian/jkeel.git</connection>
         <developerConnection>scm:git:https://github.com/nijian/jkeel.git</developerConnection>
-        <tag>${revision}</tag>
+        <tag>${project.version}</tag>
     </scm>
 
     <properties>
-
-        <revision>0.0.3-SNAPSHOT</revision>
-
         <main.basedir>${basedir}</main.basedir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.plugin.version>3.8.0</maven.compiler.plugin.version>
