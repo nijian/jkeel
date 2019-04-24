@@ -78,10 +78,10 @@ public abstract class Row<T> {
         return null;
     }
 
-    public void calc(BigDecimal inputValue, T current) {
+    public void calc(Input<?> input) {
         ratio = calcRatio();
-        value = inputValue.multiply(rate).multiply(ratio);
-        end = current;
+        value = input.getValue().multiply(rate).multiply(ratio);
+        end = (T) input.getCurrent();
     }
 
     protected abstract BigDecimal calcRatio();

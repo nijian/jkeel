@@ -35,7 +35,7 @@ public final class Snapshot {
         return null;
     }
 
-    public void calc() {
-        
+    public void calc(Input<?> input) {
+
     }
 }

@@ -1,6 +1,7 @@
 package com.github.nijian.jkeel.algorithms;
 
 import com.github.nijian.jkeel.algorithms.subsection.entity.Data;
+import com.github.nijian.jkeel.algorithms.subsection.entity.Input;
 import com.github.nijian.jkeel.algorithms.subsection.entity.Snapshot;
 import com.github.nijian.jkeel.commons.ObjectHolder;
 import org.slf4j.Logger;
@@ -64,33 +65,38 @@ public final class Subsection extends Algorithm<String, Data, AlgorithmContext> 
     @Override
     protected <T> Data calc(T input, AlgorithmContext ac) {
 
-        String data1 = (String) input;
-        Data data = null;
+        Input<?> in;
         try {
-            data = ObjectHolder.objectMapper.readValue(data1, Data.class);
+            in = ObjectHolder.objectMapper.readValue((String) input, Input.class);
         } catch (Exception e) {
-            logger.error("Failed to parse input : {}", data1);
+            logger.error("Failed to parse input : {}", input);
             throw new RuntimeException("Failed to parse input", e);
         }
-        //create new snapshot
+
+        Data data = in.getData();
+        if (data == null) {
+            data = new Data();
+        }
+
         List<Snapshot> snapshots = data.getSnapshots();
-        Snapshot snapshot = null;
+        Snapshot snapshot;
         if (snapshots == null) {
             data.setSnapshots(new ArrayList<>());
             snapshot = new Snapshot();
-            data.getSnapshots().add(snapshot);
         } else {
             Snapshot lastSnapshot = snapshots.get(snapshots.size() - 1);
             snapshot = lastSnapshot.clone();
         }
+        data.getSnapshots().add(snapshot);
 
         //create new row
 
         //calculate amount
+        snapshot.calc(in);
 
         //calculate delta
 
-        return null;
+        return data;
     }
 
     /**
