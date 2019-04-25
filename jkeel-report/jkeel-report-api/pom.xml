@@ -20,10 +20,6 @@
             <artifactId>ribbon-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.google.collections</groupId>
-            <artifactId>google-collections</artifactId>
-        </dependency>
-        <dependency>
             <groupId>io.reactivex</groupId>
             <artifactId>rxjava</artifactId>
         </dependency>

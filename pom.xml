@@ -69,7 +69,6 @@
         <xalan.version>2.7.0</xalan.version>
 
         <ribbon.version>2.2.2</ribbon.version>
-        <com.google.collections.version>1.0-rc2</com.google.collections.version>
         <io.reactivex.version>1.0.10</io.reactivex.version>
 
     </properties>
@@ -181,11 +180,6 @@
                 <groupId>com.netflix.ribbon</groupId>
                 <artifactId>ribbon-core</artifactId>
                 <version>${ribbon.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.google.collections</groupId>
-                <artifactId>google-collections</artifactId>
-                <version>${com.google.collections.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.reactivex</groupId>
