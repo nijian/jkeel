@@ -1,16 +1,15 @@
 package com.github.nijian.jkeel.report;
 
 import com.github.nijian.jkeel.commons.ObjectHolder;
+import org.apache.pdfbox.multipdf.PDFMergerUtility;
+import org.apache.pdfbox.pdmodel.PDDocument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * ReportManager is responsible for report proxy initialization, and provides report export interface as well.
@@ -57,11 +56,11 @@ public final class ReportManager {
         if (manager == null) {
             synchronized (ReportManager.class) {
                 if (manager == null) {
-                    InputStream config = ReportManager.class.getResourceAsStream("/config.json");
+                    InputStream config = ReportManager.class.getResourceAsStream("/report.conf");
                     if (config == null) {
-                        throw new RuntimeException("The default config.json file is not found");
+                        throw new RuntimeException("The default config file is not found");
                     }
-                    logger.info("Initialize ReportManager with default config.json from root classpath");
+                    logger.info("Initialize ReportManager with default config from root classpath");
                     manager = getInstance(config);
                 }
             }
@@ -243,6 +242,31 @@ public final class ReportManager {
     public ReportMeta exportToFile(String reportProxyId, String rptURI, String exportParams) {
         check(reportProxyId);
         return reportMap.get(reportProxyId).exportToFile(rptURI, exportParams);
+    }
+
+    public static void mergePDFFiles(String exportFileName, List<String> pdfFileNames) throws Exception {
+        PDFMergerUtility pdfMerger = new PDFMergerUtility();
+        PDDocument destDoc = new PDDocument();
+        for (String pdfFileName : pdfFileNames) {
+            File file = new File(pdfFileName);
+            PDDocument doc = PDDocument.load(file);
+            pdfMerger.appendDocument(destDoc, doc);
+            doc.close();
+        }
+        destDoc.save(exportFileName);
+        destDoc.close();
+    }
+
+    public static void mergePDFStreams(String exportFileName, List<InputStream> pdfStreams) throws Exception {
+        PDFMergerUtility pdfMerger = new PDFMergerUtility();
+        PDDocument destDoc = new PDDocument();
+        for (InputStream pdfStream : pdfStreams) {
+            PDDocument doc = PDDocument.load(pdfStream);
+            pdfMerger.appendDocument(destDoc, doc);
+            doc.close();
+        }
+        destDoc.save(exportFileName);
+        destDoc.close();
     }
 
     /**

@@ -70,6 +70,7 @@
 
         <ribbon.version>2.2.2</ribbon.version>
         <io.reactivex.version>1.0.10</io.reactivex.version>
+        <org.apache.pdfbox.version>2.0.13</org.apache.pdfbox.version>
 
     </properties>
 
@@ -170,6 +171,11 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-pool2</artifactId>
                 <version>${org.apache.commons.pool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.pdfbox</groupId>
+                <artifactId>pdfbox</artifactId>
+                <version>${org.apache.pdfbox.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.netflix.ribbon</groupId>
