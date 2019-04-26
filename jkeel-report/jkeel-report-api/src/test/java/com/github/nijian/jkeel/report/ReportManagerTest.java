@@ -12,7 +12,6 @@ public class ReportManagerTest {
 
     @Test
     public void mergePDFs() {
-        ;
 
         List<InputStream> pdfFileNames = new ArrayList<>();
         pdfFileNames.add(ReportManagerTest.class.getResourceAsStream("/a.pdf"));
