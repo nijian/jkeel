@@ -48,20 +48,6 @@ public final class Subsection extends Algorithm<String, Data, AlgorithmContext> 
         return instance;
     }
 
-    /**
-     * Convert raw input to Map
-     *
-     * @param rawInput raw input
-     * @param var      variables collection
-     * @param ac       algorithm context
-     * @return converted input
-     */
-    @Override
-    protected Map<String, ?> convertInput(String rawInput, Map<String, ?> var, AlgorithmContext ac) {
-        //return null, use rawInput
-        return null;
-    }
-
     @Override
     protected <T> Data calc(T input, AlgorithmContext ac) {
 

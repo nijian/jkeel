@@ -109,7 +109,9 @@ public abstract class Algorithm<I, R, C extends AlgorithmContext> {
      * @param ac       algorithm context
      * @return converted input
      */
-    protected abstract Map<String, ?> convertInput(I rawInput, Map<String, ?> var, C ac);
+    protected Map<String, ?> convertInput(I rawInput, Map<String, ?> var, C ac) {
+        return null;
+    }
 
     /**
      * Delegate calculating to algorithm implementation.
