@@ -27,6 +27,12 @@ public class BigDecimalOperand extends NumberOperand<BigDecimal> implements Comp
             this.value = new BigDecimal((Long) value).setScale(scale, RoundingMode.HALF_UP);
         } else if (value instanceof Double) {
             this.value = BigDecimal.valueOf((Double) value).setScale(scale, RoundingMode.HALF_UP);
+        } else if (value instanceof Byte) {
+            int v = (Byte) value;
+            this.value = new BigDecimal(v).setScale(scale, RoundingMode.HALF_UP);
+        } else if (value instanceof Short) {
+            int v = (Short) value;
+            this.value = new BigDecimal(v).setScale(scale, RoundingMode.HALF_UP);
         } else {
             throw new RuntimeException("Unsupported number type");
         }
