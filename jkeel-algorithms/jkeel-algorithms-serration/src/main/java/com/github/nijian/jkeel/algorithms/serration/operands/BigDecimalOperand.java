@@ -23,6 +23,8 @@ public class BigDecimalOperand extends NumberOperand<BigDecimal> implements Comp
             this.value = ((BigDecimalOperand) value).getValue().setScale(scale, RoundingMode.HALF_UP);
         } else if (value instanceof Integer) {
             this.value = new BigDecimal((Integer) value).setScale(scale, RoundingMode.HALF_UP);
+        } else if (value instanceof Long) {
+            this.value = new BigDecimal((Long) value).setScale(scale, RoundingMode.HALF_UP);
         } else if (value instanceof Double) {
             this.value = BigDecimal.valueOf((Double) value).setScale(scale, RoundingMode.HALF_UP);
         } else {
