@@ -11,6 +11,10 @@
 
     <modules>
         <module>jkeel-commons</module>
+        <module>jkeel-code</module>
+        <module>jkeel-i18n</module>
+        <module>jkeel-currency</module>
+        <module>jkeel-query</module>
         <module>jkeel-algorithms</module>
         <module>jkeel-report</module>
     </modules>
