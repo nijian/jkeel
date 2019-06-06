@@ -17,6 +17,7 @@
         <module>jkeel-query</module>
         <module>jkeel-algorithms</module>
         <module>jkeel-report</module>
+        <module>jkeel-exchange</module>
     </modules>
 
     <url>https://github.com/nijian/jkeel</url>

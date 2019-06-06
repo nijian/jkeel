@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.github.nijian.jkeel</groupId>
+		<artifactId>jkeel-parent</artifactId>
+		<version>0.0.6-SNAPSHOT</version>
+	</parent>
+	<artifactId>jkeel-exchange</artifactId>
+	<packaging>pom</packaging>
+	<name>JKeel Data Exchange</name>
+	<description>JKeel Data Exchange</description>
+	<properties>
+		<main.basedir>${basedir}/..</main.basedir>
+	</properties>
+	<modules>
+		<module>jkeel-exchange-api</module>
+		<module>jkeel-exchange-csv</module>
+	</modules>
+</project>
