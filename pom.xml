@@ -17,6 +17,7 @@
         <module>jkeel-currency</module>
         <module>jkeel-exchange</module>
         <module>jkeel-i18n</module>
+        <module>jkeel-integration</module>
         <module>jkeel-mapping</module>
         <module>jkeel-query</module>
         <module>jkeel-report</module>
