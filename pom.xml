@@ -10,15 +10,16 @@
     <name>JKeel Parent</name>
 
     <modules>
+        <module>jkeel-algorithms</module>
+        <module>jkeel-cache</module>
         <module>jkeel-commons</module>
         <module>jkeel-code</module>
-        <module>jkeel-i18n</module>
         <module>jkeel-currency</module>
-        <module>jkeel-query</module>
-        <module>jkeel-algorithms</module>
-        <module>jkeel-report</module>
         <module>jkeel-exchange</module>
+        <module>jkeel-i18n</module>
         <module>jkeel-mapping</module>
+        <module>jkeel-query</module>
+        <module>jkeel-report</module>
         <module>jkeel-validation</module>
     </modules>
 
