@@ -20,6 +20,7 @@
         <module>jkeel-mapping</module>
         <module>jkeel-query</module>
         <module>jkeel-report</module>
+        <module>jkeel-repository</module>
         <module>jkeel-validation</module>
     </modules>
 
