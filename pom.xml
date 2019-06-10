@@ -15,6 +15,7 @@
         <module>jkeel-cache</module>
         <module>jkeel-commons</module>
         <module>jkeel-code</module>
+        <module>jkeel-code-i18n</module>
         <module>jkeel-currency</module>
         <module>jkeel-exchange</module>
         <module>jkeel-i18n</module>

@@ -6,14 +6,24 @@
         <artifactId>jkeel-parent</artifactId>
         <version>0.0.6-SNAPSHOT</version>
     </parent>
-    <artifactId>jkeel-i18n</artifactId>
-    <name>JKeel I18N</name>
-    <description>JKeel I18N</description>
+    <artifactId>jkeel-code-i18n</artifactId>
+    <name>JKeel Code I18n</name>
+    <description>JKeel Code I18n</description>
 
     <dependencies>
         <dependency>
             <groupId>com.github.nijian.jkeel</groupId>
             <artifactId>jkeel-commons</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.nijian.jkeel</groupId>
+            <artifactId>jkeel-code</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.nijian.jkeel</groupId>
+            <artifactId>jkeel-i18n</artifactId>
             <version>${project.version}</version>
         </dependency>
         <!-- log -->
@@ -51,6 +61,5 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
 </project>

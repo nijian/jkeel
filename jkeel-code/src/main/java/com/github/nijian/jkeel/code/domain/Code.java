@@ -1,14 +1,16 @@
 package com.github.nijian.jkeel.code.domain;
 
-public abstract class Code {
+import com.github.nijian.jkeel.commons.feature.FeatureAcceptable;
 
-    private String displayName;
+public class Code extends FeatureAcceptable<String, CodeDef> {
 
-    public String getDisplayName() {
-        return displayName;
+    private CodeDef def;
+
+    public CodeDef getDef() {
+        return def;
     }
 
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
+    public void setDef(CodeDef def) {
+        this.def = def;
     }
 }
