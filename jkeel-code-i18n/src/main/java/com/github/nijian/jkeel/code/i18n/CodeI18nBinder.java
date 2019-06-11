@@ -1,12 +1,12 @@
 package com.github.nijian.jkeel.code.i18n;
 
-import com.github.nijian.jkeel.code.domain.CodeDef;
+import com.github.nijian.jkeel.code.domain.Code;
 import com.github.nijian.jkeel.commons.feature.Feature;
 import com.github.nijian.jkeel.commons.feature.FeatureBinder;
 import com.github.nijian.jkeel.commons.feature.FeatureParam;
 import com.github.nijian.jkeel.i18n.I18nFeature;
 
-public class CodeI18nBinder implements FeatureBinder<String, CodeDef> {
+public class CodeI18nBinder extends FeatureBinder<Code, String> {
 
     private I18nFeature i18nFeature;
 
@@ -15,8 +15,13 @@ public class CodeI18nBinder implements FeatureBinder<String, CodeDef> {
     }
 
     @Override
-    public FeatureParam prepareParam(CodeDef codeDef) {
+    protected FeatureParam prepareParam(Code code) {
         return null;
+    }
+
+    @Override
+    protected void bind(Code code, String displayName) {
+        code.setDisplayName(displayName);
     }
 
     @Override

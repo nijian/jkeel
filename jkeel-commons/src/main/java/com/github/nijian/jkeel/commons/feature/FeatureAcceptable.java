@@ -2,25 +2,21 @@ package com.github.nijian.jkeel.commons.feature;
 
 import java.util.List;
 
-public abstract class FeatureAcceptable<T, O> {
+public abstract class FeatureAcceptable {
 
-    private List<FeatureBinder<T, O>> featureBinderList;
+    private List<FeatureBinder> featureBinderList;
 
-    public T getValue(O input) {
-        T value = null;
-        for (FeatureBinder<T, O> featureBinder : featureBinderList) {
-            FeatureParam param = featureBinder.prepareParam(input);
-            Feature<T, FeatureParam> feature = featureBinder.getFeature();
-            value = feature.apply(param);
+    public void applyFeatures() {
+        for (FeatureBinder featureBinder : featureBinderList) {
+            featureBinder.process(this);
         }
-        return value;
     }
 
-    public List<FeatureBinder<T, O>> getFeatureBinderList() {
+    public List<FeatureBinder> getFeatureBinderList() {
         return featureBinderList;
     }
 
-    public void setFeatureBinderList(List<FeatureBinder<T, O>> featureBinderList) {
+    public void setFeatureBinderList(List<FeatureBinder> featureBinderList) {
         this.featureBinderList = featureBinderList;
     }
 }

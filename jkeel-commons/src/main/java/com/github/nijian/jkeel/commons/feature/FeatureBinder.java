@@ -1,8 +1,16 @@
 package com.github.nijian.jkeel.commons.feature;
 
-public interface FeatureBinder<T, O> {
+public abstract class FeatureBinder<O extends FeatureAcceptable, T> {
 
-    FeatureParam prepareParam(O obj);
+    public final void process(O obj) {
+        bind(obj, getFeature().apply(prepareParam(obj)));
+    }
 
-    Feature<T, FeatureParam> getFeature();
+    protected abstract void bind(O featureAcceptableObj, T featuredObj);
+
+    protected abstract FeatureParam prepareParam(O obj);
+
+    protected abstract Feature<T, FeatureParam> getFeature();
+
+
 }

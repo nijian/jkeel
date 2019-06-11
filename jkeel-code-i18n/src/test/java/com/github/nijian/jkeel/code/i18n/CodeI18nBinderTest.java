@@ -31,20 +31,20 @@ public class CodeI18nBinderTest {
 
         Code code = new Code();
 
-        List<FeatureBinder<String, CodeDef>> binderList = new ArrayList<>();
+        List<FeatureBinder> binderList = new ArrayList<>();
         code.setFeatureBinderList(binderList);
         binderList.add(codeI18nBinder);
 
         CodeDef codeDef = new CodeDef();
-        code.setDef(codeDef);
+        code.setCodeDef(codeDef);
 
         codeDef.setCode("xxx");
         codeDef.setKey("bbb");
         codeDef.setName("fff");
 
-        String dispayName = code.getValue(code.getDef());
+        code.applyFeatures();
 
-        System.out.println(dispayName);
+        System.out.println(code.getDisplayName());
 
     }
 }
