@@ -102,7 +102,7 @@ public class Item<I> {
             } else {
                 rawValue = closure.call(input, itemInstance.getIndex());
             }
-            if (negToZero && rawValue.intValue() < 0) {
+            if (negToZero && rawValue.doubleValue() < 0) {
                 rawValue = BigDecimal.ZERO;
             }
             BigDecimalOperand operand = new BigDecimalOperand(rawValue, scale, true);
