@@ -11,20 +11,20 @@
 
     <modules>
         <module>jkeel-algorithms</module>
-        <module>jkeel-authorization</module>
-        <module>jkeel-cache</module>
+        <!--<module>jkeel-authorization</module>-->
+        <!--<module>jkeel-cache</module>-->
         <module>jkeel-commons</module>
-        <module>jkeel-code</module>
-        <module>jkeel-code-i18n</module>
-        <module>jkeel-currency</module>
-        <module>jkeel-exchange</module>
-        <module>jkeel-i18n</module>
-        <module>jkeel-integration</module>
-        <module>jkeel-mapping</module>
-        <module>jkeel-query</module>
+        <!--<module>jkeel-code</module>-->
+        <!--<module>jkeel-code-i18n</module>-->
+        <!--<module>jkeel-currency</module>-->
+        <!--<module>jkeel-exchange</module>-->
+        <!--<module>jkeel-i18n</module>-->
+        <!--<module>jkeel-integration</module>-->
+        <!--<module>jkeel-mapping</module>-->
+        <!--<module>jkeel-query</module>-->
         <module>jkeel-report</module>
-        <module>jkeel-repository</module>
-        <module>jkeel-validation</module>
+        <!--<module>jkeel-repository</module>-->
+        <!--<module>jkeel-validation</module>-->
     </modules>
 
     <url>https://github.com/nijian/jkeel</url>
