@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.github.nijian.jkeel</groupId>
         <artifactId>jkeel-algorithms</artifactId>
-        <version>0.0.6-SNAPSHOT</version>
+        <version>0.0.6</version>
     </parent>
     <artifactId>jkeel-algorithms-api</artifactId>
     <name>JKeel Algorithms API</name>
