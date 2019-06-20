@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.github.nijian.jkeel</groupId>
 		<artifactId>jkeel-parent</artifactId>
-		<version>0.0.6</version>
+		<version>0.0.7-SNAPSHOT</version>
 	</parent>
 	<artifactId>jkeel-report</artifactId>
 	<packaging>pom</packaging>

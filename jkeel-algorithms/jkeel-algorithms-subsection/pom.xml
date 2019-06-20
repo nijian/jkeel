@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.github.nijian.jkeel</groupId>
         <artifactId>jkeel-algorithms</artifactId>
-        <version>0.0.6</version>
+        <version>0.0.7-SNAPSHOT</version>
     </parent>
     <artifactId>jkeel-algorithms-subsection</artifactId>
     <name>JKeel Algorithms Subsection</name>
@@ -97,7 +97,7 @@
         <dependency>
             <groupId>com.github.nijian.jkeel</groupId>
             <artifactId>jkeel-commons</artifactId>
-            <version>0.0.6</version>
+            <version>0.0.7-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
