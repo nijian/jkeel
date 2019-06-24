@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.github.nijian.jkeel</groupId>
         <artifactId>jkeel-parent</artifactId>
-        <version>0.0.6-SNAPSHOT</version>
+        <version>0.0.7-SNAPSHOT</version>
     </parent>
     <artifactId>jkeel-cache</artifactId>
     <name>JKeel Cache</name>
@@ -15,6 +15,12 @@
             <groupId>com.github.nijian.jkeel</groupId>
             <artifactId>jkeel-commons</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <!-- configuration -->
+        <dependency>
+            <groupId>org.apache.tamaya</groupId>
+            <artifactId>tamaya-core</artifactId>
+            <version>0.3-incubating</version>
         </dependency>
         <!-- cache -->
         <dependency>
