@@ -6,7 +6,7 @@ package com.github.nijian.jkeel.cache;
  * @author nj
  * @since 0.0.7
  */
-public interface Const {
+public interface JkeelCacheConst {
 
     String CACHING_PROVIDER_NAME_KEY = "CachingProvider";
 
