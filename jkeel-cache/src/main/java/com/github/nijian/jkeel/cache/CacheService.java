@@ -11,7 +11,6 @@ import javax.cache.Caching;
 import javax.cache.configuration.MutableConfiguration;
 import javax.cache.spi.CachingProvider;
 import java.net.URI;
-import java.util.Properties;
 
 /**
  * Simple wrapper for javax.cache lib. The benefits are:
@@ -32,59 +31,49 @@ public final class CacheService {
         return getCache(Const.PUBLIC, cacheId, config);
     }
 
-    public <K, V> Cache<K, V> getCache(String ownerId, final String cacheId, final Configuration config) {
-        String finalCacheId = ownerId + "_" + cacheId;
+    public <K, V> Cache<K, V> getCache(String ownerId, String cacheId, Configuration config) {
+
+        String finalCacheId = JkeelCacheConst.CACHING_ID_PREFIX + "_" + ownerId + "_" + cacheId;
+        logger.info("Cache id : {}", finalCacheId);
 
         String cpn = getCachingProviderName(config);
         CachingProvider cachingProvider = Caching.getCachingProvider(cpn);
 
-        return getCache(ownerId, cacheId, config);
+        URI cachingConfigUri = getCachingConfigUri(config);
+        CacheManager cacheManager = cachingProvider.getCacheManager(cachingConfigUri, getClass().getClassLoader());
+        MutableConfiguration<K, V> configuration = new MutableConfiguration().setStoreByValue(false);
+
+        Cache<K, V> cache = cacheManager.createCache(finalCacheId, configuration);
+        logger.info("Cache is ready for {}", cacheId);
+
+        return cache;
     }
 
     private String getCachingProviderName(Configuration config) {
+        String cachingProviderName = JkeelCacheConst.CACHING_PROVIDER_NAME;
         if (config != null) {
             String cpn = config.get(JkeelCacheConst.CACHING_PROVIDER_NAME_KEY);
             if (cpn != null) {
-                return cpn;
+                cachingProviderName = cpn;
             }
         }
-        return JkeelCacheConst.CACHING_PROVIDER_NAME;
+        logger.info("Cache Provider : {}", cachingProviderName);
+        return cachingProviderName;
     }
 
-    public Cache<String, ?> getCache(final String cacheId, final URI configURI, final Properties env) {
-        return getCache(cacheId, null, configURI, env);
-    }
-
-    public Cache<String, ?> getCache(final String cacheId, final String cachingProviderName, final String configClassPath,
-                                     final Properties env) {
-        return null;
-    }
-
-    public Cache<String, ?> getCache(final String cacheId, final String cachingProviderName, final URI configURI,
-                                     final Properties env) {
-
+    private URI getCachingConfigUri(Configuration config) {
+        String cachingConfigUri = JkeelCacheConst.CACHING_CONFIG_FILE_NAME;
         try {
-
-            CachingProvider cachingProvider = Caching.getCachingProvider(cachingProviderName);
-            logger.info("Cache Provider:{}", cachingProviderName);
-
-            URI cu = configURI;
-            if (cu == null) {
-                String cacheConfigFileName = env == null ? null : env.getProperty(JkeelCacheConst.CACHING_CONFIG_FILE_NAME_KEY);
-                if (cacheConfigFileName == null) {
-                    cacheConfigFileName = JkeelCacheConst.CACHING_CONFIG_FILE_NAME;
+            if (config != null) {
+                String ccu = config.get(JkeelCacheConst.CACHING_CONFIG_FILE_NAME_KEY);
+                if (ccu != null) {
+                    cachingConfigUri = ccu;
                 }
-                cu = getClass().getResource(cacheConfigFileName).toURI();
             }
-            CacheManager cacheManager = cachingProvider.getCacheManager(cu, getClass().getClassLoader());
-            MutableConfiguration<String, ?> configuration = new MutableConfiguration().setStoreByValue(false);
-
-            Cache<String, ?> cache = cacheManager.createCache(cacheId, configuration);
-            logger.info("Cache is ready for {}", cacheId);
-
-            return cache;
+            logger.info("Cache Config : {}", cachingConfigUri);
+            return getClass().getResource(cachingConfigUri).toURI();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Caching Config is not found", e);
         }
     }
 }

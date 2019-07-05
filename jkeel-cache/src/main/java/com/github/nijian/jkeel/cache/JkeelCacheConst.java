@@ -8,6 +8,8 @@ package com.github.nijian.jkeel.cache;
  */
 public interface JkeelCacheConst {
 
+    String CACHING_ID_PREFIX = "com.github.nijian.jkeel.cache";
+
     String CACHING_PROVIDER_NAME_KEY = "CachingProvider";
 
     String CACHING_CONFIG_FILE_NAME_KEY = "CacheConfigFileName";
