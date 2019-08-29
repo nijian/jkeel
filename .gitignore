@@ -28,5 +28,7 @@ hs_err_pid*
 .classpath
 .factorypath
 .idea/
+.antlr/
+.vscode/
 target/
 bin/
