@@ -1,6 +1,13 @@
 package com.github.nijian.jkeel.dsls.expression;
 
-public interface Expression {
+import org.apache.commons.jxpath.JXPathContext;
 
-  void execute(String[] args);
+public abstract class Expression {
+
+  protected abstract int execute(JXPathContext jxpContext);
+
+  protected static int getValue(JXPathContext jxpContext, String xpath) {
+    return (int) jxpContext.getValue(xpath);
+  }
+
 }
