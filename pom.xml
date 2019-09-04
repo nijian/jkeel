@@ -204,6 +204,11 @@
                 <version>${org.ow2.asm.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.ow2.asm</groupId>
+                <artifactId>asm-util</artifactId>
+                <version>${org.ow2.asm.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>com.netflix.ribbon</groupId>
                 <artifactId>ribbon-loadbalancer</artifactId>
                 <version>${ribbon.version}</version>

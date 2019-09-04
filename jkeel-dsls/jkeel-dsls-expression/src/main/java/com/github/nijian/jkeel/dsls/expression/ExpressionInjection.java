@@ -1,5 +1,7 @@
 package com.github.nijian.jkeel.dsls.expression;
 
+import java.util.Stack;
+
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
@@ -7,18 +9,30 @@ public class ExpressionInjection extends ExpressionBaseListener {
 
   private MethodVisitor methodVisitor;
 
+  private Stack<Byte> opStack = new Stack<>();
+
   public ExpressionInjection(MethodVisitor methodVisitor) {
     this.methodVisitor = methodVisitor;
   }
 
   @Override
   public void exitExpression(ExpressionParser.ExpressionContext ctx) {
-    if (ctx.atom() != null || (ctx.LPAREN() != null && ctx.RPAREN() != null)) {
-      System.out.println("ignore :" + ctx.getText());
-      return;
+    if (ctx.atom() == null && opStack.size() > 0) {
+      byte op = opStack.pop();
+      switch (op) {
+      case Const.PLUS:
+        methodVisitor.visitInsn(Opcodes.IADD);
+        break;
+      case Const.MINUS:
+        methodVisitor.visitInsn(Opcodes.ISUB);
+        break;
+      case Const.TIMES:
+        methodVisitor.visitInsn(Opcodes.IMUL);
+        break;
+      default:
+        throw new RuntimeException("Found not support operator : " + op);
+      }
     }
-    System.out.println("add :" + ctx.getText());
-    methodVisitor.visitInsn(Opcodes.IADD);
   }
 
   @Override
@@ -31,8 +45,21 @@ public class ExpressionInjection extends ExpressionBaseListener {
 
   @Override
   public void enterScientific(ExpressionParser.ScientificContext ctx) {
-    System.out.println("enterScien:" + ctx.getText());
     methodVisitor.visitIntInsn(Opcodes.BIPUSH, Integer.parseInt(ctx.getText()));
   }
 
+  @Override
+  public void enterPlus(ExpressionParser.PlusContext ctx) {
+    opStack.push(Const.PLUS);
+  }
+
+  @Override
+  public void exitMinus(ExpressionParser.MinusContext ctx) {
+    opStack.push(Const.MINUS);
+  }
+
+  @Override
+  public void enterTimes(ExpressionParser.TimesContext ctx) {
+    opStack.push(Const.TIMES);
+  }
 }

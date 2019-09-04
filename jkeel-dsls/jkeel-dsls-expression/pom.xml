@@ -52,7 +52,7 @@
         </dependency>
         <dependency>
             <groupId>com.github.nijian.jkeel</groupId>
-            <artifactId>jkeel-algorithms-api</artifactId>
+            <artifactId>jkeel-dsls-api</artifactId>
             <version>${project.version}</version>
         </dependency>
         <!-- antlr 4 -->
@@ -68,7 +68,6 @@
         <dependency>
             <groupId>org.ow2.asm</groupId>
             <artifactId>asm-util</artifactId>
-            <version>7.1</version>
         </dependency>
         <!-- jxpath-->
         <dependency>
@@ -112,6 +111,18 @@
         </dependency>
     </dependencies>
     <build>
+        <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
+        <testSourceDirectory>${project.basedir}/src/test/java</testSourceDirectory>
+        <resources>
+            <resource>
+                <directory>${project.basedir}/src/main/resources</directory>
+            </resource>
+        </resources>
+        <testResources>
+            <testResource>
+                <directory>${project.basedir}/src/test/resources</directory>
+            </testResource>
+        </testResources>
         <plugins>
             <plugin>
                 <groupId>org.antlr</groupId>
