@@ -37,10 +37,19 @@ public class ExpressionInjection extends ExpressionBaseListener {
 
   @Override
   public void enterVariable(ExpressionParser.VariableContext ctx) {
+    // methodVisitor.visitIntInsn(Opcodes.BIPUSH, 1);
+
+    methodVisitor.visitVarInsn(Opcodes.ALOAD, 0); // expression instance
     methodVisitor.visitVarInsn(Opcodes.ALOAD, 1); // context
     methodVisitor.visitLdcInsn(TermXPath.getXPath(ctx.VARIABLE().getText()));
-    methodVisitor.visitMethodInsn(Opcodes.INVOKESTATIC, Const.EXP, "getValue",
-        "(Lorg/apache/commons/jxpath/JXPathContext;Ljava/lang/String;)I", false);
+    methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, Const.EXP, "getValue",
+        "(Lorg/apache/commons/jxpath/JXPathContext;Ljava/lang/String;)Ljava/lang/Object;", false);
+    // methodVisitor.visitTypeInsn(Opcodes.CHECKCAST, "java/lang/Integer");// check
+    
+    methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/Object", "toString",
+        "()Ljava/lang/String;", false);
+    methodVisitor.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Integer", "parseInt", "(Ljava/lang/String;)I",
+        false);
   }
 
   @Override

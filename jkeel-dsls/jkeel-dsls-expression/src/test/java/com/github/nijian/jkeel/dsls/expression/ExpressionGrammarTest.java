@@ -17,11 +17,11 @@ public class ExpressionGrammarTest {
       JXPathContext context = JXPathContext.newContext(bean);
 
       InputStream dsl = ExpressionGrammarTest.class.getResourceAsStream("/aa.jexpr");
-      byte[] clzB = ExpressionGenerator.generate("HelloWorld", dsl);
+      byte[] clzB = ExpressionGenerator.generateClass("HelloWorld", dsl);
 
       DynamicClassLoader cl = new DynamicClassLoader();
       Class<?> c = cl.defineClass("HelloWorld", clzB);
-      Expression expr = (Expression) c.newInstance();
+      Expression<?> expr = (Expression<?>) c.newInstance();
       System.out.println(expr.execute(context));
 
     } catch (Exception e) {

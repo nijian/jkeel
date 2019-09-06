@@ -10,4 +10,8 @@ public class TermXPath{
     return "y";
   }
 
+  public Object get(){
+    return null;
+  }
+
 }

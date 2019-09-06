@@ -2,12 +2,13 @@ package com.github.nijian.jkeel.dsls.expression;
 
 import org.apache.commons.jxpath.JXPathContext;
 
-public abstract class Expression {
+public abstract class Expression<T> {
 
-  protected abstract int execute(JXPathContext jxpContext);
+  protected abstract T execute(JXPathContext jxpContext);
 
-  protected static int getValue(JXPathContext jxpContext, String xpath) {
-    return (int) jxpContext.getValue(xpath);
+  @SuppressWarnings("unchecked")
+  protected T getValue(JXPathContext jxpContext, String xpath) {
+    return (T) jxpContext.getValue(xpath);
   }
 
 }
