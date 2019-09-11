@@ -76,6 +76,7 @@
         <org.apache.commons.pool.version>2.4.2</org.apache.commons.pool.version>
         <org.apache.commons.io.version>2.5</org.apache.commons.io.version>
         <org.apache.commons.csv.version>1.4</org.apache.commons.csv.version>
+        <org.apache.bcel.version>6.3.1</org.apache.bcel.version>
         <org.slf4j.version>1.7.25</org.slf4j.version>
         <org.apache.logging.log4j.version>2.11.2</org.apache.logging.log4j.version>
 
@@ -187,6 +188,11 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-pool2</artifactId>
                 <version>${org.apache.commons.pool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.bcel</groupId>
+                <artifactId>bcel</artifactId>
+                <version>${org.apache.bcel.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.pdfbox</groupId>

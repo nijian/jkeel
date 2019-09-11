@@ -9,15 +9,17 @@ public class ExpressionGrammarTest {
 
   @Test
   public void test() {
- 
+  
     try {
       Bean bean = new Bean();
       bean.setX(100);
       bean.setY(200);
       JXPathContext context = JXPathContext.newContext(bean);
 
+      ExpressionMeta meta = new ExpressionMeta();
+      meta.setOperandType(Integer.class);
       InputStream dsl = ExpressionGrammarTest.class.getResourceAsStream("/aa.jexpr");
-      byte[] clzB = ExpressionGenerator.generateClass("HelloWorld", dsl);
+      byte[] clzB = ExpressionGenerator.generateClass(meta, "HelloWorld", dsl);
 
       DynamicClassLoader cl = new DynamicClassLoader();
       Class<?> c = cl.defineClass("HelloWorld", clzB);

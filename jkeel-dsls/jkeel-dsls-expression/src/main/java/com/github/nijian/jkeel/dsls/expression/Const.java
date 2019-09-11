@@ -2,14 +2,20 @@ package com.github.nijian.jkeel.dsls.expression;
 
 public interface Const {
 
-  final static String EXP = "com/github/nijian/jkeel/dsls/expression/Expression";
+  String EXP = "com/github/nijian/jkeel/dsls/expression/Expression";
 
-  final static byte PLUS = 1;
+  String EXP_SIGNATURE_TEMPLATE = "Lcom/github/nijian/jkeel/dsls/expression/Expression<%s>;";
 
-  final static byte MINUS = 2;
+  String EXECUTE_SIGNATURE_TEMPLATE = "(Lorg/apache/commons/jxpath/JXPathContext;)%s";
 
-  final static byte TIMES = 3;
+  //operator
 
-  final static byte DIV = 4;
+  byte PLUS = 1;
+
+  byte MINUS = 2;
+
+  byte TIMES = 3;
+
+  byte DIV = 4;
 
 }
