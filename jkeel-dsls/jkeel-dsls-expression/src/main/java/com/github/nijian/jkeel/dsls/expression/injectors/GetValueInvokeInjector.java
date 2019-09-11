@@ -18,11 +18,8 @@ public class GetValueInvokeInjector implements Injector {
 
   @Override
   public void execute(InjectorExecutor executor) {
-
     methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, Const.EXP, "getValue",
         "(Lorg/apache/commons/jxpath/JXPathContext;Ljava/lang/String;)Ljava/lang/Object;", false);
-    // methodVisitor.visitTypeInsn(Opcodes.CHECKCAST, "java/lang/Integer");// check
-
   }
 
 }
