@@ -3,17 +3,23 @@ package com.github.nijian.jkeel.dsls.expression;
 import java.math.BigDecimal;
 import java.util.Stack;
 
+import com.github.nijian.jkeel.dsls.Cast;
 import com.github.nijian.jkeel.dsls.InjectorExecutor;
 import com.github.nijian.jkeel.dsls.expression.injectors.AddInjector;
-import com.github.nijian.jkeel.dsls.expression.injectors.FackInjector;
+import com.github.nijian.jkeel.dsls.expression.injectors.GetValueInvokeInjector;
 import com.github.nijian.jkeel.dsls.expression.injectors.MulInjector;
 import com.github.nijian.jkeel.dsls.expression.injectors.PushInjector;
 import com.github.nijian.jkeel.dsls.expression.injectors.SubInjector;
+import com.github.nijian.jkeel.dsls.injectors.CastInjector;
 import com.github.nijian.jkeel.dsls.injectors.LoadInjector;
 
 import org.objectweb.asm.MethodVisitor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ExpressionInjection extends ExpressionBaseListener {
+
+  private static Logger logger = LoggerFactory.getLogger(ExpressionInjection.class);
 
   private InjectorExecutor injectorExecutor;
 
@@ -48,7 +54,8 @@ public class ExpressionInjection extends ExpressionBaseListener {
         injectorExecutor.execute(new MulInjector(methodVisitor, operandType));
         break;
       default:
-        throw new RuntimeException("Found not support operator : " + op);
+        logger.error("Unsupported operator : {}", op);
+        throw new RuntimeException("Unsupported operator : " + op);
       }
     }
   }
@@ -57,24 +64,14 @@ public class ExpressionInjection extends ExpressionBaseListener {
   public void enterVariable(ExpressionParser.VariableContext ctx) {
     injectorExecutor.execute(new LoadInjector(methodVisitor, Object.class, 0, 1));// expression instance & context
     injectorExecutor.execute(new LoadInjector(methodVisitor, TermXPath.getXPath(ctx.VARIABLE().getText())));
-    injectorExecutor.execute(new FackInjector(methodVisitor));
-
-    // methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, Const.EXP, "getValue",
-    // "(Lorg/apache/commons/jxpath/JXPathContext;Ljava/lang/String;)Ljava/lang/Object;",
-    // false);
-    // // methodVisitor.visitTypeInsn(Opcodes.CHECKCAST, "java/lang/Integer");//
-    // check
-
-    // methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/Object",
-    // "toString", "()Ljava/lang/String;", false);
-    // methodVisitor.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Integer",
-    // "parseInt", "(Ljava/lang/String;)I",
-    // false);
+    injectorExecutor.execute(new GetValueInvokeInjector(methodVisitor));
+    injectorExecutor.execute(new CastInjector(methodVisitor, Cast.OBJECT_STRING));
+    injectorExecutor.execute(new CastInjector(methodVisitor, Cast.STRING_NUMBER, operandType));
   }
 
   @Override
   public void enterScientific(ExpressionParser.ScientificContext ctx) {
-    injectorExecutor.execute(new PushInjector(methodVisitor, operandType, ctx.getText()));// number in string format
+    injectorExecutor.execute(new PushInjector(methodVisitor, operandType, /* number in string format */ctx.getText()));
   }
 
   @Override

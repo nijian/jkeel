@@ -7,12 +7,12 @@ import com.github.nijian.jkeel.dsls.expression.Const;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
-public class FackInjector implements Injector {
+public class GetValueInvokeInjector implements Injector {
 
   // receiver
   private MethodVisitor methodVisitor;
 
-  public FackInjector(MethodVisitor methodVisitor) {
+  public GetValueInvokeInjector(MethodVisitor methodVisitor) {
     this.methodVisitor = methodVisitor;
   }
 
@@ -23,9 +23,6 @@ public class FackInjector implements Injector {
         "(Lorg/apache/commons/jxpath/JXPathContext;Ljava/lang/String;)Ljava/lang/Object;", false);
     // methodVisitor.visitTypeInsn(Opcodes.CHECKCAST, "java/lang/Integer");// check
 
-    methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/Object", "toString", "()Ljava/lang/String;", false);
-    methodVisitor.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Integer", "parseInt", "(Ljava/lang/String;)I",
-        false);
   }
 
 }
