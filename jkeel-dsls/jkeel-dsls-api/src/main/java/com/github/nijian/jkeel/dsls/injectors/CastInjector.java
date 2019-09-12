@@ -8,6 +8,7 @@ import com.github.nijian.jkeel.dsls.InjectorExecutor;
 
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,18 +18,37 @@ public class CastInjector implements Injector {
 
   private MethodVisitor methodVisitor;
   private Cast cast;
-  private Class<?> numberType;
+  private int index;
+  private String value;
 
   public CastInjector(MethodVisitor methodVisitor, Cast cast) {
-    this.methodVisitor = methodVisitor;
-    this.cast = cast;
+    this(methodVisitor, cast, -1);
   }
 
-  public CastInjector(MethodVisitor methodVisitor, Cast cast, Class<?> numberType) {
+  public CastInjector(MethodVisitor methodVisitor, Cast cast, int index) {
+    this(methodVisitor, cast, index, null);
+  }
+
+  public CastInjector(MethodVisitor methodVisitor, Cast cast, String value) {
+    this(methodVisitor, cast, -1, value);
+  }
+
+  private CastInjector(MethodVisitor methodVisitor, Cast cast, int index, String value) {
     this.methodVisitor = methodVisitor;
     this.cast = cast;
-    this.numberType = numberType;
+    this.index = index;
+    this.value = value;
   }
+
+  // methodVisitor.visitTypeInsn(Opcodes.NEW,
+  // Type.getInternalName(BigDecimal.class));
+  // methodVisitor.visitInsn(Opcodes.DUP);
+  // methodVisitor.visitLdcInsn(value);
+  // methodVisitor.visitMethodInsn(Opcodes.INVOKESPECIAL,
+  // Type.getInternalName(BigDecimal.class), "<init>",
+  // "(Ljava/lang/String;)V", false);
+
+  // logger.info("Constructed BigDecimal Instance for : {}", value);
 
   @Override
   public void execute(InjectorExecutor executor) {
@@ -37,25 +57,19 @@ public class CastInjector implements Injector {
       methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/Object", "toString", "()Ljava/lang/String;",
           false);
       break;
-    case STRING_NUMBER:
-      if (numberType.isAssignableFrom(Integer.class)) {
-        methodVisitor.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Integer", "parseInt", "(Ljava/lang/String;)I",
-            false);
-      } else if (numberType.isAssignableFrom(Long.class)) {
-
-      } else if (numberType.isAssignableFrom(Float.class)) {
-
-      } else if (numberType.isAssignableFrom(Double.class)) {
-
-      } else if (numberType.isAssignableFrom(BigDecimal.class)) {
-
+    case STRING_BIGDECIMAL:
+      methodVisitor.visitTypeInsn(Opcodes.NEW, Type.getInternalName(BigDecimal.class));
+      methodVisitor.visitInsn(Opcodes.DUP);
+      if (value != null) {
+        methodVisitor.visitLdcInsn(value);
       } else {
-        logger.error("Unsupported number type : {}", numberType);
-        throw new RuntimeException("Unsupported number type : " + numberType);
+        methodVisitor.visitVarInsn(Opcodes.ALOAD, index);
       }
-
+      methodVisitor.visitMethodInsn(Opcodes.INVOKESPECIAL, Type.getInternalName(BigDecimal.class), "<init>",
+          "(Ljava/lang/String;)V", false);
       break;
     default:
+      logger.error("xxx");
       throw new RuntimeException("xxx");
     }
 

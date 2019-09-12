@@ -17,30 +17,18 @@ public class AddInjector implements Injector {
   // receiver
   private MethodVisitor methodVisitor;
 
-  private Class<?> operandType;
-
-  public AddInjector(MethodVisitor methodVisitor, Class<?> operandType) {
+  public AddInjector(MethodVisitor methodVisitor) {
     this.methodVisitor = methodVisitor;
-    this.operandType = operandType;
   }
 
+  /**
+   * Always use BigDecimal to handle arithmetic operation
+   */
   @Override
   public void execute(InjectorExecutor executor) {
-    if (operandType.isAssignableFrom(Integer.class)) {
-      methodVisitor.visitInsn(Opcodes.IADD);
-    } else if (operandType.isAssignableFrom(Long.class)) {
-
-    } else if (operandType.isAssignableFrom(Float.class)) {
-
-    } else if (operandType.isAssignableFrom(Double.class)) {
-
-    } else if (operandType.isAssignableFrom(BigDecimal.class)) {
-
-    } else {
-      logger.error("Unsupported operand type : {}", operandType);
-      throw new RuntimeException("Unsupported operand type : " + operandType);
-    }
-
+    methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, BIGDECIMAL_INTERNAL_NAME, "add",
+        "(Ljava/math/BigDecimal;)Ljava/math/BigDecimal;", false);
+    logger.info("Injected BigDecimal add operation");
   }
 
 }

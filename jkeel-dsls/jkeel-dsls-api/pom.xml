@@ -21,6 +21,10 @@
             <groupId>javax.cache</groupId>
             <artifactId>cache-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.apache.bcel</groupId>
+            <artifactId>bcel</artifactId>
+        </dependency>
         <!-- antlr 4 -->
         <dependency>
             <groupId>org.antlr</groupId>

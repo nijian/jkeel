@@ -76,9 +76,8 @@ public class ExpressionGenerator {
 
   private static byte[] generateClassByInput(ExpressionMeta meta, String uri, CharStream input) {
 
-    String operandTypeSignature = Utility.getSignature(meta.getOperandType().getName());
-    String exprSignature = String.format(Const.EXP_SIGNATURE_TEMPLATE, operandTypeSignature);
-    String executeMethodSignature = String.format(Const.EXECUTE_SIGNATURE_TEMPLATE, operandTypeSignature);
+    String retTypeSignature = Utility.getSignature(meta.getRetType().getName());
+    String exprSignature = String.format(Const.EXP_SIGNATURE_TEMPLATE, retTypeSignature);
 
     InjectorExecutor injectorExecutor = new InjectorExecutor();
     ParseTree tree = genTree(input);
@@ -92,7 +91,7 @@ public class ExpressionGenerator {
     // constructor
     injectorExecutor.execute(new ConstructorInjector(classWriter, Const.EXP));
     // execute method
-    injectorExecutor.execute(new ExecuteMethodInjector(classWriter, tree, walker, executeMethodSignature));
+    injectorExecutor.execute(new ExecuteMethodInjector(classWriter, tree, walker, meta));
 
     return classWriter.toByteArray();
   }

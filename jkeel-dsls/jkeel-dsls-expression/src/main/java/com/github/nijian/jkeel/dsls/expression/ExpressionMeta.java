@@ -2,16 +2,20 @@ package com.github.nijian.jkeel.dsls.expression;
 
 public class ExpressionMeta {
 
-  private Class<?> operandType;
+  private Class<?> retType;
 
   private int scale;
 
-  public Class<?> getOperandType() {
-    return operandType;
+  public ExpressionMeta(Class<?> retType) {
+    this.retType = retType;
   }
 
-  public void setOperandType(Class<?> operandType) {
-    this.operandType = operandType;
+  public Class<?> getRetType() {
+    return retType;
+  }
+
+  public void setRetType(Class<?> retType) {
+    this.retType = retType;
   }
 
   public int getScale() {

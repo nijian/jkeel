@@ -1,6 +1,5 @@
 package com.github.nijian.jkeel.dsls.expression;
 
-import java.math.BigDecimal;
 import java.util.Stack;
 
 import com.github.nijian.jkeel.dsls.Cast;
@@ -8,10 +7,10 @@ import com.github.nijian.jkeel.dsls.InjectorExecutor;
 import com.github.nijian.jkeel.dsls.expression.injectors.AddInjector;
 import com.github.nijian.jkeel.dsls.expression.injectors.GetValueInvokeInjector;
 import com.github.nijian.jkeel.dsls.expression.injectors.MulInjector;
-import com.github.nijian.jkeel.dsls.expression.injectors.PushInjector;
 import com.github.nijian.jkeel.dsls.expression.injectors.SubInjector;
 import com.github.nijian.jkeel.dsls.injectors.CastInjector;
 import com.github.nijian.jkeel.dsls.injectors.LoadInjector;
+import com.github.nijian.jkeel.dsls.injectors.LocalVarInjector;
 
 import org.objectweb.asm.MethodVisitor;
 import org.slf4j.Logger;
@@ -25,18 +24,21 @@ public class ExpressionInjection extends ExpressionBaseListener {
 
   private MethodVisitor methodVisitor;
 
+  private ExpressionMeta meta;
+
   private Class<?> operandType;
 
   private Stack<Byte> opStack = new Stack<>();
 
   public ExpressionInjection(InjectorExecutor injectorExecutor, MethodVisitor methodVisitor) {
-    this(injectorExecutor, methodVisitor, BigDecimal.class);
+    this(injectorExecutor, methodVisitor, null);
   }
 
-  public ExpressionInjection(InjectorExecutor injectorExecutor, MethodVisitor methodVisitor, Class<?> operandType) {
+  public ExpressionInjection(InjectorExecutor injectorExecutor, MethodVisitor methodVisitor, ExpressionMeta meta) {
     this.injectorExecutor = injectorExecutor;
     this.methodVisitor = methodVisitor;
-    this.operandType = operandType;
+    this.meta = meta;
+    this.operandType = meta.getRetType();
   }
 
   @Override
@@ -45,13 +47,13 @@ public class ExpressionInjection extends ExpressionBaseListener {
       byte op = opStack.pop();
       switch (op) {
       case Const.PLUS:
-        injectorExecutor.execute(new AddInjector(methodVisitor, operandType));
+        injectorExecutor.execute(new AddInjector(methodVisitor));
         break;
       case Const.MINUS:
         injectorExecutor.execute(new SubInjector(methodVisitor, operandType));
         break;
       case Const.TIMES:
-        injectorExecutor.execute(new MulInjector(methodVisitor, operandType));
+        injectorExecutor.execute(new MulInjector(methodVisitor));
         break;
       default:
         logger.error("Unsupported operator : {}", op);
@@ -66,12 +68,14 @@ public class ExpressionInjection extends ExpressionBaseListener {
     injectorExecutor.execute(new LoadInjector(methodVisitor, TermXPath.getXPath(ctx.VARIABLE().getText())));
     injectorExecutor.execute(new GetValueInvokeInjector(methodVisitor));
     injectorExecutor.execute(new CastInjector(methodVisitor, Cast.OBJECT_STRING));
-    injectorExecutor.execute(new CastInjector(methodVisitor, Cast.STRING_NUMBER, operandType));
+    injectorExecutor.execute(new LocalVarInjector(methodVisitor, 2));
+    injectorExecutor.execute(new CastInjector(methodVisitor, Cast.STRING_BIGDECIMAL, 2));
   }
 
   @Override
   public void enterScientific(ExpressionParser.ScientificContext ctx) {
-    injectorExecutor.execute(new PushInjector(methodVisitor, operandType, /* number in string format */ctx.getText()));
+    injectorExecutor
+        .execute(new CastInjector(methodVisitor, Cast.STRING_BIGDECIMAL, /* number in string format */ctx.getText()));
   }
 
   @Override
