@@ -40,21 +40,11 @@ public class CastInjector implements Injector {
     this.value = value;
   }
 
-  // methodVisitor.visitTypeInsn(Opcodes.NEW,
-  // Type.getInternalName(BigDecimal.class));
-  // methodVisitor.visitInsn(Opcodes.DUP);
-  // methodVisitor.visitLdcInsn(value);
-  // methodVisitor.visitMethodInsn(Opcodes.INVOKESPECIAL,
-  // Type.getInternalName(BigDecimal.class), "<init>",
-  // "(Ljava/lang/String;)V", false);
-
-  // logger.info("Constructed BigDecimal Instance for : {}", value);
-
   @Override
   public void execute(InjectorExecutor executor) {
     switch (cast) {
     case OBJECT_STRING:
-      methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/Object", "toString", "()Ljava/lang/String;",
+      methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, OBJECT_INTERNAL_NAME, "toString", "()Ljava/lang/String;",
           false);
       break;
     case STRING_BIGDECIMAL:
@@ -69,8 +59,8 @@ public class CastInjector implements Injector {
           "(Ljava/lang/String;)V", false);
       break;
     default:
-      logger.error("xxx");
-      throw new RuntimeException("xxx");
+      logger.error("Unsupported cast : {}", cast);
+      throw new RuntimeException("Unsupported cast : " + cast);
     }
 
   }
