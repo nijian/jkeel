@@ -20,9 +20,9 @@ public class ExpressionGrammarTest {
       bean.setY(200);
       JXPathContext context = JXPathContext.newContext(bean);
 
-      ExpressionMeta meta = new ExpressionMeta(BigDecimal.class);
+      ExpressionMeta meta = new ExpressionMeta("HelloWorld", BigDecimal.class);
       InputStream dsl = ExpressionGrammarTest.class.getResourceAsStream("/aa.jexpr");
-      byte[] clzB = ExpressionGenerator.generateClass(meta, "HelloWorld", dsl);
+      byte[] clzB = ExpressionGenerator.generateClass(meta, dsl);
 
       DynamicClassLoader cl = new DynamicClassLoader();
       Class<?> c = cl.defineClass("HelloWorld", clzB);

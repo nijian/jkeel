@@ -19,6 +19,9 @@ public class MulInjector implements Injector {
     this.methodVisitor = methodVisitor;
   }
 
+  /**
+   * Always use BigDecimal to handle arithmetic operation
+   */
   @Override
   public void execute(InjectorExecutor executor) {
     methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, BIGDECIMAL_INTERNAL_NAME, "multiply",

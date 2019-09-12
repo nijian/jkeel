@@ -1,7 +1,5 @@
 package com.github.nijian.jkeel.dsls.expression.injectors;
 
-import java.math.BigDecimal;
-
 import com.github.nijian.jkeel.dsls.Injector;
 import com.github.nijian.jkeel.dsls.InjectorExecutor;
 

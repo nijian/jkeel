@@ -1,12 +1,15 @@
 package com.github.nijian.jkeel.dsls.expression;
 
-public class ExpressionMeta {
+import com.github.nijian.jkeel.dsls.Meta;
+
+public class ExpressionMeta extends Meta {
 
   private Class<?> retType;
 
   private int scale;
 
-  public ExpressionMeta(Class<?> retType) {
+  public ExpressionMeta(String name, Class<?> retType) {
+    super.setName(name);
     this.retType = retType;
   }
 

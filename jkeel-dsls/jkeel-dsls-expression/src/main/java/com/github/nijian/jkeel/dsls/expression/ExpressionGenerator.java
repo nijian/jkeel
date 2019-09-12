@@ -17,12 +17,15 @@ import org.apache.bcel.classfile.Utility;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ExpressionGenerator {
+public final class ExpressionGenerator {
 
-  private static Logger logger = LoggerFactory.getLogger(ExpressionGenerator.class);
+  private final static Logger logger = LoggerFactory.getLogger(ExpressionGenerator.class);
+
+  private final static String EXPR_INTERNAL_NAME = Type.getInternalName(Expression.class);
 
   public static void inject(ExpressionMeta meta, MethodVisitor methodVisitor, InputStream dsl) {
     try {
@@ -45,9 +48,9 @@ public class ExpressionGenerator {
     injectByInput(meta, methodVisitor, CharStreams.fromString(dsl));
   }
 
-  public static byte[] generateClass(ExpressionMeta meta, String uri, InputStream dsl) {
+  public static byte[] generateClass(ExpressionMeta meta, InputStream dsl) {
     try {
-      return generateClassByInput(meta, uri, CharStreams.fromStream(dsl));
+      return generateClassByInput(meta, CharStreams.fromStream(dsl));
     } catch (IOException e) {
       logger.error("Fail to construct char stream by input stream", e);
       throw new RuntimeException(e);
@@ -62,8 +65,8 @@ public class ExpressionGenerator {
     }
   }
 
-  public static byte[] generateClass(ExpressionMeta meta, String uri, String dsl) {
-    return generateClassByInput(meta, uri, CharStreams.fromString(dsl));
+  public static byte[] generateClass(ExpressionMeta meta, String dsl) {
+    return generateClassByInput(meta, CharStreams.fromString(dsl));
   }
 
   private static void injectByInput(ExpressionMeta meta, MethodVisitor methodVisitor, CharStream input) {
@@ -74,7 +77,7 @@ public class ExpressionGenerator {
 
   }
 
-  private static byte[] generateClassByInput(ExpressionMeta meta, String uri, CharStream input) {
+  private static byte[] generateClassByInput(ExpressionMeta meta, CharStream input) {
 
     String retTypeSignature = Utility.getSignature(meta.getRetType().getName());
     String exprSignature = String.format(Const.EXP_SIGNATURE_TEMPLATE, retTypeSignature);
@@ -86,10 +89,10 @@ public class ExpressionGenerator {
     ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS);
 
     // class
-    injectorExecutor
-        .execute(new ClassInjector(classWriter, Opcodes.V1_8, Opcodes.ACC_PUBLIC, uri, exprSignature, Const.EXP, null));
+    injectorExecutor.execute(new ClassInjector(classWriter, Opcodes.V1_8, Opcodes.ACC_PUBLIC, meta.getName(),
+        exprSignature, EXPR_INTERNAL_NAME, null));
     // constructor
-    injectorExecutor.execute(new ConstructorInjector(classWriter, Const.EXP));
+    injectorExecutor.execute(new ConstructorInjector(classWriter, EXPR_INTERNAL_NAME));
     // execute method
     injectorExecutor.execute(new ExecuteMethodInjector(classWriter, tree, walker, meta));
 

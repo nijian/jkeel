@@ -26,8 +26,6 @@ public class ExpressionInjection extends ExpressionBaseListener {
 
   private ExpressionMeta meta;
 
-  private Class<?> operandType;
-
   private Stack<Byte> opStack = new Stack<>();
 
   public ExpressionInjection(InjectorExecutor injectorExecutor, MethodVisitor methodVisitor) {
@@ -38,7 +36,6 @@ public class ExpressionInjection extends ExpressionBaseListener {
     this.injectorExecutor = injectorExecutor;
     this.methodVisitor = methodVisitor;
     this.meta = meta;
-    this.operandType = meta.getRetType();
   }
 
   @Override
@@ -50,7 +47,7 @@ public class ExpressionInjection extends ExpressionBaseListener {
         injectorExecutor.execute(new AddInjector(methodVisitor));
         break;
       case Const.MINUS:
-        injectorExecutor.execute(new SubInjector(methodVisitor, operandType));
+        injectorExecutor.execute(new SubInjector(methodVisitor));
         break;
       case Const.TIMES:
         injectorExecutor.execute(new MulInjector(methodVisitor));

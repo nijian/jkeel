@@ -55,7 +55,7 @@ public class ExecuteMethodInjector implements Injector {
         superExecuteMethodSignature, null);
     methodVisitor.visitVarInsn(Opcodes.ALOAD, 0);
     methodVisitor.visitVarInsn(Opcodes.ALOAD, 1);
-    methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "HelloWorld", "execute",
+    methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, meta.getName(), "execute",
         "(Lorg/apache/commons/jxpath/JXPathContext;)Ljava/math/BigDecimal;", false);
     methodVisitor.visitInsn(Opcodes.ARETURN);
     methodVisitor.visitMaxs(0, 0);
