@@ -25,6 +25,10 @@
             <groupId>org.apache.bcel</groupId>
             <artifactId>bcel</artifactId>
         </dependency>
+        <dependency>
+            <groupId>commons-jxpath</groupId>
+            <artifactId>commons-jxpath</artifactId>
+        </dependency>
         <!-- antlr 4 -->
         <dependency>
             <groupId>org.antlr</groupId>

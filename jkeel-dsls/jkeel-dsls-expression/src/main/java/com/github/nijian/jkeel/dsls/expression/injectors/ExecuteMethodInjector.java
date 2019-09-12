@@ -5,6 +5,8 @@ import com.github.nijian.jkeel.dsls.InjectorExecutor;
 import com.github.nijian.jkeel.dsls.expression.Const;
 import com.github.nijian.jkeel.dsls.expression.ExpressionInjection;
 import com.github.nijian.jkeel.dsls.expression.ExpressionMeta;
+import com.github.nijian.jkeel.dsls.injectors.LoadInjector;
+import com.github.nijian.jkeel.dsls.injectors.ReturnInjector;
 
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
@@ -32,7 +34,7 @@ public class ExecuteMethodInjector implements Injector {
   }
 
   @Override
-  public void execute(InjectorExecutor executor) {
+  public void execute(InjectorExecutor injectorExecutor) {
 
     Class<?> retType = meta.getRetType();
     String retTypeSignature = Utility.getSignature(retType.getName());
@@ -42,24 +44,22 @@ public class ExecuteMethodInjector implements Injector {
     MethodVisitor methodVisitor = classWriter.visitMethod(Opcodes.ACC_PUBLIC, "execute", executeMethodSignature,
         executeMethodSignature, null);
 
-    walker.walk(new ExpressionInjection(executor, methodVisitor, meta), tree);
-    
-    methodVisitor.visitInsn(Opcodes.ARETURN);
-    methodVisitor.visitMaxs(0, 0);
-    methodVisitor.visitEnd();
+    walker.walk(new ExpressionInjection(injectorExecutor, methodVisitor, meta), tree);
+
+    injectorExecutor.execute(new ReturnInjector(methodVisitor));
 
     // super execute method
-    String objectTypeSignature = Utility.getSignature(Object.class.getName());
-    String superExecuteMethodSignature = String.format(Const.EXECUTE_SIGNATURE_TEMPLATE, objectTypeSignature);
+    String superExecuteMethodSignature = String.format(Const.EXECUTE_SIGNATURE_TEMPLATE, OBJECT_SIGNATURE);
     methodVisitor = classWriter.visitMethod(Opcodes.ACC_PUBLIC, "execute", superExecuteMethodSignature,
         superExecuteMethodSignature, null);
-    methodVisitor.visitVarInsn(Opcodes.ALOAD, 0);
-    methodVisitor.visitVarInsn(Opcodes.ALOAD, 1);
+
+    injectorExecutor.execute(new LoadInjector(methodVisitor, Object.class, 0, 1));
+
+    // should consider cast to return type
     methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, meta.getName(), "execute",
-        "(Lorg/apache/commons/jxpath/JXPathContext;)Ljava/math/BigDecimal;", false);
-    methodVisitor.visitInsn(Opcodes.ARETURN);
-    methodVisitor.visitMaxs(0, 0);
-    methodVisitor.visitEnd();
+        "(" + JXPATHCONTEXT_SIGNATURE + ")" + retTypeSignature, false);
+
+    injectorExecutor.execute(new ReturnInjector(methodVisitor));
 
   }
 }
