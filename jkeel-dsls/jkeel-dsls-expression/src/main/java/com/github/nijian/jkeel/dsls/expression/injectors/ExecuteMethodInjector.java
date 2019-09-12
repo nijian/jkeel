@@ -6,6 +6,7 @@ import com.github.nijian.jkeel.dsls.expression.Const;
 import com.github.nijian.jkeel.dsls.expression.ExpressionInjection;
 import com.github.nijian.jkeel.dsls.expression.ExpressionMeta;
 import com.github.nijian.jkeel.dsls.injectors.LoadInjector;
+import com.github.nijian.jkeel.dsls.injectors.MethodInvokeInjector;
 import com.github.nijian.jkeel.dsls.injectors.ReturnInjector;
 
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -45,7 +46,6 @@ public class ExecuteMethodInjector implements Injector {
         executeMethodSignature, null);
 
     walker.walk(new ExpressionInjection(injectorExecutor, methodVisitor, meta), tree);
-
     injectorExecutor.execute(new ReturnInjector(methodVisitor));
 
     // super execute method
@@ -54,11 +54,8 @@ public class ExecuteMethodInjector implements Injector {
         superExecuteMethodSignature, null);
 
     injectorExecutor.execute(new LoadInjector(methodVisitor, Object.class, 0, 1));
-
-    // should consider cast to return type
-    methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, meta.getName(), "execute",
-        "(" + JXPATHCONTEXT_SIGNATURE + ")" + retTypeSignature, false);
-
+    injectorExecutor.execute(new MethodInvokeInjector(methodVisitor, Opcodes.INVOKEVIRTUAL, meta.getName(), "execute",
+        false, retTypeSignature, JXPATHCONTEXT_SIGNATURE));
     injectorExecutor.execute(new ReturnInjector(methodVisitor));
 
   }

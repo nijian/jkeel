@@ -1,14 +1,11 @@
 package com.github.nijian.jkeel.dsls.injectors;
 
-import java.math.BigDecimal;
-
 import com.github.nijian.jkeel.dsls.Cast;
 import com.github.nijian.jkeel.dsls.Injector;
 import com.github.nijian.jkeel.dsls.InjectorExecutor;
 
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,14 +45,14 @@ public class CastInjector implements Injector {
           false);
       break;
     case STRING_BIGDECIMAL:
-      methodVisitor.visitTypeInsn(Opcodes.NEW, Type.getInternalName(BigDecimal.class));
+      methodVisitor.visitTypeInsn(Opcodes.NEW, BIGDECIMAL_INTERNAL_NAME);
       methodVisitor.visitInsn(Opcodes.DUP);
       if (value != null) {
         methodVisitor.visitLdcInsn(value);
       } else {
         methodVisitor.visitVarInsn(Opcodes.ALOAD, index);
       }
-      methodVisitor.visitMethodInsn(Opcodes.INVOKESPECIAL, Type.getInternalName(BigDecimal.class), "<init>",
+      methodVisitor.visitMethodInsn(Opcodes.INVOKESPECIAL, BIGDECIMAL_INTERNAL_NAME, "<init>",
           "(Ljava/lang/String;)V", false);
       break;
     default:
