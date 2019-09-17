@@ -3,7 +3,6 @@ package com.github.nijian.jkeel.dsls.expression.injectors;
 import com.github.nijian.jkeel.dsls.Injector;
 import com.github.nijian.jkeel.dsls.InjectorExecutor;
 import com.github.nijian.jkeel.dsls.expression.ExprClassInfoAware;
-import com.github.nijian.jkeel.dsls.expression.ExpressionMeta;
 import com.github.nijian.jkeel.dsls.injectors.LoadInjector;
 import com.github.nijian.jkeel.dsls.injectors.MethodInvokeInjector;
 
@@ -16,13 +15,10 @@ public final class AddInjector implements Injector, ExprClassInfoAware {
 
   private final static Logger logger = LoggerFactory.getLogger(AddInjector.class);
 
-  private MethodVisitor methodVisitor;
+  private final MethodVisitor mv;
 
-  public final ExpressionMeta meta;
-
-  public AddInjector(MethodVisitor methodVisitor, ExpressionMeta meta) {
-    this.methodVisitor = methodVisitor;
-    this.meta = meta;
+  public AddInjector(MethodVisitor mv) {
+    this.mv = mv;
   }
 
   /**
@@ -31,11 +27,14 @@ public final class AddInjector implements Injector, ExprClassInfoAware {
   @Override
   public void execute(InjectorExecutor injectorExecutor) {
 
-    injectorExecutor.execute(new LoadInjector(methodVisitor, Object.class, 2));
-    methodVisitor.visitFieldInsn(Opcodes.GETFIELD, EM_INTERNAL_NAME, "internalMathContext", MC_SIGNATURE);
+    injectorExecutor.execute(new LoadInjector(mv, Object.class, 2));
 
-    injectorExecutor.execute(new MethodInvokeInjector(methodVisitor, Opcodes.INVOKEVIRTUAL, BIGDECIMAL_INTERNAL_NAME,
-        "add", false, BIGDECIMAL_SIGNATURE, BIGDECIMAL_SIGNATURE, MC_SIGNATURE));
+    // TODO
+    mv.visitFieldInsn(Opcodes.GETFIELD, EM_INTERNAL_NAME, "internalMathContext", MC_SIGNATURE);
+
+    injectorExecutor.execute(new MethodInvokeInjector(mv, Opcodes.INVOKEVIRTUAL, BIGDECIMAL_INTERNAL_NAME, "add", false,
+        BIGDECIMAL_SIGNATURE, BIGDECIMAL_SIGNATURE, MC_SIGNATURE));
+
     logger.info("Injected BigDecimal add operation");
   }
 

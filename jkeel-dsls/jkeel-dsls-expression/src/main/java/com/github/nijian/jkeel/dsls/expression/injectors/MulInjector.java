@@ -14,10 +14,10 @@ public class MulInjector implements Injector, ExprClassInfoAware {
   private static Logger logger = LoggerFactory.getLogger(MulInjector.class);
 
   // receiver
-  private MethodVisitor methodVisitor;
+  private MethodVisitor mv;
 
-  public MulInjector(MethodVisitor methodVisitor) {
-    this.methodVisitor = methodVisitor;
+  public MulInjector(MethodVisitor mv) {
+    this.mv = mv;
   }
 
   /**
@@ -25,7 +25,7 @@ public class MulInjector implements Injector, ExprClassInfoAware {
    */
   @Override
   public void execute(InjectorExecutor executor) {
-    methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, BIGDECIMAL_INTERNAL_NAME, "multiply",
+    mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, BIGDECIMAL_INTERNAL_NAME, "multiply",
         "(Ljava/math/BigDecimal;)Ljava/math/BigDecimal;", false);
     logger.info("Injected BigDecimal multiply operation");
 

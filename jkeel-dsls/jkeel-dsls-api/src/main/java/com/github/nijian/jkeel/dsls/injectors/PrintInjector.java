@@ -5,12 +5,9 @@ import com.github.nijian.jkeel.dsls.InjectorExecutor;
 
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class PrintInjector implements Injector {
 
-  private static Logger logger = LoggerFactory.getLogger(PrintInjector.class);
 
   private MethodVisitor methodVisitor;
 

@@ -26,6 +26,7 @@ public class ExpressionInjection extends ExpressionBaseListener implements Class
 
   private MethodVisitor methodVisitor;
 
+  // maybe find xpath by meta info
   private ExpressionMeta meta;
 
   private Stack<Byte> opStack = new Stack<>();
@@ -51,7 +52,7 @@ public class ExpressionInjection extends ExpressionBaseListener implements Class
       byte op = opStack.pop();
       switch (op) {
       case Const.PLUS:
-        injectorExecutor.execute(new AddInjector(methodVisitor, meta));
+        injectorExecutor.execute(new AddInjector(methodVisitor));
         break;
       case Const.MINUS:
         injectorExecutor.execute(new SubInjector(methodVisitor));

@@ -2,7 +2,6 @@ package com.github.nijian.jkeel.dsls.expression.injectors;
 
 import com.github.nijian.jkeel.dsls.Injector;
 import com.github.nijian.jkeel.dsls.InjectorExecutor;
-import com.github.nijian.jkeel.dsls.expression.Const;
 import com.github.nijian.jkeel.dsls.expression.ExprClassInfoAware;
 import com.github.nijian.jkeel.dsls.expression.ExpressionInjection;
 import com.github.nijian.jkeel.dsls.expression.ExpressionMeta;
@@ -44,20 +43,20 @@ public class ExecuteMethodInjector implements Injector, ExprClassInfoAware {
 
     logger.info("executeMethodSignature : {}", executeMethodSignature);
     // have to get MethodVisitor by this way
-    MethodVisitor methodVisitor = classWriter.visitMethod(Opcodes.ACC_PUBLIC, "execute", executeMethodSignature,
+    MethodVisitor mv = classWriter.visitMethod(Opcodes.ACC_PUBLIC, "execute", executeMethodSignature,
         executeMethodSignature, null);
-    walker.walk(new ExpressionInjection(injectorExecutor, methodVisitor, meta), tree);
-    injectorExecutor.execute(new ReturnInjector(methodVisitor));
+    walker.walk(new ExpressionInjection(injectorExecutor, mv, meta), tree);
+    injectorExecutor.execute(new ReturnInjector(mv));
 
     // super execute method
     String superExecuteMethodSignature = String.format(EXECUTE_SIGNATURE_TEMPLATE, OBJECT_SIGNATURE);
-    methodVisitor = classWriter.visitMethod(Opcodes.ACC_PUBLIC, "execute", superExecuteMethodSignature,
+    mv = classWriter.visitMethod(Opcodes.ACC_PUBLIC, "execute", superExecuteMethodSignature,
         superExecuteMethodSignature, null);
 
-    injectorExecutor.execute(new LoadInjector(methodVisitor, Object.class, 0, 1, 2));
-    injectorExecutor.execute(new MethodInvokeInjector(methodVisitor, Opcodes.INVOKEVIRTUAL, meta.getName(), "execute",
-        false, retTypeSignature, JXPATHCONTEXT_SIGNATURE, EM_SIGNATURE));
-    injectorExecutor.execute(new ReturnInjector(methodVisitor));
+    injectorExecutor.execute(new LoadInjector(mv, Object.class, 0, 1, 2));
+    injectorExecutor.execute(new MethodInvokeInjector(mv, Opcodes.INVOKEVIRTUAL, meta.getName(), "execute", false,
+        retTypeSignature, JXPATHCONTEXT_SIGNATURE, EM_SIGNATURE));
+    injectorExecutor.execute(new ReturnInjector(mv));
 
   }
 }
