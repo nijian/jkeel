@@ -2,10 +2,6 @@ package com.github.nijian.jkeel.dsls.expression;
 
 public interface Const {
 
-  String EXP_SIGNATURE_TEMPLATE = "Lcom/github/nijian/jkeel/dsls/expression/Expression<%s>;";
-
-  String EXECUTE_SIGNATURE_TEMPLATE = "(Lorg/apache/commons/jxpath/JXPathContext;Lcom/github/nijian/jkeel/dsls/expression/ExpressionMeta;)%s";
-
   // operator
 
   byte PLUS = 1;

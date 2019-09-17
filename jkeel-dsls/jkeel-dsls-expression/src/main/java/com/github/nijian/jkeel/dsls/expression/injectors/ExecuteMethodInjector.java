@@ -3,9 +3,9 @@ package com.github.nijian.jkeel.dsls.expression.injectors;
 import com.github.nijian.jkeel.dsls.Injector;
 import com.github.nijian.jkeel.dsls.InjectorExecutor;
 import com.github.nijian.jkeel.dsls.expression.Const;
+import com.github.nijian.jkeel.dsls.expression.ExprClassInfoAware;
 import com.github.nijian.jkeel.dsls.expression.ExpressionInjection;
 import com.github.nijian.jkeel.dsls.expression.ExpressionMeta;
-import com.github.nijian.jkeel.dsls.expression.MathOpInjector;
 import com.github.nijian.jkeel.dsls.injectors.LoadInjector;
 import com.github.nijian.jkeel.dsls.injectors.MethodInvokeInjector;
 import com.github.nijian.jkeel.dsls.injectors.ReturnInjector;
@@ -19,7 +19,7 @@ import org.objectweb.asm.Opcodes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ExecuteMethodInjector extends MathOpInjector {
+public class ExecuteMethodInjector implements Injector, ExprClassInfoAware {
 
   private static Logger logger = LoggerFactory.getLogger(ExecuteMethodInjector.class);
 
@@ -40,7 +40,7 @@ public class ExecuteMethodInjector extends MathOpInjector {
 
     Class<?> retType = meta.getRetType();
     String retTypeSignature = Utility.getSignature(retType.getName());
-    String executeMethodSignature = String.format(Const.EXECUTE_SIGNATURE_TEMPLATE, retTypeSignature);
+    String executeMethodSignature = String.format(EXECUTE_SIGNATURE_TEMPLATE, retTypeSignature);
 
     logger.info("executeMethodSignature : {}", executeMethodSignature);
     // have to get MethodVisitor by this way
@@ -50,7 +50,7 @@ public class ExecuteMethodInjector extends MathOpInjector {
     injectorExecutor.execute(new ReturnInjector(methodVisitor));
 
     // super execute method
-    String superExecuteMethodSignature = String.format(Const.EXECUTE_SIGNATURE_TEMPLATE, OBJECT_SIGNATURE);
+    String superExecuteMethodSignature = String.format(EXECUTE_SIGNATURE_TEMPLATE, OBJECT_SIGNATURE);
     methodVisitor = classWriter.visitMethod(Opcodes.ACC_PUBLIC, "execute", superExecuteMethodSignature,
         superExecuteMethodSignature, null);
 

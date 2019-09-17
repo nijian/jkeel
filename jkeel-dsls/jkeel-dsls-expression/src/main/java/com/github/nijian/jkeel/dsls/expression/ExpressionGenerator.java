@@ -17,15 +17,12 @@ import org.apache.bcel.classfile.Utility;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public final class ExpressionGenerator {
+public final class ExpressionGenerator implements ExprClassInfoAware{
 
   private final static Logger logger = LoggerFactory.getLogger(ExpressionGenerator.class);
-
-  private final static String EXPR_INTERNAL_NAME = Type.getInternalName(Expression.class);
 
   public static void inject(ExpressionMeta meta, MethodVisitor methodVisitor, InputStream dsl) {
     try {
@@ -86,7 +83,7 @@ public final class ExpressionGenerator {
 
     // class
     String retTypeSignature = Utility.getSignature(meta.getRetType().getName());
-    String exprSignature = String.format(Const.EXP_SIGNATURE_TEMPLATE, retTypeSignature);
+    String exprSignature = String.format(EXP_SIGNATURE_TEMPLATE, retTypeSignature);
     injectorExecutor.execute(new ClassInjector(classWriter, Opcodes.V1_8, Opcodes.ACC_PUBLIC, meta.getName(),
         exprSignature, EXPR_INTERNAL_NAME, null));
     // constructor

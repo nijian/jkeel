@@ -3,20 +3,22 @@ package com.github.nijian.jkeel.dsls.expression;
 import java.util.Stack;
 
 import com.github.nijian.jkeel.dsls.Cast;
+import com.github.nijian.jkeel.dsls.ClassInfoAware;
 import com.github.nijian.jkeel.dsls.InjectorExecutor;
 import com.github.nijian.jkeel.dsls.expression.injectors.AddInjector;
-import com.github.nijian.jkeel.dsls.expression.injectors.GetValueInvokeInjector;
 import com.github.nijian.jkeel.dsls.expression.injectors.MulInjector;
 import com.github.nijian.jkeel.dsls.expression.injectors.SubInjector;
 import com.github.nijian.jkeel.dsls.injectors.CastInjector;
 import com.github.nijian.jkeel.dsls.injectors.LoadInjector;
 import com.github.nijian.jkeel.dsls.injectors.LocalVarInjector;
+import com.github.nijian.jkeel.dsls.injectors.MethodInvokeInjector;
 
 import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ExpressionInjection extends ExpressionBaseListener {
+public class ExpressionInjection extends ExpressionBaseListener implements ClassInfoAware, ExprClassInfoAware {
 
   private static Logger logger = LoggerFactory.getLogger(ExpressionInjection.class);
 
@@ -68,7 +70,8 @@ public class ExpressionInjection extends ExpressionBaseListener {
   public void enterVariable(ExpressionParser.VariableContext ctx) {
     injectorExecutor.execute(new LoadInjector(methodVisitor, Object.class, 0, 1));// expression instance & context
     injectorExecutor.execute(new LoadInjector(methodVisitor, TermXPath.getXPath(ctx.VARIABLE().getText())));
-    injectorExecutor.execute(new GetValueInvokeInjector(methodVisitor));
+    injectorExecutor.execute(new MethodInvokeInjector(methodVisitor, Opcodes.INVOKEVIRTUAL, EXPR_INTERNAL_NAME,
+        "getValue", false, OBJECT_SIGNATURE, JXPATHCONTEXT_SIGNATURE, STRING_SIGNATURE));
     injectorExecutor.execute(new CastInjector(methodVisitor, Cast.OBJECT_STRING));
     injectorExecutor.execute(new LocalVarInjector(methodVisitor, localVarIndex));
     injectorExecutor.execute(new CastInjector(methodVisitor, Cast.STRING_BIGDECIMAL, localVarIndex));
