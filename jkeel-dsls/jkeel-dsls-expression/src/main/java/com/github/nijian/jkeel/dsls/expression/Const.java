@@ -4,9 +4,9 @@ public interface Const {
 
   String EXP_SIGNATURE_TEMPLATE = "Lcom/github/nijian/jkeel/dsls/expression/Expression<%s>;";
 
-  String EXECUTE_SIGNATURE_TEMPLATE = "(Lorg/apache/commons/jxpath/JXPathContext;)%s";
+  String EXECUTE_SIGNATURE_TEMPLATE = "(Lorg/apache/commons/jxpath/JXPathContext;Lcom/github/nijian/jkeel/dsls/expression/ExpressionMeta;)%s";
 
-  //operator
+  // operator
 
   byte PLUS = 1;
 

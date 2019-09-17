@@ -28,8 +28,13 @@ public class ExpressionInjection extends ExpressionBaseListener {
 
   private Stack<Byte> opStack = new Stack<>();
 
+  /**
+   * ignore three input variables
+   */
+  private int localVarIndex = 3;
+
   public ExpressionInjection(InjectorExecutor injectorExecutor, MethodVisitor methodVisitor) {
-    this(injectorExecutor, methodVisitor, null);
+    this(injectorExecutor, methodVisitor, new ExpressionMeta());
   }
 
   public ExpressionInjection(InjectorExecutor injectorExecutor, MethodVisitor methodVisitor, ExpressionMeta meta) {
@@ -44,7 +49,7 @@ public class ExpressionInjection extends ExpressionBaseListener {
       byte op = opStack.pop();
       switch (op) {
       case Const.PLUS:
-        injectorExecutor.execute(new AddInjector(methodVisitor));
+        injectorExecutor.execute(new AddInjector(methodVisitor, meta));
         break;
       case Const.MINUS:
         injectorExecutor.execute(new SubInjector(methodVisitor));
@@ -65,8 +70,9 @@ public class ExpressionInjection extends ExpressionBaseListener {
     injectorExecutor.execute(new LoadInjector(methodVisitor, TermXPath.getXPath(ctx.VARIABLE().getText())));
     injectorExecutor.execute(new GetValueInvokeInjector(methodVisitor));
     injectorExecutor.execute(new CastInjector(methodVisitor, Cast.OBJECT_STRING));
-    injectorExecutor.execute(new LocalVarInjector(methodVisitor, 2));
-    injectorExecutor.execute(new CastInjector(methodVisitor, Cast.STRING_BIGDECIMAL, 2));
+    injectorExecutor.execute(new LocalVarInjector(methodVisitor, localVarIndex));
+    injectorExecutor.execute(new CastInjector(methodVisitor, Cast.STRING_BIGDECIMAL, localVarIndex));
+    localVarIndex++;
   }
 
   @Override

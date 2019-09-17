@@ -5,6 +5,7 @@ import com.github.nijian.jkeel.dsls.InjectorExecutor;
 import com.github.nijian.jkeel.dsls.expression.Const;
 import com.github.nijian.jkeel.dsls.expression.ExpressionInjection;
 import com.github.nijian.jkeel.dsls.expression.ExpressionMeta;
+import com.github.nijian.jkeel.dsls.expression.MathOpInjector;
 import com.github.nijian.jkeel.dsls.injectors.LoadInjector;
 import com.github.nijian.jkeel.dsls.injectors.MethodInvokeInjector;
 import com.github.nijian.jkeel.dsls.injectors.ReturnInjector;
@@ -18,7 +19,7 @@ import org.objectweb.asm.Opcodes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ExecuteMethodInjector implements Injector {
+public class ExecuteMethodInjector extends MathOpInjector {
 
   private static Logger logger = LoggerFactory.getLogger(ExecuteMethodInjector.class);
 
@@ -42,9 +43,9 @@ public class ExecuteMethodInjector implements Injector {
     String executeMethodSignature = String.format(Const.EXECUTE_SIGNATURE_TEMPLATE, retTypeSignature);
 
     logger.info("executeMethodSignature : {}", executeMethodSignature);
+    // have to get MethodVisitor by this way
     MethodVisitor methodVisitor = classWriter.visitMethod(Opcodes.ACC_PUBLIC, "execute", executeMethodSignature,
         executeMethodSignature, null);
-
     walker.walk(new ExpressionInjection(injectorExecutor, methodVisitor, meta), tree);
     injectorExecutor.execute(new ReturnInjector(methodVisitor));
 
@@ -53,9 +54,9 @@ public class ExecuteMethodInjector implements Injector {
     methodVisitor = classWriter.visitMethod(Opcodes.ACC_PUBLIC, "execute", superExecuteMethodSignature,
         superExecuteMethodSignature, null);
 
-    injectorExecutor.execute(new LoadInjector(methodVisitor, Object.class, 0, 1));
+    injectorExecutor.execute(new LoadInjector(methodVisitor, Object.class, 0, 1, 2));
     injectorExecutor.execute(new MethodInvokeInjector(methodVisitor, Opcodes.INVOKEVIRTUAL, meta.getName(), "execute",
-        false, retTypeSignature, JXPATHCONTEXT_SIGNATURE));
+        false, retTypeSignature, JXPATHCONTEXT_SIGNATURE, EM_SIGNATURE));
     injectorExecutor.execute(new ReturnInjector(methodVisitor));
 
   }

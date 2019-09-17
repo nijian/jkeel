@@ -9,7 +9,7 @@ import org.apache.commons.jxpath.JXPathContext;
  */
 public abstract class Expression<T> {
 
-  protected abstract T execute(JXPathContext jxpContext);
+  protected abstract T execute(JXPathContext jxpContext, ExpressionMeta meta);
 
   /**
    * Get real value by xpath at runtime

@@ -48,6 +48,13 @@ public final class ExpressionGenerator {
     injectByInput(meta, methodVisitor, CharStreams.fromString(dsl));
   }
 
+  private static void injectByInput(ExpressionMeta meta, MethodVisitor methodVisitor, CharStream input) {
+    InjectorExecutor injectorExecutor = new InjectorExecutor();
+    ParseTree tree = genTree(input);
+    ParseTreeWalker walker = new ParseTreeWalker();
+    walker.walk(new ExpressionInjection(injectorExecutor, methodVisitor, meta), tree);
+  }
+
   public static byte[] generateClass(ExpressionMeta meta, InputStream dsl) {
     try {
       return generateClassByInput(meta, CharStreams.fromStream(dsl));
@@ -69,18 +76,7 @@ public final class ExpressionGenerator {
     return generateClassByInput(meta, CharStreams.fromString(dsl));
   }
 
-  private static void injectByInput(ExpressionMeta meta, MethodVisitor methodVisitor, CharStream input) {
-    InjectorExecutor injectorExecutor = new InjectorExecutor();
-    ParseTree tree = genTree(input);
-    ParseTreeWalker walker = new ParseTreeWalker();
-    walker.walk(new ExpressionInjection(injectorExecutor, methodVisitor), tree);
-
-  }
-
   private static byte[] generateClassByInput(ExpressionMeta meta, CharStream input) {
-
-    String retTypeSignature = Utility.getSignature(meta.getRetType().getName());
-    String exprSignature = String.format(Const.EXP_SIGNATURE_TEMPLATE, retTypeSignature);
 
     InjectorExecutor injectorExecutor = new InjectorExecutor();
     ParseTree tree = genTree(input);
@@ -89,6 +85,8 @@ public final class ExpressionGenerator {
     ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS);
 
     // class
+    String retTypeSignature = Utility.getSignature(meta.getRetType().getName());
+    String exprSignature = String.format(Const.EXP_SIGNATURE_TEMPLATE, retTypeSignature);
     injectorExecutor.execute(new ClassInjector(classWriter, Opcodes.V1_8, Opcodes.ACC_PUBLIC, meta.getName(),
         exprSignature, EXPR_INTERNAL_NAME, null));
     // constructor

@@ -1,7 +1,7 @@
 package com.github.nijian.jkeel.dsls.expression;
 
 public class Bean {
-
+ 
   private int x;
 
   private int y;

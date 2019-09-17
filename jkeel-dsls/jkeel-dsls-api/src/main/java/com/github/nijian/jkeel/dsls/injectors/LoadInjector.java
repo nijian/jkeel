@@ -40,7 +40,7 @@ public class LoadInjector implements Injector {
     } else {
       if (dataType.isAssignableFrom(Object.class)) {
         for (int i = 0; i < indexes.length; i++) {
-          methodVisitor.visitVarInsn(Opcodes.ALOAD, i);
+          methodVisitor.visitVarInsn(Opcodes.ALOAD, indexes[i]);
         }
       } else {
         throw new RuntimeException("xxx");
