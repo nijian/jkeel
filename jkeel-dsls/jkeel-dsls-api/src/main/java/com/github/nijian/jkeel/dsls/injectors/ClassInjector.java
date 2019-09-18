@@ -7,7 +7,7 @@ import org.objectweb.asm.ClassWriter;
 
 public class ClassInjector implements Injector {
 
-  private ClassWriter classWriter;
+  private ClassWriter cw;
 
   private int version;
 
@@ -21,9 +21,9 @@ public class ClassInjector implements Injector {
 
   private String[] interfaces;
 
-  public ClassInjector(ClassWriter classWriter, int version, int access, String name, String signature,
-      String superName, String[] interfaces) {
-    this.classWriter = classWriter;
+  public ClassInjector(ClassWriter cw, int version, int access, String name, String signature, String superName,
+      String[] interfaces) {
+    this.cw = cw;
     this.version = version;
     this.access = access;
     this.name = name;
@@ -34,7 +34,7 @@ public class ClassInjector implements Injector {
 
   @Override
   public void execute(InjectorExecutor executor) {
-    classWriter.visit(version, access, name, signature, superName, interfaces);
+    cw.visit(version, access, name, signature, superName, interfaces);
   }
 
 }

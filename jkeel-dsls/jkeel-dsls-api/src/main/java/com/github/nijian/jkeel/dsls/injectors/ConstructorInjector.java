@@ -9,23 +9,23 @@ import org.objectweb.asm.Opcodes;
 
 public class ConstructorInjector implements Injector {
 
-  private ClassWriter classWriter;
+  private ClassWriter cw;
 
   private String name;
 
-  public ConstructorInjector(ClassWriter classWriter, String name) {
-    this.classWriter = classWriter;
+  public ConstructorInjector(ClassWriter cw, String name) {
+    this.cw = cw;
     this.name = name;
   }
 
   @Override
   public void execute(InjectorExecutor executor) {
-    MethodVisitor methodVisitor = classWriter.visitMethod(Opcodes.ACC_PUBLIC, "<init>", "()V", null, null);
-    methodVisitor.visitVarInsn(Opcodes.ALOAD, 0);
-    methodVisitor.visitMethodInsn(Opcodes.INVOKESPECIAL, name, "<init>", "()V", false);
-    methodVisitor.visitInsn(Opcodes.RETURN);
-    methodVisitor.visitMaxs(0, 0);
-    methodVisitor.visitEnd();
+    MethodVisitor mv = cw.visitMethod(Opcodes.ACC_PUBLIC, "<init>", "()V", null, null);
+    mv.visitVarInsn(Opcodes.ALOAD, 0);
+    mv.visitMethodInsn(Opcodes.INVOKESPECIAL, name, "<init>", "()V", false);
+    mv.visitInsn(Opcodes.RETURN);
+    mv.visitMaxs(0, 0);
+    mv.visitEnd();
   }
 
 }

@@ -11,7 +11,7 @@ public class MethodInvokeInjector implements Injector {
 
   private static Logger logger = LoggerFactory.getLogger(MethodInvokeInjector.class);
 
-  private MethodVisitor methodVisitor;
+  private MethodVisitor mv;
 
   private int op;
   private String owner;
@@ -20,9 +20,9 @@ public class MethodInvokeInjector implements Injector {
   private String retTypeSignature;
   private String[] argTypeSignatures;
 
-  public MethodInvokeInjector(MethodVisitor methodVisitor, int op, String owner, String name, boolean isInterface,
+  public MethodInvokeInjector(MethodVisitor mv, int op, String owner, String name, boolean isInterface,
       String retTypeSignature, String... argTypeSignatures) {
-    this.methodVisitor = methodVisitor;
+    this.mv = mv;
     this.op = op;
     this.owner = owner;
     this.name = name;
@@ -34,7 +34,6 @@ public class MethodInvokeInjector implements Injector {
   @Override
   public void execute(InjectorExecutor executor) {
     logger.info("Injected method : {}", "(" + String.join("", argTypeSignatures) + ")" + retTypeSignature);
-    methodVisitor.visitMethodInsn(op, owner, name, "(" + String.join("", argTypeSignatures) + ")" + retTypeSignature,
-        isInterface);
+    mv.visitMethodInsn(op, owner, name, "(" + String.join("", argTypeSignatures) + ")" + retTypeSignature, isInterface);
   }
 }

@@ -14,10 +14,10 @@ public class SubInjector implements Injector, ExprClassInfoAware {
   private static Logger logger = LoggerFactory.getLogger(SubInjector.class);
 
   // receiver
-  private MethodVisitor methodVisitor;
+  private MethodVisitor mv;
 
-  public SubInjector(MethodVisitor methodVisitor) {
-    this.methodVisitor = methodVisitor;
+  public SubInjector(MethodVisitor mv) {
+    this.mv = mv;
   }
 
   /**
@@ -25,7 +25,7 @@ public class SubInjector implements Injector, ExprClassInfoAware {
    */
   @Override
   public void execute(InjectorExecutor executor) {
-    methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, BIGDECIMAL_INTERNAL_NAME, "subtract",
+    mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, BIGDECIMAL_INTERNAL_NAME, "subtract",
         "(Ljava/math/BigDecimal;)Ljava/math/BigDecimal;", false);
     logger.info("Injected BigDecimal subtract operation");
 

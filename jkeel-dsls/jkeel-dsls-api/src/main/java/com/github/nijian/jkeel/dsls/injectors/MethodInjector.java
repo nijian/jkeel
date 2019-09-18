@@ -7,16 +7,16 @@ import org.objectweb.asm.ClassWriter;
 
 public class MethodInjector implements Injector {
 
-    private ClassWriter classWriter;
+    private ClassWriter cw;
     private int access;
     private String name;
     private String[] exceptions;
     private String retTypeSignature;
     private String[] argTypeSignatures;
 
-    public MethodInjector(ClassWriter classWriter, int access, String name, String[] exceptions,
-            String retTypeSignature, String... argTypeSignatures) {
-        this.classWriter = classWriter;
+    public MethodInjector(ClassWriter cw, int access, String name, String[] exceptions, String retTypeSignature,
+            String... argTypeSignatures) {
+        this.cw = cw;
         this.access = access;
         this.name = name;
         this.exceptions = exceptions;
@@ -28,6 +28,6 @@ public class MethodInjector implements Injector {
     public void execute(InjectorExecutor executor) {
         String descriptor = "(" + String.join("", argTypeSignatures) + ")" + retTypeSignature;
         String signature = "(" + String.join("", argTypeSignatures) + ")";
-        classWriter.visitMethod(access, name, descriptor, signature, exceptions);
+        cw.visitMethod(access, name, descriptor, signature, exceptions);
     }
 }

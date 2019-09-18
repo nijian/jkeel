@@ -13,25 +13,25 @@ public class CastInjector implements Injector {
 
   private static Logger logger = LoggerFactory.getLogger(CastInjector.class);
 
-  private MethodVisitor methodVisitor;
+  private MethodVisitor mv;
   private Cast cast;
   private int index;
   private String value;
 
-  public CastInjector(MethodVisitor methodVisitor, Cast cast) {
-    this(methodVisitor, cast, -1);
+  public CastInjector(MethodVisitor mv, Cast cast) {
+    this(mv, cast, -1);
   }
 
-  public CastInjector(MethodVisitor methodVisitor, Cast cast, int index) {
-    this(methodVisitor, cast, index, null);
+  public CastInjector(MethodVisitor mv, Cast cast, int index) {
+    this(mv, cast, index, null);
   }
 
-  public CastInjector(MethodVisitor methodVisitor, Cast cast, String value) {
-    this(methodVisitor, cast, -1, value);
+  public CastInjector(MethodVisitor mv, Cast cast, String value) {
+    this(mv, cast, -1, value);
   }
 
-  private CastInjector(MethodVisitor methodVisitor, Cast cast, int index, String value) {
-    this.methodVisitor = methodVisitor;
+  private CastInjector(MethodVisitor mv, Cast cast, int index, String value) {
+    this.mv = mv;
     this.cast = cast;
     this.index = index;
     this.value = value;
@@ -41,19 +41,17 @@ public class CastInjector implements Injector {
   public void execute(InjectorExecutor executor) {
     switch (cast) {
     case OBJECT_STRING:
-      methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, OBJECT_INTERNAL_NAME, "toString", "()Ljava/lang/String;",
-          false);
+      mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, OBJECT_INTERNAL_NAME, "toString", "()Ljava/lang/String;", false);
       break;
     case STRING_BIGDECIMAL:
-      methodVisitor.visitTypeInsn(Opcodes.NEW, BIGDECIMAL_INTERNAL_NAME);
-      methodVisitor.visitInsn(Opcodes.DUP);
+      mv.visitTypeInsn(Opcodes.NEW, BIGDECIMAL_INTERNAL_NAME);
+      mv.visitInsn(Opcodes.DUP);
       if (value != null) {
-        methodVisitor.visitLdcInsn(value);
+        mv.visitLdcInsn(value);
       } else {
-        methodVisitor.visitVarInsn(Opcodes.ALOAD, index);
+        mv.visitVarInsn(Opcodes.ALOAD, index);
       }
-      methodVisitor.visitMethodInsn(Opcodes.INVOKESPECIAL, BIGDECIMAL_INTERNAL_NAME, "<init>",
-          "(Ljava/lang/String;)V", false);
+      mv.visitMethodInsn(Opcodes.INVOKESPECIAL, BIGDECIMAL_INTERNAL_NAME, "<init>", "(Ljava/lang/String;)V", false);
       break;
     default:
       logger.error("Unsupported cast : {}", cast);

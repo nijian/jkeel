@@ -8,23 +8,18 @@ import org.objectweb.asm.Opcodes;
 
 public class PrintInjector implements Injector {
 
+  private MethodVisitor mv;
 
-  private MethodVisitor methodVisitor;
-
-  public PrintInjector(MethodVisitor methodVisitor) {
-    this.methodVisitor = methodVisitor;
+  public PrintInjector(MethodVisitor mv) {
+    this.mv = mv;
   }
 
   @Override
   public void execute(InjectorExecutor executor) {
-
-    methodVisitor.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
-    methodVisitor.visitInsn(Opcodes.DUP);
-    methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/Object", "toString", "()Ljava/lang/String;",
-        false);
-    methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V",
-        false);
-
+    mv.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
+    mv.visitInsn(Opcodes.DUP);
+    mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/Object", "toString", "()Ljava/lang/String;", false);
+    mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V", false);
   }
 
 }

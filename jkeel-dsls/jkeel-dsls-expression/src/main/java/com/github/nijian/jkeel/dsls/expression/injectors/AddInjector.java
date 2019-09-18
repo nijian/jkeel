@@ -3,7 +3,7 @@ package com.github.nijian.jkeel.dsls.expression.injectors;
 import com.github.nijian.jkeel.dsls.Injector;
 import com.github.nijian.jkeel.dsls.InjectorExecutor;
 import com.github.nijian.jkeel.dsls.expression.ExprClassInfoAware;
-import com.github.nijian.jkeel.dsls.injectors.LoadInjector;
+import com.github.nijian.jkeel.dsls.injectors.LoadLocalVarInjector;
 import com.github.nijian.jkeel.dsls.injectors.MethodInvokeInjector;
 
 import org.objectweb.asm.MethodVisitor;
@@ -25,14 +25,14 @@ public final class AddInjector implements Injector, ExprClassInfoAware {
    * Always use BigDecimal to handle arithmetic operation
    */
   @Override
-  public void execute(InjectorExecutor injectorExecutor) {
+  public void execute(InjectorExecutor executor) {
 
-    injectorExecutor.execute(new LoadInjector(mv, Object.class, 2));
+    executor.execute(new LoadLocalVarInjector(mv, 2));
 
     // TODO
     mv.visitFieldInsn(Opcodes.GETFIELD, EM_INTERNAL_NAME, "internalMathContext", MC_SIGNATURE);
 
-    injectorExecutor.execute(new MethodInvokeInjector(mv, Opcodes.INVOKEVIRTUAL, BIGDECIMAL_INTERNAL_NAME, "add", false,
+    executor.execute(new MethodInvokeInjector(mv, Opcodes.INVOKEVIRTUAL, BIGDECIMAL_INTERNAL_NAME, "add", false,
         BIGDECIMAL_SIGNATURE, BIGDECIMAL_SIGNATURE, MC_SIGNATURE));
 
     logger.info("Injected BigDecimal add operation");

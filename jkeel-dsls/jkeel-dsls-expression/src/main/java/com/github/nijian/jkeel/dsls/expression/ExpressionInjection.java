@@ -9,7 +9,8 @@ import com.github.nijian.jkeel.dsls.expression.injectors.AddInjector;
 import com.github.nijian.jkeel.dsls.expression.injectors.MulInjector;
 import com.github.nijian.jkeel.dsls.expression.injectors.SubInjector;
 import com.github.nijian.jkeel.dsls.injectors.CastInjector;
-import com.github.nijian.jkeel.dsls.injectors.LoadInjector;
+import com.github.nijian.jkeel.dsls.injectors.LoadConstInjector;
+import com.github.nijian.jkeel.dsls.injectors.LoadLocalVarInjector;
 import com.github.nijian.jkeel.dsls.injectors.LocalVarInjector;
 import com.github.nijian.jkeel.dsls.injectors.MethodInvokeInjector;
 
@@ -22,9 +23,9 @@ public class ExpressionInjection extends ExpressionBaseListener implements Class
 
   private static Logger logger = LoggerFactory.getLogger(ExpressionInjection.class);
 
-  private InjectorExecutor injectorExecutor;
+  private InjectorExecutor executor;
 
-  private MethodVisitor methodVisitor;
+  private MethodVisitor mv;
 
   // maybe find xpath by meta info
   private ExpressionMeta meta;
@@ -36,13 +37,13 @@ public class ExpressionInjection extends ExpressionBaseListener implements Class
    */
   private int localVarIndex = 3;
 
-  public ExpressionInjection(InjectorExecutor injectorExecutor, MethodVisitor methodVisitor) {
-    this(injectorExecutor, methodVisitor, new ExpressionMeta());
+  public ExpressionInjection(InjectorExecutor executor, MethodVisitor mv) {
+    this(executor, mv, new ExpressionMeta());
   }
 
-  public ExpressionInjection(InjectorExecutor injectorExecutor, MethodVisitor methodVisitor, ExpressionMeta meta) {
-    this.injectorExecutor = injectorExecutor;
-    this.methodVisitor = methodVisitor;
+  public ExpressionInjection(InjectorExecutor executor, MethodVisitor mv, ExpressionMeta meta) {
+    this.executor = executor;
+    this.mv = mv;
     this.meta = meta;
   }
 
@@ -52,13 +53,13 @@ public class ExpressionInjection extends ExpressionBaseListener implements Class
       byte op = opStack.pop();
       switch (op) {
       case Const.PLUS:
-        injectorExecutor.execute(new AddInjector(methodVisitor));
+        executor.execute(new AddInjector(mv));
         break;
       case Const.MINUS:
-        injectorExecutor.execute(new SubInjector(methodVisitor));
+        executor.execute(new SubInjector(mv));
         break;
       case Const.TIMES:
-        injectorExecutor.execute(new MulInjector(methodVisitor));
+        executor.execute(new MulInjector(mv));
         break;
       default:
         logger.error("Unsupported operator : {}", op);
@@ -69,20 +70,19 @@ public class ExpressionInjection extends ExpressionBaseListener implements Class
 
   @Override
   public void enterVariable(ExpressionParser.VariableContext ctx) {
-    injectorExecutor.execute(new LoadInjector(methodVisitor, Object.class, 0, 1));// expression instance & context
-    injectorExecutor.execute(new LoadInjector(methodVisitor, TermXPath.getXPath(ctx.VARIABLE().getText())));
-    injectorExecutor.execute(new MethodInvokeInjector(methodVisitor, Opcodes.INVOKEVIRTUAL, EXPR_INTERNAL_NAME,
-        "getValue", false, OBJECT_SIGNATURE, JXPATHCONTEXT_SIGNATURE, STRING_SIGNATURE));
-    injectorExecutor.execute(new CastInjector(methodVisitor, Cast.OBJECT_STRING));
-    injectorExecutor.execute(new LocalVarInjector(methodVisitor, localVarIndex));
-    injectorExecutor.execute(new CastInjector(methodVisitor, Cast.STRING_BIGDECIMAL, localVarIndex));
+    executor.execute(new LoadLocalVarInjector(mv, 0, 1));// expression instance & context
+    executor.execute(new LoadConstInjector(mv, TermXPath.getXPath(ctx.VARIABLE().getText())));
+    executor.execute(new MethodInvokeInjector(mv, Opcodes.INVOKEVIRTUAL, EXPR_INTERNAL_NAME, "getValue", false,
+        OBJECT_SIGNATURE, JXPATHCONTEXT_SIGNATURE, STRING_SIGNATURE));
+    executor.execute(new CastInjector(mv, Cast.OBJECT_STRING));
+    executor.execute(new LocalVarInjector(mv, localVarIndex));
+    executor.execute(new CastInjector(mv, Cast.STRING_BIGDECIMAL, localVarIndex));
     localVarIndex++;
   }
 
   @Override
   public void enterScientific(ExpressionParser.ScientificContext ctx) {
-    injectorExecutor
-        .execute(new CastInjector(methodVisitor, Cast.STRING_BIGDECIMAL, /* number in string format */ctx.getText()));
+    executor.execute(new CastInjector(mv, Cast.STRING_BIGDECIMAL, /* number in string format */ctx.getText()));
   }
 
   @Override

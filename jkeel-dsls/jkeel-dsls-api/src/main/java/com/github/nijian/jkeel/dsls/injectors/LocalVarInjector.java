@@ -12,18 +12,18 @@ public class LocalVarInjector implements Injector {
 
   private static Logger logger = LoggerFactory.getLogger(CastInjector.class);
 
-  private MethodVisitor methodVisitor;
+  private MethodVisitor mv;
   private int index;
 
-  public LocalVarInjector(MethodVisitor methodVisitor, int index) {
-    this.methodVisitor = methodVisitor;
+  public LocalVarInjector(MethodVisitor mv, int index) {
+    this.mv = mv;
     this.index = index;
   }
 
   @Override
   public void execute(InjectorExecutor executor) {
     logger.info("create local variable with index : {} ", index);
-    methodVisitor.visitVarInsn(Opcodes.ASTORE, index);
+    mv.visitVarInsn(Opcodes.ASTORE, index);
   }
 
 }

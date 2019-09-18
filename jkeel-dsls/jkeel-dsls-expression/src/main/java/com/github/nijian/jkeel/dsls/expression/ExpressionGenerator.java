@@ -20,13 +20,13 @@ import org.objectweb.asm.Opcodes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public final class ExpressionGenerator implements ExprClassInfoAware{
+public final class ExpressionGenerator implements ExprClassInfoAware {
 
   private final static Logger logger = LoggerFactory.getLogger(ExpressionGenerator.class);
 
-  public static void inject(ExpressionMeta meta, MethodVisitor methodVisitor, InputStream dsl) {
+  public static void inject(ExpressionMeta meta, MethodVisitor mv, InputStream dsl) {
     try {
-      injectByInput(meta, methodVisitor, CharStreams.fromStream(dsl));
+      injectByInput(meta, mv, CharStreams.fromStream(dsl));
     } catch (IOException e) {
       logger.error("Fail to construct char stream by input stream", e);
       throw new RuntimeException(e);
@@ -41,15 +41,15 @@ public final class ExpressionGenerator implements ExprClassInfoAware{
     }
   }
 
-  public static void inject(ExpressionMeta meta, MethodVisitor methodVisitor, String dsl) {
-    injectByInput(meta, methodVisitor, CharStreams.fromString(dsl));
+  public static void inject(ExpressionMeta meta, MethodVisitor mv, String dsl) {
+    injectByInput(meta, mv, CharStreams.fromString(dsl));
   }
 
-  private static void injectByInput(ExpressionMeta meta, MethodVisitor methodVisitor, CharStream input) {
+  private static void injectByInput(ExpressionMeta meta, MethodVisitor mv, CharStream input) {
     InjectorExecutor injectorExecutor = new InjectorExecutor();
     ParseTree tree = genTree(input);
     ParseTreeWalker walker = new ParseTreeWalker();
-    walker.walk(new ExpressionInjection(injectorExecutor, methodVisitor, meta), tree);
+    walker.walk(new ExpressionInjection(injectorExecutor, mv, meta), tree);
   }
 
   public static byte[] generateClass(ExpressionMeta meta, InputStream dsl) {
@@ -75,23 +75,23 @@ public final class ExpressionGenerator implements ExprClassInfoAware{
 
   private static byte[] generateClassByInput(ExpressionMeta meta, CharStream input) {
 
-    InjectorExecutor injectorExecutor = new InjectorExecutor();
+    InjectorExecutor executor = new InjectorExecutor();
     ParseTree tree = genTree(input);
     ParseTreeWalker walker = new ParseTreeWalker();
 
-    ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS);
+    ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
 
     // class
     String retTypeSignature = Utility.getSignature(meta.getRetType().getName());
     String exprSignature = String.format(EXP_SIGNATURE_TEMPLATE, retTypeSignature);
-    injectorExecutor.execute(new ClassInjector(classWriter, Opcodes.V1_8, Opcodes.ACC_PUBLIC, meta.getName(),
-        exprSignature, EXPR_INTERNAL_NAME, null));
+    executor.execute(new ClassInjector(cw, Opcodes.V1_8, Opcodes.ACC_PUBLIC, meta.getName(), exprSignature,
+        EXPR_INTERNAL_NAME, null));
     // constructor
-    injectorExecutor.execute(new ConstructorInjector(classWriter, EXPR_INTERNAL_NAME));
+    executor.execute(new ConstructorInjector(cw, EXPR_INTERNAL_NAME));
     // execute method
-    injectorExecutor.execute(new ExecuteMethodInjector(classWriter, tree, walker, meta));
+    executor.execute(new ExecuteMethodInjector(cw, tree, walker, meta));
 
-    return classWriter.toByteArray();
+    return cw.toByteArray();
   }
 
   private static ParseTree genTree(CharStream input) {
