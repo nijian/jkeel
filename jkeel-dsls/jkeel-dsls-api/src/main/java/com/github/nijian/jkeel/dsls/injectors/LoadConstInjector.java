@@ -17,7 +17,7 @@ public class LoadConstInjector extends Injector {
   }
 
   @Override
-  public void execute(Context ctx, InjectorExecutor executor) {
+  public void execute(Context<?> ctx, InjectorExecutor executor) {
     ctx.getMethodVisitor().visitLdcInsn(data);
   }
 

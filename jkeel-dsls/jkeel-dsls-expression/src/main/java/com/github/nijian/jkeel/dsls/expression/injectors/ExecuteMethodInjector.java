@@ -28,14 +28,14 @@ public class ExecuteMethodInjector extends Injector implements ExprClassInfoAwar
   }
 
   @Override
-  public void execute(Context ctx, InjectorExecutor executor) {
+  public void execute(Context<?> ctx, InjectorExecutor executor) {
 
     Class<?> retType = meta.getRetType();
     String retTypeSignature = Utility.getSignature(retType.getName());
 
     // execute method
     PUBLIC_METHOD("execute", null, retTypeSignature, JXPATHCONTEXT_SIGNATURE, EM_SIGNATURE);
-    walker.walk(new ExpressionInjection(ctx, executor, meta), tree);
+    walker.walk(new ExpressionInjection(ctx, executor), tree);
     RETURN();
 
     // super execute method

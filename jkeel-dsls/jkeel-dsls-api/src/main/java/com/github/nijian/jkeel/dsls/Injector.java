@@ -15,7 +15,7 @@ import org.objectweb.asm.Opcodes;
 
 public abstract class Injector implements ClassInfoAware {
 
-  protected Context ctx;
+  protected Context<?> ctx;
 
   protected InjectorExecutor executor;
 
@@ -71,6 +71,6 @@ public abstract class Injector implements ClassInfoAware {
     executor.execute(new CastInjector(cast, value));
   }
 
-  protected abstract void execute(Context ctx, InjectorExecutor executor);
+  protected abstract void execute(Context<?> ctx, InjectorExecutor executor);
 
 }

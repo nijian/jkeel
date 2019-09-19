@@ -37,7 +37,7 @@ public class CastInjector extends Injector {
   }
 
   @Override
-  public void execute(Context ctx, InjectorExecutor executor) {
+  public void execute(Context<?> ctx, InjectorExecutor executor) {
     MethodVisitor mv = ctx.getMethodVisitor();
     switch (cast) {
     case OBJECT_STRING:

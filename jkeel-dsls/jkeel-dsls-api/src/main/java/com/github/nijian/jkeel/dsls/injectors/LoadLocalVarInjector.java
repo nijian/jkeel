@@ -21,7 +21,7 @@ public class LoadLocalVarInjector extends Injector {
   }
 
   @Override
-  public void execute(Context ctx, InjectorExecutor executor) {
+  public void execute(Context<?> ctx, InjectorExecutor executor) {
     MethodVisitor mv = ctx.getMethodVisitor();
     for (int i = 0; i < indexes.length; i++) {
       mv.visitVarInsn(Opcodes.ALOAD, indexes[i]);

@@ -10,11 +10,11 @@ import org.objectweb.asm.Opcodes;
 public class ReturnInjector extends Injector {
 
   @Override
-  public void execute(Context ctx, InjectorExecutor executor) {
+  public void execute(Context<?> ctx, InjectorExecutor executor) {
     MethodVisitor mv = ctx.getMethodVisitor();
     mv.visitInsn(Opcodes.ARETURN);
     mv.visitMaxs(0, 0);
     mv.visitEnd();
   }
-  
+
 }

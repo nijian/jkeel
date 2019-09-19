@@ -44,11 +44,11 @@ public final class ExpressionGenerator extends Injector implements ExprClassInfo
   }
 
   private void injectByInput(ExpressionMeta meta, MethodVisitor mv, CharStream input) {
-    Context ctx = new Context(mv);
+    Context<ExpressionMeta> ctx = new Context<>(meta, mv);
     InjectorExecutor executor = new InjectorExecutor(ctx);
     ParseTree tree = genTree(input);
     ParseTreeWalker walker = new ParseTreeWalker();
-    walker.walk(new ExpressionInjection(ctx, executor, meta), tree);
+    walker.walk(new ExpressionInjection(ctx, executor), tree);
   }
 
   public byte[] generateClass(ExpressionMeta meta, InputStream dsl) {
@@ -74,7 +74,7 @@ public final class ExpressionGenerator extends Injector implements ExprClassInfo
 
   private byte[] generateClassByInput(ExpressionMeta meta, CharStream input) {
 
-    Context ctx = new Context();
+    Context<ExpressionMeta> ctx = new Context<>(meta);
     setInjectorExecutor(new InjectorExecutor(ctx));
 
     // class
@@ -101,7 +101,7 @@ public final class ExpressionGenerator extends Injector implements ExprClassInfo
   }
 
   @Override
-  public void execute(Context ctx, InjectorExecutor executor) {
+  public void execute(Context<?> ctx, InjectorExecutor executor) {
 
   }
 

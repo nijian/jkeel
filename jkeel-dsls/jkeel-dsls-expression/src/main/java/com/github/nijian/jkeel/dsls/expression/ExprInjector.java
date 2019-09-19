@@ -11,7 +11,7 @@ import com.github.nijian.jkeel.dsls.expression.injectors.SubInjector;
 
 public class ExprInjector extends Injector implements ClassInfoAware, ExprClassInfoAware {
 
-  public ExprInjector(Context ctx, InjectorExecutor executor) {
+  public ExprInjector(Context<?> ctx, InjectorExecutor executor) {
     this.ctx = ctx;
     this.executor = executor;
   }
@@ -42,6 +42,6 @@ public class ExprInjector extends Injector implements ClassInfoAware, ExprClassI
   }
 
   @Override
-  protected void execute(Context ctx, InjectorExecutor executor) {
+  protected void execute(Context<?> ctx, InjectorExecutor executor) {
   }
 }

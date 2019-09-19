@@ -19,7 +19,7 @@ public class LocalVarInjector extends Injector {
   }
 
   @Override
-  public void execute(Context ctx, InjectorExecutor executor) {
+  public void execute(Context<?> ctx, InjectorExecutor executor) {
     logger.info("create local variable with index : {} ", index);
     ctx.getMethodVisitor().visitVarInsn(Opcodes.ASTORE, index);
   }

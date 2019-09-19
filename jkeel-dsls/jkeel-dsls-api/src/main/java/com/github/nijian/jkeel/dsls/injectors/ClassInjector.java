@@ -30,10 +30,10 @@ public final class ClassInjector extends Injector {
   }
 
   @Override
-  public void execute(final Context ctx, final InjectorExecutor executor) {
+  public void execute(final Context<?> ctx, final InjectorExecutor executor) {
     ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
     ctx.setClassWriter(cw);
     cw.visit(version, access, name, signature, superName, interfaces);
   }
-  
+
 }

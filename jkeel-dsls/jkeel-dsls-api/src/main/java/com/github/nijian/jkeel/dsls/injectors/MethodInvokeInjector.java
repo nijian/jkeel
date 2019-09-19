@@ -29,7 +29,7 @@ public class MethodInvokeInjector extends Injector {
   }
 
   @Override
-  public void execute(Context ctx, InjectorExecutor executor) {
+  public void execute(Context<?> ctx, InjectorExecutor executor) {
     logger.info("Injected method : {}", "(" + String.join("", argTypeSignatures) + ")" + retTypeSignature);
     ctx.getMethodVisitor().visitMethodInsn(op, owner, name,
         "(" + String.join("", argTypeSignatures) + ")" + retTypeSignature, isInterface);

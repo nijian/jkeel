@@ -2,9 +2,9 @@ package com.github.nijian.jkeel.dsls;
 
 public class InjectorExecutor {
 
-  private Context ctx;
+  private Context<?> ctx;
 
-  public InjectorExecutor(Context ctx){
+  public InjectorExecutor(Context<?> ctx) {
     this.ctx = ctx;
   }
 
@@ -12,5 +12,5 @@ public class InjectorExecutor {
     injector.setInjectorExecutor(this);
     injector.execute(ctx, this);
   }
-  
+
 }

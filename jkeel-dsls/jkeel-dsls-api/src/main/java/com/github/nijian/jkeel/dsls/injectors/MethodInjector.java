@@ -24,7 +24,7 @@ public class MethodInjector extends Injector {
     }
 
     @Override
-    public void execute(Context ctx, InjectorExecutor executor) {
+    public void execute(Context<?> ctx, InjectorExecutor executor) {
         String descriptor = "(" + String.join("", argTypeSignatures) + ")" + retTypeSignature;
         String signature = "(" + String.join("", argTypeSignatures) + ")";
         MethodVisitor mv = ctx.getClassWriter().visitMethod(access, name, descriptor, signature, exceptions);

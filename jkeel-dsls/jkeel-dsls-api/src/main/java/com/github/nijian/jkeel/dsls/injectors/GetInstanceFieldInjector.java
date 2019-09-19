@@ -20,7 +20,7 @@ public class GetInstanceFieldInjector extends Injector {
   }
 
   @Override
-  public void execute(Context ctx, InjectorExecutor executor) {
+  public void execute(Context<?> ctx, InjectorExecutor executor) {
     MethodVisitor mv = ctx.getMethodVisitor();
     mv.visitFieldInsn(Opcodes.GETFIELD, owner, name, fieldSignature);
   }

@@ -16,7 +16,7 @@ public final class AddInjector extends Injector implements ExprClassInfoAware {
    * Always use BigDecimal to handle arithmetic operation
    */
   @Override
-  public void execute(Context ctx, InjectorExecutor executor) {
+  public void execute(Context<?> ctx, InjectorExecutor executor) {
 
     LOAD(2);
 

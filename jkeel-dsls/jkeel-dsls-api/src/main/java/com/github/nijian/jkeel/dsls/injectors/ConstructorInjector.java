@@ -16,7 +16,7 @@ public class ConstructorInjector extends Injector {
   }
 
   @Override
-  public void execute(Context ctx, InjectorExecutor executor) {
+  public void execute(Context<?> ctx, InjectorExecutor executor) {
     MethodVisitor mv = ctx.getClassWriter().visitMethod(Opcodes.ACC_PUBLIC, "<init>", "()V", null, null);
     mv.visitVarInsn(Opcodes.ALOAD, 0);
     mv.visitMethodInsn(Opcodes.INVOKESPECIAL, name, "<init>", "()V", false);

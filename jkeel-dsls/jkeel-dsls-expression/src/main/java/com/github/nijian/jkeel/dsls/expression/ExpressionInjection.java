@@ -15,13 +15,6 @@ public class ExpressionInjection extends ExpressionBaseListener implements Class
 
   private static Logger logger = LoggerFactory.getLogger(ExpressionInjection.class);
 
-  private final Context ctx;
-
-  private final InjectorExecutor executor;
-
-  // maybe find xpath by meta info
-  private final ExpressionMeta meta;
-
   private Stack<Byte> opStack = new Stack<>();
 
   /**
@@ -31,14 +24,7 @@ public class ExpressionInjection extends ExpressionBaseListener implements Class
 
   private final ExprInjector OP;
 
-  public ExpressionInjection(Context ctx, InjectorExecutor executor) {
-    this(ctx, executor, new ExpressionMeta());
-  }
-
-  public ExpressionInjection(Context ctx, InjectorExecutor executor, ExpressionMeta meta) {
-    this.ctx = ctx;
-    this.executor = executor;
-    this.meta = meta;
+  public ExpressionInjection(Context<?> ctx, InjectorExecutor executor) {
     OP = new ExprInjector(ctx, executor);
   }
 
