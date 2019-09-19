@@ -1,17 +1,15 @@
 package com.github.nijian.jkeel.dsls.injectors;
 
+import com.github.nijian.jkeel.dsls.Context;
 import com.github.nijian.jkeel.dsls.Injector;
 import com.github.nijian.jkeel.dsls.InjectorExecutor;
 
-import org.objectweb.asm.MethodVisitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class MethodInvokeInjector implements Injector {
+public class MethodInvokeInjector extends Injector {
 
   private static Logger logger = LoggerFactory.getLogger(MethodInvokeInjector.class);
-
-  private MethodVisitor mv;
 
   private int op;
   private String owner;
@@ -20,9 +18,8 @@ public class MethodInvokeInjector implements Injector {
   private String retTypeSignature;
   private String[] argTypeSignatures;
 
-  public MethodInvokeInjector(MethodVisitor mv, int op, String owner, String name, boolean isInterface,
-      String retTypeSignature, String... argTypeSignatures) {
-    this.mv = mv;
+  public MethodInvokeInjector(int op, String owner, String name, boolean isInterface, String retTypeSignature,
+      String... argTypeSignatures) {
     this.op = op;
     this.owner = owner;
     this.name = name;
@@ -32,8 +29,10 @@ public class MethodInvokeInjector implements Injector {
   }
 
   @Override
-  public void execute(InjectorExecutor executor) {
+  public void execute(Context ctx, InjectorExecutor executor) {
     logger.info("Injected method : {}", "(" + String.join("", argTypeSignatures) + ")" + retTypeSignature);
-    mv.visitMethodInsn(op, owner, name, "(" + String.join("", argTypeSignatures) + ")" + retTypeSignature, isInterface);
+    ctx.getMethodVisitor().visitMethodInsn(op, owner, name,
+        "(" + String.join("", argTypeSignatures) + ")" + retTypeSignature, isInterface);
   }
+
 }

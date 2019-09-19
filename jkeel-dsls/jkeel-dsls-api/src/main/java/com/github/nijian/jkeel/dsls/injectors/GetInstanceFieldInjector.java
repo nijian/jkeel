@@ -7,22 +7,22 @@ import com.github.nijian.jkeel.dsls.InjectorExecutor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
-public class ConstructorInjector extends Injector {
+public class GetInstanceFieldInjector extends Injector {
 
+  private String owner;
   private String name;
+  private String fieldSignature;
 
-  public ConstructorInjector(String name) {
+  public GetInstanceFieldInjector(String owner, String name, String fieldSignature) {
+    this.owner = owner;
     this.name = name;
+    this.fieldSignature = fieldSignature;
   }
 
   @Override
   public void execute(Context ctx, InjectorExecutor executor) {
-    MethodVisitor mv = ctx.getClassWriter().visitMethod(Opcodes.ACC_PUBLIC, "<init>", "()V", null, null);
-    mv.visitVarInsn(Opcodes.ALOAD, 0);
-    mv.visitMethodInsn(Opcodes.INVOKESPECIAL, name, "<init>", "()V", false);
-    mv.visitInsn(Opcodes.RETURN);
-    mv.visitMaxs(0, 0);
-    mv.visitEnd();
+    MethodVisitor mv = ctx.getMethodVisitor();
+    mv.visitFieldInsn(Opcodes.GETFIELD, owner, name, fieldSignature);
   }
 
 }

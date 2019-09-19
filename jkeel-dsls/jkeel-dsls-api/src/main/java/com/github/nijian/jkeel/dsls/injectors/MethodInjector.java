@@ -1,22 +1,21 @@
 package com.github.nijian.jkeel.dsls.injectors;
 
+import com.github.nijian.jkeel.dsls.Context;
 import com.github.nijian.jkeel.dsls.Injector;
 import com.github.nijian.jkeel.dsls.InjectorExecutor;
 
-import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.MethodVisitor;
 
-public class MethodInjector implements Injector {
+public class MethodInjector extends Injector {
 
-    private ClassWriter cw;
     private int access;
     private String name;
     private String[] exceptions;
     private String retTypeSignature;
     private String[] argTypeSignatures;
 
-    public MethodInjector(ClassWriter cw, int access, String name, String[] exceptions, String retTypeSignature,
+    public MethodInjector(int access, String name, String[] exceptions, String retTypeSignature,
             String... argTypeSignatures) {
-        this.cw = cw;
         this.access = access;
         this.name = name;
         this.exceptions = exceptions;
@@ -25,9 +24,11 @@ public class MethodInjector implements Injector {
     }
 
     @Override
-    public void execute(InjectorExecutor executor) {
+    public void execute(Context ctx, InjectorExecutor executor) {
         String descriptor = "(" + String.join("", argTypeSignatures) + ")" + retTypeSignature;
         String signature = "(" + String.join("", argTypeSignatures) + ")";
-        cw.visitMethod(access, name, descriptor, signature, exceptions);
+        MethodVisitor mv = ctx.getClassWriter().visitMethod(access, name, descriptor, signature, exceptions);
+        ctx.setMethodVisitor(mv);
     }
+
 }

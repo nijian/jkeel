@@ -1,21 +1,13 @@
 package com.github.nijian.jkeel.dsls.expression;
 
 import java.util.Stack;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
-import com.github.nijian.jkeel.dsls.Cast;
 import com.github.nijian.jkeel.dsls.ClassInfoAware;
+import com.github.nijian.jkeel.dsls.Context;
+import com.github.nijian.jkeel.dsls.ExecFunc;
 import com.github.nijian.jkeel.dsls.InjectorExecutor;
-import com.github.nijian.jkeel.dsls.expression.injectors.AddInjector;
-import com.github.nijian.jkeel.dsls.expression.injectors.MulInjector;
-import com.github.nijian.jkeel.dsls.expression.injectors.SubInjector;
-import com.github.nijian.jkeel.dsls.injectors.CastInjector;
-import com.github.nijian.jkeel.dsls.injectors.LoadConstInjector;
-import com.github.nijian.jkeel.dsls.injectors.LoadLocalVarInjector;
-import com.github.nijian.jkeel.dsls.injectors.LocalVarInjector;
-import com.github.nijian.jkeel.dsls.injectors.MethodInvokeInjector;
-
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Opcodes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,12 +15,12 @@ public class ExpressionInjection extends ExpressionBaseListener implements Class
 
   private static Logger logger = LoggerFactory.getLogger(ExpressionInjection.class);
 
-  private InjectorExecutor executor;
+  private final Context ctx;
 
-  private MethodVisitor mv;
+  private final InjectorExecutor executor;
 
   // maybe find xpath by meta info
-  private ExpressionMeta meta;
+  private final ExpressionMeta meta;
 
   private Stack<Byte> opStack = new Stack<>();
 
@@ -37,14 +29,17 @@ public class ExpressionInjection extends ExpressionBaseListener implements Class
    */
   private int localVarIndex = 3;
 
-  public ExpressionInjection(InjectorExecutor executor, MethodVisitor mv) {
-    this(executor, mv, new ExpressionMeta());
+  private final Operation OP;
+
+  public ExpressionInjection(Context ctx, InjectorExecutor executor) {
+    this(ctx, executor, new ExpressionMeta());
   }
 
-  public ExpressionInjection(InjectorExecutor executor, MethodVisitor mv, ExpressionMeta meta) {
+  public ExpressionInjection(Context ctx, InjectorExecutor executor, ExpressionMeta meta) {
+    this.ctx = ctx;
     this.executor = executor;
-    this.mv = mv;
     this.meta = meta;
+    OP = new Operation(ctx, executor);
   }
 
   @Override
@@ -53,13 +48,13 @@ public class ExpressionInjection extends ExpressionBaseListener implements Class
       byte op = opStack.pop();
       switch (op) {
       case Const.PLUS:
-        executor.execute(new AddInjector(mv));
+        exec(OP::ADD);
         break;
       case Const.MINUS:
-        executor.execute(new SubInjector(mv));
+        exec(OP::SUB);
         break;
       case Const.TIMES:
-        executor.execute(new MulInjector(mv));
+        exec(OP::MUL);
         break;
       default:
         logger.error("Unsupported operator : {}", op);
@@ -70,19 +65,13 @@ public class ExpressionInjection extends ExpressionBaseListener implements Class
 
   @Override
   public void enterVariable(ExpressionParser.VariableContext ctx) {
-    executor.execute(new LoadLocalVarInjector(mv, 0, 1));// expression instance & context
-    executor.execute(new LoadConstInjector(mv, TermXPath.getXPath(ctx.VARIABLE().getText())));
-    executor.execute(new MethodInvokeInjector(mv, Opcodes.INVOKEVIRTUAL, EXPR_INTERNAL_NAME, "getValue", false,
-        OBJECT_SIGNATURE, JXPATHCONTEXT_SIGNATURE, STRING_SIGNATURE));
-    executor.execute(new CastInjector(mv, Cast.OBJECT_STRING));
-    executor.execute(new LocalVarInjector(mv, localVarIndex));
-    executor.execute(new CastInjector(mv, Cast.STRING_BIGDECIMAL, localVarIndex));
+    exec(OP::Variable, ctx, localVarIndex);
     localVarIndex++;
   }
 
   @Override
   public void enterScientific(ExpressionParser.ScientificContext ctx) {
-    executor.execute(new CastInjector(mv, Cast.STRING_BIGDECIMAL, /* number in string format */ctx.getText()));
+    exec(OP::Scientific, ctx);
   }
 
   @Override
@@ -99,4 +88,18 @@ public class ExpressionInjection extends ExpressionBaseListener implements Class
   public void enterTimes(ExpressionParser.TimesContext ctx) {
     opStack.push(Const.TIMES);
   }
+
+  private void exec(ExecFunc c) {
+    c.exec();
+  }
+
+  private void exec(Consumer<ExpressionParser.ScientificContext> s, ExpressionParser.ScientificContext c) {
+    s.accept(c);
+  }
+
+  private void exec(BiConsumer<ExpressionParser.VariableContext, Integer> s, ExpressionParser.VariableContext c,
+      int localVarIndex) {
+    s.accept(c, localVarIndex);
+  }
+
 }

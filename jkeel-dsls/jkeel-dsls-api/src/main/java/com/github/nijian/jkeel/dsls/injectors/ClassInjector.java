@@ -1,29 +1,26 @@
 package com.github.nijian.jkeel.dsls.injectors;
 
+import com.github.nijian.jkeel.dsls.Context;
 import com.github.nijian.jkeel.dsls.Injector;
 import com.github.nijian.jkeel.dsls.InjectorExecutor;
 
 import org.objectweb.asm.ClassWriter;
 
-public class ClassInjector implements Injector {
+public final class ClassInjector extends Injector {
 
-  private ClassWriter cw;
+  private final int version;
 
-  private int version;
+  private final int access;
 
-  private int access;
+  private final String name;
 
-  private String name;
+  private final String signature;
 
-  private String signature;
+  private final String superName;
 
-  private String superName;
+  private final String[] interfaces;
 
-  private String[] interfaces;
-
-  public ClassInjector(ClassWriter cw, int version, int access, String name, String signature, String superName,
-      String[] interfaces) {
-    this.cw = cw;
+  public ClassInjector(int version, int access, String name, String signature, String superName, String[] interfaces) {
     this.version = version;
     this.access = access;
     this.name = name;
@@ -33,8 +30,10 @@ public class ClassInjector implements Injector {
   }
 
   @Override
-  public void execute(InjectorExecutor executor) {
+  public void execute(final Context ctx, final InjectorExecutor executor) {
+    ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
+    ctx.setClassWriter(cw);
     cw.visit(version, access, name, signature, superName, interfaces);
   }
-
+  
 }

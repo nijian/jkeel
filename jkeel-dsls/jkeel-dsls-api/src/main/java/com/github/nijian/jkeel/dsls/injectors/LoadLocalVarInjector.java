@@ -1,5 +1,6 @@
 package com.github.nijian.jkeel.dsls.injectors;
 
+import com.github.nijian.jkeel.dsls.Context;
 import com.github.nijian.jkeel.dsls.Injector;
 import com.github.nijian.jkeel.dsls.InjectorExecutor;
 
@@ -11,20 +12,17 @@ import org.objectweb.asm.Opcodes;
  * it on the top of stack.
  * 
  */
-public class LoadLocalVarInjector implements Injector {
-
-  // receiver
-  private MethodVisitor mv;
+public class LoadLocalVarInjector extends Injector {
 
   private int[] indexes;
 
-  public LoadLocalVarInjector(MethodVisitor mv, int... indexes) {
-    this.mv = mv;
+  public LoadLocalVarInjector(int... indexes) {
     this.indexes = indexes;
   }
 
   @Override
-  public void execute(InjectorExecutor executor) {
+  public void execute(Context ctx, InjectorExecutor executor) {
+    MethodVisitor mv = ctx.getMethodVisitor();
     for (int i = 0; i < indexes.length; i++) {
       mv.visitVarInsn(Opcodes.ALOAD, indexes[i]);
     }
