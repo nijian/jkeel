@@ -3,7 +3,7 @@ package com.github.nijian.jkeel.dsls;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 
-public final class Context<T extends Meta> {
+ public final class Context<T extends Meta> {
 
   private T meta;
 
