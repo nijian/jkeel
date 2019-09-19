@@ -13,6 +13,11 @@ public abstract class Expression<T> {
 
   /**
    * Get real value by xpath at runtime
+   * 
+   * @param <V>        value type
+   * @param jxpContext jx path context
+   * @param xpath      xpath
+   * @return real value
    */
   @SuppressWarnings("unchecked")
   protected <V> V getValue(JXPathContext jxpContext, String xpath) {
