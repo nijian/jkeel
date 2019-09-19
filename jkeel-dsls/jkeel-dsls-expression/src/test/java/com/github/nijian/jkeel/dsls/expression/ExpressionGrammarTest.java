@@ -26,7 +26,7 @@ public class ExpressionGrammarTest {
       meta.setInternalMathContext(mc);
 
       InputStream dsl = ExpressionGrammarTest.class.getResourceAsStream("/aa.jexpr");
-      byte[] clzB = ExpressionGenerator.generateClass(meta, dsl);
+      byte[] clzB = (new ExpressionGenerator()).generateClass(meta, dsl);
 
       DynamicClassLoader cl = new DynamicClassLoader();
       Class<?> c = cl.defineClass("HelloWorld", clzB);

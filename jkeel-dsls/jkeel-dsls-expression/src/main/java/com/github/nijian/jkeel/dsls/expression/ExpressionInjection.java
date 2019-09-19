@@ -25,11 +25,11 @@ public class ExpressionInjection extends ExpressionBaseListener implements Class
   private Stack<Byte> opStack = new Stack<>();
 
   /**
-   * ignore three input variables
+   * ignore pre three input variables
    */
   private int localVarIndex = 3;
 
-  private final Operation OP;
+  private final ExprInjector OP;
 
   public ExpressionInjection(Context ctx, InjectorExecutor executor) {
     this(ctx, executor, new ExpressionMeta());
@@ -39,7 +39,7 @@ public class ExpressionInjection extends ExpressionBaseListener implements Class
     this.ctx = ctx;
     this.executor = executor;
     this.meta = meta;
-    OP = new Operation(ctx, executor);
+    OP = new ExprInjector(ctx, executor);
   }
 
   @Override
@@ -47,14 +47,14 @@ public class ExpressionInjection extends ExpressionBaseListener implements Class
     if (ctx.atom() == null && opStack.size() > 0) {
       byte op = opStack.pop();
       switch (op) {
-      case Const.PLUS:
-        exec(OP::ADD);
+      case PLUS:
+        inject(OP::ADD);
         break;
-      case Const.MINUS:
-        exec(OP::SUB);
+      case MINUS:
+        inject(OP::SUB);
         break;
-      case Const.TIMES:
-        exec(OP::MUL);
+      case TIMES:
+        inject(OP::MUL);
         break;
       default:
         logger.error("Unsupported operator : {}", op);
@@ -65,39 +65,39 @@ public class ExpressionInjection extends ExpressionBaseListener implements Class
 
   @Override
   public void enterVariable(ExpressionParser.VariableContext ctx) {
-    exec(OP::Variable, ctx, localVarIndex);
+    inject(OP::Variable, ctx, localVarIndex);
     localVarIndex++;
   }
 
   @Override
   public void enterScientific(ExpressionParser.ScientificContext ctx) {
-    exec(OP::Scientific, ctx);
+    inject(OP::Scientific, ctx);
   }
 
   @Override
   public void enterPlus(ExpressionParser.PlusContext ctx) {
-    opStack.push(Const.PLUS);
+    opStack.push(PLUS);
   }
 
   @Override
   public void exitMinus(ExpressionParser.MinusContext ctx) {
-    opStack.push(Const.MINUS);
+    opStack.push(MINUS);
   }
 
   @Override
   public void enterTimes(ExpressionParser.TimesContext ctx) {
-    opStack.push(Const.TIMES);
+    opStack.push(TIMES);
   }
 
-  private void exec(ExecFunc c) {
+  private void inject(ExecFunc c) {
     c.exec();
   }
 
-  private void exec(Consumer<ExpressionParser.ScientificContext> s, ExpressionParser.ScientificContext c) {
+  private void inject(Consumer<ExpressionParser.ScientificContext> s, ExpressionParser.ScientificContext c) {
     s.accept(c);
   }
 
-  private void exec(BiConsumer<ExpressionParser.VariableContext, Integer> s, ExpressionParser.VariableContext c,
+  private void inject(BiConsumer<ExpressionParser.VariableContext, Integer> s, ExpressionParser.VariableContext c,
       int localVarIndex) {
     s.accept(c, localVarIndex);
   }

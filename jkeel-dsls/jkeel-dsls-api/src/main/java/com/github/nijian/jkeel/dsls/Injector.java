@@ -2,9 +2,11 @@ package com.github.nijian.jkeel.dsls;
 
 import com.github.nijian.jkeel.dsls.injectors.CastInjector;
 import com.github.nijian.jkeel.dsls.injectors.ClassInjector;
+import com.github.nijian.jkeel.dsls.injectors.ConstructorInjector;
 import com.github.nijian.jkeel.dsls.injectors.GetInstanceFieldInjector;
 import com.github.nijian.jkeel.dsls.injectors.LoadConstInjector;
 import com.github.nijian.jkeel.dsls.injectors.LoadLocalVarInjector;
+import com.github.nijian.jkeel.dsls.injectors.LocalVarInjector;
 import com.github.nijian.jkeel.dsls.injectors.MethodInjector;
 import com.github.nijian.jkeel.dsls.injectors.MethodInvokeInjector;
 import com.github.nijian.jkeel.dsls.injectors.ReturnInjector;
@@ -25,6 +27,10 @@ public abstract class Injector implements ClassInfoAware {
     executor.execute(new ClassInjector(Opcodes.V1_8, Opcodes.ACC_PUBLIC, name, signature, superName, null));
   }
 
+  protected void CONSTRUCTOR(String name) {
+    executor.execute(new ConstructorInjector(name));
+  }
+
   protected void PUBLIC_METHOD(String name, String[] exceptions, String retTypeSignature, String... argTypeSignatures) {
     executor.execute(new MethodInjector(Opcodes.ACC_PUBLIC, name, exceptions, retTypeSignature, argTypeSignatures));
   }
@@ -35,6 +41,10 @@ public abstract class Injector implements ClassInfoAware {
 
   protected void GETFIELD(String owner, String name, String fieldSignature) {
     executor.execute(new GetInstanceFieldInjector(owner, name, fieldSignature));
+  }
+
+  protected void VAR(int index) {
+    executor.execute(new LocalVarInjector(index));
   }
 
   protected void LDC(String str) {

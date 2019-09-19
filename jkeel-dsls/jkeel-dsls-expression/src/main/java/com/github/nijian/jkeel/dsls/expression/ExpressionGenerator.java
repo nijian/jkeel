@@ -7,7 +7,6 @@ import com.github.nijian.jkeel.dsls.Context;
 import com.github.nijian.jkeel.dsls.Injector;
 import com.github.nijian.jkeel.dsls.InjectorExecutor;
 import com.github.nijian.jkeel.dsls.expression.injectors.ExecuteMethodInjector;
-import com.github.nijian.jkeel.dsls.injectors.ConstructorInjector;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
@@ -76,8 +75,7 @@ public final class ExpressionGenerator extends Injector implements ExprClassInfo
   private byte[] generateClassByInput(ExpressionMeta meta, CharStream input) {
 
     Context ctx = new Context();
-    InjectorExecutor executor = new InjectorExecutor(ctx);
-    this.setInjectorExecutor(executor);
+    setInjectorExecutor(new InjectorExecutor(ctx));
 
     // class
     String retTypeSignature = Utility.getSignature(meta.getRetType().getName());
@@ -85,12 +83,12 @@ public final class ExpressionGenerator extends Injector implements ExprClassInfo
     CLASS(meta.getName(), exprSignature, EXPR_INTERNAL_NAME);
 
     // constructor
-    executor.execute(new ConstructorInjector(EXPR_INTERNAL_NAME));
-    
+    CONSTRUCTOR(EXPR_INTERNAL_NAME);
+
     // execute method
     ParseTree tree = genTree(input);
     ParseTreeWalker walker = new ParseTreeWalker();
-    executor.execute(new ExecuteMethodInjector(tree, walker, meta));
+    EXECUTEMETHOD(tree, walker, meta);
 
     return ctx.getClassWriter().toByteArray();
   }
@@ -105,6 +103,10 @@ public final class ExpressionGenerator extends Injector implements ExprClassInfo
   @Override
   public void execute(Context ctx, InjectorExecutor executor) {
 
+  }
+
+  private void EXECUTEMETHOD(ParseTree tree, ParseTreeWalker walker, ExpressionMeta meta) {
+    executor.execute(new ExecuteMethodInjector(tree, walker, meta));
   }
 
 }
