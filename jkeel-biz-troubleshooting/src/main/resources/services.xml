@@ -1,0 +1,14 @@
+<root>
+    <services>
+        <service>
+            <entryName>@CODE</entryName>
+            <name>CODE</name>
+            <link>
+                <data>
+                    <entryName>Get Contracts Data@SPRING_DATA_QUERY_LIST</entryName>
+                    <name>SPRING_DATA_QUERY_LIST</name>
+                </data>
+            </link>
+        </service>
+    </services>
+</root>
