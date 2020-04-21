@@ -13,18 +13,22 @@
     <modules>
         <module>jkeel-algorithms</module>
         <!--<module>jkeel-authorization</module>-->
+        <module>jkeel-biz-troubleshooting</module>
         <module>jkeel-cache</module>
         <module>jkeel-commons</module>
         <!--<module>jkeel-code</module>-->
         <!--<module>jkeel-code-i18n</module>-->
+        <module>jkeel-concept</module>
+        <module>jkeel-config-cfg4j</module>
         <!--<module>jkeel-currency</module>-->
         <!--<module>jkeel-exchange</module>-->
         <!--<module>jkeel-i18n</module>-->
         <!--<module>jkeel-integration</module>-->
-        <!--<module>jkeel-mapping</module>-->
+        <module>jkeel-mapping</module>
         <!--<module>jkeel-query</module>-->
         <module>jkeel-report</module>
         <!--<module>jkeel-repository</module>-->
+        <module>jkeel-spring</module>
         <module>jkeel-validation</module>
     </modules>
 
@@ -68,7 +72,6 @@
         <build-helper-maven-plugin.version>3.0.0</build-helper-maven-plugin.version>
         <javax.cache.version>1.1.0</javax.cache.version>
 
-        <junit.version>4.12</junit.version>
         <jackson.version>2.9.9</jackson.version>
         <org.ehcache.version>3.7.0</org.ehcache.version>
         <org.apache.commons.lang3.version>3.8.1</org.apache.commons.lang3.version>
@@ -84,6 +87,10 @@
         <ribbon.version>2.2.2</ribbon.version>
         <io.reactivex.version>1.0.10</io.reactivex.version>
         <org.apache.pdfbox.version>2.0.13</org.apache.pdfbox.version>
+
+        <!-- for test -->
+        <junit.version>4.12</junit.version>
+        <spring.version>5.2.4.RELEASE</spring.version>
 
     </properties>
 
@@ -214,6 +221,29 @@
                 <groupId>org.codehaus.groovy</groupId>
                 <artifactId>groovy-all</artifactId>
                 <version>${groovy.version}</version>
+            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>org.springframework.data</groupId>-->
+                <!--<artifactId>spring-data-jpa</artifactId>-->
+                <!--<version>2.2.5.RELEASE</version>-->
+            <!--</dependency>-->
+            <!--<dependency>-->
+                <!--<groupId>org.springframework</groupId>-->
+                <!--<artifactId>spring-context</artifactId>-->
+                <!--<version>5.2.4.RELEASE</version>-->
+            <!--</dependency>-->
+            <!--<dependency>-->
+                <!--<groupId>org.springframework</groupId>-->
+                <!--<artifactId>spring-jdbc</artifactId>-->
+                <!--<version>5.2.4.RELEASE</version>-->
+            <!--</dependency>-->
+            <dependency>
+                <!-- Import dependency management from Spring Boot -->
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>2.2.5.RELEASE</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>

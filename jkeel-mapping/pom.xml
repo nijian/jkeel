@@ -4,13 +4,18 @@
     <parent>
         <groupId>com.github.nijian.jkeel</groupId>
         <artifactId>jkeel-parent</artifactId>
-        <version>0.0.6-SNAPSHOT</version>
+        <version>0.0.7-SNAPSHOT</version>
     </parent>
     <artifactId>jkeel-mapping</artifactId>
-    <name>JKeel Data Mapping</name>
-    <description>JKeel Data Mapping</description>
+    <name>JKeel Mapping</name>
+    <description>JKeel Mapping</description>
 
     <dependencies>
+        <dependency>
+            <groupId>com.github.nijian.jkeel</groupId>
+            <artifactId>jkeel-concept</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <!-- log -->
         <dependency>
             <groupId>org.slf4j</groupId>
