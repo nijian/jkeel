@@ -6,15 +6,19 @@
         <artifactId>jkeel-parent</artifactId>
         <version>0.0.7-SNAPSHOT</version>
     </parent>
-    <artifactId>jkeel-mapping</artifactId>
-    <name>JKeel Mapping</name>
-    <description>JKeel Mapping</description>
+    <artifactId>jkeel-spring</artifactId>
+    <name>JKeel Spring</name>
+    <description>JKeel Spring</description>
 
     <dependencies>
         <dependency>
             <groupId>com.github.nijian.jkeel</groupId>
             <artifactId>jkeel-concept</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
         <!-- log -->
         <dependency>

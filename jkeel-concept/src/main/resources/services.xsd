@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="https://github.com/nijian/jkeel"
+           xmlns="https://github.com/nijian/jkeel">
+
+    <xs:complexType name="ConfigItemType" abstract="true">
+        <xs:sequence>
+            <xs:element name="entryName" type="xs:string"/>
+            <xs:element name="className" type="xs:string" minOccurs="0"/>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="link" type="Link" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Link">
+        <xs:choice>
+            <xs:element ref="service"/>
+            <xs:element ref="action"/>
+            <xs:element ref="data"/>
+        </xs:choice>
+    </xs:complexType>
+
+    <xs:complexType name="ServiceConfigType">
+        <xs:complexContent>
+            <xs:extension base="ConfigItemType">
+                <xs:sequence>
+
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="ActionConfigType">
+        <xs:complexContent>
+            <xs:extension base="ConfigItemType">
+                <xs:sequence>
+
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+
+    <xs:complexType name="DataConfigType">
+        <xs:complexContent>
+            <xs:extension base="ConfigItemType">
+                <xs:sequence>
+
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:element name="root">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="services"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="services">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="service"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="service" type="ServiceConfigType"/>
+    <xs:element name="action" type="ActionConfigType"/>
+    <xs:element name="data" type="DataConfigType"/>
+
+</xs:schema>
