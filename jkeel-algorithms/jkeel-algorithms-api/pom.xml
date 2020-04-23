@@ -20,6 +20,11 @@
             <groupId>javax.cache</groupId>
             <artifactId>cache-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-envers</artifactId>
+            <version>5.3.5.Final</version>
+        </dependency>
 
         <!-- for test -->
         <dependency>
