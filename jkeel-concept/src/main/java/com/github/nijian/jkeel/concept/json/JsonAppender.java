@@ -13,13 +13,13 @@ import java.io.FileReader;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class JsonAppender<M extends Manager, C extends Context<M>> implements ContextAware {
+public final class JsonAppender<M extends Manager> implements ContextAware {
 
-    private final C context;
+    private final Context<M> context;
 
     private final Map<String, Object> jsonMap;
 
-    public JsonAppender(C context) {
+    public JsonAppender(Context<M> context) {
         this.context = context;
         this.jsonMap = new HashMap<>();
     }
@@ -36,14 +36,14 @@ public final class JsonAppender<M extends Manager, C extends Context<M>> impleme
         try {
             JAXBContext context = JAXBContext.newInstance(ServicesConfig.class);
             servicesConfig = (ServicesConfig) context.createUnmarshaller()
-                    .unmarshal(new FileReader("c:/temp/service-config.xml"));
+                    .unmarshal(new FileReader("c:/temp/services.xml"));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        ServiceConfig serviceConfig = servicesConfig.getServiceConfigMap().get("@CODE");
+        ServiceConfig serviceConfig = servicesConfig.getServiceConfigMap().get(serviceEntryName);
 
         M manager = context.getManager();
-        Service<M, T, JsonString> service = (Service<M, T, JsonString>)serviceConfig.getConcept();
+        Service<M, T, JsonString> service = (Service<M, T, JsonString>) serviceConfig.getConcept();
 
         ConceptInput<M, T> serviceInput = new ConceptInput<>();
         serviceInput.setManager(manager);

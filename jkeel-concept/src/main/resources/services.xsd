@@ -44,7 +44,7 @@
         <xs:complexContent>
             <xs:extension base="ConfigItemType">
                 <xs:sequence>
-
+                    <xs:element name="query" type="xs:string"/>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>

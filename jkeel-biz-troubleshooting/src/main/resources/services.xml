@@ -1,12 +1,13 @@
 <root>
     <services>
         <service>
-            <entryName>@CODE</entryName>
-            <name>CODE</name>
+            <entryName>initQueryContracts@JSON</entryName>
+            <name>JSON</name>
             <link>
                 <data>
                     <entryName>Get Contracts Data@SPRING_DATA_QUERY_LIST</entryName>
                     <name>SPRING_DATA_QUERY_LIST</name>
+                    <query>select count(1) from abc</query>
                 </data>
             </link>
         </service>

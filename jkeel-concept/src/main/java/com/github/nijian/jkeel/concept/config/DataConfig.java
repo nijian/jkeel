@@ -9,6 +9,16 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "data")
 public class DataConfig extends ConfigItem<Data> {
 
+    private String query;
+
+    public String getQuery() {
+        return query;
+    }
+
+    public void setQuery(String query) {
+        this.query = query;
+    }
+
     @Override
     public Data getConcept() {
         return DataFactoryProvider.getInstance().getData(getName());

@@ -41,11 +41,10 @@ public class BizTroubleshootingController implements ContextAware {
             }
         };
 
-        Context<SpringManager> ctx = new Context(manager, user);
-        JsonAppender<SpringManager, Context<SpringManager>> response = new JsonAppender(ctx);
-        response.appendBy(request + "@CODE", request);
+        Context<SpringManager> ctx = new Context<>(manager, user);
+        JsonAppender<SpringManager> response = new JsonAppender<>(ctx);
+        response.appendBy("initQueryContracts@JSON", request);
         return response.toString();
-
     }
 
 }

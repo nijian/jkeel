@@ -3,6 +3,7 @@ package com.github.nijian.jkeel.concept.query.data;
 import com.github.nijian.jkeel.concept.ConceptInput;
 import com.github.nijian.jkeel.concept.Data;
 import com.github.nijian.jkeel.concept.Manager;
+import com.github.nijian.jkeel.concept.config.DataConfig;
 import com.github.nijian.jkeel.concept.query.entity.Query;
 import com.github.nijian.jkeel.concept.query.entity.QueryResult;
 
@@ -12,6 +13,8 @@ public abstract class AbstractQuery<M extends Manager> extends Data<M, Query, Qu
     public QueryResult apply(ConceptInput<M, Query> queryConceptInput) {
 
         QueryResult queryResult = new QueryResult();
+
+        DataConfig dataConfig = (DataConfig)queryConceptInput.getConfigItem();
 
         Query query = new Query();//queryConceptInput.getValue();
 
