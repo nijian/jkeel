@@ -21,6 +21,7 @@
         <module>jkeel-concept</module>
         <module>jkeel-config-cfg4j</module>
         <!--<module>jkeel-currency</module>-->
+        <module>jkeel-dsls</module>
         <!--<module>jkeel-exchange</module>-->
         <!--<module>jkeel-i18n</module>-->
         <!--<module>jkeel-integration</module>-->
@@ -78,6 +79,8 @@
         <org.apache.commons.pool.version>2.4.2</org.apache.commons.pool.version>
         <org.apache.commons.io.version>2.5</org.apache.commons.io.version>
         <org.apache.commons.csv.version>1.4</org.apache.commons.csv.version>
+        <org.apache.bcel.version>6.3.1</org.apache.bcel.version>
+        <commons-jxpath.version>1.3</commons-jxpath.version>
         <org.slf4j.version>1.7.25</org.slf4j.version>
         <org.apache.logging.log4j.version>2.11.2</org.apache.logging.log4j.version>
 
@@ -87,6 +90,8 @@
         <ribbon.version>2.2.2</ribbon.version>
         <io.reactivex.version>1.0.10</io.reactivex.version>
         <org.apache.pdfbox.version>2.0.13</org.apache.pdfbox.version>
+        <org.antlr.version>4.7.2</org.antlr.version>
+        <org.ow2.asm.version>7.1</org.ow2.asm.version>
 
         <!-- for test -->
         <junit.version>4.12</junit.version>
@@ -193,9 +198,34 @@
                 <version>${org.apache.commons.pool.version}</version>
             </dependency>
             <dependency>
+                <groupId>commons-jxpath</groupId>
+                <artifactId>commons-jxpath</artifactId>
+                <version>${commons-jxpath.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.bcel</groupId>
+                <artifactId>bcel</artifactId>
+                <version>${org.apache.bcel.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.apache.pdfbox</groupId>
                 <artifactId>pdfbox</artifactId>
                 <version>${org.apache.pdfbox.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.antlr</groupId>
+                <artifactId>antlr4-runtime</artifactId>
+                <version>${org.antlr.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.ow2.asm</groupId>
+                <artifactId>asm</artifactId>
+                <version>${org.ow2.asm.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.ow2.asm</groupId>
+                <artifactId>asm-util</artifactId>
+                <version>${org.ow2.asm.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.netflix.ribbon</groupId>

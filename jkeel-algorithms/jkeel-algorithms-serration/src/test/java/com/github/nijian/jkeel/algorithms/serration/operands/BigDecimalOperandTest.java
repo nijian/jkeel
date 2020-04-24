@@ -38,4 +38,10 @@ public class BigDecimalOperandTest {
         logger.info(resultValue.toString());
         assertEquals(resultValue.compareTo(expectedValue), 0);
     }
+
+    @Test
+    public void test(){
+        long a = BigDecimal.valueOf(4233890599.0917255931).longValue();
+        System.out.println(a);
+    }
 }

@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.github.nijian.jkeel</groupId>
-        <artifactId>jkeel-algorithms</artifactId>
+        <artifactId>jkeel-dsls</artifactId>
         <version>0.0.7-SNAPSHOT</version>
     </parent>
-    <artifactId>jkeel-algorithms-api</artifactId>
-    <name>JKeel Algorithms API</name>
-    <description>JKeel Algorithms API</description>
+    <artifactId>jkeel-dsls-api</artifactId>
+    <name>JKeel DSLs API</name>
+    <description>JKeel DSLs API</description>
 
     <dependencies>
         <!-- log -->
@@ -21,11 +22,26 @@
             <artifactId>cache-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-envers</artifactId>
-            <version>5.3.5.Final</version>
+            <groupId>org.apache.bcel</groupId>
+            <artifactId>bcel</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>commons-jxpath</groupId>
+            <artifactId>commons-jxpath</artifactId>
+        </dependency>
+        <!-- antlr 4 -->
+        <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>antlr4-runtime</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.ow2.asm</groupId>
+            <artifactId>asm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.ow2.asm</groupId>
+            <artifactId>asm-util</artifactId>
+        </dependency>
         <!-- for test -->
         <dependency>
             <groupId>junit</groupId>
