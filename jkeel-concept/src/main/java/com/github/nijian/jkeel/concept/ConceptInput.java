@@ -6,11 +6,12 @@ public final class ConceptInput<M extends Manager, V> {
 
     private final ConfigItem<?> configItem;
 
-    private V value;
+    private final V value;
 
-    public ConceptInput(ServiceContext<M> ctx, ConfigItem<?> configItem) {
+    public ConceptInput(ServiceContext<M> ctx, ConfigItem<?> configItem, V value) {
         this.ctx = ctx;
         this.configItem = configItem;
+        this.value = value;
     }
 
     public ServiceContext<M> getContext() {
@@ -23,10 +24,5 @@ public final class ConceptInput<M extends Manager, V> {
 
     public V getValue() {
         return value;
-    }
-
-    public void setValue(V value) {
-        //check value, validation
-        this.value = value;
     }
 }
