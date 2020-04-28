@@ -32,11 +32,6 @@ public class Cfg4jConfig extends Config {
     }
 
     @Override
-    public String getId() {
-        return "ACC2";
-    }
-
-    @Override
     public String get(String term) {
         return null;
     }

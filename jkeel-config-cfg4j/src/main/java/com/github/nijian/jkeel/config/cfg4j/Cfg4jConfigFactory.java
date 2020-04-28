@@ -10,9 +10,9 @@ public class Cfg4jConfigFactory implements ConfigFactory {
     @Override
     public Config getConfig(String name) {
 
-        if (name.equals(config.getId())) {
-            return config;
-        }
+//        if (name.equals(config.getId())) {
+//            return config;
+//        }
         return null;
     }
 }
