@@ -25,4 +25,11 @@ public final class ConceptInput<M extends Manager, V> {
     public V getValue() {
         return value;
     }
+
+    public <R> R convert() {
+        ConceptInput<?, V> conceptInput = new ConceptInput(ctx, configItem.getMapping(), value);
+        Mapping mapping = configItem.getMapping().getConcept();
+
+        return (R) mapping.apply(conceptInput);
+    }
 }

@@ -8,6 +8,8 @@ public abstract class Service<T, R> extends Concept<T, R> {
     @Override
     public R apply(ConceptInput<? extends Manager, T> serviceInput) {
 
+        Object obj = serviceInput.convert();
+
         // check input
         checkInput(serviceInput);
 
@@ -18,7 +20,7 @@ public abstract class Service<T, R> extends Concept<T, R> {
 
         ServiceContext<?> ctx = serviceInput.getContext();
         Concept<T, ?> startConcept = startConceptConfig.getConcept();
-        T startConceptInputValue = serviceInput.getValue();
+        T startConceptInputValue = (T)obj;
 
         ConceptInput<?, T> startConceptInput = new ConceptInput<>(ctx, startConceptConfig, startConceptInputValue);
         return handleResult(execute0(startConcept, startConceptInput));
