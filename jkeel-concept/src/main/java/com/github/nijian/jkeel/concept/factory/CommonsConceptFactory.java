@@ -1,13 +1,12 @@
 package com.github.nijian.jkeel.concept.factory;
 
-import com.github.nijian.jkeel.concept.ManagedConcept;
 import com.github.nijian.jkeel.concept.Manager;
 import com.github.nijian.jkeel.concept.spi.ConceptFactory;
 
 public final class CommonsConceptFactory implements ConceptFactory {
 
     @Override
-    public <M extends Manager, C extends ManagedConcept> C getConcept(M manager, String conceptClassName, Class<C> conceptType) {
+    public <M extends Manager, C extends java.util.function.Function> C getConcept(M manager, String conceptClassName, Class<C> conceptType) {
 
         C concept = null;
 

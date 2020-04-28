@@ -1,6 +1,7 @@
 package com.github.nijian.jkeel.concept;
 
-public interface ContextAware {
+public class Cache {
+
 
 
 }

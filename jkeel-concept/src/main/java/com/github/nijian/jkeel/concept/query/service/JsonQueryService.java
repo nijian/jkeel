@@ -4,7 +4,7 @@ import com.github.nijian.jkeel.commons.JsonString;
 import com.github.nijian.jkeel.commons.ObjectHolder;
 import com.github.nijian.jkeel.concept.Manager;
 
-public final class JsonQueryService<M extends Manager> extends QueryService<M, JsonString> {
+public final class JsonQueryService extends QueryService<JsonString> {
 
     @Override
     protected <F> JsonString handleResult(F f) {

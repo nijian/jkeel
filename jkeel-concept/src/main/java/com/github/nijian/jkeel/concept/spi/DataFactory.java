@@ -1,9 +1,9 @@
 package com.github.nijian.jkeel.concept.spi;
 
-import com.github.nijian.jkeel.concept.Data;
+import com.github.nijian.jkeel.concept.DataAccessor;
 
 public interface DataFactory {
 
-    Data getData(String daoName);
+    DataAccessor getData(String daoName);
 
 }

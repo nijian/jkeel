@@ -1,12 +1,10 @@
 package com.github.nijian.jkeel.concept.paas;
 
-import com.github.nijian.jkeel.concept.UserGroup;
-import com.github.nijian.jkeel.concept.config.ServicesConfig;
+import com.github.nijian.jkeel.concept.Org;
 
-public class Tenant extends UserGroup {
+public class Tenant extends Org {
 
-    @Override
-    public ServicesConfig getServicesConfig() {
-        return null;
+    public Tenant(String id) {
+        super(id);
     }
 }

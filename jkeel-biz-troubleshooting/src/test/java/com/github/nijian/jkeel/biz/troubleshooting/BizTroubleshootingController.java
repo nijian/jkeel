@@ -1,10 +1,9 @@
 package com.github.nijian.jkeel.biz.troubleshooting;
 
-import com.github.nijian.jkeel.concept.Context;
-import com.github.nijian.jkeel.concept.ContextAware;
-import com.github.nijian.jkeel.concept.Role;
+import com.github.nijian.jkeel.concept.ServiceContext;
 import com.github.nijian.jkeel.concept.User;
 import com.github.nijian.jkeel.concept.json.JsonAppender;
+import com.github.nijian.jkeel.concept.paas.Tenant;
 import com.github.nijian.jkeel.spring.SpringManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,11 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collection;
-
 @RestController
 @ComponentScan(basePackages = "com.github.nijian.jkeel.spring")
-public class BizTroubleshootingController implements ContextAware {
+public class BizTroubleshootingController {
 
     @Autowired
     SpringManager manager;
@@ -34,15 +31,11 @@ public class BizTroubleshootingController implements ContextAware {
     @GetMapping("/initQueryContracts")
     public String initQueryContracts(@RequestParam(value = "name", defaultValue = "World") String request) {
 
-        User user = new User() {
-            @Override
-            public Collection<Role> getRoles() {
-                return null;
-            }
-        };
+        //user can be cached
+        User<Tenant> user = new User("123");
 
-        Context<SpringManager> ctx = new Context<>(manager, user);
-        JsonAppender<SpringManager> response = new JsonAppender<>(ctx);
+        ServiceContext<SpringManager, Tenant> ctx = new ServiceContext<>(manager, user);
+        JsonAppender<SpringManager, Tenant> response = new JsonAppender<>(ctx);
         response.appendBy("initQueryContracts@JSON", request);
         return response.toString();
     }

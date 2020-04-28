@@ -12,4 +12,5 @@ public class MappingConfig extends ConfigItem<Mapping> {
     public Mapping getConcept() {
         return null;
     }
+
 }

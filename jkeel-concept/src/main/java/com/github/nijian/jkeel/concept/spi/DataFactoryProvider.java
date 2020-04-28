@@ -1,6 +1,6 @@
 package com.github.nijian.jkeel.concept.spi;
 
-import com.github.nijian.jkeel.concept.Data;
+import com.github.nijian.jkeel.concept.DataAccessor;
 
 import java.util.Iterator;
 import java.util.ServiceLoader;
@@ -28,18 +28,18 @@ public class DataFactoryProvider {
         }
     }
 
-    public Data getData(String name) {
+    public DataAccessor getData(String name) {
 
-        Data data = null;
+        DataAccessor dataAccessor = null;
         Iterator<DataFactory> factories = loader.iterator();
-        while (data == null && factories.hasNext()) {
+        while (dataAccessor == null && factories.hasNext()) {
             DataFactory factory = factories.next();
-            data = factory.getData(name);
+            dataAccessor = factory.getData(name);
         }
 
-        if(data==null){
+        if(dataAccessor ==null){
             throw new RuntimeException("Dao Not Found");
         }
-        return data;
+        return dataAccessor;
     }
 }

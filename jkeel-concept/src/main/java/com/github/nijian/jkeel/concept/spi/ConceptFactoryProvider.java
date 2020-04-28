@@ -1,6 +1,5 @@
 package com.github.nijian.jkeel.concept.spi;
 
-import com.github.nijian.jkeel.concept.ManagedConcept;
 import com.github.nijian.jkeel.concept.Manager;
 
 import java.util.Iterator;
@@ -30,7 +29,7 @@ public class ConceptFactoryProvider {
     }
 
 
-    public <M extends Manager, C extends ManagedConcept> C getConcept(M manager, String conceptClassName, Class<C> conceptType) {
+    public <M extends Manager, C extends java.util.function.Function> C getConcept(M manager, String conceptClassName, Class<C> conceptType) {
 
         C concept = null;
         Iterator<ConceptFactory> factories = loader.iterator();

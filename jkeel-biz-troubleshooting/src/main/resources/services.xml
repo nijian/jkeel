@@ -4,11 +4,11 @@
             <entryName>initQueryContracts@JSON</entryName>
             <name>JSON</name>
             <link>
-                <data>
+                <dataAccessor>
                     <entryName>Get Contracts Data@SPRING_DATA_QUERY_LIST</entryName>
                     <name>SPRING_DATA_QUERY_LIST</name>
                     <query>select count(1) from abc</query>
-                </data>
+                </dataAccessor>
             </link>
         </service>
     </services>

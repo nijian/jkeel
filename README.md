@@ -6,7 +6,7 @@ main components include the following:
 + algorithms
 + report
 + search
-+ data mapper
++ dataAccessor mapper
 + etc.
 
 ## Why jkeel

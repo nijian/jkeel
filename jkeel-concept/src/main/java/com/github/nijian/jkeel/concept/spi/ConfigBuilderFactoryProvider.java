@@ -1,9 +1,7 @@
 package com.github.nijian.jkeel.concept.spi;
 
 import com.github.nijian.jkeel.concept.ConfigBuilder;
-import com.github.nijian.jkeel.concept.Context;
 
-import java.util.Iterator;
 import java.util.ServiceLoader;
 
 public class ConfigBuilderFactoryProvider {
@@ -31,7 +29,7 @@ public class ConfigBuilderFactoryProvider {
 
     public ConfigBuilder getConfigBuilder(String name) {
 
-//        Context ctx = Context.getInstance();
+//        ServiceContext ctx = ServiceContext.getInstance();
 //        ConfigBuilder configBuilder = ctx.getConfigBuilder(name);
 //
 //        if (configBuilder == null) {
@@ -46,7 +44,7 @@ public class ConfigBuilderFactoryProvider {
 //            }
 //
 //            //register config builder
-//            Context.getInstance().putConfigBuilder(name, configBuilder);
+//            ServiceContext.getInstance().putConfigBuilder(name, configBuilder);
 //        }
 
         return null;

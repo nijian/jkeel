@@ -4,7 +4,7 @@ import com.github.nijian.jkeel.concept.config.Link;
 
 import javax.xml.bind.annotation.XmlElement;
 
-public abstract class ConfigItem<C extends ManagedConcept> {
+public abstract class ConfigItem<C extends Concept> {
 
     protected String entryName;
 

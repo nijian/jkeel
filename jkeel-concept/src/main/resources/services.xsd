@@ -15,7 +15,7 @@
         <xs:choice>
             <xs:element ref="service"/>
             <xs:element ref="action"/>
-            <xs:element ref="data"/>
+            <xs:element ref="dataAccessor"/>
         </xs:choice>
     </xs:complexType>
 
@@ -67,6 +67,6 @@
     </xs:element>
     <xs:element name="service" type="ServiceConfigType"/>
     <xs:element name="action" type="ActionConfigType"/>
-    <xs:element name="data" type="DataConfigType"/>
+    <xs:element name="dataAccessor" type="DataConfigType"/>
 
 </xs:schema>

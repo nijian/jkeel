@@ -1,6 +1,5 @@
 package com.github.nijian.jkeel.concept.spi;
 
-import com.github.nijian.jkeel.concept.Manager;
 import com.github.nijian.jkeel.concept.Service;
 
 import java.util.Iterator;
@@ -30,9 +29,9 @@ public class ServiceFactoryProvider {
     }
 
 
-    public Service<? extends Manager, ?, ?> getService(String name) {
+    public Service<?, ?> getService(String name) {
 
-        Service<? extends Manager, ?, ?> service = null;
+        Service<?, ?> service = null;
         Iterator<ServiceFactory> factories = loader.iterator();
         while (service == null && factories.hasNext()) {
             ServiceFactory factory = factories.next();

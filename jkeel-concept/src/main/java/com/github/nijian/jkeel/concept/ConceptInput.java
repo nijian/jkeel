@@ -1,29 +1,19 @@
 package com.github.nijian.jkeel.concept;
 
-public class ConceptInput<M extends Manager, T> {
+public class ConceptInput<M extends Manager, V> {
 
-    private M manager;
-
-    private User user;
+    private ServiceContext<M, ?> ctx;
 
     private ConfigItem<?> configItem;
 
-    private T value;
+    private V value;
 
-    public M getManager() {
-        return manager;
+    public ConceptInput(ServiceContext<M, ?> ctx) {
+        this.ctx = ctx;
     }
 
-    public void setManager(M manager) {
-        this.manager = manager;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
+    public ServiceContext<M, ?> getContext() {
+        return ctx;
     }
 
     public ConfigItem<?> getConfigItem() {
@@ -34,11 +24,11 @@ public class ConceptInput<M extends Manager, T> {
         this.configItem = configItem;
     }
 
-    public T getValue() {
+    public V getValue() {
         return value;
     }
 
-    public void setValue(T value) {
+    public void setValue(V value) {
         this.value = value;
     }
 }

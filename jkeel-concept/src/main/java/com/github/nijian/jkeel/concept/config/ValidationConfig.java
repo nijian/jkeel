@@ -12,4 +12,5 @@ public class ValidationConfig extends ConfigItem<Validation> {
     public Validation getConcept() {
         return null;
     }
+
 }
