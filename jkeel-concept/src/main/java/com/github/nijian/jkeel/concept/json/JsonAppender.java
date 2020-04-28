@@ -30,8 +30,7 @@ public final class JsonAppender<M extends Manager, T extends Org> {
         Service<String, JsonString> service = (Service<String, JsonString>) serviceConfig.getConcept();
 
         //prepare input
-        ConceptInput<M, String> serviceInput = new ConceptInput<>(serviceContext);
-        serviceInput.setConfigItem(serviceConfig);
+        ConceptInput<M, String> serviceInput = new ConceptInput<>(serviceContext, serviceConfig);
         //do mapping
         serviceInput.setValue(inputValue);
 

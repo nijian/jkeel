@@ -20,8 +20,7 @@ public abstract class Service<T, R> extends Concept<T, R> {
         Concept<T, ?> startConcept = startConceptConfig.getConcept();
         T startConceptInputValue = serviceInput.getValue();
 
-        ConceptInput<?, T> startConceptInput = new ConceptInput<>(ctx);
-        startConceptInput.setConfigItem(startConceptConfig);
+        ConceptInput<?, T> startConceptInput = new ConceptInput<>(ctx, startConceptConfig);
         startConceptInput.setValue(startConceptInputValue);
 
         return handleResult(execute0(startConcept, startConceptInput));
@@ -40,8 +39,7 @@ public abstract class Service<T, R> extends Concept<T, R> {
         ServiceContext<?, ?> ctx = input.getContext();
         Concept<Rx, ?> nextConcept = nextConceptConfig.getConcept();
 
-        ConceptInput<?, Rx> nextConceptInput = new ConceptInput<>(ctx);
-        nextConceptInput.setConfigItem(nextConceptConfig);
+        ConceptInput<?, Rx> nextConceptInput = new ConceptInput<>(ctx, nextConceptConfig);
         nextConceptInput.setValue(rx);
 
         return (Rx) execute0(nextConcept, nextConceptInput);

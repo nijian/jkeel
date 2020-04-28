@@ -1,15 +1,16 @@
 package com.github.nijian.jkeel.concept;
 
-public class ConceptInput<M extends Manager, V> {
+public final class ConceptInput<M extends Manager, V> {
 
-    private ServiceContext<M, ?> ctx;
+    private final ServiceContext<M, ?> ctx;
 
-    private ConfigItem<?> configItem;
+    private final ConfigItem<?> configItem;
 
     private V value;
 
-    public ConceptInput(ServiceContext<M, ?> ctx) {
+    public ConceptInput(ServiceContext<M, ?> ctx, ConfigItem<?> configItem) {
         this.ctx = ctx;
+        this.configItem = configItem;
     }
 
     public ServiceContext<M, ?> getContext() {
@@ -20,15 +21,12 @@ public class ConceptInput<M extends Manager, V> {
         return configItem;
     }
 
-    public void setConfigItem(ConfigItem<?> configItem) {
-        this.configItem = configItem;
-    }
-
     public V getValue() {
         return value;
     }
 
     public void setValue(V value) {
+        //check value, validation
         this.value = value;
     }
 }

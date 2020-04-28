@@ -4,7 +4,7 @@ import com.github.nijian.jkeel.commons.JsonString;
 import com.github.nijian.jkeel.commons.ObjectHolder;
 import com.github.nijian.jkeel.concept.Service;
 
-public class JsonService extends Service<String, JsonString> {
+public final class JsonService extends Service<String, JsonString> {
 
     @Override
     protected <F> JsonString handleResult(F f) {
