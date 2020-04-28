@@ -73,7 +73,7 @@
         <build-helper-maven-plugin.version>3.0.0</build-helper-maven-plugin.version>
         <javax.cache.version>1.1.0</javax.cache.version>
 
-        <jackson.version>2.9.9</jackson.version>
+        <jackson.version>2.11.0</jackson.version>
         <org.ehcache.version>3.7.0</org.ehcache.version>
         <org.apache.commons.lang3.version>3.8.1</org.apache.commons.lang3.version>
         <org.apache.commons.pool.version>2.4.2</org.apache.commons.pool.version>
