@@ -7,7 +7,7 @@ import java.io.File;
 import java.util.Collection;
 
 //might be cached
-public class User<T extends Org> {
+public class User {
 
     private SysCache sysCache = SysCache.getInstance();
 
@@ -19,7 +19,7 @@ public class User<T extends Org> {
         this.orgId = orgId;
     }
 
-    public T getOrg() {
+    public Org getOrg() {
         Org org = sysCache.getOrg(orgId);
         if (org == null) {
             //get org from cache first
@@ -39,7 +39,7 @@ public class User<T extends Org> {
             org.setConfig(c);
             sysCache.putOrg(orgId, org);
         }
-        return (T) org;
+        return org;
     }
 
     public Collection<Role> getRoles() {

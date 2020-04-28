@@ -24,5 +24,5 @@ public abstract class AbstractQuery extends DataAccessor< Query, QueryResult> {
         return execute(queryConceptInput.getContext(), queryResult, query.getSelect(), args);
     }
 
-    protected abstract QueryResult execute(ServiceContext<?, ?> serviceContext, QueryResult queryResult, String queryDsl, Object[] args);
+    protected abstract QueryResult execute(ServiceContext<?> serviceContext, QueryResult queryResult, String queryDsl, Object[] args);
 }

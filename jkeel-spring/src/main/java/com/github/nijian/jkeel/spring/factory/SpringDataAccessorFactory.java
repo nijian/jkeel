@@ -1,14 +1,13 @@
 package com.github.nijian.jkeel.spring.factory;
 
 import com.github.nijian.jkeel.concept.DataAccessor;
-import com.github.nijian.jkeel.concept.spi.DataFactory;
-import com.github.nijian.jkeel.spring.data.sql.SpringDataCount;
+import com.github.nijian.jkeel.concept.spi.DataAccessorFactory;
 import com.github.nijian.jkeel.spring.data.sql.SpringDataQueryForList;
 
-public class SpringDataFactory implements DataFactory {
+public class SpringDataAccessorFactory implements DataAccessorFactory {
 
     @Override
-    public DataAccessor getData(String dataName) {
+    public DataAccessor getDataAccessor(String dataName) {
 
         if (dataName.equals("SPRING_DATA_COUNT")) {
             return null;//new SpringDataCount();

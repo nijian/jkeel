@@ -9,7 +9,7 @@ public abstract class SpringDataCount extends Count {
 
 
     @Override
-    protected QueryResult execute(ServiceContext<?, ?> serviceContext, QueryResult queryResult, String queryDsl, Object[] args) {
+    protected QueryResult execute(ServiceContext<?> serviceContext, QueryResult queryResult, String queryDsl, Object[] args) {
         SpringManager springManager = (SpringManager) serviceContext.getManager();
         Long count = springManager.getJdbcTemplate().queryForObject("select count(1) from abc", null, Long.class);
         queryResult.setCount(count);

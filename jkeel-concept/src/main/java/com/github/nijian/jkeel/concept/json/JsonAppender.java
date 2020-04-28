@@ -3,39 +3,37 @@ package com.github.nijian.jkeel.concept.json;
 
 import com.github.nijian.jkeel.commons.JsonString;
 import com.github.nijian.jkeel.commons.JsonUtil;
-import com.github.nijian.jkeel.concept.*;
+import com.github.nijian.jkeel.concept.ConceptInput;
+import com.github.nijian.jkeel.concept.Service;
+import com.github.nijian.jkeel.concept.ServiceContext;
 import com.github.nijian.jkeel.concept.config.ServiceConfig;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public final class JsonAppender<M extends Manager, T extends Org> {
+public final class JsonAppender {
 
-    private final ServiceContext<M, T> serviceContext;
+    private final ServiceContext<?> serviceContext;
 
     private final Map<String, Object> localJsonMap;
 
-    public JsonAppender(ServiceContext<M, T> serviceContext) {
+    public JsonAppender(ServiceContext<?> serviceContext) {
         this.serviceContext = serviceContext;
         this.localJsonMap = new HashMap<>();
     }
 
     public void appendBy(String serviceEntryName, String inputValue) {
 
-        Entry entry = Entry.parse(serviceEntryName);
-        String serviceName = entry.getConceptName();
-        String configName = entry.getConfigName();
-
         ServiceConfig serviceConfig = serviceContext.getServiceConfig(serviceEntryName);
         Service<String, JsonString> service = (Service<String, JsonString>) serviceConfig.getConcept();
 
         //prepare input
-        ConceptInput<M, String> serviceInput = new ConceptInput<>(serviceContext, serviceConfig);
+        ConceptInput<?, String> serviceInput = new ConceptInput<>(serviceContext, serviceConfig);
         //do mapping
         serviceInput.setValue(inputValue);
 
         JsonString jsonResult = service.apply(serviceInput);
-        localJsonMap.put(configName == null ? serviceName : configName, jsonResult);
+        localJsonMap.put(serviceEntryName, jsonResult);
     }
 
     @Override

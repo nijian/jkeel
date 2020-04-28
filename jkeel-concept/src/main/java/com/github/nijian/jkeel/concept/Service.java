@@ -16,7 +16,7 @@ public abstract class Service<T, R> extends Concept<T, R> {
             throw new RuntimeException("Service is not configured correctly");
         }
 
-        ServiceContext<?, ?> ctx = serviceInput.getContext();
+        ServiceContext<?> ctx = serviceInput.getContext();
         Concept<T, ?> startConcept = startConceptConfig.getConcept();
         T startConceptInputValue = serviceInput.getValue();
 
@@ -36,7 +36,7 @@ public abstract class Service<T, R> extends Concept<T, R> {
             return rx;
         }
 
-        ServiceContext<?, ?> ctx = input.getContext();
+        ServiceContext<?> ctx = input.getContext();
         Concept<Rx, ?> nextConcept = nextConceptConfig.getConcept();
 
         ConceptInput<?, Rx> nextConceptInput = new ConceptInput<>(ctx, nextConceptConfig);

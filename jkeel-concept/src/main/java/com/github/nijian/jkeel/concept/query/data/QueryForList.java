@@ -27,7 +27,7 @@ public abstract class QueryForList extends AbstractQuery {
         return queryResult;
     }
 
-    protected QueryResult appendCount(ServiceContext<?, ?> serviceContext, QueryResult queryResult, String queryDsl, Object[] args) {
+    protected QueryResult appendCount(ServiceContext<?> serviceContext, QueryResult queryResult, String queryDsl, Object[] args) {
         throw new RuntimeException("xxxx");
     }
 }

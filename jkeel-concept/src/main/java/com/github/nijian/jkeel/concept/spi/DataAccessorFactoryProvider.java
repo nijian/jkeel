@@ -5,24 +5,24 @@ import com.github.nijian.jkeel.concept.DataAccessor;
 import java.util.Iterator;
 import java.util.ServiceLoader;
 
-public class DataFactoryProvider {
+public class DataAccessorFactoryProvider {
 
-    private static DataFactoryProvider provider;
+    private static DataAccessorFactoryProvider provider;
 
-    private ServiceLoader<DataFactory> loader;
+    private ServiceLoader<DataAccessorFactory> loader;
 
-    private DataFactoryProvider() {
-        loader = ServiceLoader.load(DataFactory.class);
+    private DataAccessorFactoryProvider() {
+        loader = ServiceLoader.load(DataAccessorFactory.class);
     }
 
-    public static DataFactoryProvider getInstance() {
+    public static DataAccessorFactoryProvider getInstance() {
         if (provider != null) {
             return provider;
         }
 
-        synchronized (DataFactoryProvider.class) {
+        synchronized (DataAccessorFactoryProvider.class) {
             if (provider == null) {
-                provider = new DataFactoryProvider();
+                provider = new DataAccessorFactoryProvider();
             }
             return provider;
         }
@@ -31,10 +31,10 @@ public class DataFactoryProvider {
     public DataAccessor getData(String name) {
 
         DataAccessor dataAccessor = null;
-        Iterator<DataFactory> factories = loader.iterator();
+        Iterator<DataAccessorFactory> factories = loader.iterator();
         while (dataAccessor == null && factories.hasNext()) {
-            DataFactory factory = factories.next();
-            dataAccessor = factory.getData(name);
+            DataAccessorFactory factory = factories.next();
+            dataAccessor = factory.getDataAccessor(name);
         }
 
         if(dataAccessor ==null){

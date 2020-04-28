@@ -10,7 +10,7 @@ import java.util.List;
 public class SpringDataQueryForList extends QueryForList {
 
     @Override
-    protected QueryResult execute(ServiceContext<?, ?> serviceContext, QueryResult queryResult,
+    protected QueryResult execute(ServiceContext<?> serviceContext, QueryResult queryResult,
                                   String queryDsl, Object[] args) {
 
         SpringManager manager = (SpringManager) serviceContext.getManager();
@@ -21,7 +21,7 @@ public class SpringDataQueryForList extends QueryForList {
     }
 
     @Override
-    protected QueryResult appendCount(ServiceContext<?, ?> serviceContext, QueryResult queryResult,
+    protected QueryResult appendCount(ServiceContext<?> serviceContext, QueryResult queryResult,
                                       String queryDsl, Object[] args) {
         SpringManager manager = (SpringManager) serviceContext.getManager();
         Long count = manager.getJdbcTemplate().queryForObject("select count(1) from abc", Long.class);

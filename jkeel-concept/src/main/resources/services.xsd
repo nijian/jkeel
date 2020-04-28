@@ -39,8 +39,7 @@
         </xs:complexContent>
     </xs:complexType>
 
-
-    <xs:complexType name="DataConfigType">
+    <xs:complexType name="DataAccessorConfigType">
         <xs:complexContent>
             <xs:extension base="ConfigItemType">
                 <xs:sequence>
@@ -67,6 +66,6 @@
     </xs:element>
     <xs:element name="service" type="ServiceConfigType"/>
     <xs:element name="action" type="ActionConfigType"/>
-    <xs:element name="dataAccessor" type="DataConfigType"/>
+    <xs:element name="dataAccessor" type="DataAccessorConfigType"/>
 
 </xs:schema>

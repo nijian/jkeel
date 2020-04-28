@@ -3,7 +3,6 @@ package com.github.nijian.jkeel.biz.troubleshooting;
 import com.github.nijian.jkeel.concept.ServiceContext;
 import com.github.nijian.jkeel.concept.User;
 import com.github.nijian.jkeel.concept.json.JsonAppender;
-import com.github.nijian.jkeel.concept.paas.Tenant;
 import com.github.nijian.jkeel.spring.SpringManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,10 +31,10 @@ public class BizTroubleshootingController {
     public String initQueryContracts(@RequestParam(value = "name", defaultValue = "World") String request) {
 
         //user can be cached
-        User<Tenant> user = new User("abc");
+        User user = new User("abc");
 
-        ServiceContext<SpringManager, Tenant> ctx = new ServiceContext<>(manager, user);
-        JsonAppender<SpringManager, Tenant> response = new JsonAppender<>(ctx);
+        ServiceContext<SpringManager> ctx = new ServiceContext<>(manager, user);
+        JsonAppender response = new JsonAppender(ctx);
         response.appendBy("initQueryContracts@JSON", request);
         return response.toString();
     }
