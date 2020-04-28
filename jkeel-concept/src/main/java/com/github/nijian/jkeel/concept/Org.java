@@ -7,6 +7,8 @@ public class Org {
 
     protected String id;
 
+    protected Cache cache; //org cache
+
     protected Config config;
 
     protected List<Role> roleList;

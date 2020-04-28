@@ -32,7 +32,7 @@ public class BizTroubleshootingController {
     public String initQueryContracts(@RequestParam(value = "name", defaultValue = "World") String request) {
 
         //user can be cached
-        User<Tenant> user = new User("123");
+        User<Tenant> user = new User("abc");
 
         ServiceContext<SpringManager, Tenant> ctx = new ServiceContext<>(manager, user);
         JsonAppender<SpringManager, Tenant> response = new JsonAppender<>(ctx);

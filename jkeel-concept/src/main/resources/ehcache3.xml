@@ -1,0 +1,114 @@
+<ehcache:config
+        xmlns:ehcache="http://www.ehcache.org/v3"
+        >
+
+    <!--
+      OPTIONAL
+       services to be managed and lifecycled by the CacheManager
+    -->
+    <!--<ehcache:service>-->
+        <!--&lt;!&ndash;-->
+          <!--One element in another namespace, using our JSR-107 extension as an example here-->
+        <!--&ndash;&gt;-->
+        <!--<jcache:defaults>-->
+            <!--<jcache:cache name="invoices" template="myDefaultTemplate"/>-->
+        <!--</jcache:defaults>-->
+    <!--</ehcache:service>-->
+
+    <!--
+      OPTIONAL
+        A <cache> element defines a cache, identified by the mandatory 'alias' attribute, to be managed by the CacheManager
+    -->
+    <!--<ehcache:cache alias="productCache">-->
+
+        <!--&lt;!&ndash;-->
+          <!--OPTIONAL, defaults to java.lang.Object-->
+            <!--The FQCN of the type of keys K we'll use with the Cache<K, V>-->
+        <!--&ndash;&gt;-->
+        <!--<ehcache:key-type copier="org.ehcache.impl.copy.SerializingCopier">java.lang.Long</ehcache:key-type>-->
+
+        <!--&lt;!&ndash;-->
+          <!--OPTIONAL, defaults to java.lang.Object-->
+            <!--The FQCN of the type of values V we'll use with the Cache<K, V>-->
+        <!--&ndash;&gt;-->
+        <!--<ehcache:value-type copier="org.ehcache.impl.copy.SerializingCopier">com.pany.domain.Product</ehcache:value-type>-->
+
+        <!--&lt;!&ndash;-->
+          <!--OPTIONAL, defaults to no expiry-->
+            <!--Entries to the Cache can be made to expire after a given time-->
+        <!--&ndash;&gt;-->
+        <!--<ehcache:expiry>-->
+            <!--&lt;!&ndash;-->
+              <!--time to idle, the maximum time for an entry to remain untouched-->
+                <!--Entries to the Cache can be made to expire after a given time-->
+                <!--other options are:-->
+                   <!--* <ttl>, time to live;-->
+                   <!--* <class>, for a custom Expiry implementation; or-->
+                   <!--* <none>, for no expiry-->
+            <!--&ndash;&gt;-->
+            <!--<ehcache:tti unit="minutes">2</ehcache:tti>-->
+        <!--</ehcache:expiry>-->
+
+        <!--&lt;!&ndash;-->
+          <!--OPTIONAL, defaults to no advice-->
+            <!--An eviction advisor, which lets you control what entries should only get evicted as last resort-->
+            <!--FQCN of a org.ehcache.config.EvictionAdvisor implementation-->
+        <!--&ndash;&gt;-->
+        <!--&lt;!&ndash;<ehcache:eviction-advisor>com.pany.ehcache.MyEvictionAdvisor</ehcache:eviction-advisor>&ndash;&gt;-->
+
+        <!--&lt;!&ndash;-->
+          <!--OPTIONAL,-->
+            <!--Let's you configure your cache as a "cache-through",-->
+            <!--i.e. a Cache that uses a CacheLoaderWriter to load on misses, and write on mutative operations.-->
+        <!--&ndash;&gt;-->
+        <!--&lt;!&ndash;<ehcache:loader-writer>&ndash;&gt;-->
+            <!--&lt;!&ndash;&lt;!&ndash;&ndash;&gt;-->
+                <!--&lt;!&ndash;The FQCN implementing org.ehcache.spi.loaderwriter.CacheLoaderWriter&ndash;&gt;-->
+            <!--&lt;!&ndash;&ndash;&gt;&ndash;&gt;-->
+            <!--&lt;!&ndash;<ehcache:class>com.pany.ehcache.integration.ProductCacheLoaderWriter</ehcache:class>&ndash;&gt;-->
+            <!--&lt;!&ndash;&lt;!&ndash; Any further elements in another namespace &ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;</ehcache:loader-writer>&ndash;&gt;-->
+
+        <!--&lt;!&ndash;-->
+            <!--The maximal number of entries to be held in the Cache, prior to eviction starting-->
+        <!--&ndash;&gt;-->
+        <!--<ehcache:heap unit="entries">200</ehcache:heap>-->
+
+        <!--&lt;!&ndash;-->
+           <!--OPTIONAL-->
+            <!--Any further elements in another namespace-->
+        <!--&ndash;&gt;-->
+    <!--</ehcache:cache>-->
+
+    <!--
+      OPTIONAL
+        A <cache-template> defines a named template that can be used be <cache> definitions in this same file
+        They have all the same property as the <cache> elements above
+    -->
+    <ehcache:cache-template name="myDefaultTemplate">
+        <ehcache:expiry>
+            <ehcache:none/>
+        </ehcache:expiry>
+        <!--
+           OPTIONAL
+            Any further elements in another namespace
+        -->
+    </ehcache:cache-template>
+
+    <!--
+      A <cache> that uses the template above by referencing the cache-template's name in the uses-template attribute:
+    -->
+    <ehcache:cache alias="ORG" uses-template="myDefaultTemplate">
+        <!--
+          Adds the key and value type configuration
+        -->
+        <ehcache:key-type>java.lang.String</ehcache:key-type>
+        <ehcache:value-type>com.github.nijian.jkeel.concept.Org</ehcache:value-type>
+
+        <!--
+          Overwrites the capacity limit set by the template to a new value
+        -->
+        <ehcache:heap unit="entries">200</ehcache:heap>
+    </ehcache:cache>
+
+</ehcache:config>
