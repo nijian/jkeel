@@ -6,10 +6,10 @@ import com.github.nijian.jkeel.concept.ConfigItem;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlType(name = "action")
-public class ActionConfig extends ConfigItem<Action> {
+public class ActionConfig extends ConfigItem<Action<?>> {
 
     @Override
-    public Action getConcept() {
+    public Action<?> getConcept() {
         return null;
     }
 

@@ -39,7 +39,7 @@ public class ConceptFactoryProvider {
         }
 
         if (concept == null) {
-            throw new RuntimeException("Concept Not Found");
+            throw new RuntimeException("Behavior Not Found");
         }
         return concept;
     }

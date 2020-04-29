@@ -3,15 +3,12 @@ package com.github.nijian.jkeel.concept;
 
 import com.github.nijian.jkeel.concept.config.Link;
 
-public abstract class Service<T, R> extends Concept<T, R> {
+public abstract class Service<R> extends Behavior<R> {
 
     @Override
-    public R apply(ConceptInput<? extends Manager, T> serviceInput) {
+    public R apply(BehaviorInput serviceInput) {
 
-        Object obj = serviceInput.convert();
-
-        // check input
-        checkInput(serviceInput);
+        Object convertedObject = serviceInput.convert();
 
         ConfigItem<?> startConceptConfig = getNextConceptConfig(serviceInput);
         if (startConceptConfig == null) {
@@ -19,38 +16,35 @@ public abstract class Service<T, R> extends Concept<T, R> {
         }
 
         ServiceContext<?> ctx = serviceInput.getContext();
-        Concept<T, ?> startConcept = startConceptConfig.getConcept();
-        T startConceptInputValue = (T)obj;
+        Behavior<?> startBehavior = startConceptConfig.getConcept();
+        BehaviorInput startBehaviorInput = new BehaviorInput(ctx, startConceptConfig, convertedObject);
 
-        ConceptInput<?, T> startConceptInput = new ConceptInput<>(ctx, startConceptConfig, startConceptInputValue);
-        return handleResult(execute0(startConcept, startConceptInput));
-
+        return handleResult(execute0(startBehavior, startBehaviorInput));
     }
 
-    private <Vx, Rx> Rx execute0(Concept<Vx, Rx> concept, ConceptInput<?, Vx> input) {
+    private Object execute0(Behavior<?> behavior, BehaviorInput input) {
 
-        Rx rx = concept.apply(input);
+        Object conceptOutput = behavior.apply(input);
 
         ConfigItem<?> nextConceptConfig = getNextConceptConfig(input);
         if (nextConceptConfig == null) {
-            return rx;
+            return conceptOutput;
         }
 
         ServiceContext<?> ctx = input.getContext();
-        Concept<Rx, ?> nextConcept = nextConceptConfig.getConcept();
+        Behavior<?> nextBehavior = nextConceptConfig.getConcept();
+        BehaviorInput nextBehaviorInput = new BehaviorInput(ctx, nextConceptConfig, conceptOutput);
 
-        ConceptInput<?, Rx> nextConceptInput = new ConceptInput<>(ctx, nextConceptConfig, rx);
-
-        return (Rx) execute0(nextConcept, nextConceptInput);
+        return execute0(nextBehavior, nextBehaviorInput);
     }
 
-    protected void checkInput(ConceptInput<?, T> serviceInput) {
+    protected void checkInput(BehaviorInput serviceInput) {
 
     }
 
     protected abstract <F> R handleResult(F f);
 
-    private ConfigItem<?> getNextConceptConfig(ConceptInput<?, ?> input) {
+    private ConfigItem<?> getNextConceptConfig(BehaviorInput input) {
 
         ConfigItem<?> currentConceptConfig = input.getConfigItem();
         Link currentConceptLink = currentConceptConfig.getLink();

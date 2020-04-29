@@ -7,7 +7,7 @@ import com.github.nijian.jkeel.concept.spi.DataAccessorFactoryProvider;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlType(name = "dataAccessor")
-public class DataAccessorConfig extends ConfigItem<DataAccessor> {
+public class DataAccessorConfig extends ConfigItem<DataAccessor<?>> {
 
     private String query;
 
@@ -20,8 +20,7 @@ public class DataAccessorConfig extends ConfigItem<DataAccessor> {
     }
 
     @Override
-    public DataAccessor getConcept() {
+    public DataAccessor<?> getConcept() {
         return DataAccessorFactoryProvider.getInstance().getData(getName());
     }
-
 }

@@ -1,5 +1,5 @@
 package com.github.nijian.jkeel.concept;
 
-public abstract class Action<T, R> extends Concept<T, R> {
+public abstract class Action<R> extends Behavior<R> {
 
 }

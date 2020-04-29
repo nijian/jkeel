@@ -1,6 +1,9 @@
 package com.github.nijian.jkeel.concept;
 
-public abstract class Mapping<T, R> extends Concept<T, R> {
+public class Mapping<R> extends Behavior<R> {
 
-
+    @Override
+    public R apply(BehaviorInput tBehaviorInput) {
+        return null;
+    }
 }

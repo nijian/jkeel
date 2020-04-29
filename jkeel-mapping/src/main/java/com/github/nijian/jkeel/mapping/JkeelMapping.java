@@ -1,25 +1,13 @@
 package com.github.nijian.jkeel.mapping;
 
-import com.github.nijian.jkeel.concept.ConceptInput;
+import com.github.nijian.jkeel.concept.BehaviorInput;
 import com.github.nijian.jkeel.concept.Mapping;
 
-public class JkeelMapping<T, R> extends Mapping<T, R> {
+public class JkeelMapping<T, R> extends Mapping<R> {
 
     @Override
-    public Class<T> getInputType() {
-        //dynamic
-        return null;
-    }
-
-    @Override
-    public Class<R> getReturnType() {
-        //dynamic
-        return null;
-    }
-
-    @Override
-    public R apply(ConceptInput<?, T> mappingConfigTConceptInput) {
-        return (R) mappingConfigTConceptInput.getValue();
+    public R apply(BehaviorInput mappingConfigTBehaviorInput) {
+        return (R) mappingConfigTBehaviorInput.getValue();
     }
 
 }

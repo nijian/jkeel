@@ -1,7 +1,6 @@
 package com.github.nijian.jkeel.commons.query.data;
 
-import com.github.nijian.jkeel.concept.ConceptInput;
-import com.github.nijian.jkeel.concept.Manager;
+import com.github.nijian.jkeel.concept.BehaviorInput;
 import com.github.nijian.jkeel.concept.ServiceContext;
 import com.github.nijian.jkeel.commons.query.entity.Query;
 import com.github.nijian.jkeel.commons.query.entity.QueryResult;
@@ -9,11 +8,11 @@ import com.github.nijian.jkeel.commons.query.entity.QueryResult;
 public abstract class QueryForList extends AbstractQuery {
 
     @Override
-    public QueryResult apply(ConceptInput<? extends Manager, Query> queryConceptInput) {
+    public QueryResult apply(BehaviorInput queryBehaviorInput) {
 
-        QueryResult queryResult = super.apply(queryConceptInput);
+        QueryResult queryResult = super.apply(queryBehaviorInput);
 
-        Query query = new Query();//queryConceptInput.getValue();
+        Query query = new Query();//queryBehaviorInput.getValue();
         query.setWithCount(true);
 
         boolean isWithCount = query.isWithCount();
@@ -21,7 +20,7 @@ public abstract class QueryForList extends AbstractQuery {
         Object[] args = null;//query.getQueryFilterList().toArray();
 
         if (isWithCount) {
-            return appendCount(queryConceptInput.getContext(), queryResult, queryDsl, args);
+            return appendCount(queryBehaviorInput.getContext(), queryResult, queryDsl, args);
         }
 
         return queryResult;

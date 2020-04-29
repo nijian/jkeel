@@ -28,9 +28,9 @@ public class MappingFactoryProvider {
         }
     }
 
-    public Mapping getMapping(String name) {
+    public Mapping<?> getMapping(String name) {
 
-        Mapping mapping = null;
+        Mapping<?> mapping = null;
         Iterator<MappingFactory> factories = loader.iterator();
         while (mapping == null && factories.hasNext()) {
             MappingFactory factory = factories.next();

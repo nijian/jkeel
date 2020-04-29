@@ -1,9 +1,8 @@
 package com.github.nijian.jkeel.commons.json;
 
 
-import com.github.nijian.jkeel.commons.JsonString;
 import com.github.nijian.jkeel.commons.JsonUtil;
-import com.github.nijian.jkeel.concept.ConceptInput;
+import com.github.nijian.jkeel.concept.BehaviorInput;
 import com.github.nijian.jkeel.concept.Service;
 import com.github.nijian.jkeel.concept.ServiceContext;
 import com.github.nijian.jkeel.concept.config.ServiceConfig;
@@ -24,10 +23,9 @@ public final class JsonAppender {
 
     public void appendBy(String serviceEntryName, String inputValue) {
         ServiceConfig serviceConfig = ctx.getServiceConfig(serviceEntryName);
-        Service<String, JsonString> service = (Service<String, JsonString>) serviceConfig.getConcept();
-        ConceptInput<?, String> serviceInput = new ConceptInput<>(ctx, serviceConfig, inputValue);
-        JsonString jsonResult = service.apply(serviceInput);
-        localJsonMap.put(serviceEntryName, jsonResult);
+        Service<?> service = serviceConfig.getConcept();
+        BehaviorInput serviceInput = new BehaviorInput(ctx, serviceConfig, inputValue);
+        localJsonMap.put(serviceEntryName, service.apply(serviceInput));
     }
 
     @Override

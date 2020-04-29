@@ -6,7 +6,7 @@ import com.github.nijian.jkeel.concept.config.ValidationConfig;
 
 import javax.xml.bind.annotation.XmlElement;
 
-public abstract class ConfigItem<C extends Concept> {
+public abstract class ConfigItem<C extends Behavior<?>> {
 
     protected String entryName;
 
@@ -71,5 +71,5 @@ public abstract class ConfigItem<C extends Concept> {
         this.validation = validation;
     }
 
-    public abstract C getConcept();
+    protected abstract C getConcept();
 }
