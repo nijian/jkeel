@@ -1,11 +1,11 @@
-package com.github.nijian.jkeel.concept.query.data;
+package com.github.nijian.jkeel.commons.query.data;
 
 import com.github.nijian.jkeel.concept.ConceptInput;
 import com.github.nijian.jkeel.concept.ServiceContext;
 import com.github.nijian.jkeel.concept.DataAccessor;
 import com.github.nijian.jkeel.concept.config.DataAccessorConfig;
-import com.github.nijian.jkeel.concept.query.entity.Query;
-import com.github.nijian.jkeel.concept.query.entity.QueryResult;
+import com.github.nijian.jkeel.commons.query.entity.Query;
+import com.github.nijian.jkeel.commons.query.entity.QueryResult;
 
 public abstract class AbstractQuery extends DataAccessor< Query, QueryResult> {
 

@@ -1,4 +1,4 @@
-package com.github.nijian.jkeel.concept.factory;
+package com.github.nijian.jkeel.commons.factory;
 
 import com.github.nijian.jkeel.concept.Manager;
 import com.github.nijian.jkeel.concept.spi.ConceptFactory;

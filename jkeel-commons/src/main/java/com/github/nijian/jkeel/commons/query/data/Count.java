@@ -1,4 +1,4 @@
-package com.github.nijian.jkeel.concept.query.data;
+package com.github.nijian.jkeel.commons.query.data;
 
 public abstract class Count extends AbstractQuery {
 

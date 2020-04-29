@@ -1,8 +1,8 @@
-package com.github.nijian.jkeel.concept.factory;
+package com.github.nijian.jkeel.commons.factory;
 
 import com.github.nijian.jkeel.concept.Service;
-import com.github.nijian.jkeel.concept.json.service.JsonService;
-import com.github.nijian.jkeel.concept.query.service.JsonQueryService;
+import com.github.nijian.jkeel.commons.json.service.JsonService;
+import com.github.nijian.jkeel.commons.query.service.JsonQueryService;
 import com.github.nijian.jkeel.concept.spi.ServiceFactory;
 
 public final class CommonsServiceFactory implements ServiceFactory {

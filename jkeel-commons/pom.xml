@@ -11,6 +11,11 @@
     <description>JKeel Commons</description>
 
     <dependencies>
+        <dependency>
+            <groupId>com.github.nijian.jkeel</groupId>
+            <artifactId>jkeel-concept</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <!-- log -->
         <dependency>
             <groupId>org.slf4j</groupId>

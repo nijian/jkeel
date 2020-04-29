@@ -11,11 +11,6 @@
     <description>Keel Concept API for Enterprise Application</description>
 
     <dependencies>
-        <dependency>
-            <groupId>com.github.nijian.jkeel</groupId>
-            <artifactId>jkeel-commons</artifactId>
-            <version>${project.version}</version>
-        </dependency>
         <!-- log -->
         <!--<dependency>-->
             <!--<groupId>org.slf4j</groupId>-->

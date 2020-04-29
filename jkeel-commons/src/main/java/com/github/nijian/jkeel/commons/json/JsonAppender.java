@@ -1,4 +1,4 @@
-package com.github.nijian.jkeel.concept.json;
+package com.github.nijian.jkeel.commons.json;
 
 
 import com.github.nijian.jkeel.commons.JsonString;

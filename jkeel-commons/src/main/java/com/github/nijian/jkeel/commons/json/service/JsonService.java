@@ -1,4 +1,4 @@
-package com.github.nijian.jkeel.concept.json.service;
+package com.github.nijian.jkeel.commons.json.service;
 
 import com.github.nijian.jkeel.commons.JsonString;
 import com.github.nijian.jkeel.commons.ObjectHolder;

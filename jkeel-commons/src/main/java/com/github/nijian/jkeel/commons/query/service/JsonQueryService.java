@@ -1,4 +1,4 @@
-package com.github.nijian.jkeel.concept.query.service;
+package com.github.nijian.jkeel.commons.query.service;
 
 import com.github.nijian.jkeel.commons.JsonString;
 import com.github.nijian.jkeel.commons.ObjectHolder;

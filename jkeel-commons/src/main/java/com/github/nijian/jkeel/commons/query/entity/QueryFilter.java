@@ -1,4 +1,4 @@
-package com.github.nijian.jkeel.concept.query.entity;
+package com.github.nijian.jkeel.commons.query.entity;
 
 public class QueryFilter {
 

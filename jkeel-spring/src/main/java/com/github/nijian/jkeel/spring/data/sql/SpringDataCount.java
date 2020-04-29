@@ -1,8 +1,8 @@
 package com.github.nijian.jkeel.spring.data.sql;
 
 import com.github.nijian.jkeel.concept.ServiceContext;
-import com.github.nijian.jkeel.concept.query.data.Count;
-import com.github.nijian.jkeel.concept.query.entity.QueryResult;
+import com.github.nijian.jkeel.commons.query.data.Count;
+import com.github.nijian.jkeel.commons.query.entity.QueryResult;
 import com.github.nijian.jkeel.spring.SpringManager;
 
 public abstract class SpringDataCount extends Count {
