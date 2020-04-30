@@ -7,7 +7,6 @@ import com.github.nijian.jkeel.spring.SpringManager;
 
 public abstract class SpringDataCount extends Count {
 
-
     @Override
     protected QueryResult execute(ServiceContext<?> serviceContext, QueryResult queryResult, String queryDsl, Object[] args) {
         SpringManager springManager = (SpringManager) serviceContext.getManager();

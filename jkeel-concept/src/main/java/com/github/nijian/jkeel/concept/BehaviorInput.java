@@ -1,5 +1,7 @@
 package com.github.nijian.jkeel.concept;
 
+import com.github.nijian.jkeel.concept.config.MappingConfig;
+
 public final class BehaviorInput {
 
     private final ServiceContext<?> ctx;
@@ -27,8 +29,9 @@ public final class BehaviorInput {
     }
 
     public Object convert() {
-        BehaviorInput behaviorInput = new BehaviorInput(ctx, configItem.getMapping(), value);
-        Mapping<?> mapping = configItem.getMapping().getConcept();
-        return mapping.apply(behaviorInput);
+        MappingConfig inMappingConfig = configItem.getInMapping();
+        Mapping<?> inMapping = inMappingConfig.getConcept();
+        BehaviorInput behaviorInput = new BehaviorInput(ctx, inMappingConfig, value);
+        return inMapping.apply(behaviorInput);
     }
 }

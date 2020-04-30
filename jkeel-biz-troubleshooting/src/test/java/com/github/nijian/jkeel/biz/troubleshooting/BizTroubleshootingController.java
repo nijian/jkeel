@@ -1,14 +1,16 @@
 package com.github.nijian.jkeel.biz.troubleshooting;
 
+import com.github.nijian.jkeel.commons.json.JsonAppender;
 import com.github.nijian.jkeel.concept.ServiceContext;
 import com.github.nijian.jkeel.concept.User;
-import com.github.nijian.jkeel.commons.json.JsonAppender;
 import com.github.nijian.jkeel.spring.SpringManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,10 +30,13 @@ public class BizTroubleshootingController {
      * @return
      */
     @GetMapping("/initQueryContracts")
-    public String initQueryContracts(@RequestParam(value = "name", defaultValue = "World") String request) {
+    public String initQueryContracts(@RequestHeader("jkeel-org-id") String orgId,
+                                     @RequestParam(value = "name", defaultValue = "World") String request,
+                                     Authentication authentication) {
 
-        //user can be cached
-        User user = new User("abc");
+//        String userName = authentication.getName();
+
+        User user = new User(orgId);
 
         ServiceContext<SpringManager> ctx = new ServiceContext<>(manager, user);
         JsonAppender response = new JsonAppender(ctx);

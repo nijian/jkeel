@@ -8,7 +8,8 @@
             <xs:element name="className" type="xs:string" minOccurs="0"/>
             <xs:element name="name" type="xs:string"/>
             <xs:element name="link" type="Link" minOccurs="0"/>
-            <xs:element name="mapping" type="MappingConfigType" minOccurs="0"/>
+            <xs:element name="inMapping" type="MappingConfigType" minOccurs="0"/>
+            <xs:element name="outMapping" type="MappingConfigType" minOccurs="0"/>
             <xs:element name="validation" type="ValidationConfigType" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>

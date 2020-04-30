@@ -10,10 +10,14 @@
                     <query>select count(1) from abc</query>
                 </dataAccessor>
             </link>
-            <mapping>
+            <inMapping>
                 <entryName>Get Contracts Data@JKEEL_MAPPING</entryName>
                 <name>JKEEL_MAPPING</name>
-            </mapping>
+            </inMapping>
+            <outMapping>
+                <entryName>Get Contracts Data@JKEEL_MAPPING</entryName>
+                <name>JKEEL_MAPPING</name>
+            </outMapping>
             <validation>
                 <entryName>Get Contracts Data@JKEEL_VALIDATION</entryName>
                 <name>JKEEL_VALIDATION</name>

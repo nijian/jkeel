@@ -23,7 +23,7 @@ public class User {
         Org org = sysCache.getOrg(orgId);
         if (org == null) {
             //get org from cache first
-            org = new Tenant("abc");
+            org = new Tenant(orgId);
             Config c = new Config() {
                 @Override
                 public String get(String term) {

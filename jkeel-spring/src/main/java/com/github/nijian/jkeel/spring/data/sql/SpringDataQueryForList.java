@@ -9,6 +9,7 @@ import java.util.List;
 
 public class SpringDataQueryForList extends QueryForList {
 
+
     @Override
     protected QueryResult execute(ServiceContext<?> serviceContext, QueryResult queryResult,
                                   String queryDsl, Object[] args) {

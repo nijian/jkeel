@@ -16,7 +16,9 @@ public abstract class ConfigItem<C extends Behavior<?>> {
 
     private Link link;
 
-    private MappingConfig mapping;
+    private MappingConfig inMapping;
+
+    private MappingConfig outMapping;
 
     private ValidationConfig validation;
 
@@ -55,12 +57,20 @@ public abstract class ConfigItem<C extends Behavior<?>> {
         this.link = link;
     }
 
-    public MappingConfig getMapping() {
-        return mapping;
+    public MappingConfig getInMapping() {
+        return inMapping;
     }
 
-    public void setMapping(MappingConfig mapping) {
-        this.mapping = mapping;
+    public void setInMapping(MappingConfig inMapping) {
+        this.inMapping = inMapping;
+    }
+
+    public MappingConfig getOutMapping() {
+        return outMapping;
+    }
+
+    public void setOutMapping(MappingConfig outMapping) {
+        this.outMapping = outMapping;
     }
 
     public ValidationConfig getValidation() {

@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlType(name = "service")
 public class ServiceConfig extends ConfigItem<Service<?>> {
+
     @Override
     public Service<?> getConcept() {
         return ServiceFactoryProvider.getInstance().getService(getName());
