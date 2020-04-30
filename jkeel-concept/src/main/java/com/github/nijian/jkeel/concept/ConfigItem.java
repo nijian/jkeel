@@ -81,5 +81,5 @@ public abstract class ConfigItem<C extends Behavior<?>> {
         this.validation = validation;
     }
 
-    protected abstract C getConcept();
+    protected abstract C getBehavior();
 }

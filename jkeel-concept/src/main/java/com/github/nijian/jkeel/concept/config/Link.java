@@ -10,16 +10,16 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType
 public class Link {
 
-    private ConfigItem<?> conceptConfig;
+    private ConfigItem<?> behaviorConfig;
 
-    public ConfigItem<?> getConceptConfig() {
-        return conceptConfig;
+    public ConfigItem<?> getBehaviorConfig() {
+        return behaviorConfig;
     }
 
     @XmlElements({
             @XmlElement(name = "service", type = ServiceConfig.class),
             @XmlElement(name = "dataAccessor", type = DataAccessorConfig.class)})
-    public void setConceptConfig(ConfigItem<?> conceptConfig) {
-        this.conceptConfig = conceptConfig;
+    public void setBehaviorConfig(ConfigItem<?> behaviorConfig) {
+        this.behaviorConfig = behaviorConfig;
     }
 }

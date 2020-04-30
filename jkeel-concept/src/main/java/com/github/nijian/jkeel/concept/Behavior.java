@@ -13,8 +13,8 @@ public abstract class Behavior<R> implements Function<BehaviorInput, R> {
         ConfigItem<?> currentBehaviorConfig = behaviorInput.getConfigItem();
 
         //basic config check
-        ConfigItem<?> startConceptConfig = getNextConceptConfig(behaviorInput);
-        if (startConceptConfig == null) {
+        ConfigItem<?> startBehaviorConfig = getNextBehaviorConfig(behaviorInput);
+        if (startBehaviorConfig == null) {
             throw new RuntimeException("xxxx");
         }
 
@@ -23,8 +23,8 @@ public abstract class Behavior<R> implements Function<BehaviorInput, R> {
         //validation
 
         ServiceContext<?> ctx = behaviorInput.getContext();
-        Behavior<?> startBehavior = startConceptConfig.getConcept();
-        BehaviorInput startBehaviorInput = new BehaviorInput(ctx, startConceptConfig, convertedObject);
+        Behavior<?> startBehavior = startBehaviorConfig.getBehavior();
+        BehaviorInput startBehaviorInput = new BehaviorInput(ctx, startBehaviorConfig, convertedObject);
 
         return handleResult(ctx, currentBehaviorConfig, execute0(startBehavior, startBehaviorInput));
     }
@@ -34,34 +34,34 @@ public abstract class Behavior<R> implements Function<BehaviorInput, R> {
         if (outMappingConfig == null) {
             return (R) value; //default implementation
         }
-        Mapping<?> outMapping = outMappingConfig.getConcept();
+        Mapping<?> outMapping = outMappingConfig.getBehavior();
         BehaviorInput behaviorInput = new BehaviorInput(ctx, outMappingConfig, value);
         return (R) outMapping.apply(behaviorInput);
     }
 
-    private ConfigItem<?> getNextConceptConfig(BehaviorInput behaviorInput) {
+    private ConfigItem<?> getNextBehaviorConfig(BehaviorInput behaviorInput) {
 
-        ConfigItem<?> currentConceptConfig = behaviorInput.getConfigItem();
-        Link currentConceptLink = currentConceptConfig.getLink();
-        if (currentConceptLink == null) {
+        ConfigItem<?> currentBehaviorConfig = behaviorInput.getConfigItem();
+        Link currentBehaviorLink = currentBehaviorConfig.getLink();
+        if (currentBehaviorLink == null) {
             return null;
         }
-        ConfigItem<?> nextConceptConfig = currentConceptLink.getConceptConfig();
-        return nextConceptConfig;
+        ConfigItem<?> nextBehaviorConfig = currentBehaviorLink.getBehaviorConfig();
+        return nextBehaviorConfig;
     }
 
     private Object execute0(Behavior<?> behavior, BehaviorInput input) {
 
-        Object conceptOutput = behavior.apply(input);
+        Object behaviorOutput = behavior.apply(input);
 
-        ConfigItem<?> nextConceptConfig = getNextConceptConfig(input);
-        if (nextConceptConfig == null) {
-            return conceptOutput;
+        ConfigItem<?> nextBehaviorConfig = getNextBehaviorConfig(input);
+        if (nextBehaviorConfig == null) {
+            return behaviorOutput;
         }
 
         ServiceContext<?> ctx = input.getContext();
-        Behavior<?> nextBehavior = nextConceptConfig.getConcept();
-        BehaviorInput nextBehaviorInput = new BehaviorInput(ctx, nextConceptConfig, conceptOutput);
+        Behavior<?> nextBehavior = nextBehaviorConfig.getBehavior();
+        BehaviorInput nextBehaviorInput = new BehaviorInput(ctx, nextBehaviorConfig, behaviorOutput);
 
         return execute0(nextBehavior, nextBehaviorInput);
     }

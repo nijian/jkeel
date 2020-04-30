@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlType;
 public class ServiceConfig extends ConfigItem<Service<?>> {
 
     @Override
-    public Service<?> getConcept() {
+    public Service<?> getBehavior() {
         return ServiceFactoryProvider.getInstance().getService(getName());
     }
 }

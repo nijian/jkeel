@@ -23,7 +23,7 @@ public final class JsonAppender {
 
     public void appendBy(String serviceEntryName, String inputValue) {
         ServiceConfig serviceConfig = ctx.getServiceConfig(serviceEntryName);
-        Service<?> service = serviceConfig.getConcept();
+        Service<?> service = serviceConfig.getBehavior();
         BehaviorInput serviceInput = new BehaviorInput(ctx, serviceConfig, inputValue);
         localJsonMap.put(serviceEntryName, service.apply(serviceInput));
     }

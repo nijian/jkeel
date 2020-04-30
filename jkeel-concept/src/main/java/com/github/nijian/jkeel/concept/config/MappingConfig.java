@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType
 public class MappingConfig extends ConfigItem<Mapping<?>> {
 
-    public Mapping<?> getConcept() {
+    public Mapping<?> getBehavior() {
         return MappingFactoryProvider.getInstance().getMapping(getName());
     }
 

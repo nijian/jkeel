@@ -20,7 +20,7 @@ public class DataAccessorConfig extends ConfigItem<DataAccessor<?>> {
     }
 
     @Override
-    public DataAccessor<?> getConcept() {
+    public DataAccessor<?> getBehavior() {
         return DataAccessorFactoryProvider.getInstance().getData(getName());
     }
 }

@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlType;
 public class ActionConfig extends ConfigItem<Action<?>> {
 
     @Override
-    public Action<?> getConcept() {
+    public Action<?> getBehavior() {
         return null;
     }
 

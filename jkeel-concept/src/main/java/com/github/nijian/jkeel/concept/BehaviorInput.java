@@ -30,7 +30,7 @@ public final class BehaviorInput {
 
     public Object convert() {
         MappingConfig inMappingConfig = configItem.getInMapping();
-        Mapping<?> inMapping = inMappingConfig.getConcept();
+        Mapping<?> inMapping = inMappingConfig.getBehavior();
         BehaviorInput behaviorInput = new BehaviorInput(ctx, inMappingConfig, value);
         return inMapping.apply(behaviorInput);
     }
