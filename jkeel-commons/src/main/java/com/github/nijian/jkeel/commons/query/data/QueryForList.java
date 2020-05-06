@@ -8,9 +8,9 @@ import com.github.nijian.jkeel.commons.query.entity.QueryResult;
 public abstract class QueryForList extends AbstractQuery {
 
     @Override
-    public QueryResult apply(BehaviorInput queryBehaviorInput) {
+    public QueryResult execute(ServiceContext<?> ctx, BehaviorInput queryBehaviorInput) {
 
-        QueryResult queryResult = super.apply(queryBehaviorInput);
+        QueryResult queryResult = super.execute(ctx, queryBehaviorInput);
 
         Query query = new Query();//queryBehaviorInput.getValue();
         query.setWithCount(true);

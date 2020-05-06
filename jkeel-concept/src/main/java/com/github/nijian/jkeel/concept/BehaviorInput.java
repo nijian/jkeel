@@ -1,6 +1,7 @@
 package com.github.nijian.jkeel.concept;
 
 import com.github.nijian.jkeel.concept.config.MappingConfig;
+import com.github.nijian.jkeel.concept.runtime.RTO;
 
 public final class BehaviorInput {
 
@@ -28,9 +29,22 @@ public final class BehaviorInput {
         return value;
     }
 
-    public Object convert() {
+    public Object convert(RTO currentRTO) {
         MappingConfig inMappingConfig = configItem.getInMapping();
+        if (inMappingConfig == null) {
+            return value;
+        }
+
         Mapping<?> inMapping = inMappingConfig.getBehavior();
+        if (inMapping == null) {
+            throw new RuntimeException("ffsa");
+        }
+
+        RTO inMappingRTO = new RTO();
+        inMappingRTO.setId(inMappingConfig.getEntryName());
+        currentRTO.setInMapping(inMappingRTO);
+        ctx.setCurrentRTO(inMappingRTO);
+
         BehaviorInput behaviorInput = new BehaviorInput(ctx, inMappingConfig, value);
         return inMapping.apply(behaviorInput);
     }

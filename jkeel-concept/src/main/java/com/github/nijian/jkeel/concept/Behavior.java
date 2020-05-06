@@ -2,31 +2,58 @@ package com.github.nijian.jkeel.concept;
 
 import com.github.nijian.jkeel.concept.config.Link;
 import com.github.nijian.jkeel.concept.config.MappingConfig;
+import com.github.nijian.jkeel.concept.runtime.RTO;
 
 import java.util.function.Function;
 
 public abstract class Behavior<R> implements Function<BehaviorInput, R> {
 
     @Override
-    public R apply(BehaviorInput behaviorInput) {
+    public final R apply(BehaviorInput behaviorInput) {
+
+        long startTime = System.currentTimeMillis();
+
+        ServiceContext<?> ctx = behaviorInput.getContext();
+        RTO currentRTO = ctx.getCurrentRTO();
 
         ConfigItem<?> currentBehaviorConfig = behaviorInput.getConfigItem();
+        currentRTO.setId(currentBehaviorConfig.getEntryName());
 
-        //basic config check
-        ConfigItem<?> startBehaviorConfig = getNextBehaviorConfig(behaviorInput);
-        if (startBehaviorConfig == null) {
-            throw new RuntimeException("xxxx");
-        }
-
-        Object convertedObject = behaviorInput.convert();
+        //in mapping
+        Object convertedObject = behaviorInput.convert(currentRTO);
+        ctx.setCurrentRTO(currentRTO);
 
         //validation
 
-        ServiceContext<?> ctx = behaviorInput.getContext();
-        Behavior<?> startBehavior = startBehaviorConfig.getBehavior();
-        BehaviorInput startBehaviorInput = new BehaviorInput(ctx, startBehaviorConfig, convertedObject);
+        // for service, action, do nothing
+        R r = handleResult(ctx, currentBehaviorConfig, execute(ctx, behaviorInput));
 
-        return handleResult(ctx, currentBehaviorConfig, execute0(startBehavior, startBehaviorInput));
+        //next config check
+        ConfigItem<?> nextBehaviorConfig = getNextBehaviorConfig(behaviorInput);
+        if (nextBehaviorConfig == null) {
+            currentRTO.setExecutionTime(System.currentTimeMillis() - startTime);
+            return r;
+        }
+
+        Behavior<?> nextBehavior = nextBehaviorConfig.getBehavior();
+        BehaviorInput nextBehaviorInput = new BehaviorInput(ctx, nextBehaviorConfig, convertedObject);
+
+        //runtime record
+        RTO childRTO = new RTO();
+        childRTO.setId(nextBehaviorConfig.getEntryName());
+        currentRTO.setChild(childRTO);
+        ctx.setCurrentRTO(childRTO);
+
+        Object obj = nextBehavior.apply(nextBehaviorInput);
+
+        ctx.setCurrentRTO(currentRTO);
+        currentRTO.setExecutionTime(System.currentTimeMillis() - startTime);
+        return (R) obj;
+    }
+
+    protected Object execute(ServiceContext<?> ctx, BehaviorInput nextBehaviorInput) {
+        //default impl
+        return nextBehaviorInput.getValue();
     }
 
     protected R handleResult(ServiceContext<?> ctx, ConfigItem<?> currentBehaviorConfig, Object value) {
@@ -48,22 +75,6 @@ public abstract class Behavior<R> implements Function<BehaviorInput, R> {
         }
         ConfigItem<?> nextBehaviorConfig = currentBehaviorLink.getBehaviorConfig();
         return nextBehaviorConfig;
-    }
-
-    private Object execute0(Behavior<?> behavior, BehaviorInput input) {
-
-        Object behaviorOutput = behavior.apply(input);
-
-        ConfigItem<?> nextBehaviorConfig = getNextBehaviorConfig(input);
-        if (nextBehaviorConfig == null) {
-            return behaviorOutput;
-        }
-
-        ServiceContext<?> ctx = input.getContext();
-        Behavior<?> nextBehavior = nextBehaviorConfig.getBehavior();
-        BehaviorInput nextBehaviorInput = new BehaviorInput(ctx, nextBehaviorConfig, behaviorOutput);
-
-        return execute0(nextBehavior, nextBehaviorInput);
     }
 
 }
