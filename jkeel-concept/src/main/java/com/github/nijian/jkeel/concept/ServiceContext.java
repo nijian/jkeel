@@ -1,7 +1,7 @@
 package com.github.nijian.jkeel.concept;
 
 import com.github.nijian.jkeel.concept.config.ServiceConfig;
-import com.github.nijian.jkeel.concept.config.ServicesConfig;
+import com.github.nijian.jkeel.concept.config.BehaviorsConfig;
 import com.github.nijian.jkeel.concept.runtime.RTO;
 
 public final class ServiceContext<M extends Manager> {
@@ -45,8 +45,8 @@ public final class ServiceContext<M extends Manager> {
         this.currentRTO = currentRTO;
     }
 
-    public ServicesConfig getServicesConfig() {
-        return getOrg().getConfig().getServicesConfig();
+    public BehaviorsConfig getServicesConfig() {
+        return getOrg().getConfig().getBehaviorsConfig();
     }
 
     public ServiceConfig getServiceConfig(String serviceEntryName) {

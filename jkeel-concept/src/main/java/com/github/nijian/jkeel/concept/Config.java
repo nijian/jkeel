@@ -1,33 +1,35 @@
 package com.github.nijian.jkeel.concept;
 
-import com.github.nijian.jkeel.concept.config.ServicesConfig;
+import com.github.nijian.jkeel.concept.config.BehaviorsConfig;
+import com.github.nijian.jkeel.concept.config.RootConfig;
 
 import javax.xml.bind.JAXBContext;
 import java.io.StringReader;
 
 public abstract class Config {
 
-    public final static String SERVICES = "services";
+    public final static String SERVICES = "root";
 
-    private ServicesConfig servicesConfig;
+    private BehaviorsConfig behaviorsConfig;
 
     public abstract String get(String term);
 
-    public ServicesConfig getServicesConfig() {
+    public BehaviorsConfig getBehaviorsConfig() {
 
-        if (servicesConfig == null) {
+        if (behaviorsConfig == null) {
             String servicesConfigString = get(Config.SERVICES);
             StringReader servicesConfigReader = new StringReader(servicesConfigString);
             try {
-                JAXBContext context = JAXBContext.newInstance(ServicesConfig.class);
-                servicesConfig = (ServicesConfig) context.createUnmarshaller()
+                JAXBContext context = JAXBContext.newInstance(RootConfig.class);
+                RootConfig rootConfig = (RootConfig) context.createUnmarshaller()
                         .unmarshal(servicesConfigReader);
+                behaviorsConfig = rootConfig.getBehaviorsConfig();
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }
 
-        return servicesConfig;
+        return behaviorsConfig;
     }
 
 }

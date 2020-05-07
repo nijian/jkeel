@@ -17,7 +17,7 @@ public abstract class Behavior<R> implements Function<BehaviorInput, R> {
         RTO currentRTO = ctx.getCurrentRTO();
 
         ConfigItem<?> currentBehaviorConfig = behaviorInput.getConfigItem();
-        currentRTO.setId(currentBehaviorConfig.getEntryName());
+        currentRTO.setId(currentBehaviorConfig.getId());
 
         //in mapping
         Object convertedObject = behaviorInput.convert(currentRTO);
@@ -40,7 +40,7 @@ public abstract class Behavior<R> implements Function<BehaviorInput, R> {
 
         //runtime record
         RTO childRTO = new RTO();
-        childRTO.setId(nextBehaviorConfig.getEntryName());
+        childRTO.setId(nextBehaviorConfig.getId());
         currentRTO.setChild(childRTO);
         ctx.setCurrentRTO(childRTO);
 
@@ -51,9 +51,9 @@ public abstract class Behavior<R> implements Function<BehaviorInput, R> {
         return (R) obj;
     }
 
-    protected Object execute(ServiceContext<?> ctx, BehaviorInput nextBehaviorInput) {
+    protected Object execute(ServiceContext<?> ctx, BehaviorInput behaviorInput) {
         //default impl
-        return nextBehaviorInput.getValue();
+        return behaviorInput.getValue();
     }
 
     protected R handleResult(ServiceContext<?> ctx, ConfigItem<?> currentBehaviorConfig, Object value) {

@@ -4,9 +4,13 @@ import com.github.nijian.jkeel.concept.ConfigItem;
 import com.github.nijian.jkeel.concept.DataAccessor;
 import com.github.nijian.jkeel.concept.spi.DataAccessorFactoryProvider;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 @XmlType(name = "dataAccessor")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DataAccessorConfig extends ConfigItem<DataAccessor<?>> {
 
     private String query;

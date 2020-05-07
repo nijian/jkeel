@@ -4,16 +4,19 @@ import com.github.nijian.jkeel.concept.config.Link;
 import com.github.nijian.jkeel.concept.config.MappingConfig;
 import com.github.nijian.jkeel.concept.config.ValidationConfig;
 
-import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.*;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public abstract class ConfigItem<C extends Behavior<?>> {
 
-    protected String entryName;
+    @XmlID
+    @XmlAttribute
+    private String id;
 
-    private String className;
-
+    @XmlElement
     protected String name;
 
+    @XmlElement
     private Link link;
 
     private MappingConfig inMapping;
@@ -22,28 +25,18 @@ public abstract class ConfigItem<C extends Behavior<?>> {
 
     private ValidationConfig validation;
 
-    public String getEntryName() {
-        return entryName;
+    public String getId() {
+        return id;
     }
 
-    @XmlElement
-    public void setEntryName(String entryName) {
-        this.entryName = entryName;
-    }
-
-    public String getClassName() {
-        return className;
-    }
-
-    public void setClassName(String className) {
-        this.className = className;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
-    @XmlElement
     public void setName(String name) {
         this.name = name;
     }
@@ -52,7 +45,6 @@ public abstract class ConfigItem<C extends Behavior<?>> {
         return link;
     }
 
-    @XmlElement
     public void setLink(Link link) {
         this.link = link;
     }

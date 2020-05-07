@@ -2,13 +2,12 @@
     <behaviors>
         <dataAccessors>
             <dataAccessor id="Get Contracts Data@SPRING_DATA_QUERY_LIST">
-                <name>SPRING_DATA_QUERY_LIST</name>
                 <query>select count(1) from abc</query>
             </dataAccessor>
         </dataAccessors>
         <services>
             <service id="initQueryContracts@JSON">
-                <name>JSON</name>
+                <entryName>abc</entryName>
                 <link type="dataAccessor" refid="Get Contracts Data@SPRING_DATA_QUERY_LIST"/>
                 <!--<inMapping>-->
                 <!--<entryName>Get Contracts Data@JKEEL_MAPPING</entryName>-->

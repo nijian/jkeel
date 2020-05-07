@@ -8,12 +8,9 @@ public class ServicesConfigAdapter extends XmlAdapter<ServiceConfigMapType, Map<
 
     @Override
     public Map<String, ServiceConfig> unmarshal(ServiceConfigMapType v) throws Exception {
-        System.out.println("u: " + v.getServiceConfigList().size());
         Map<String, ServiceConfig> map = new HashMap<>();
-
         for (ServiceConfig serviceConfig : v.getServiceConfigList()) {
-            System.out.println(serviceConfig);
-            map.put(serviceConfig.getEntryName(), serviceConfig);
+            map.put(serviceConfig.getId(), serviceConfig);
         }
         return map;
     }

@@ -41,7 +41,7 @@ public final class BehaviorInput {
         }
 
         RTO inMappingRTO = new RTO();
-        inMappingRTO.setId(inMappingConfig.getEntryName());
+        inMappingRTO.setId(inMappingConfig.getId());
         currentRTO.setInMapping(inMappingRTO);
         ctx.setCurrentRTO(inMappingRTO);
 

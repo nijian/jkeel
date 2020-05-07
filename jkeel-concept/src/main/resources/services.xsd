@@ -4,29 +4,48 @@
 
     <xs:complexType name="ConfigItemType" abstract="true">
         <xs:sequence>
-            <xs:element name="entryName" type="xs:string"/>
             <xs:element name="className" type="xs:string" minOccurs="0"/>
             <xs:element name="name" type="xs:string"/>
-            <xs:element name="link" type="Link" minOccurs="0"/>
+            <xs:element name="link" type="Link" minOccurs="0">
+                <xs:keyref name="FK_2action" refer="PK_action">
+                    <xs:selector xpath="action"/>
+                    <xs:field xpath="@refid"/>
+                </xs:keyref>
+            </xs:element>
             <xs:element name="inMapping" type="MappingConfigType" minOccurs="0"/>
             <xs:element name="outMapping" type="MappingConfigType" minOccurs="0"/>
             <xs:element name="validation" type="ValidationConfigType" minOccurs="0"/>
         </xs:sequence>
+        <xs:attribute name="id" type="xs:ID"/>
+        <xs:attribute name="refid" type="xs:IDREF"/>
+    </xs:complexType>
+
+    <xs:complexType name="RefConfigItemType" abstract="true">
+        <xs:complexContent>
+            <xs:extension base="ConfigItemType">
+                <xs:attribute name="refid" type="xs:IDREF"/>
+            </xs:extension>
+        </xs:complexContent>
     </xs:complexType>
 
     <xs:complexType name="Link">
-        <xs:choice>
-            <xs:element ref="service"/>
-            <xs:element ref="action"/>
-            <xs:element ref="dataAccessor"/>
-        </xs:choice>
+        <xs:sequence>
+            <xs:group ref="LinkPart"/>
+        </xs:sequence>
     </xs:complexType>
+
+    <xs:group name="LinkPart">
+        <xs:choice>
+            <xs:element name="service" type="RefConfigItemType"/>
+            <xs:element name="action" type="RefConfigItemType"/>
+            <xs:element name="dataAccessor" type="RefConfigItemType"/>
+        </xs:choice>
+    </xs:group>
 
     <xs:complexType name="ServiceConfigType">
         <xs:complexContent>
             <xs:extension base="ConfigItemType">
                 <xs:sequence>
-
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -36,7 +55,6 @@
         <xs:complexContent>
             <xs:extension base="ConfigItemType">
                 <xs:sequence>
-
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -74,21 +92,50 @@
 
     <xs:element name="root">
         <xs:complexType>
-            <xs:sequence>
+            <xs:all>
                 <xs:element ref="services"/>
-            </xs:sequence>
+                <xs:element ref="actions"/>
+                <xs:element ref="dataAccessors"/>
+            </xs:all>
         </xs:complexType>
     </xs:element>
-
     <xs:element name="services">
         <xs:complexType>
             <xs:sequence>
                 <xs:element ref="service"/>
             </xs:sequence>
         </xs:complexType>
+        <xs:key name="PK_service">
+            <xs:selector xpath="service"/>
+            <xs:field xpath="@id"/>
+        </xs:key>
     </xs:element>
+    <xs:element name="actions">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="action"/>
+            </xs:sequence>
+        </xs:complexType>
+        <xs:key name="PK_action">
+            <xs:selector xpath="action"/>
+            <xs:field xpath="@id"/>
+        </xs:key>
+    </xs:element>
+    <xs:element name="dataAccessors">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="dataAccessor"/>
+            </xs:sequence>
+        </xs:complexType>
+        <xs:key name="PK_dataAccessor">
+            <xs:selector xpath="dataAccessor"/>
+            <xs:field xpath="@id"/>
+        </xs:key>
+    </xs:element>
+
     <xs:element name="service" type="ServiceConfigType"/>
     <xs:element name="action" type="ActionConfigType"/>
     <xs:element name="dataAccessor" type="DataAccessorConfigType"/>
+
 
 </xs:schema>
