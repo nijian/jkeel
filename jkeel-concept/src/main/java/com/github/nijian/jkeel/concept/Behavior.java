@@ -11,47 +11,51 @@ public abstract class Behavior<R> implements Function<BehaviorInput, R> {
     @Override
     public final R apply(BehaviorInput behaviorInput) {
 
-        long startTime = System.currentTimeMillis();
+        try {
+            long startTime = System.currentTimeMillis();
 
-        ServiceContext<?> ctx = behaviorInput.getContext();
-        RTO currentRTO = ctx.getCurrentRTO();
+            ServiceContext<?> ctx = behaviorInput.getContext();
+            RTO currentRTO = ctx.getCurrentRTO();
 
-        ConfigItem<?> currentBehaviorConfig = behaviorInput.getConfigItem();
-        currentRTO.setId(currentBehaviorConfig.getId());
+            ConfigItem<?> currentBehaviorConfig = behaviorInput.getConfigItem();
+            currentRTO.setId(currentBehaviorConfig.getId());
 
-        //in mapping
-        Object convertedObject = behaviorInput.convert(currentRTO);
-        ctx.setCurrentRTO(currentRTO);
+            //in mapping
+            Object convertedObject = behaviorInput.convert(currentRTO);
+            ctx.setCurrentRTO(currentRTO);
 
-        //validation
+            //validation
 
-        // for service, action, do nothing
-        R r = handleResult(ctx, currentBehaviorConfig, execute(ctx, behaviorInput));
+            // for service, action, do nothing
+            R r = handleResult(ctx, currentBehaviorConfig, execute(ctx, behaviorInput));
 
-        //next config check
-        ConfigItem<?> nextBehaviorConfig = getNextBehaviorConfig(behaviorInput);
-        if (nextBehaviorConfig == null) {
+            //next config check
+            ConfigItem<?> nextBehaviorConfig = getNextBehaviorConfig(behaviorInput);
+            if (nextBehaviorConfig == null) {
+                currentRTO.setExecutionTime(System.currentTimeMillis() - startTime);
+                return r;
+            }
+
+            Behavior<?> nextBehavior = nextBehaviorConfig.getBehavior();
+            BehaviorInput nextBehaviorInput = new BehaviorInput(ctx, nextBehaviorConfig, convertedObject);
+
+            //runtime record
+            RTO childRTO = new RTO();
+            childRTO.setId(nextBehaviorConfig.getId());
+            currentRTO.setChild(childRTO);
+            ctx.setCurrentRTO(childRTO);
+
+            Object obj = nextBehavior.apply(nextBehaviorInput);
+
+            ctx.setCurrentRTO(currentRTO);
             currentRTO.setExecutionTime(System.currentTimeMillis() - startTime);
-            return r;
+            return (R) obj;
+        } catch (Exception e) {
+            throw new RuntimeException("va");
         }
-
-        Behavior<?> nextBehavior = nextBehaviorConfig.getBehavior();
-        BehaviorInput nextBehaviorInput = new BehaviorInput(ctx, nextBehaviorConfig, convertedObject);
-
-        //runtime record
-        RTO childRTO = new RTO();
-        childRTO.setId(nextBehaviorConfig.getId());
-        currentRTO.setChild(childRTO);
-        ctx.setCurrentRTO(childRTO);
-
-        Object obj = nextBehavior.apply(nextBehaviorInput);
-
-        ctx.setCurrentRTO(currentRTO);
-        currentRTO.setExecutionTime(System.currentTimeMillis() - startTime);
-        return (R) obj;
     }
 
-    protected Object execute(ServiceContext<?> ctx, BehaviorInput behaviorInput) {
+    protected Object execute(ServiceContext<?> ctx, BehaviorInput behaviorInput) throws Exception {
         //default impl
         return behaviorInput.getValue();
     }

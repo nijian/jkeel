@@ -17,6 +17,9 @@ public abstract class ConfigItem<C extends Behavior<?>> {
     protected String name;
 
     @XmlElement
+    private String returnClass;
+
+    @XmlElement
     private Link link;
 
     private MappingConfig inMapping;
@@ -39,6 +42,14 @@ public abstract class ConfigItem<C extends Behavior<?>> {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getReturnClass() {
+        return returnClass;
+    }
+
+    public void setReturnClass(String returnClass) {
+        this.returnClass = returnClass;
     }
 
     public Link getLink() {

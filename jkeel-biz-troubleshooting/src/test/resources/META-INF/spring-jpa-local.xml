@@ -39,7 +39,7 @@
         </bean>
 
         <util:list id="jpa.entity.packagesToScan" value-type="java.lang.String">
-            <value>xxx.xxx</value>
+            <value>com.github.nijian.jkeel.biz.troubleshooting.entity</value>
         </util:list>
 
 

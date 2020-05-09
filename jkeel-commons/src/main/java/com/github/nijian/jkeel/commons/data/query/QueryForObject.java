@@ -7,6 +7,6 @@ import com.github.nijian.jkeel.concept.ServiceContext;
 public abstract class QueryForObject<R> extends DataAccessor<R> {
 
     @Override
-    protected abstract R execute(ServiceContext<?> ctx, BehaviorInput behaviorInput);
+    protected abstract R execute(ServiceContext<?> ctx, BehaviorInput behaviorInput) throws Exception;
 
 }

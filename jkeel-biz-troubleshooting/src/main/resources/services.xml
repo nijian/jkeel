@@ -1,15 +1,16 @@
 <root>
     <behaviors>
         <dataAccessors>
-            <dataAccessor id="Get Contracts Data@SPRING_DATA_QUERY_LIST">
-                <name>SPRING_DATA_QUERY_LIST</name>
+            <dataAccessor id="Get Contracts Data@JPA_LOAD">
+                <name>JPA_LOAD</name>
                 <query>select count(1) from abc</query>
+                <returnClass>com.github.nijian.jkeel.biz.troubleshooting.entity.ABC</returnClass>
             </dataAccessor>
         </dataAccessors>
         <services>
             <service id="initQueryContracts@JSON">
                 <name>JSON</name>
-                <link type="dataAccessor" refid="Get Contracts Data@SPRING_DATA_QUERY_LIST"/>
+                <link type="dataAccessor" refid="Get Contracts Data@JPA_LOAD"/>
                 <!--<inMapping>-->
                 <!--<entryName>Get Contracts Data@JKEEL_MAPPING</entryName>-->
                 <!--<name>JKEEL_MAPPING</name>-->
