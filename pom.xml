@@ -96,7 +96,8 @@
         <!-- for test -->
         <junit.version>4.12</junit.version>
         <spring.version>5.2.4.RELEASE</spring.version>
-
+        <org.springframework.boot.version>2.2.5.RELEASE</org.springframework.boot.version>
+        <org.apache.tomcat.version>9.0.34</org.apache.tomcat.version>
     </properties>
 
     <repositories>
@@ -252,26 +253,16 @@
                 <artifactId>groovy-all</artifactId>
                 <version>${groovy.version}</version>
             </dependency>
-            <!--<dependency>-->
-                <!--<groupId>org.springframework.dataAccessor</groupId>-->
-                <!--<artifactId>spring-dataAccessor-jpa</artifactId>-->
-                <!--<version>2.2.5.RELEASE</version>-->
-            <!--</dependency>-->
-            <!--<dependency>-->
-                <!--<groupId>org.springframework</groupId>-->
-                <!--<artifactId>spring-serviceContext</artifactId>-->
-                <!--<version>5.2.4.RELEASE</version>-->
-            <!--</dependency>-->
-            <!--<dependency>-->
-                <!--<groupId>org.springframework</groupId>-->
-                <!--<artifactId>spring-jdbc</artifactId>-->
-                <!--<version>5.2.4.RELEASE</version>-->
-            <!--</dependency>-->
+            <dependency>
+                <groupId>org.apache.tomcat</groupId>
+                <artifactId>tomcat-jdbc</artifactId>
+                <version>${org.apache.tomcat.version}</version>
+            </dependency>
             <dependency>
                 <!-- Import dependency management from Spring Boot -->
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
-                <version>2.2.5.RELEASE</version>
+                <version>${org.springframework.boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

@@ -1,7 +1,7 @@
-package com.github.nijian.jkeel.commons.query.data;
+package com.github.nijian.jkeel.commons.data.query;
 
-import com.github.nijian.jkeel.commons.query.entity.Query;
-import com.github.nijian.jkeel.commons.query.entity.QueryResult;
+import com.github.nijian.jkeel.commons.entity.query.Query;
+import com.github.nijian.jkeel.commons.entity.query.QueryResult;
 import com.github.nijian.jkeel.concept.BehaviorInput;
 import com.github.nijian.jkeel.concept.DataAccessor;
 import com.github.nijian.jkeel.concept.ServiceContext;

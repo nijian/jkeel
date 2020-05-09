@@ -1,6 +1,6 @@
 package com.github.nijian.jkeel.biz.troubleshooting;
 
-import com.github.nijian.jkeel.commons.json.JsonAppender;
+import com.github.nijian.jkeel.commons.JsonAppender;
 import com.github.nijian.jkeel.concept.ServiceContext;
 import com.github.nijian.jkeel.concept.User;
 import com.github.nijian.jkeel.spring.SpringManager;

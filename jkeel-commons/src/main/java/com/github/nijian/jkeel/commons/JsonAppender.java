@@ -1,4 +1,4 @@
-package com.github.nijian.jkeel.commons.json;
+package com.github.nijian.jkeel.commons;
 
 
 import com.github.nijian.jkeel.commons.JsonUtil;

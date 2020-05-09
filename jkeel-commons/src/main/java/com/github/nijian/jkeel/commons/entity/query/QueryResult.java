@@ -1,4 +1,4 @@
-package com.github.nijian.jkeel.commons.query.entity;
+package com.github.nijian.jkeel.commons.entity.query;
 
 import java.util.List;
 

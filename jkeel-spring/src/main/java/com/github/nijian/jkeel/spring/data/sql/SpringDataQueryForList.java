@@ -1,7 +1,7 @@
 package com.github.nijian.jkeel.spring.data.sql;
 
-import com.github.nijian.jkeel.commons.query.data.QueryForList;
-import com.github.nijian.jkeel.commons.query.entity.QueryResult;
+import com.github.nijian.jkeel.commons.data.query.QueryForList;
+import com.github.nijian.jkeel.commons.entity.query.QueryResult;
 import com.github.nijian.jkeel.concept.ServiceContext;
 import com.github.nijian.jkeel.spring.SpringManager;
 

@@ -5,10 +5,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ImportResource;
 
 import java.util.Arrays;
 
 @SpringBootApplication
+@ImportResource(locations={"/META-INF/spring-jpa-local.xml"})
 public class BizTroubleshootingSpringApp {
 
     public static void main(String[] args) {

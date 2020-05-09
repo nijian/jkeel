@@ -5,14 +5,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 @Component
 public class SpringManager implements Manager {
 
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    public JdbcTemplate getJdbcTemplate(){
+    @PersistenceContext(unitName = "JPAUnit")
+    EntityManager entityManager;
+
+    public JdbcTemplate getJdbcTemplate() {
         return jdbcTemplate;
+    }
+
+    public EntityManager getEntityManager() {
+        return entityManager;
     }
 
 }
