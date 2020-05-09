@@ -1,14 +1,19 @@
 package com.github.nijian.jkeel.concept;
 
-import com.github.nijian.jkeel.concept.config.ServiceConfig;
 import com.github.nijian.jkeel.concept.config.BehaviorsConfig;
+import com.github.nijian.jkeel.concept.config.Link;
+import com.github.nijian.jkeel.concept.config.ServiceConfig;
 import com.github.nijian.jkeel.concept.runtime.RTO;
+
+import java.util.Stack;
 
 public final class ServiceContext<M extends Manager> {
 
     private final M manager;
 
     private final User user;
+
+    private final Stack<Link> linkStack;
 
     private final RTO rootRTO;
 
@@ -17,6 +22,7 @@ public final class ServiceContext<M extends Manager> {
     public ServiceContext(M manager, User user) {
         this.manager = manager;
         this.user = user;
+        linkStack = new Stack<>();
         this.rootRTO = new RTO();
         this.currentRTO = rootRTO;
     }
@@ -31,6 +37,10 @@ public final class ServiceContext<M extends Manager> {
 
     public Org getOrg() {
         return user.getOrg();
+    }
+
+    public Stack<Link> getLinkStack() {
+        return linkStack;
     }
 
     public RTO getRootRTO() {

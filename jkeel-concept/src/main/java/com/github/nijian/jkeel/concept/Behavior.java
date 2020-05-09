@@ -72,13 +72,28 @@ public abstract class Behavior<R> implements Function<BehaviorInput, R> {
 
     private ConfigItem<?> getNextBehaviorConfig(BehaviorInput behaviorInput) {
 
+        ServiceContext<?> ctx = behaviorInput.getContext();
         ConfigItem<?> currentBehaviorConfig = behaviorInput.getConfigItem();
         Link currentBehaviorLink = currentBehaviorConfig.getLink();
         if (currentBehaviorLink == null) {
+            Link nextLink = backFindLink(ctx);
+            if (nextLink != null) {
+                return nextLink.getBehaviorConfig();
+            }
             return null;
+        } else {
+            ctx.getLinkStack().push(currentBehaviorLink);
         }
         ConfigItem<?> nextBehaviorConfig = currentBehaviorLink.getBehaviorConfig();
         return nextBehaviorConfig;
+    }
+
+    private Link backFindLink(ServiceContext<?> ctx) {
+        try {
+            return ctx.getLinkStack().pop();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 }
