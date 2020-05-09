@@ -16,7 +16,7 @@ public class JPAQueryForObject<R> extends QueryForObject<R> {
         SpringManager manager = (SpringManager) ctx.getManager();
         EntityManager entityManager = manager.getEntityManager();
         DataAccessorConfig dataAccessorConfig = (DataAccessorConfig) behaviorInput.getConfigItem();
-        Class<?> returnClass = Class.forName(dataAccessorConfig.getReturnClass());
+        Class<?> returnClass = Class.forName(dataAccessorConfig.getRclass());
         return (R) entityManager.find(returnClass, 1);//behaviorInput.getValue());
     }
 }

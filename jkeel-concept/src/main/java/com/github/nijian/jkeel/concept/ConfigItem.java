@@ -14,10 +14,13 @@ public abstract class ConfigItem<C extends Behavior<?>> {
     private String id;
 
     @XmlElement
-    protected String name;
+    private String name;
 
-    @XmlElement
-    private String returnClass;
+    @XmlAttribute
+    private String iclass;
+
+    @XmlAttribute
+    private String rclass;
 
     @XmlElement
     private Link link;
@@ -37,19 +40,26 @@ public abstract class ConfigItem<C extends Behavior<?>> {
     }
 
     public String getName() {
+        if (name == null) {
+            name = Entry.parse(id).getConceptName();
+        }
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getIclass() {
+        return iclass;
     }
 
-    public String getReturnClass() {
-        return returnClass;
+    public void setIclass(String iclass) {
+        this.iclass = iclass;
     }
 
-    public void setReturnClass(String returnClass) {
-        this.returnClass = returnClass;
+    public String getRclass() {
+        return rclass;
+    }
+
+    public void setRclass(String rclass) {
+        this.rclass = rclass;
     }
 
     public Link getLink() {

@@ -33,6 +33,10 @@ public class BehaviorsConfigAdapter extends XmlAdapter<BehaviorsConfig, Behavior
                 throw new RuntimeException("xxx");
             }
             link.setBehaviorConfig(dataAccessorConfig);
+            Link nextLink = link.getLink();
+            if (nextLink != null) {
+                fixLink(nextLink, v);
+            }
         } else {
             throw new RuntimeException("ffafdsa");
         }
