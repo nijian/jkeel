@@ -13,7 +13,9 @@ public class Link {
     private String type;
 
     @XmlAttribute
-    private String refid;
+    private String ref;
+
+    private boolean var;
 
     private ConfigItem<?> behaviorConfig;
 
@@ -30,12 +32,20 @@ public class Link {
         this.type = type;
     }
 
-    public String getRefid() {
-        return refid;
+    public String getRef() {
+        return ref;
     }
 
-    public void setRefid(String refid) {
-        this.refid = refid;
+    public void setRef(String ref) {
+        this.ref = ref;
+    }
+
+    public boolean isVar() {
+        return var;
+    }
+
+    public void setVar(boolean var) {
+        this.var = var;
     }
 
     public ConfigItem<?> getBehaviorConfig() {

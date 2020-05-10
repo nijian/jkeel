@@ -24,11 +24,11 @@ public class BehaviorsConfigAdapter extends XmlAdapter<BehaviorsConfig, Behavior
 
     private void fixLink(Link link, BehaviorsConfig v) {
         String type = link.getType();
-        String refid = link.getRefid();
+        String ref = link.getRef();
         if (type.equals("service")) {
 
         } else if (type.equals("dataAccessor")) {
-            DataAccessorConfig dataAccessorConfig = v.getDataAccessorConfigMap().get(refid);
+            DataAccessorConfig dataAccessorConfig = v.getDataAccessorConfigMap().get(ref);
             if (dataAccessorConfig == null) {
                 throw new RuntimeException("xxx");
             }

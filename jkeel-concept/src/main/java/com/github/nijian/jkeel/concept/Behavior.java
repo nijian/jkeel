@@ -77,8 +77,8 @@ public abstract class Behavior<R> implements Function<BehaviorInput, R> {
         Link currentBehaviorLink = currentBehaviorConfig.getLink();
         if (currentBehaviorLink == null) {
             Link nextLink = backFindLink(ctx);
-            if (nextLink != null) {
-                return nextLink.getBehaviorConfig();
+            if (nextLink != null && nextLink.getLink() != null) {
+                return nextLink.getLink().getBehaviorConfig();
             }
             return null;
         } else {

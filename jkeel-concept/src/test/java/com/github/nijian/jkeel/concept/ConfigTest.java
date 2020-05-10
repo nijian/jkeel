@@ -15,7 +15,7 @@ public class ConfigTest {
             @Override
             public String get(String term) {
                 try {
-                    File file = new File(getClass().getClassLoader().getResource("services.xml").getFile());
+                    File file = new File(getClass().getClassLoader().getResource("testservices.xml").getFile());
                     return FileUtils.readFileToString(file, "UTF-8");
                 } catch (Exception e) {
                     throw new RuntimeException("xxxxxxx");
