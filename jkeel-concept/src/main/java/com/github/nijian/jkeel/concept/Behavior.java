@@ -14,6 +14,21 @@ public abstract class Behavior<R> implements Function<BehaviorInput, R> {
         ctx.onStart(currentBehaviorConfig);
         Object obj = internalExecute(behaviorInput, currentBehaviorConfig);
         ctx.onEnd(currentBehaviorConfig);
+
+        Link backLink = backFindLink(ctx);
+        if (backLink != null) {
+            Link link = backLink.getLink();
+            if (link != null) {
+                ctx.getLinkStack().push(link);
+                ConfigItem<?> backBehaviorConfig = link.getBehaviorConfig();
+                if (backBehaviorConfig != null) {
+                    Behavior<?> backBehavior = backBehaviorConfig.getBehavior();
+                    BehaviorInput backBehaviorInput = new BehaviorInput(ctx, backBehaviorConfig, obj);
+                    return (R) backBehavior.apply(backBehaviorInput);
+                }
+            }
+        }
+
         return (R) obj;
     }
 
@@ -25,13 +40,17 @@ public abstract class Behavior<R> implements Function<BehaviorInput, R> {
             //validation
 
             ServiceContext<?> ctx = behaviorInput.getContext();
-            ConfigItem<?> nextBehaviorConfig = getNextBehaviorConfig(behaviorInput);
-            if (nextBehaviorConfig == null) {
+
+            Link nextLink = getNextLink(behaviorInput);
+            if (nextLink != null) {
+                ctx.getLinkStack().push(nextLink);
+                ConfigItem<?> nextBehaviorConfig = nextLink.getBehaviorConfig();
+                Behavior<?> nextBehavior = nextBehaviorConfig.getBehavior();
+                BehaviorInput nextBehaviorInput = new BehaviorInput(ctx, nextBehaviorConfig, convertedObject);
+                return nextBehavior.apply(nextBehaviorInput);
+            } else {
                 return handleResult(ctx, currentBehaviorConfig, execute(ctx, behaviorInput));
             }
-            Behavior<?> nextBehavior = nextBehaviorConfig.getBehavior();
-            BehaviorInput nextBehaviorInput = new BehaviorInput(ctx, nextBehaviorConfig, convertedObject);
-            return nextBehavior.apply(nextBehaviorInput);
         } catch (Exception e) {
             throw new RuntimeException("xxx", e);
         }
@@ -52,22 +71,9 @@ public abstract class Behavior<R> implements Function<BehaviorInput, R> {
         return (R) outMapping.apply(behaviorInput);
     }
 
-    private ConfigItem<?> getNextBehaviorConfig(BehaviorInput behaviorInput) {
-        ServiceContext<?> ctx = behaviorInput.getContext();
+    private Link getNextLink(BehaviorInput behaviorInput) {
         ConfigItem<?> currentBehaviorConfig = behaviorInput.getConfigItem();
-        Link currentBehaviorLink = currentBehaviorConfig.getLink();
-        if (currentBehaviorLink == null) {
-            Link nextLink = backFindLink(ctx);
-            if (nextLink != null && nextLink.getLink() != null) {
-                ConfigItem<?> nextBehaviorConfig = nextLink.getLink().getBehaviorConfig();
-                return nextBehaviorConfig;
-            }
-            return null;
-        } else {
-            ctx.getLinkStack().push(currentBehaviorLink);
-            ConfigItem<?> nextBehaviorConfig = currentBehaviorLink.getBehaviorConfig();
-            return nextBehaviorConfig;
-        }
+        return currentBehaviorConfig.getLink();
     }
 
     private Link backFindLink(ServiceContext<?> ctx) {
