@@ -15,6 +15,7 @@ public class Link {
     @XmlAttribute
     private String ref;
 
+    @XmlAttribute
     private boolean var;
 
     private ConfigItem<?> behaviorConfig;

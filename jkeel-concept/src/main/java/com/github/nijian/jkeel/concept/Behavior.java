@@ -21,11 +21,13 @@ public abstract class Behavior<R> implements Function<BehaviorInput, R> {
             if (link != null) {
                 ctx.getLinkStack().push(link);
                 ConfigItem<?> backBehaviorConfig = link.getBehaviorConfig();
-                if (backBehaviorConfig != null) {
-                    Behavior<?> backBehavior = backBehaviorConfig.getBehavior();
-                    BehaviorInput backBehaviorInput = new BehaviorInput(ctx, backBehaviorConfig, obj);
-                    return (R) backBehavior.apply(backBehaviorInput);
+                Behavior<?> backBehavior = backBehaviorConfig.getBehavior();
+                BehaviorInput backBehaviorInput = new BehaviorInput(ctx, backBehaviorConfig, obj);
+                R r = (R) backBehavior.apply(backBehaviorInput);
+                if(link.isVar()){
+                    ctx.getServiceVariables().put(link.getRef(), r);
                 }
+                return r;
             }
         }
 
@@ -47,7 +49,11 @@ public abstract class Behavior<R> implements Function<BehaviorInput, R> {
                 ConfigItem<?> nextBehaviorConfig = nextLink.getBehaviorConfig();
                 Behavior<?> nextBehavior = nextBehaviorConfig.getBehavior();
                 BehaviorInput nextBehaviorInput = new BehaviorInput(ctx, nextBehaviorConfig, convertedObject);
-                return nextBehavior.apply(nextBehaviorInput);
+                Object nextBehaviorValue = nextBehavior.apply(nextBehaviorInput);
+                if (nextLink.isVar()) {
+                    ctx.getServiceVariables().put(nextLink.getRef(), nextBehaviorValue);
+                }
+                return nextBehaviorValue;
             } else {
                 return handleResult(ctx, currentBehaviorConfig, execute(ctx, behaviorInput));
             }
