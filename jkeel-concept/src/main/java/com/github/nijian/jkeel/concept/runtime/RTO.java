@@ -2,7 +2,9 @@ package com.github.nijian.jkeel.concept.runtime;
 
 public class RTO {
 
-    private String id;
+    private final String id;
+
+    private long startTime;
 
     private long executionTime;
 
@@ -14,12 +16,20 @@ public class RTO {
 
     private RTO child;
 
+    public RTO(String id) {
+        this.id = id;
+    }
+
     public String getId() {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public long getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(long startTime) {
+        this.startTime = startTime;
     }
 
     public long getExecutionTime() {
@@ -61,4 +71,5 @@ public class RTO {
     public void setChild(RTO child) {
         this.child = child;
     }
+
 }

@@ -29,7 +29,7 @@ public final class BehaviorInput {
         return value;
     }
 
-    public Object convert(RTO currentRTO) {
+    public Object convert() {
         MappingConfig inMappingConfig = configItem.getInMapping();
         if (inMappingConfig == null) {
             return value;
@@ -39,11 +39,6 @@ public final class BehaviorInput {
         if (inMapping == null) {
             throw new RuntimeException("ffsa");
         }
-
-        RTO inMappingRTO = new RTO();
-        inMappingRTO.setId(inMappingConfig.getId());
-        currentRTO.setInMapping(inMappingRTO);
-        ctx.setCurrentRTO(inMappingRTO);
 
         BehaviorInput behaviorInput = new BehaviorInput(ctx, inMappingConfig, value);
         return inMapping.apply(behaviorInput);

@@ -3,13 +3,14 @@ package com.github.nijian.jkeel.concept;
 import com.github.nijian.jkeel.concept.config.BehaviorsConfig;
 import com.github.nijian.jkeel.concept.config.Link;
 import com.github.nijian.jkeel.concept.config.ServiceConfig;
+import com.github.nijian.jkeel.concept.runtime.BehaviorListener;
 import com.github.nijian.jkeel.concept.runtime.RTO;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 
-public final class ServiceContext<M extends Manager> {
+public final class ServiceContext<M extends Manager> implements BehaviorListener {
 
     private final M manager;
 
@@ -18,6 +19,8 @@ public final class ServiceContext<M extends Manager> {
     private final Map<String, Object> serviceVariables;
 
     private final Stack<Link> linkStack;
+
+    private final Stack<RTO> rtoStack;
 
     private final RTO rootRTO;
 
@@ -28,7 +31,8 @@ public final class ServiceContext<M extends Manager> {
         this.user = user;
         serviceVariables = new HashMap<>();
         linkStack = new Stack<>();
-        this.rootRTO = new RTO();
+        rtoStack = new Stack<>();
+        this.rootRTO = new RTO("root");
         this.currentRTO = rootRTO;
     }
 
@@ -76,7 +80,7 @@ public final class ServiceContext<M extends Manager> {
     public String rtInfo() {
         StringBuffer sb = new StringBuffer();
         sb.append("**************************************\t\n");
-        appendInfo(sb, rootRTO, 0);
+        appendInfo(sb, rootRTO.getChild(), 0);
         sb.append("**************************************\t\n");
         return sb.toString();
     }
@@ -95,6 +99,25 @@ public final class ServiceContext<M extends Manager> {
         RTO childRTO = currentRTO.getChild();
         if (childRTO != null) {
             appendInfo(sb, childRTO, ++level);
+        }
+    }
+
+    @Override
+    public void onStart(ConfigItem<?> configItem) {
+        RTO rto = new RTO(configItem.getId());
+        rtoStack.push(rto);
+        currentRTO.setChild(rto);
+        currentRTO = currentRTO.getChild();
+        currentRTO.setStartTime(System.currentTimeMillis());
+    }
+
+    @Override
+    public void onEnd(ConfigItem<?> configItem) {
+        try {
+            RTO rto = rtoStack.pop();
+            rto.setExecutionTime(System.currentTimeMillis() - rto.getStartTime());
+        }catch(Exception e){
+            System.out.println("xxvsafdsa");
         }
     }
 }
