@@ -17,13 +17,15 @@
         <!--</actions>-->
         <services>
             <service id="initQueryContracts@JSON">
-                <link type="dataAccessor" ref="Get Contracts Data@JPA_LOAD">
-                    <link type="dataAccessor" ref="Count Contracts Data@SPRING_DATA_QUERY_LIST"/>
+                <inMapping id="Get Contracts Data@JKEEL_MAPPING"/>
+                <link id="1" type="dataAccessor" ref="Get Contracts Data@JPA_LOAD" var="true" out="true">
+                    <link id="2" type="dataAccessor" ref="Count Contracts Data@SPRING_DATA_QUERY_LIST" var="true"
+                          out="true">
+                        <param name="a" value="123"/>
+                        <param name="b" link="1"/>
+                    </link>
                 </link>
-                <!--<inMapping>-->
-                <!--<entryName>Get Contracts Data@JKEEL_MAPPING</entryName>-->
-                <!--<name>JKEEL_MAPPING</name>-->
-                <!--</inMapping>-->
+
                 <!--<outMapping>-->
                 <!--<entryName>Get Contracts Data@JKEEL_MAPPING</entryName>-->
                 <!--<name>JKEEL_MAPPING</name>-->

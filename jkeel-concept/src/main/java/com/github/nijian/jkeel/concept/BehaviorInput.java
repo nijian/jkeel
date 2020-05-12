@@ -1,7 +1,6 @@
 package com.github.nijian.jkeel.concept;
 
 import com.github.nijian.jkeel.concept.config.MappingConfig;
-import com.github.nijian.jkeel.concept.runtime.RTO;
 
 public final class BehaviorInput {
 
@@ -41,6 +40,7 @@ public final class BehaviorInput {
         }
 
         BehaviorInput behaviorInput = new BehaviorInput(ctx, inMappingConfig, value);
-        return inMapping.apply(behaviorInput);
+        Object convertedValue = inMapping.apply(behaviorInput);
+        return convertedValue;
     }
 }
