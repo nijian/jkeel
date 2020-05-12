@@ -2,6 +2,7 @@ package com.github.nijian.jkeel.concept.config;
 
 import com.github.nijian.jkeel.concept.Action;
 import com.github.nijian.jkeel.concept.ConfigItem;
+import com.github.nijian.jkeel.concept.spi.ActionFactoryProvider;
 
 import javax.xml.bind.annotation.XmlType;
 
@@ -10,7 +11,7 @@ public class ActionConfig extends ConfigItem<Action> {
 
     @Override
     public Action getBehavior() {
-        return null;
+        return ActionFactoryProvider.getInstance().getAction(getName());
     }
 
 }

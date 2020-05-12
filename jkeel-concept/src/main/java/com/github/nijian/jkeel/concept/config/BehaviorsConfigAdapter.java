@@ -37,6 +37,16 @@ public class BehaviorsConfigAdapter extends XmlAdapter<BehaviorsConfig, Behavior
             if (nextLink != null) {
                 fixLink(nextLink, v);
             }
+        } else if (type.equals("action")) {
+            ActionConfig actionConfig = v.getActionConfigMap().get(ref);
+            if (actionConfig == null) {
+                throw new RuntimeException("xxx");
+            }
+            link.setBehaviorConfig(actionConfig);
+            Link nextLink = link.getLink();
+            if (nextLink != null) {
+                fixLink(nextLink, v);
+            }
         } else {
             throw new RuntimeException("ffafdsa");
         }

@@ -8,17 +8,15 @@
                           rclass="java.lang.Long">
             </dataAccessor>
         </dataAccessors>
-        <!--<actions>-->
-        <!--<action id="Get ABC ID@POPULATE"-->
-        <!--iclass=""-->
-        <!--rclass="java.lang.Long">-->
-        <!--<link type="dataAccessor" refid="Get Contracts Data@JPA_LOAD"/>-->
-        <!--</action>-->
-        <!--</actions>-->
+        <actions>
+            <action id="Get ABC ID@POPULATE" iclass="" rclass="java.lang.Long">
+                <link id="3" type="dataAccessor" ref="Get Contracts Data@JPA_LOAD"/>
+            </action>
+        </actions>
         <services>
             <service id="initQueryContracts@JSON">
                 <inMapping id="Get Contracts Data@JKEEL_MAPPING"/>
-                <link id="1" type="dataAccessor" ref="Get Contracts Data@JPA_LOAD" var="true" out="true">
+                <link id="1" type="action" ref="Get ABC ID@POPULATE" var="true" out="true">
                     <link id="2" type="dataAccessor" ref="Count Contracts Data@SPRING_DATA_QUERY_LIST" var="true"
                           out="true">
                         <param name="a" value="123"/>
