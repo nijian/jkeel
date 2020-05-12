@@ -15,6 +15,7 @@
         </actions>
         <services>
             <service id="initQueryContracts@JSON">
+                <!--<validation id="Get Contracts Data@JKEEL_VALIDATION"/>-->
                 <inMapping id="Get Contracts Data@JKEEL_MAPPING"/>
                 <link id="1" type="action" ref="Get ABC ID@POPULATE" var="true" out="true">
                     <link id="2" type="dataAccessor" ref="Count Contracts Data@SPRING_DATA_QUERY_LIST" var="true"
@@ -28,10 +29,7 @@
                 <!--<entryName>Get Contracts Data@JKEEL_MAPPING</entryName>-->
                 <!--<name>JKEEL_MAPPING</name>-->
                 <!--</outMapping>-->
-                <!--<validation>-->
-                <!--<entryName>Get Contracts Data@JKEEL_VALIDATION</entryName>-->
-                <!--<name>JKEEL_VALIDATION</name>-->
-                <!--</validation>-->
+
             </service>
         </services>
     </behaviors>

@@ -1,6 +1,7 @@
 package com.github.nijian.jkeel.concept;
 
 import com.github.nijian.jkeel.concept.config.MappingConfig;
+import com.github.nijian.jkeel.concept.config.ValidationConfig;
 
 public final class BehaviorInput {
 
@@ -28,6 +29,27 @@ public final class BehaviorInput {
         return value;
     }
 
+    public boolean verify() throws BehaviorException {
+
+        ValidationConfig validationConfig = configItem.getValidation();
+        if (validationConfig == null) {
+            return true;
+        }
+
+        Validation validation = validationConfig.getBehavior();
+        if (validation == null) {
+            throw new RuntimeException("ffsa");
+        }
+
+        BehaviorInput behaviorInput = new BehaviorInput(ctx, validationConfig, value);
+        Boolean pass = (Boolean) validation.apply(behaviorInput);
+        if (pass) {
+            return true;
+        }
+
+        return false;
+    }
+
     public Object convert() {
         MappingConfig inMappingConfig = configItem.getInMapping();
         if (inMappingConfig == null) {
@@ -40,7 +62,6 @@ public final class BehaviorInput {
         }
 
         BehaviorInput behaviorInput = new BehaviorInput(ctx, inMappingConfig, value);
-        Object convertedValue = inMapping.apply(behaviorInput);
-        return convertedValue;
+        return inMapping.apply(behaviorInput);
     }
 }

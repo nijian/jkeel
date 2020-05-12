@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlType
 public class ValidationConfig extends ConfigItem<Validation> {
+
     @Override
     public Validation getBehavior() {
         return null;

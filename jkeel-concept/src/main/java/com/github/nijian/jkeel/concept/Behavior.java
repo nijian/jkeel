@@ -36,10 +36,14 @@ public abstract class Behavior implements Function<BehaviorInput, Object> {
 
     private Object perform(BehaviorInput behaviorInput, ConfigItem<?> currentBehaviorConfig) {
         try {
-            //in mapping
-            Object convertedObject = behaviorInput.convert();
 
             //validation
+            if (!behaviorInput.verify()) {
+                throw new BehaviorException();
+            }
+
+            //in mapping
+            Object convertedObject = behaviorInput.convert();
 
             ServiceContext<?> ctx = behaviorInput.getContext();
 
