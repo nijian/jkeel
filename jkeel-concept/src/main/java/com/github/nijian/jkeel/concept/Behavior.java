@@ -17,6 +17,11 @@ public abstract class Behavior<R> implements Function<BehaviorInput, R> {
 
         Link backLink = backFindLink(ctx);
         if (backLink != null) {
+
+            if (backLink.isVar()) {
+                ctx.getServiceVariables().put(backLink.getRef(), obj);
+            }
+
             Link link = backLink.getLink();
             if (link != null) {
                 ctx.getLinkStack().push(link);
@@ -24,9 +29,6 @@ public abstract class Behavior<R> implements Function<BehaviorInput, R> {
                 Behavior<?> backBehavior = backBehaviorConfig.getBehavior();
                 BehaviorInput backBehaviorInput = new BehaviorInput(ctx, backBehaviorConfig, obj);
                 R r = (R) backBehavior.apply(backBehaviorInput);
-                if(link.isVar()){
-                    ctx.getServiceVariables().put(link.getRef(), r);
-                }
                 return r;
             }
         }
@@ -50,11 +52,15 @@ public abstract class Behavior<R> implements Function<BehaviorInput, R> {
                 Behavior<?> nextBehavior = nextBehaviorConfig.getBehavior();
                 BehaviorInput nextBehaviorInput = new BehaviorInput(ctx, nextBehaviorConfig, convertedObject);
                 Object nextBehaviorValue = nextBehavior.apply(nextBehaviorInput);
-                if (nextLink.isVar()) {
-                    ctx.getServiceVariables().put(nextLink.getRef(), nextBehaviorValue);
-                }
+//                Object nextBehaviorValue = handleResult(ctx, nextBehaviorConfig, nextBehavior.execute(ctx, nextBehaviorInput));
+//                if (nextLink.isVar()) {
+//                    ctx.getServiceVariables().put(nextLink.getRef(), nextBehaviorValue);
+//                }
                 return nextBehaviorValue;
             } else {
+
+
+
                 return handleResult(ctx, currentBehaviorConfig, execute(ctx, behaviorInput));
             }
         } catch (Exception e) {
@@ -67,14 +73,14 @@ public abstract class Behavior<R> implements Function<BehaviorInput, R> {
         return behaviorInput.getValue();
     }
 
-    protected R handleResult(ServiceContext<?> ctx, ConfigItem<?> currentBehaviorConfig, Object value) {
+    protected Object handleResult(ServiceContext<?> ctx, ConfigItem<?> currentBehaviorConfig, Object value) {
         MappingConfig outMappingConfig = currentBehaviorConfig.getOutMapping();
         if (outMappingConfig == null) {
-            return (R) value; //default implementation
+            return value; //default implementation
         }
         Mapping<?> outMapping = outMappingConfig.getBehavior();
         BehaviorInput behaviorInput = new BehaviorInput(ctx, outMappingConfig, value);
-        return (R) outMapping.apply(behaviorInput);
+        return outMapping.apply(behaviorInput);
     }
 
     private Link getNextLink(BehaviorInput behaviorInput) {
