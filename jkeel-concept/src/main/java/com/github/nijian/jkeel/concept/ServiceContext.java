@@ -95,12 +95,12 @@ public final class ServiceContext<M extends Manager> implements BehaviorListener
     private void appendInfo(StringBuffer sb, RTO currentRTO, int level) {
         StringBuffer preSb = new StringBuffer();
         for (int i = 0; i < level; i++) {
-            preSb.append("**");
+            preSb.append("-> ");
         }
         sb.append(preSb).append(currentRTO.getId()).append(":").append(currentRTO.getExecutionTime()).append("ms").append("\t\n");
         RTO inMappingRTO = currentRTO.getInMapping();
         if (inMappingRTO != null) {
-            sb.append(preSb).append("**").append(inMappingRTO.getId()).append(":").append(inMappingRTO.getExecutionTime()).append("ms").append("\t\n");
+            sb.append(preSb).append("-> ").append(inMappingRTO.getId()).append(":").append(inMappingRTO.getExecutionTime()).append("ms").append("\t\n");
         }
 
         RTO childRTO = currentRTO.getChild();
