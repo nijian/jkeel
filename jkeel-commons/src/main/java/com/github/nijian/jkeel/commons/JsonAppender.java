@@ -25,7 +25,8 @@ public final class JsonAppender {
         ServiceConfig serviceConfig = ctx.getServiceConfig(serviceEntryName);
         Service service = serviceConfig.getBehavior();
         BehaviorInput serviceInput = new BehaviorInput(ctx, serviceConfig, inputValue);
-        localJsonMap.put(serviceEntryName, service.apply(serviceInput));
+        service.apply(serviceInput);
+        localJsonMap.put(serviceEntryName, ctx.getOut());
 
         System.out.println(ctx.rtInfo());
     }

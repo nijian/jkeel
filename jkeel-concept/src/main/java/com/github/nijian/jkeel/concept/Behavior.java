@@ -3,6 +3,7 @@ package com.github.nijian.jkeel.concept;
 import com.github.nijian.jkeel.concept.config.Link;
 import com.github.nijian.jkeel.concept.config.MappingConfig;
 
+import java.util.Stack;
 import java.util.function.Function;
 
 public abstract class Behavior implements Function<BehaviorInput, Object> {
@@ -11,30 +12,29 @@ public abstract class Behavior implements Function<BehaviorInput, Object> {
     public final Object apply(BehaviorInput behaviorInput) {
         ServiceContext<?> ctx = behaviorInput.getContext();
         ConfigItem<?> currentBehaviorConfig = behaviorInput.getConfigItem();
+
         ctx.onStart(currentBehaviorConfig);
-        Object obj = internalExecute(behaviorInput, currentBehaviorConfig);
+        Object behaviorResult = perform(behaviorInput, currentBehaviorConfig);
         ctx.onEnd(currentBehaviorConfig);
 
-        Link backLink = backFindLink(ctx);
-        if (backLink != null) {
-
-            if (backLink.isVar()) {
-                ctx.getServiceVariables().put(backLink.getRef(), obj);
-            }
-
-            Link link = backLink.getLink();
+        Link backwardLink = backwardLink(ctx);
+        if (backwardLink != null) {
+            storeValue(ctx, backwardLink, behaviorResult);
+            Link link = backwardLink.getLink();
             if (link != null) {
-                ctx.getLinkStack().push(link);
-                ConfigItem<?> backBehaviorConfig = link.getBehaviorConfig();
-                Behavior backBehavior = backBehaviorConfig.getBehavior();
-                BehaviorInput backBehaviorInput = new BehaviorInput(ctx, backBehaviorConfig, obj);
-                return backBehavior.apply(backBehaviorInput);
+                return executeLink(ctx, link, behaviorResult);
             }
         }
-        return obj;
+        return behaviorResult;
     }
 
-    private Object internalExecute(BehaviorInput behaviorInput, ConfigItem<?> currentBehaviorConfig) {
+    protected Object execute(ServiceContext<?> ctx, BehaviorInput behaviorInput) throws Exception {
+        //default impl
+        return behaviorInput.getValue();
+    }
+
+
+    private Object perform(BehaviorInput behaviorInput, ConfigItem<?> currentBehaviorConfig) {
         try {
             //in mapping
             Object convertedObject = behaviorInput.convert();
@@ -43,47 +43,52 @@ public abstract class Behavior implements Function<BehaviorInput, Object> {
 
             ServiceContext<?> ctx = behaviorInput.getContext();
 
-            Link nextLink = getNextLink(behaviorInput);
+            Link nextLink = nextLink(behaviorInput);
             if (nextLink != null) {
-                ctx.getLinkStack().push(nextLink);
-                ConfigItem<?> nextBehaviorConfig = nextLink.getBehaviorConfig();
-                Behavior nextBehavior = nextBehaviorConfig.getBehavior();
-                BehaviorInput nextBehaviorInput = new BehaviorInput(ctx, nextBehaviorConfig, convertedObject);
-                return nextBehavior.apply(nextBehaviorInput);
+                return executeLink(ctx, nextLink, convertedObject);
             } else {
-                return handleResult(ctx, currentBehaviorConfig, execute(ctx, behaviorInput));
+                Object result = execute(ctx, behaviorInput);
+                MappingConfig outMappingConfig = currentBehaviorConfig.getOutMapping();
+                if (outMappingConfig == null) {
+                    return result;
+                }
+                Mapping outMapping = outMappingConfig.getBehavior();
+                BehaviorInput mappingBehaviorInput = new BehaviorInput(ctx, outMappingConfig, result);
+                return outMapping.apply(mappingBehaviorInput);
             }
         } catch (Exception e) {
             throw new RuntimeException("xxx", e);
         }
     }
 
-    protected Object execute(ServiceContext<?> ctx, BehaviorInput behaviorInput) throws Exception {
-        //default impl
-        return behaviorInput.getValue();
-    }
-
-    protected Object handleResult(ServiceContext<?> ctx, ConfigItem<?> currentBehaviorConfig, Object value) {
-        MappingConfig outMappingConfig = currentBehaviorConfig.getOutMapping();
-        if (outMappingConfig == null) {
-            return value; //default implementation
+    private void storeValue(ServiceContext<?> ctx, Link link, Object value) {
+        String linkId = link.getRef();
+        if (link.isVar()) {
+            ctx.getVars().put(linkId, value);
         }
-        Mapping outMapping = outMappingConfig.getBehavior();
-        BehaviorInput behaviorInput = new BehaviorInput(ctx, outMappingConfig, value);
-        return outMapping.apply(behaviorInput);
-    }
-
-    private Link getNextLink(BehaviorInput behaviorInput) {
-        ConfigItem<?> currentBehaviorConfig = behaviorInput.getConfigItem();
-        return currentBehaviorConfig.getLink();
-    }
-
-    private Link backFindLink(ServiceContext<?> ctx) {
-        try {
-            return ctx.getLinkStack().pop();
-        } catch (Exception e) {
-            return null;
+        if (link.isOut()) {
+            ctx.getOut().put(linkId, value);
         }
+    }
+
+    private Object executeLink(ServiceContext<?> ctx, Link link, Object value) {
+        ctx.getLinkStack().push(link);
+        ConfigItem<?> nextBehaviorConfig = link.getBehaviorConfig();
+        Behavior nextBehavior = nextBehaviorConfig.getBehavior();
+        BehaviorInput nextBehaviorInput = new BehaviorInput(ctx, nextBehaviorConfig, value);
+        return nextBehavior.apply(nextBehaviorInput);
+    }
+
+    private Link nextLink(BehaviorInput behaviorInput) {
+        return behaviorInput.getConfigItem().getLink();
+    }
+
+    private Link backwardLink(ServiceContext<?> ctx) {
+        Stack<Link> linkStack = ctx.getLinkStack();
+        if (linkStack.size() > 0) {
+            return linkStack.pop();
+        }
+        return null;
     }
 
 }

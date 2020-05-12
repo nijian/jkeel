@@ -18,6 +18,9 @@ public class Link {
     @XmlAttribute
     private boolean var;
 
+    @XmlAttribute
+    private boolean out;
+
     private ConfigItem<?> behaviorConfig;
 
     @XmlElement
@@ -47,6 +50,14 @@ public class Link {
 
     public void setVar(boolean var) {
         this.var = var;
+    }
+
+    public boolean isOut() {
+        return out;
+    }
+
+    public void setOut(boolean out) {
+        this.out = out;
     }
 
     public ConfigItem<?> getBehaviorConfig() {

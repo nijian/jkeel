@@ -16,7 +16,9 @@ public final class ServiceContext<M extends Manager> implements BehaviorListener
 
     private final User user;
 
-    private final Map<String, Object> serviceVariables;
+    private final Map<String, Object> vars;
+
+    private final Map<String, Object> out;
 
     private final Stack<Link> linkStack;
 
@@ -29,7 +31,8 @@ public final class ServiceContext<M extends Manager> implements BehaviorListener
     public ServiceContext(M manager, User user) {
         this.manager = manager;
         this.user = user;
-        serviceVariables = new HashMap<>();
+        vars = new HashMap<>();
+        out = new HashMap<>();
         linkStack = new Stack<>();
         rtoStack = new Stack<>();
         this.rootRTO = new RTO("root");
@@ -48,8 +51,12 @@ public final class ServiceContext<M extends Manager> implements BehaviorListener
         return user.getOrg();
     }
 
-    public Map<String, Object> getServiceVariables() {
-        return serviceVariables;
+    public Map<String, Object> getVars() {
+        return vars;
+    }
+
+    public Map<String, Object> getOut() {
+        return out;
     }
 
     public Stack<Link> getLinkStack() {
@@ -116,7 +123,7 @@ public final class ServiceContext<M extends Manager> implements BehaviorListener
         try {
             RTO rto = rtoStack.pop();
             rto.setExecutionTime(System.currentTimeMillis() - rto.getStartTime());
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println("xxvsafdsa");
         }
     }
