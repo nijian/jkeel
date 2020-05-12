@@ -5,10 +5,10 @@ import com.github.nijian.jkeel.concept.config.MappingConfig;
 
 import java.util.function.Function;
 
-public abstract class Behavior<R> implements Function<BehaviorInput, R> {
+public abstract class Behavior implements Function<BehaviorInput, Object> {
 
     @Override
-    public final R apply(BehaviorInput behaviorInput) {
+    public final Object apply(BehaviorInput behaviorInput) {
         ServiceContext<?> ctx = behaviorInput.getContext();
         ConfigItem<?> currentBehaviorConfig = behaviorInput.getConfigItem();
         ctx.onStart(currentBehaviorConfig);
@@ -26,14 +26,12 @@ public abstract class Behavior<R> implements Function<BehaviorInput, R> {
             if (link != null) {
                 ctx.getLinkStack().push(link);
                 ConfigItem<?> backBehaviorConfig = link.getBehaviorConfig();
-                Behavior<?> backBehavior = backBehaviorConfig.getBehavior();
+                Behavior backBehavior = backBehaviorConfig.getBehavior();
                 BehaviorInput backBehaviorInput = new BehaviorInput(ctx, backBehaviorConfig, obj);
-                R r = (R) backBehavior.apply(backBehaviorInput);
-                return r;
+                return backBehavior.apply(backBehaviorInput);
             }
         }
-
-        return (R) obj;
+        return obj;
     }
 
     private Object internalExecute(BehaviorInput behaviorInput, ConfigItem<?> currentBehaviorConfig) {
@@ -49,18 +47,10 @@ public abstract class Behavior<R> implements Function<BehaviorInput, R> {
             if (nextLink != null) {
                 ctx.getLinkStack().push(nextLink);
                 ConfigItem<?> nextBehaviorConfig = nextLink.getBehaviorConfig();
-                Behavior<?> nextBehavior = nextBehaviorConfig.getBehavior();
+                Behavior nextBehavior = nextBehaviorConfig.getBehavior();
                 BehaviorInput nextBehaviorInput = new BehaviorInput(ctx, nextBehaviorConfig, convertedObject);
-                Object nextBehaviorValue = nextBehavior.apply(nextBehaviorInput);
-//                Object nextBehaviorValue = handleResult(ctx, nextBehaviorConfig, nextBehavior.execute(ctx, nextBehaviorInput));
-//                if (nextLink.isVar()) {
-//                    ctx.getServiceVariables().put(nextLink.getRef(), nextBehaviorValue);
-//                }
-                return nextBehaviorValue;
+                return nextBehavior.apply(nextBehaviorInput);
             } else {
-
-
-
                 return handleResult(ctx, currentBehaviorConfig, execute(ctx, behaviorInput));
             }
         } catch (Exception e) {
@@ -78,7 +68,7 @@ public abstract class Behavior<R> implements Function<BehaviorInput, R> {
         if (outMappingConfig == null) {
             return value; //default implementation
         }
-        Mapping<?> outMapping = outMappingConfig.getBehavior();
+        Mapping outMapping = outMappingConfig.getBehavior();
         BehaviorInput behaviorInput = new BehaviorInput(ctx, outMappingConfig, value);
         return outMapping.apply(behaviorInput);
     }

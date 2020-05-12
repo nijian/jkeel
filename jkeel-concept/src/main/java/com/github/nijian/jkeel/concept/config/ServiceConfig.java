@@ -10,10 +10,10 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlType(name = "service")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ServiceConfig extends ConfigItem<Service<?>> {
+public class ServiceConfig extends ConfigItem<Service> {
 
     @Override
-    public Service<?> getBehavior() {
+    public Service getBehavior() {
         return ServiceFactoryProvider.getInstance().getService(getName());
     }
 }

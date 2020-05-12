@@ -35,7 +35,7 @@ public final class BehaviorInput {
             return value;
         }
 
-        Mapping<?> inMapping = inMappingConfig.getBehavior();
+        Mapping inMapping = inMappingConfig.getBehavior();
         if (inMapping == null) {
             throw new RuntimeException("ffsa");
         }

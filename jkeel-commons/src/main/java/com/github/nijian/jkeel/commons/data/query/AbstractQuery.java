@@ -7,7 +7,7 @@ import com.github.nijian.jkeel.concept.DataAccessor;
 import com.github.nijian.jkeel.concept.ServiceContext;
 import com.github.nijian.jkeel.concept.config.DataAccessorConfig;
 
-public abstract class AbstractQuery extends DataAccessor<QueryResult> {
+public abstract class AbstractQuery extends DataAccessor {
 
     @Override
     protected QueryResult execute(ServiceContext<?> ctx, BehaviorInput behaviorInput) {

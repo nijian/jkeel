@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 @XmlType(name = "dataAccessor")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class DataAccessorConfig extends ConfigItem<DataAccessor<?>> {
+public class DataAccessorConfig extends ConfigItem<DataAccessor> {
 
     private String query;
 
@@ -24,7 +24,7 @@ public class DataAccessorConfig extends ConfigItem<DataAccessor<?>> {
     }
 
     @Override
-    public DataAccessor<?> getBehavior() {
+    public DataAccessor getBehavior() {
         return DataAccessorFactoryProvider.getInstance().getData(getName());
     }
 }

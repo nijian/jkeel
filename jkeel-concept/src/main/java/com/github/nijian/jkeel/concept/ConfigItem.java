@@ -7,7 +7,7 @@ import com.github.nijian.jkeel.concept.config.ValidationConfig;
 import javax.xml.bind.annotation.*;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public abstract class ConfigItem<C extends Behavior<?>> {
+public abstract class ConfigItem<C extends Behavior> {
 
     @XmlID
     @XmlAttribute

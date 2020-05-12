@@ -4,6 +4,6 @@ import com.github.nijian.jkeel.concept.Service;
 
 public interface ServiceFactory {
 
-    Service<?> getService(String serviceName);
+    Service getService(String serviceName);
 
 }

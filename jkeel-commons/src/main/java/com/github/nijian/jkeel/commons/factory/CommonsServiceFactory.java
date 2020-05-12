@@ -7,7 +7,7 @@ import com.github.nijian.jkeel.concept.spi.ServiceFactory;
 public final class CommonsServiceFactory implements ServiceFactory {
 
     @Override
-    public Service<?> getService(String serviceName) {
+    public Service getService(String serviceName) {
         if (serviceName.equals("JSON")) {
             return new JsonService();
         }

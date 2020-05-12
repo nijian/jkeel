@@ -29,9 +29,9 @@ public class ServiceFactoryProvider {
     }
 
 
-    public Service<?> getService(String name) {
+    public Service getService(String name) {
 
-        Service<?> service = null;
+        Service service = null;
         Iterator<ServiceFactory> factories = loader.iterator();
         while (service == null && factories.hasNext()) {
             ServiceFactory factory = factories.next();

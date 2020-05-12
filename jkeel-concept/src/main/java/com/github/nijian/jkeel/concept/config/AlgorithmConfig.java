@@ -6,10 +6,10 @@ import com.github.nijian.jkeel.concept.ConfigItem;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlType(name = "algorithm")
-public class AlgorithmConfig extends ConfigItem<Algorithm<?>> {
+public class AlgorithmConfig extends ConfigItem<Algorithm> {
 
     @Override
-    public Algorithm<?> getBehavior() {
+    public Algorithm getBehavior() {
         return null;
     }
 }
