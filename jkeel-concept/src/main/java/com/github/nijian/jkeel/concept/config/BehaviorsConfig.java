@@ -1,6 +1,8 @@
 package com.github.nijian.jkeel.concept.config;
 
-import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.util.Map;
 
@@ -15,6 +17,10 @@ public class BehaviorsConfig {
     @XmlJavaTypeAdapter(ActionsConfigAdapter.class)
     private Map<String, ActionConfig> actionConfigMap;
 
+    @XmlElement(name = "algorithms")
+    @XmlJavaTypeAdapter(AlgorithmsConfigAdapter.class)
+    private Map<String, AlgorithmConfig> algorithmConfigMap;
+
     @XmlElement(name = "dataAccessors")
     @XmlJavaTypeAdapter(DataAccessorsConfigAdapter.class)
     private Map<String, DataAccessorConfig> dataAccessorConfigMap;
@@ -25,6 +31,14 @@ public class BehaviorsConfig {
 
     public Map<String, ActionConfig> getActionConfigMap() {
         return actionConfigMap;
+    }
+
+    public Map<String, AlgorithmConfig> getAlgorithmConfigMap() {
+        return algorithmConfigMap;
+    }
+
+    public void setAlgorithmConfigMap(Map<String, AlgorithmConfig> algorithmConfigMap) {
+        this.algorithmConfigMap = algorithmConfigMap;
     }
 
     public Map<String, DataAccessorConfig> getDataAccessorConfigMap() {

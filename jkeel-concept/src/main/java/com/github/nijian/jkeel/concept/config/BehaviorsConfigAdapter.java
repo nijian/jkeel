@@ -1,5 +1,7 @@
 package com.github.nijian.jkeel.concept.config;
 
+import com.github.nijian.jkeel.concept.ConfigItem;
+
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 import java.util.Iterator;
 import java.util.Map;
@@ -22,40 +24,35 @@ public class BehaviorsConfigAdapter extends XmlAdapter<BehaviorsConfig, Behavior
         return null;
     }
 
-    private void fixLink(Link link, BehaviorsConfig v) {
+    private void fixLink(Link link, BehaviorsConfig root) {
         String type = link.getType();
         String ref = link.getRef();
         if (type.equals("service")) {
-
+            fix0(link, root, root.getServiceConfigMap().get(ref));
         } else if (type.equals("dataAccessor")) {
-            DataAccessorConfig dataAccessorConfig = v.getDataAccessorConfigMap().get(ref);
-            if (dataAccessorConfig == null) {
-                throw new RuntimeException("xxx");
-            }
-            link.setBehaviorConfig(dataAccessorConfig);
-            Link nextLink = link.getLink();
-            if (nextLink != null) {
-                fixLink(nextLink, v);
-            }
+            fix0(link, root, root.getDataAccessorConfigMap().get(ref));
         } else if (type.equals("action")) {
-            ActionConfig actionConfig = v.getActionConfigMap().get(ref);
-            if (actionConfig == null) {
-                throw new RuntimeException("xxx");
-            }
-            link.setBehaviorConfig(actionConfig);
-            Link nextLink = link.getLink();
-            if (nextLink != null) {
-                fixLink(nextLink, v);
-            }
+            fix0(link, root, root.getActionConfigMap().get(ref));
+        } else if (type.equals("algorithm")) {
+            fix0(link, root, root.getAlgorithmConfigMap().get(ref));
         } else {
             throw new RuntimeException("ffafdsa");
         }
 
         Link nextLink = link.getBehaviorConfig().getLink();
         if (nextLink != null) {
-            fixLink(nextLink, v);
+            fixLink(nextLink, root);
         }
+    }
 
-
+    private void fix0(Link link, BehaviorsConfig root, ConfigItem<?> configItem) {
+        if (configItem == null) {
+            throw new RuntimeException("xxx");
+        }
+        link.setBehaviorConfig(configItem);
+        Link nextLink = link.getLink();
+        if (nextLink != null) {
+            fixLink(nextLink, root);
+        }
     }
 }
