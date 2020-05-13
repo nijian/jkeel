@@ -11,8 +11,8 @@ import javax.persistence.EntityManager;
 public class JPAQueryForObject extends QueryForObject {
 
     @Override
-    protected Object execute(ServiceContext<?> ctx, BehaviorInput behaviorInput) throws Exception {
-
+    protected Object execute(BehaviorInput behaviorInput) throws Exception {
+        ServiceContext<?> ctx = behaviorInput.getContext();
         SpringManager manager = (SpringManager) ctx.getManager();
         EntityManager entityManager = manager.getEntityManager();
         DataAccessorConfig dataAccessorConfig = (DataAccessorConfig) behaviorInput.getConfigItem();

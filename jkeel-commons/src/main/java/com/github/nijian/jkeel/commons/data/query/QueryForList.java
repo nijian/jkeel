@@ -1,17 +1,16 @@
 package com.github.nijian.jkeel.commons.data.query;
 
-import com.github.nijian.jkeel.concept.BehaviorInput;
-import com.github.nijian.jkeel.concept.ServiceContext;
 import com.github.nijian.jkeel.commons.entity.query.Query;
 import com.github.nijian.jkeel.commons.entity.query.QueryResult;
+import com.github.nijian.jkeel.concept.BehaviorInput;
+import com.github.nijian.jkeel.concept.ServiceContext;
 
 public abstract class QueryForList extends AbstractQuery {
 
     @Override
-    public QueryResult execute(ServiceContext<?> ctx, BehaviorInput behaviorInput) {
-
-        QueryResult queryResult = super.execute(ctx, behaviorInput);
-
+    public QueryResult execute(BehaviorInput behaviorInput) {
+        QueryResult queryResult = super.execute(behaviorInput);
+        ServiceContext<?> ctx = behaviorInput.getContext();
         Query query = new Query();//queryBehaviorInput.getValue();
         query.setWithCount(true);
 

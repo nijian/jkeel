@@ -10,7 +10,8 @@ import com.github.nijian.jkeel.concept.config.DataAccessorConfig;
 public abstract class AbstractQuery extends DataAccessor {
 
     @Override
-    protected QueryResult execute(ServiceContext<?> ctx, BehaviorInput behaviorInput) {
+    protected QueryResult execute(BehaviorInput behaviorInput) {
+        ServiceContext<?> ctx = behaviorInput.getContext();
         QueryResult queryResult = new QueryResult();
 
         DataAccessorConfig dataAccessorConfig = (DataAccessorConfig) behaviorInput.getConfigItem();
@@ -19,7 +20,7 @@ public abstract class AbstractQuery extends DataAccessor {
 
 
         Object[] args = new Object[1];
-        return execute0(behaviorInput.getContext(), queryResult, query.getSelect(), args);
+        return execute0(ctx, queryResult, query.getSelect(), args);
     }
 
     protected abstract QueryResult execute0(ServiceContext<?> serviceContext, QueryResult queryResult, String queryDsl, Object[] args);

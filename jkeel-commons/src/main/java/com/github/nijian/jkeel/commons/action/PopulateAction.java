@@ -7,7 +7,7 @@ import com.github.nijian.jkeel.concept.ServiceContext;
 public class PopulateAction extends Action {
 
     @Override
-    protected Object execute(ServiceContext<?> ctx, BehaviorInput behaviorInput) throws Exception {
-        return super.execute(ctx, behaviorInput);
+    protected Object execute(BehaviorInput behaviorInput) throws Exception {
+        return super.execute(behaviorInput);
     }
 }

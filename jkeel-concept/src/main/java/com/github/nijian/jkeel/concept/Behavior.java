@@ -28,7 +28,7 @@ public abstract class Behavior implements Function<BehaviorInput, Object> {
         return behaviorResult;
     }
 
-    protected Object execute(ServiceContext<?> ctx, BehaviorInput behaviorInput) throws Exception {
+    protected Object execute(BehaviorInput behaviorInput) throws Exception {
         //default impl
         return behaviorInput.getValue();
     }
@@ -51,7 +51,7 @@ public abstract class Behavior implements Function<BehaviorInput, Object> {
             if (nextLink != null) {
                 return executeLink(ctx, nextLink, convertedObject);
             } else {
-                Object result = execute(ctx, behaviorInput);
+                Object result = execute(behaviorInput);
                 MappingConfig outMappingConfig = currentBehaviorConfig.getOutMapping();
                 if (outMappingConfig == null) {
                     return result;
