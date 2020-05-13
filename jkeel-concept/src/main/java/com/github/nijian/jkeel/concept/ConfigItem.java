@@ -94,5 +94,13 @@ public abstract class ConfigItem<C extends Behavior> {
         this.validation = validation;
     }
 
+    public Class<?> getRclz() throws Exception {
+        try {
+            return Class.forName(rclass);
+        } catch (Exception e) {
+            throw new BehaviorException("Can't find return class type", e);
+        }
+    }
+
     protected abstract C getBehavior();
 }
