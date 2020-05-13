@@ -2,7 +2,6 @@ package com.github.nijian.jkeel.concept.config;
 
 import com.github.nijian.jkeel.concept.ConfigItem;
 import com.github.nijian.jkeel.concept.Service;
-import com.github.nijian.jkeel.concept.spi.ServiceFactoryProvider;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -14,6 +13,6 @@ public class ServiceConfig extends ConfigItem<Service> {
 
     @Override
     public Service getBehavior() {
-        return ServiceFactoryProvider.getInstance().getService(getName());
+        return Service.getInstance();
     }
 }

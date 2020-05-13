@@ -16,6 +16,12 @@ public final class ServiceContext<M extends Manager> implements BehaviorListener
 
     private final User user;
 
+    private final String serviceEntryName;
+
+    private final Object originalValue;
+
+    private final Transaction transaction;
+
     private final Map<String, Object> vars;
 
     private final Map<String, Object> out;
@@ -28,9 +34,18 @@ public final class ServiceContext<M extends Manager> implements BehaviorListener
 
     private RTO currentRTO;
 
-    public ServiceContext(M manager, User user) {
+    public ServiceContext(M manager, User user, String serviceEntryName, Object originalValue) {
         this.manager = manager;
         this.user = user;
+        this.originalValue = originalValue;
+        this.serviceEntryName = serviceEntryName;
+
+        this.transaction = new Transaction() {
+            @Override
+            public int hashCode() {
+                return super.hashCode();
+            }
+        };
         vars = new HashMap<>();
         out = new HashMap<>();
         linkStack = new Stack<>();
@@ -45,6 +60,18 @@ public final class ServiceContext<M extends Manager> implements BehaviorListener
 
     public User getUser() {
         return user;
+    }
+
+    public String getServiceEntryName() {
+        return serviceEntryName;
+    }
+
+    public Object getOriginalValue() {
+        return originalValue;
+    }
+
+    public Transaction getTransaction() {
+        return transaction;
     }
 
     public Org getOrg() {
@@ -79,7 +106,7 @@ public final class ServiceContext<M extends Manager> implements BehaviorListener
         return getOrg().getConfig().getBehaviorsConfig();
     }
 
-    public ServiceConfig getServiceConfig(String serviceEntryName) {
+    public ServiceConfig getServiceConfig() {
         ServiceConfig serviceConfig = getServicesConfig().getServiceConfigMap().get(serviceEntryName);
         return serviceConfig;
     }
@@ -126,5 +153,15 @@ public final class ServiceContext<M extends Manager> implements BehaviorListener
         } catch (Exception e) {
             System.out.println("xxvsafdsa");
         }
+    }
+
+    public Map<String, Object> run() {
+
+        ServiceConfig serviceConfig = getServiceConfig();
+        Service service = serviceConfig.getBehavior();
+        BehaviorInput serviceInput = new BehaviorInput(this, serviceConfig, originalValue);
+        service.apply(serviceInput);
+
+        return out;
     }
 }

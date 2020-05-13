@@ -34,13 +34,18 @@ public class BizTroubleshootingController {
                                      @RequestParam(value = "name", defaultValue = "World") String request,
                                      Authentication authentication) {
 
+        JsonAppender response = new JsonAppender();
+
 //        String userName = authentication.getName();
-
         User user = new User(orgId);
+        ServiceContext<SpringManager> ctx = new ServiceContext<>(manager, user,
+                "initQueryContracts", request);
+        response.appendBy(ctx);
 
-        ServiceContext<SpringManager> ctx = new ServiceContext<>(manager, user);
-        JsonAppender response = new JsonAppender(ctx);
-        response.appendBy("initQueryContracts@JSON", request);
+        ServiceContext<SpringManager> ctx1 = new ServiceContext<>(manager, user,
+                "initQueryContracts 22222", request);
+        response.appendBy(ctx1);
+
         return response.toString();
     }
 

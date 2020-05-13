@@ -1,7 +1,6 @@
 package com.github.nijian.jkeel.commons;
 
 
-import com.github.nijian.jkeel.commons.JsonUtil;
 import com.github.nijian.jkeel.concept.BehaviorInput;
 import com.github.nijian.jkeel.concept.Service;
 import com.github.nijian.jkeel.concept.ServiceContext;
@@ -12,22 +11,14 @@ import java.util.Map;
 
 public final class JsonAppender {
 
-    private final ServiceContext<?> ctx;
-
     private final Map<String, Object> localJsonMap;
 
-    public JsonAppender(ServiceContext<?> serviceContext) {
-        this.ctx = serviceContext;
+    public JsonAppender() {
         this.localJsonMap = new HashMap<>();
     }
 
-    public void appendBy(String serviceEntryName, String inputValue) {
-        ServiceConfig serviceConfig = ctx.getServiceConfig(serviceEntryName);
-        Service service = serviceConfig.getBehavior();
-        BehaviorInput serviceInput = new BehaviorInput(ctx, serviceConfig, inputValue);
-        service.apply(serviceInput);
-        localJsonMap.put(serviceEntryName, ctx.getOut());
-
+    public void appendBy(ServiceContext<?> ctx) {
+        localJsonMap.put(ctx.getServiceEntryName(), ctx.run());
         System.out.println(ctx.rtInfo());
     }
 

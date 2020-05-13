@@ -49,4 +49,12 @@ public class User {
     public void setRoles(Collection<Role> roles) {
         this.roles = roles;
     }
+
+    // must be admin user
+    public void saveConfig(Config newConfig){
+
+        //publish event
+
+        //service will be rollback and re-entry
+    }
 }
