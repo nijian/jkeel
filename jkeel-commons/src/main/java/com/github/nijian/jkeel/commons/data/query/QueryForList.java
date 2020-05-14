@@ -3,33 +3,49 @@ package com.github.nijian.jkeel.commons.data.query;
 import com.github.nijian.jkeel.commons.entity.query.Query;
 import com.github.nijian.jkeel.commons.entity.query.QueryResult;
 import com.github.nijian.jkeel.concept.BehaviorInput;
-import com.github.nijian.jkeel.concept.ConfigItem;
+import com.github.nijian.jkeel.concept.DataAccessor;
 import com.github.nijian.jkeel.concept.ServiceContext;
 import com.github.nijian.jkeel.concept.config.DataAccessorConfig;
 
-public abstract class QueryForList extends AbstractQuery {
+// not available for jpa
+public abstract class QueryForList extends DataAccessor<QueryResult> {
 
     @Override
-    public QueryResult execute(BehaviorInput behaviorInput) {
+    public final QueryResult execute(BehaviorInput behaviorInput) {
 
-        QueryResult queryResult = super.execute(behaviorInput);
+        QueryResult queryResult = new QueryResult();
+
         ServiceContext<?> ctx = behaviorInput.getContext();
-        DataAccessorConfig dataAccessorConfig = (DataAccessorConfig)behaviorInput.getConfigItem();
-//        Query query = (Query)behaviorInput.getValue();
-//        query.setWithCount(true);
-//
-//        boolean isWithCount = query.isWithCount();
-//        String queryDsl = dataAccessorConfig.getSelect();
-//        Object[] args = null;//query.getQueryFilterList().toArray();
-//
-//        if (isWithCount) {
-//            return appendCount(behaviorInput.getContext(), queryResult, queryDsl, args);
-//        }
+        DataAccessorConfig dataAccessorConfig = (DataAccessorConfig) behaviorInput.getConfigItem();
+
+        //check input class type, TODO just work around
+        Query query;
+        try {
+            query = (Query) behaviorInput.getValue();
+        } catch (Exception e) {
+            query = new Query();
+        }
+        query.setWithCount(true);//for test
+
+        // perform real execution
+        String queryDSL = generateQueryDSL(dataAccessorConfig, query);
+        queryResult = doQuery(ctx, queryResult, queryDSL);
+
+        boolean isWithCount = query.isWithCount();
+        if (isWithCount) {
+            String countDSL = generateCountDSL(dataAccessorConfig, query);
+            queryResult = doQuery(ctx, queryResult, countDSL);
+        }
 
         return queryResult;
     }
 
-    protected QueryResult appendCount(ServiceContext<?> serviceContext, QueryResult queryResult, String queryDsl, Object[] args) {
-        throw new RuntimeException("xxxx");
-    }
+    // Query to Sql DSL
+    protected abstract String generateQueryDSL(DataAccessorConfig dataAccessorConfig, Query query);
+
+    // Query to Sql DSL for count
+    protected abstract String generateCountDSL(DataAccessorConfig dataAccessorConfig, Query query);
+
+    protected abstract QueryResult doQuery(ServiceContext<?> ctx, QueryResult queryResult, String queryDSL);
+
 }
