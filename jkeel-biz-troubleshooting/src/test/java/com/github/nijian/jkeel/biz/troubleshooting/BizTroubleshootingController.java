@@ -1,6 +1,7 @@
 package com.github.nijian.jkeel.biz.troubleshooting;
 
 import com.github.nijian.jkeel.commons.JsonAppender;
+import com.github.nijian.jkeel.commons.entity.query.Query;
 import com.github.nijian.jkeel.concept.ServiceContext;
 import com.github.nijian.jkeel.concept.User;
 import com.github.nijian.jkeel.spring.SpringManager;
@@ -9,10 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @ComponentScan(basePackages = "com.github.nijian.jkeel.spring")
@@ -42,9 +40,17 @@ public class BizTroubleshootingController {
                 "initQueryContracts", request);
         response.appendBy(ctx);
 
-        ServiceContext<SpringManager> ctx1 = new ServiceContext<>(manager, user,
-                "initQueryContracts 22222", request);
-        response.appendBy(ctx1);
+        return response.toString();
+    }
+
+    @RequestMapping(value = "/queryContracts", consumes = {"application/JSON"}, produces = {"application/JSON"}, method = RequestMethod.POST)
+    public String queryContracts(@RequestHeader("jkeel-org-id") String orgId, @RequestBody Query query) {
+        JsonAppender response = new JsonAppender();
+
+        User user = new User(orgId);
+        ServiceContext<SpringManager> ctx = new ServiceContext<>(manager, user,
+                "queryContracts", query);
+        response.appendBy(ctx);
 
         return response.toString();
     }

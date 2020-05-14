@@ -15,12 +15,42 @@ public class DataAccessorConfig extends ConfigItem<DataAccessor> {
 
     private String query;
 
+    private String select;
+
+    private String from;
+
+    private String where;
+
     public String getQuery() {
         return query;
     }
 
     public void setQuery(String query) {
         this.query = query;
+    }
+
+    public String getSelect() {
+        return select;
+    }
+
+    public void setSelect(String select) {
+        this.select = select;
+    }
+
+    public String getFrom() {
+        return from;
+    }
+
+    public void setFrom(String from) {
+        this.from = from;
+    }
+
+    public String getWhere() {
+        return where;
+    }
+
+    public void setWhere(String where) {
+        this.where = where;
     }
 
     @Override

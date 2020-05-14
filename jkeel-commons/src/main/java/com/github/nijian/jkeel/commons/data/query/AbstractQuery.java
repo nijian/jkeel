@@ -11,16 +11,16 @@ public abstract class AbstractQuery extends DataAccessor {
 
     @Override
     protected QueryResult execute(BehaviorInput behaviorInput) {
+
         ServiceContext<?> ctx = behaviorInput.getContext();
         QueryResult queryResult = new QueryResult();
-
         DataAccessorConfig dataAccessorConfig = (DataAccessorConfig) behaviorInput.getConfigItem();
 
         Query query = new Query();//queryBehaviorInput.getValue();
 
 
         Object[] args = new Object[1];
-        return execute0(ctx, queryResult, query.getSelect(), args);
+        return execute0(ctx, queryResult, dataAccessorConfig.getSelect(), args);
     }
 
     protected abstract QueryResult execute0(ServiceContext<?> serviceContext, QueryResult queryResult, String queryDsl, Object[] args);

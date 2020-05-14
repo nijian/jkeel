@@ -6,9 +6,7 @@ public class Query {
 
     private Long pageNum;
 
-    private String select;
-
-    private String from;
+    private Integer pageSize;
 
     private List<QueryFilter> queryFilterList;
 
@@ -22,20 +20,12 @@ public class Query {
         this.pageNum = pageNum;
     }
 
-    public String getSelect() {
-        return select;
+    public Integer getPageSize() {
+        return pageSize;
     }
 
-    public void setSelect(String select) {
-        this.select = select;
-    }
-
-    public String getFrom() {
-        return from;
-    }
-
-    public void setFrom(String from) {
-        this.from = from;
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
     }
 
     public List<QueryFilter> getQueryFilterList() {

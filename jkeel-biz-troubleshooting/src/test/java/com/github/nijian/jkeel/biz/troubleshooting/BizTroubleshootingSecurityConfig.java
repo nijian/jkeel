@@ -15,9 +15,11 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 public class BizTroubleshootingSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable();
+
         http
                 .authorizeRequests()
-                .antMatchers("/", "/home", "/initQueryContracts").permitAll()
+                .antMatchers("/", "/home", "/initQueryContracts", "/queryContracts").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
