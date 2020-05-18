@@ -11,10 +11,15 @@ public class SpringDataQueryForList extends SqlQueryForList {
 
 
     @Override
-    protected QueryResult doQuery(ServiceContext<?> ctx, QueryResult queryResult, String queryDSL) {
+    protected QueryResult doQuery(ServiceContext<?> ctx, QueryResult queryResult, String queryDSL, Object... args) {
 
         SpringManager manager = (SpringManager) ctx.getManager();
-        List<?> valueList = manager.getJdbcTemplate().queryForList(queryDSL);
+        List<?> valueList;
+        if (args == null || args.length == 0) {
+            valueList = manager.getJdbcTemplate().queryForList(queryDSL);
+        } else {
+            valueList = manager.getJdbcTemplate().queryForList(queryDSL, args);
+        }
         queryResult.setValueList(valueList);
 
         return queryResult;

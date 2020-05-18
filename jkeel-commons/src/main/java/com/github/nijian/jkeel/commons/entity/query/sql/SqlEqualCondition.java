@@ -8,13 +8,7 @@ public class SqlEqualCondition extends SqlCondition<Object> {
     @Override
     public String toDSL() {
         StringBuffer sb = new StringBuffer();
-        sb.append(getName()).append("=");
-        Object value = getValue();
-        if (value instanceof String) {
-            sb.append("\"").append(value).append("\"");
-        } else {
-            sb.append(value);
-        }
+        sb.append(getName()).append("=? ");
         return sb.toString();
     }
 }

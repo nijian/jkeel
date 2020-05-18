@@ -1,11 +1,14 @@
 package com.github.nijian.jkeel.commons.data.query;
 
 import com.github.nijian.jkeel.commons.entity.query.Query;
+import com.github.nijian.jkeel.commons.entity.query.QueryDSL;
 import com.github.nijian.jkeel.commons.entity.query.QueryResult;
 import com.github.nijian.jkeel.concept.BehaviorInput;
 import com.github.nijian.jkeel.concept.DataAccessor;
 import com.github.nijian.jkeel.concept.ServiceContext;
 import com.github.nijian.jkeel.concept.config.DataAccessorConfig;
+
+import java.util.List;
 
 // not available for jpa
 public abstract class QueryForList extends DataAccessor<QueryResult> {
@@ -69,24 +72,34 @@ public abstract class QueryForList extends DataAccessor<QueryResult> {
         query.setWithCount(true);//for test
 
         // perform real execution
-        String queryDSL = generateQueryDSL(dataAccessorConfig, query);
-        queryResult = doQuery(ctx, queryResult, queryDSL);
+        QueryDSL queryDSL = generateQueryDSL(dataAccessorConfig, query);
+        List<Object> args = queryDSL.getArgs();
+        if (args == null) {
+            queryResult = doQuery(ctx, queryResult, queryDSL.getDsl());
+        } else {
+            queryResult = doQuery(ctx, queryResult, queryDSL.getDsl(), args.toArray());
+        }
 
         boolean isWithCount = query.isWithCount();
         if (isWithCount) {
-            String countDSL = generateCountDSL(dataAccessorConfig, query);
-            queryResult = doQuery(ctx, queryResult, countDSL);
+            queryDSL = generateCountDSL(dataAccessorConfig, query);
+            args = queryDSL.getArgs();
+            if (args == null) {
+                queryResult = doQuery(ctx, queryResult, queryDSL.getDsl());
+            } else {
+                queryResult = doQuery(ctx, queryResult, queryDSL.getDsl(), args.toArray());
+            }
         }
 
         return queryResult;
     }
 
-    // Query to Sql DSL
-    protected abstract String generateQueryDSL(DataAccessorConfig dataAccessorConfig, Query query);
+    // Query to Sql DSL and args
+    protected abstract QueryDSL generateQueryDSL(DataAccessorConfig dataAccessorConfig, Query query);
 
     // Query to Sql DSL for count
-    protected abstract String generateCountDSL(DataAccessorConfig dataAccessorConfig, Query query);
+    protected abstract QueryDSL generateCountDSL(DataAccessorConfig dataAccessorConfig, Query query);
 
-    protected abstract QueryResult doQuery(ServiceContext<?> ctx, QueryResult queryResult, String queryDSL);
+    protected abstract QueryResult doQuery(ServiceContext<?> ctx, QueryResult queryResult, String queryDSL, Object... args);
 
 }
