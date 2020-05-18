@@ -7,8 +7,8 @@
             <dataAccessor id="Count Contracts Data@SPRING_DATA_QUERY_LIST" iclass="java.lang.Long"
                           rclass="java.lang.Long">
                 <select>select name</select>
-                <from>from abc t</from>
-                <where>where ${filterName}</where>
+                <from>from abc ${id}</from>
+                <conditionMeta name="id" operator="first"/>
             </dataAccessor>
         </dataAccessors>
         <algorithms>

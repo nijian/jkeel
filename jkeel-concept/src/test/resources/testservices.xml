@@ -6,6 +6,9 @@
             </dataAccessor>
             <dataAccessor id="Count Contracts Data@SPRING_DATA_QUERY_LIST" iclass="java.lang.Long"
                           rclass="java.lang.Long">
+                <select>select name</select>
+                <from>from abc where ${id}</from>
+                <conditionMeta name="id" operator="first"/>
             </dataAccessor>
         </dataAccessors>
         <algorithms>
@@ -19,7 +22,7 @@
             </action>
         </actions>
         <services>
-            <service id="initQueryContracts@JSON">
+            <service id="initQueryContracts">
                 <!--<validation id="Get Contracts Data@JKEEL_VALIDATION"/>-->
                 <inMapping id="Get Contracts Data@JKEEL_MAPPING"/>
                 <link id="1" type="action" ref="Get ABC ID@POPULATE" var="true" out="true">
@@ -27,7 +30,7 @@
                           out="true">
                         <param name="a" value="123"/>
                         <param name="b" link="1"/>
-                        <link id="3" type="algorithm" ref="xxx@FOO" var="true" out="true"/>
+                        <link id="3" type="algorithm" ref="xxx@FOO" var="true"/>
                     </link>
                 </link>
 
@@ -36,6 +39,10 @@
                 <!--<name>JKEEL_MAPPING</name>-->
                 <!--</outMapping>-->
 
+            </service>
+            <service id="queryContracts">
+                <link id="10" type="dataAccessor" ref="Count Contracts Data@SPRING_DATA_QUERY_LIST" var="true"
+                      out="true"/>
             </service>
         </services>
     </behaviors>

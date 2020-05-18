@@ -6,8 +6,9 @@ import com.github.nijian.jkeel.concept.spi.DataAccessorFactoryProvider;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import java.util.List;
 
 @XmlType(name = "dataAccessor")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -20,6 +21,9 @@ public class DataAccessorConfig extends ConfigItem<DataAccessor> {
     private String from;
 
     private String where;
+
+    @XmlElement(name="conditionMeta")
+    private List<ConditionMeta> conditionMetaList;
 
     public String getQuery() {
         return query;
@@ -51,6 +55,14 @@ public class DataAccessorConfig extends ConfigItem<DataAccessor> {
 
     public void setWhere(String where) {
         this.where = where;
+    }
+
+    public List<ConditionMeta> getConditionMetaList() {
+        return conditionMetaList;
+    }
+
+    public void setConditionMetaList(List<ConditionMeta> conditionMetaList) {
+        this.conditionMetaList = conditionMetaList;
     }
 
     @Override

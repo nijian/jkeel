@@ -1,6 +1,5 @@
 package com.github.nijian.jkeel.spring.data.sql;
 
-import com.github.nijian.jkeel.commons.data.query.QueryForList;
 import com.github.nijian.jkeel.commons.data.query.sql.SqlQueryForList;
 import com.github.nijian.jkeel.commons.entity.query.QueryResult;
 import com.github.nijian.jkeel.concept.ServiceContext;
@@ -15,7 +14,7 @@ public class SpringDataQueryForList extends SqlQueryForList {
     protected QueryResult doQuery(ServiceContext<?> ctx, QueryResult queryResult, String queryDSL) {
 
         SpringManager manager = (SpringManager) ctx.getManager();
-        List<?> valueList = manager.getJdbcTemplate().queryForList("select count(1) from abc");
+        List<?> valueList = manager.getJdbcTemplate().queryForList(queryDSL);
         queryResult.setValueList(valueList);
 
         return queryResult;

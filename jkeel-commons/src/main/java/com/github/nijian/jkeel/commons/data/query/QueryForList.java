@@ -23,7 +23,48 @@ public abstract class QueryForList extends DataAccessor<QueryResult> {
         try {
             query = (Query) behaviorInput.getValue();
         } catch (Exception e) {
-            query = new Query();
+            query = new Query() {
+                @Override
+                public String getType() {
+                    return super.getType();
+                }
+
+                @Override
+                public void setType(String type) {
+                    super.setType(type);
+                }
+
+                @Override
+                public Long getPageNum() {
+                    return super.getPageNum();
+                }
+
+                @Override
+                public void setPageNum(Long pageNum) {
+                    super.setPageNum(pageNum);
+                }
+
+                @Override
+                public Integer getPageSize() {
+                    return super.getPageSize();
+                }
+
+                @Override
+                public void setPageSize(Integer pageSize) {
+                    super.setPageSize(pageSize);
+                }
+
+
+                @Override
+                public boolean isWithCount() {
+                    return super.isWithCount();
+                }
+
+                @Override
+                public void setWithCount(boolean withCount) {
+                    super.setWithCount(withCount);
+                }
+            };
         }
         query.setWithCount(true);//for test
 

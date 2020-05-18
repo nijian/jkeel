@@ -16,6 +16,11 @@
             <artifactId>jkeel-concept</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <!-- apache -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-text</artifactId>
+        </dependency>
         <!-- log -->
         <dependency>
             <groupId>org.slf4j</groupId>

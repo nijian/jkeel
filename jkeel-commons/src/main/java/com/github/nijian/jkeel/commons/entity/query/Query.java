@@ -1,16 +1,34 @@
 package com.github.nijian.jkeel.commons.entity.query;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.github.nijian.jkeel.commons.entity.query.sql.SqlQuery;
+
 import java.util.List;
 
-public class Query {
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type", visible = true)
+@JsonSubTypes({@JsonSubTypes.Type(value = SqlQuery.class, name = "sql")})
+public abstract class Query<T extends Condition> {
+
+    private String type;
 
     private Long pageNum;
 
     private Integer pageSize;
 
-    private List<QueryFilter> queryFilterList;
+    private List<T> conditionList;
 
     private boolean withCount;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public Long getPageNum() {
         return pageNum;
@@ -28,12 +46,12 @@ public class Query {
         this.pageSize = pageSize;
     }
 
-    public List<QueryFilter> getQueryFilterList() {
-        return queryFilterList;
+    public List<T> getConditionList() {
+        return conditionList;
     }
 
-    public void setQueryFilterList(List<QueryFilter> queryFilterList) {
-        this.queryFilterList = queryFilterList;
+    public void setConditionList(List<T> conditionList) {
+        this.conditionList = conditionList;
     }
 
     public boolean isWithCount() {

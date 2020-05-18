@@ -1,0 +1,11 @@
+{
+  "type": "sql",
+  "pageNum": 1,
+  "pageSize": 20,
+  "conditionList": [
+    {
+      "type": "equal",
+      "value": 1
+    }
+  ]
+}
