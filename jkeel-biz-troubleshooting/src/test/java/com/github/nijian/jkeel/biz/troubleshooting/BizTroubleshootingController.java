@@ -24,27 +24,27 @@ public class BizTroubleshootingController {
     /**
      * 从性能的角度考虑，应该尽量减少前后端的交互。
      *
-     * @param request
+     * @param query
      * @return
      */
-    @GetMapping("/initQueryContracts")
-    public String initQueryContracts(@RequestHeader("jkeel-org-id") String orgId,
-                                     @RequestParam(value = "name", defaultValue = "World") String request,
-                                     Authentication authentication) {
+
+
+    @RequestMapping(value = "/initQueryContracts", consumes = {"application/JSON"}, produces = {"application/JSON"}, method = RequestMethod.POST)
+    public String initQueryContracts(@RequestHeader("jkeel-org-id") String orgId, @RequestBody Query query, Authentication authentication) {
 
         JsonAppender response = new JsonAppender();
 
 //        String userName = authentication.getName();
         User user = new User(orgId);
         ServiceContext<SpringManager> ctx = new ServiceContext<>(manager, user,
-                "initQueryContracts", request);
+                "initQueryContracts", query);
         response.appendBy(ctx);
 
         return response.toString();
     }
 
     @RequestMapping(value = "/queryContracts", consumes = {"application/JSON"}, produces = {"application/JSON"}, method = RequestMethod.POST)
-    public String queryContracts(@RequestHeader("jkeel-org-id") String orgId, @RequestBody Query query) {
+    public String queryContracts(@RequestHeader("jkeel-org-id") String orgId, @RequestBody Query query, Authentication authentication) {
         JsonAppender response = new JsonAppender();
 
         User user = new User(orgId);

@@ -2,7 +2,9 @@ package com.github.nijian.jkeel.concept;
 
 import com.github.nijian.jkeel.concept.config.Link;
 import com.github.nijian.jkeel.concept.config.MappingConfig;
+import com.github.nijian.jkeel.concept.config.Param;
 
+import java.util.List;
 import java.util.Stack;
 import java.util.function.Function;
 
@@ -79,7 +81,20 @@ public abstract class Behavior implements Function<BehaviorInput, Object> {
         ctx.getLinkStack().push(link);
         ConfigItem<?> nextBehaviorConfig = link.getBehaviorConfig();
         Behavior nextBehavior = nextBehaviorConfig.getBehavior();
-        BehaviorInput nextBehaviorInput = new BehaviorInput(ctx, nextBehaviorConfig, value);
+
+        //default to use value chain, if param exists, use param
+        Object realValue = value;
+        List<Param> paramList = link.getParamList();
+        if (paramList != null && paramList.size() > 0) {
+            Param param = paramList.get(0);
+            if (param.getType().equals("original")) {
+                realValue = ctx.getOriginalValue();
+            } else {
+                throw new RuntimeException("xxvc");
+            }
+        }
+
+        BehaviorInput nextBehaviorInput = new BehaviorInput(ctx, nextBehaviorConfig, realValue);
         return nextBehavior.apply(nextBehaviorInput);
     }
 

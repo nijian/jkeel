@@ -28,8 +28,8 @@
                 <link id="1" type="action" ref="Get ABC ID@POPULATE" var="true" out="true">
                     <link id="2" type="dataAccessor" ref="Count Contracts Data@SPRING_DATA_QUERY_LIST" var="true"
                           out="true">
-                        <param name="a" value="123"/>
-                        <param name="b" link="1"/>
+                        <param name="a" type="original"/>
+                        <param name="b" type="reference" link="1"/>
                         <link id="3" type="algorithm" ref="xxx@FOO" var="true"/>
                     </link>
                 </link>
