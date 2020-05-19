@@ -22,7 +22,7 @@ public class DataAccessorConfig extends ConfigItem<DataAccessor> {
 
     private String where;
 
-    @XmlElement(name="conditionMeta")
+    @XmlElement(name="condition")
     private List<ConditionMeta> conditionMetaList;
 
     public String getQuery() {

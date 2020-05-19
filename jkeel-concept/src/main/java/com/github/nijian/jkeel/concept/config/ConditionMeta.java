@@ -5,15 +5,15 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
 
-@XmlType(name = "conditionMeta")
+@XmlType(name = "condition")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ConditionMeta {
 
     @XmlAttribute
     private String name;
 
-    @XmlAttribute
-    private String operator;
+    @XmlAttribute(required = true)
+    private ConditionOperator operator;
 
     public String getName() {
         return name;
@@ -23,11 +23,11 @@ public class ConditionMeta {
         this.name = name;
     }
 
-    public String getOperator() {
+    public ConditionOperator getOperator() {
         return operator;
     }
 
-    public void setOperator(String operator) {
+    public void setOperator(ConditionOperator operator) {
         this.operator = operator;
     }
 }

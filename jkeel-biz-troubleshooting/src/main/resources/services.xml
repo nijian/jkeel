@@ -8,7 +8,7 @@
                           rclass="java.lang.Long">
                 <select>select name</select>
                 <from>from abc ${id}</from>
-                <conditionMeta name="id" operator="first"/>
+                <condition name="id" operator="FIRST"/>
             </dataAccessor>
         </dataAccessors>
         <algorithms>
@@ -18,19 +18,19 @@
         </algorithms>
         <actions>
             <action id="Get ABC ID@POPULATE" iclass="" rclass="java.lang.Long">
-                <link type="dataAccessor" ref="Get Contracts Data@JPA_LOAD"/>
+                <link type="DA" ref="Get Contracts Data@JPA_LOAD"/>
             </action>
         </actions>
         <services>
             <service id="initQueryContracts">
                 <!--<validation id="Get Contracts Data@JKEEL_VALIDATION"/>-->
                 <inMapping id="Get Contracts Data@JKEEL_MAPPING"/>
-                <link id="1" type="action" ref="Get ABC ID@POPULATE" var="true" out="true">
-                    <link id="2" type="dataAccessor" ref="Count Contracts Data@SPRING_DATA_QUERY_LIST" var="true"
+                <link id="1" type="AC" ref="Get ABC ID@POPULATE" var="true" out="true">
+                    <link id="2" type="DA" ref="Count Contracts Data@SPRING_DATA_QUERY_LIST" var="true"
                           out="true">
                         <param name="a" type="original"/>
                         <param name="b" type="reference" link="1"/>
-                        <link id="3" type="algorithm" ref="xxx@FOO" var="true"/>
+                        <link id="3" type="AL" ref="xxx@FOO" var="true"/>
                     </link>
                 </link>
 
@@ -41,7 +41,7 @@
 
             </service>
             <service id="queryContracts">
-                <link id="10" type="dataAccessor" ref="Count Contracts Data@SPRING_DATA_QUERY_LIST" var="true"
+                <link id="10" type="DA" ref="Count Contracts Data@SPRING_DATA_QUERY_LIST" var="true"
                       out="true"/>
             </service>
         </services>

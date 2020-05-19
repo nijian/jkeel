@@ -5,6 +5,7 @@ import com.github.nijian.jkeel.commons.entity.query.Condition;
 import com.github.nijian.jkeel.commons.entity.query.Query;
 import com.github.nijian.jkeel.commons.entity.query.QueryDSL;
 import com.github.nijian.jkeel.concept.config.ConditionMeta;
+import com.github.nijian.jkeel.concept.config.ConditionOperator;
 import com.github.nijian.jkeel.concept.config.DataAccessorConfig;
 import org.apache.commons.text.StringSubstitutor;
 
@@ -42,11 +43,13 @@ public abstract class SqlQueryForList extends QueryForList {
             for (ConditionMeta conditionMeta : conditionMetaList) {
                 String name = conditionMeta.getName();
                 if (name.equals(key)) {
-                    String operator = conditionMeta.getOperator();
-                    if (operator.equals("first")) {
+                    ConditionOperator operator = conditionMeta.getOperator();
+                    if (operator.equals(ConditionOperator.FIRST)) {
                         sb.append(" where ");
-                    } else if (operator.equals("and")) {
+                    } else if (operator.equals(ConditionOperator.AND)) {
                         sb.append(" and ");
+                    } else if (operator.equals(ConditionOperator.OR)) {
+                        sb.append(" or ");
                     } else {
                         throw new RuntimeException("xvcaafdsa");
                     }

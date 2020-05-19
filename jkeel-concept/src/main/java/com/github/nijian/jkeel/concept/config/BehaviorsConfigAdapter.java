@@ -25,15 +25,15 @@ public class BehaviorsConfigAdapter extends XmlAdapter<BehaviorsConfig, Behavior
     }
 
     private void fixLink(Link link, BehaviorsConfig root) {
-        String type = link.getType();
+        BehaviorType type = link.getType();
         String ref = link.getRef();
-        if (type.equals("service")) {
+        if (type.equals(BehaviorType.SE)) {
             fix0(link, root, root.getServiceConfigMap().get(ref));
-        } else if (type.equals("dataAccessor")) {
+        } else if (type.equals(BehaviorType.DA)) {
             fix0(link, root, root.getDataAccessorConfigMap().get(ref));
-        } else if (type.equals("action")) {
+        } else if (type.equals(BehaviorType.AC)) {
             fix0(link, root, root.getActionConfigMap().get(ref));
-        } else if (type.equals("algorithm")) {
+        } else if (type.equals(BehaviorType.AL)) {
             fix0(link, root, root.getAlgorithmConfigMap().get(ref));
         } else {
             throw new RuntimeException("ffafdsa");

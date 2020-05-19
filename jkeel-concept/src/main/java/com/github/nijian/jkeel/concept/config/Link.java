@@ -13,8 +13,8 @@ public class Link {
     @XmlAttribute
     private String id;
 
-    @XmlAttribute
-    private String type;
+    @XmlAttribute(required = true)
+    private BehaviorType type;
 
     @XmlAttribute
     private String ref;
@@ -25,7 +25,7 @@ public class Link {
     @XmlAttribute
     private boolean out;
 
-    @XmlElement(name="param")
+    @XmlElement(name = "param")
     private List<Param> paramList;
 
     private ConfigItem<?> behaviorConfig;
@@ -43,11 +43,11 @@ public class Link {
         this.id = id;
     }
 
-    public String getType() {
+    public BehaviorType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(BehaviorType type) {
         this.type = type;
     }
 
