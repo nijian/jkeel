@@ -1,10 +1,12 @@
 <root>
     <behaviors>
         <dataAccessors>
-            <dataAccessor id="Get Contracts Data@JPA_LOAD" iclass="java.lang.Long"
+            <dataAccessor id="Get Contracts Data@JPA_LOAD" iclass="com.github.nijian.jkeel.commons.entity.query.Query"
                           rclass="com.github.nijian.jkeel.biz.troubleshooting.entity.ABC">
             </dataAccessor>
-            <dataAccessor id="Count Contracts Data@SPRING_DATA_QUERY_LIST" rclass="java.lang.Long">
+            <dataAccessor id="Count Contracts Data@SPRING_DATA_QUERY_LIST"
+                          iclass="com.github.nijian.jkeel.commons.entity.query.Query"
+                          rclass="com.github.nijian.jkeel.commons.entity.query.QueryResult">
                 <select>select name</select>
                 <from>from abc t ${id}</from>
                 <condition alias="t" name="id" operator="FIRST"/>
@@ -16,20 +18,23 @@
             </algorithm>
         </algorithms>
         <actions>
-            <action id="Get ABC ID@POPULATE" iclass="" rclass="java.lang.Long">
+            <action id="Get ABC ID@POPULATE" iclass="com.github.nijian.jkeel.commons.entity.query.Query"
+                    rclass="com.github.nijian.jkeel.commons.entity.query.Query">
                 <link type="DA" ref="Get Contracts Data@JPA_LOAD"/>
             </action>
         </actions>
         <services>
             <service id="initQueryContracts">
                 <!--<validation id="Get Contracts Data@JKEEL_VALIDATION"/>-->
-                <inMapping id="Get Contracts Data@JKEEL_MAPPING"/>
+                <inMapping id="Get Contracts Data@JKEEL_MAPPING"
+                           iclass="com.github.nijian.jkeel.commons.entity.query.Query"
+                           rclass="com.github.nijian.jkeel.commons.entity.query.Query"/>
                 <link id="1" type="AC" ref="Get ABC ID@POPULATE" var="true" out="true">
                     <link id="2" type="DA" ref="Count Contracts Data@SPRING_DATA_QUERY_LIST" var="true"
                           out="true">
                         <param name="a" type="original"/>
-                        <param name="b" type="reference" link="1"/>
-                        <link id="3" type="AL" ref="xxx@FOO" var="true"/>
+                        <!--<param name="b" type="reference" link="1"/>-->
+                        <!--<link id="3" type="AL" ref="xxx@FOO" var="true"/>-->
                     </link>
                 </link>
 

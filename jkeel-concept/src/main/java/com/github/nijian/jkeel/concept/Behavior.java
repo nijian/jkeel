@@ -54,6 +54,13 @@ public abstract class Behavior implements Function<BehaviorInput, Object> {
                 return executeLink(ctx, nextLink, convertedObject);
             } else {
                 Object result = execute(behaviorInput);
+
+                //check return class type
+                String rClassName = currentBehaviorConfig.getRclass();
+                Class<?> rClz = Class.forName(rClassName);
+                if (!rClz.isAssignableFrom(result.getClass())) {
+                    throw new BehaviorException("please check rclass of this config item");
+                }
                 MappingConfig outMappingConfig = currentBehaviorConfig.getOutMapping();
                 if (outMappingConfig == null) {
                     return result;
@@ -93,6 +100,18 @@ public abstract class Behavior implements Function<BehaviorInput, Object> {
                 throw new RuntimeException("xxvc");
             }
         }
+        //check input class type
+        String iClassName = nextBehaviorConfig.getIclass();
+        Class<?> iClz;
+        try {
+            iClz = Class.forName(iClassName);
+        } catch (Exception e) {
+            throw new BehaviorException("iclass is not exist");
+        }
+        if (!iClz.isAssignableFrom(realValue.getClass())) {
+            throw new BehaviorException("please check iclass of this config item");
+        }
+
 
         BehaviorInput nextBehaviorInput = new BehaviorInput(ctx, nextBehaviorConfig, realValue);
         return nextBehavior.apply(nextBehaviorInput);
