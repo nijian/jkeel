@@ -1,5 +1,7 @@
 package com.github.nijian.jkeel.concept.config;
 
+import com.github.nijian.jkeel.concept.ConfigItem;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -9,17 +11,19 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Use {
 
-    @XmlAttribute
-    private String type;
+    @XmlAttribute(required = true)
+    private BehaviorType type;
 
     @XmlAttribute
     private String ref;
 
-    public String getType() {
+    private ConfigItem<?> behaviorConfig;
+
+    public BehaviorType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(BehaviorType type) {
         this.type = type;
     }
 
@@ -29,5 +33,13 @@ public class Use {
 
     public void setRef(String ref) {
         this.ref = ref;
+    }
+
+    public ConfigItem<?> getBehaviorConfig() {
+        return behaviorConfig;
+    }
+
+    public void setBehaviorConfig(ConfigItem<?> behaviorConfig) {
+        this.behaviorConfig = behaviorConfig;
     }
 }
