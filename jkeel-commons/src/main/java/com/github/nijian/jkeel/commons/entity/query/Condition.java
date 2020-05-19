@@ -36,5 +36,5 @@ public abstract class Condition<T> {
         this.value = value;
     }
 
-    public abstract String toDSL();
+    public abstract String toDSL(String alias);
 }

@@ -4,6 +4,7 @@ import com.github.nijian.jkeel.commons.data.query.QueryForList;
 import com.github.nijian.jkeel.commons.entity.query.Condition;
 import com.github.nijian.jkeel.commons.entity.query.Query;
 import com.github.nijian.jkeel.commons.entity.query.QueryDSL;
+import com.github.nijian.jkeel.concept.BehaviorException;
 import com.github.nijian.jkeel.concept.config.ConditionMeta;
 import com.github.nijian.jkeel.concept.config.ConditionOperator;
 import com.github.nijian.jkeel.concept.config.DataAccessorConfig;
@@ -38,8 +39,10 @@ public abstract class SqlQueryForList extends QueryForList {
         List<Object> args = new ArrayList<>();
         Map<String, Object> values = new HashMap<>();
         for (Condition<?> condition : conditionList) {
-            StringBuffer sb = new StringBuffer();
             String key = condition.getName();
+            String alias = null;
+            StringBuffer sb = new StringBuffer();
+            boolean matched = false;
             for (ConditionMeta conditionMeta : conditionMetaList) {
                 String name = conditionMeta.getName();
                 if (name.equals(key)) {
@@ -53,13 +56,21 @@ public abstract class SqlQueryForList extends QueryForList {
                     } else {
                         throw new RuntimeException("xvcaafdsa");
                     }
+                    matched = true;
+                    alias = conditionMeta.getAlias();
+                    break;
                 }
             }
+            if (!matched) {
+                throw new BehaviorException("Please check condition config");
+            }
             args.add(condition.getValue());
-            values.put(key, sb.append(condition.toDSL()).toString());
+            values.put(key, sb.append(condition.toDSL(alias)).toString());
         }
         queryDSL.setDsl(StringSubstitutor.replace(sql, values));
         queryDSL.setArgs(args);
+
+        System.out.println(queryDSL.getDsl());
         return queryDSL;
     }
 }

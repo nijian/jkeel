@@ -4,11 +4,10 @@
             <dataAccessor id="Get Contracts Data@JPA_LOAD" iclass="java.lang.Long"
                           rclass="com.github.nijian.jkeel.biz.troubleshooting.entity.ABC">
             </dataAccessor>
-            <dataAccessor id="Count Contracts Data@SPRING_DATA_QUERY_LIST" iclass="java.lang.Long"
-                          rclass="java.lang.Long">
+            <dataAccessor id="Count Contracts Data@SPRING_DATA_QUERY_LIST" rclass="java.lang.Long">
                 <select>select name</select>
-                <from>from abc ${id}</from>
-                <condition name="id" operator="FIRST"/>
+                <from>from abc t ${id}</from>
+                <condition alias="t" name="id" operator="FIRST"/>
             </dataAccessor>
         </dataAccessors>
         <algorithms>
@@ -41,8 +40,7 @@
 
             </service>
             <service id="queryContracts">
-                <link id="10" type="DA" ref="Count Contracts Data@SPRING_DATA_QUERY_LIST" var="true"
-                      out="true"/>
+                <link id="10" type="DA" ref="Count Contracts Data@SPRING_DATA_QUERY_LIST" var="true" out="true"/>
             </service>
         </services>
     </behaviors>

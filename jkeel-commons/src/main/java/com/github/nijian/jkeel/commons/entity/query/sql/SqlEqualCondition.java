@@ -6,8 +6,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class SqlEqualCondition extends SqlCondition<Object> {
 
     @Override
-    public String toDSL() {
+    public String toDSL(String alias) {
         StringBuffer sb = new StringBuffer();
+        if (alias != null) {
+            sb.append(alias).append(".");
+        }
         sb.append(getName()).append("=? ");
         return sb.toString();
     }

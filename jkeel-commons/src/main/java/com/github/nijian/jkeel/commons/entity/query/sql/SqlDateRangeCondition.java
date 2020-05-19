@@ -39,7 +39,7 @@ public class SqlDateRangeCondition extends SqlCondition<Date> {
     }
 
     @Override
-    public String toDSL() {
+    public String toDSL(String alias) {
         return null;
     }
 }

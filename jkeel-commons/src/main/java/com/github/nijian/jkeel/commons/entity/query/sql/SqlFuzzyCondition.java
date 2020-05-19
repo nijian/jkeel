@@ -7,7 +7,7 @@ import com.github.nijian.jkeel.commons.entity.query.Condition;
 public class SqlFuzzyCondition extends SqlCondition<String> {
 
     @Override
-    public String toDSL() {
+    public String toDSL(String alias) {
         return null;
     }
 }

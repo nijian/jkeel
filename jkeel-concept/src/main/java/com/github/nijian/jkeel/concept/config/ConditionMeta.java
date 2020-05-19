@@ -10,10 +10,21 @@ import javax.xml.bind.annotation.XmlType;
 public class ConditionMeta {
 
     @XmlAttribute
+    private String alias;
+
+    @XmlAttribute
     private String name;
 
     @XmlAttribute(required = true)
     private ConditionOperator operator;
+
+    public String getAlias() {
+        return alias;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
 
     public String getName() {
         return name;

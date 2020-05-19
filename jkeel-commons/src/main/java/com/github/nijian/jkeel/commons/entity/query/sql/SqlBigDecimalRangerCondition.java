@@ -38,7 +38,7 @@ public class SqlBigDecimalRangerCondition extends SqlCondition<BigDecimal> {
     }
 
     @Override
-    public String toDSL() {
+    public String toDSL(String alias) {
         return null;
     }
 }
