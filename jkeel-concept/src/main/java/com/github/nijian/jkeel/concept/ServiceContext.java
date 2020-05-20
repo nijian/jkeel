@@ -34,6 +34,10 @@ public final class ServiceContext<M extends Manager> implements BehaviorListener
 
     private RTO currentRTO;
 
+    private boolean useJPA;
+
+    private boolean needSyncData;
+
     public ServiceContext(M manager, User user, String serviceEntryName, Object originalValue) {
         this.manager = manager;
         this.user = user;
@@ -109,6 +113,22 @@ public final class ServiceContext<M extends Manager> implements BehaviorListener
     public ServiceConfig getServiceConfig() {
         ServiceConfig serviceConfig = getServicesConfig().getServiceConfigMap().get(serviceEntryName);
         return serviceConfig;
+    }
+
+    public boolean isUseJPA() {
+        return useJPA;
+    }
+
+    public void setUseJPA(boolean useJPA) {
+        this.useJPA = useJPA;
+    }
+
+    public boolean isNeedSyncData() {
+        return needSyncData;
+    }
+
+    public void setNeedSyncData(boolean needSyncData) {
+        this.needSyncData = needSyncData;
     }
 
     public String rtInfo() {

@@ -36,4 +36,10 @@ public class SpringDataQueryForList extends SqlQueryForList {
         }
         return count;
     }
+
+    @Override
+    protected void sync(ServiceContext<?> ctx) {
+        SpringManager manager = (SpringManager) ctx.getManager();
+        manager.getEntityManager().flush();
+    }
 }
