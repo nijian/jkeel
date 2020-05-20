@@ -2,7 +2,6 @@ package com.github.nijian.jkeel.concept;
 
 import com.github.nijian.jkeel.concept.config.AlgorithmConfig;
 import com.github.nijian.jkeel.concept.config.BehaviorType;
-import com.github.nijian.jkeel.concept.config.DataAccessorConfig;
 import com.github.nijian.jkeel.concept.config.Use;
 import com.github.nijian.jkeel.concept.spi.DataAccessorFactoryProvider;
 

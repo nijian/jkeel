@@ -8,7 +8,7 @@
             <dataAccessor id="Count Contracts Data@SPRING_DATA_QUERY_LIST"
                           iclass="com.github.nijian.jkeel.commons.entity.query.Query"
                           rclass="com.github.nijian.jkeel.commons.entity.query.QueryResult">
-                <select>select name</select>
+                <select>select id, name</select>
                 <from>from abc t ${id}</from>
                 <condition alias="t" name="id" operator="FIRST"/>
             </dataAccessor>

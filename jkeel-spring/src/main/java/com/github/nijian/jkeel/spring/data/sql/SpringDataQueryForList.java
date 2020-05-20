@@ -24,4 +24,16 @@ public class SpringDataQueryForList extends SqlQueryForList {
 
         return queryResult;
     }
+
+    @Override
+    protected Long count(ServiceContext<?> ctx, String queryDSL, Object... args) {
+        SpringManager manager = (SpringManager) ctx.getManager();
+        Long count;
+        if (args == null || args.length == 0) {
+            count = manager.getJdbcTemplate().queryForObject(queryDSL, Long.class);
+        } else {
+            count = manager.getJdbcTemplate().queryForObject(queryDSL, args, Long.class);
+        }
+        return count;
+    }
 }

@@ -72,17 +72,25 @@ public abstract class QueryForList extends DataAccessor<QueryResult> {
         query.setWithCount(true);//for test
 
         // perform real execution
-        QueryDSL queryDSL = generateQueryDSL(dataAccessorConfig, query);
-        List<Object> args = queryDSL.getArgs();
-        if (args == null) {
-            queryResult = doQuery(ctx, queryResult, queryDSL.getDsl());
-        } else {
-            queryResult = doQuery(ctx, queryResult, queryDSL.getDsl(), args.toArray());
-        }
-
         boolean isWithCount = query.isWithCount();
+        long count = 0l;
+
+        QueryDSL queryDSL;
+        List<Object> args;
+
         if (isWithCount) {
             queryDSL = generateCountDSL(dataAccessorConfig, query);
+            args = queryDSL.getArgs();
+            if (args == null) {
+                count = count(ctx, queryDSL.getDsl());
+            } else {
+                count = count(ctx, queryDSL.getDsl(), args.toArray());
+            }
+            queryResult.setCount(count);
+        }
+
+        if (count > 0) {
+            queryDSL = generateQueryDSL(dataAccessorConfig, query);
             args = queryDSL.getArgs();
             if (args == null) {
                 queryResult = doQuery(ctx, queryResult, queryDSL.getDsl());
@@ -101,5 +109,7 @@ public abstract class QueryForList extends DataAccessor<QueryResult> {
     protected abstract QueryDSL generateCountDSL(DataAccessorConfig dataAccessorConfig, Query query);
 
     protected abstract QueryResult doQuery(ServiceContext<?> ctx, QueryResult queryResult, String queryDSL, Object... args);
+
+    protected abstract Long count(ServiceContext<?> ctx, String queryDSL, Object... args);
 
 }
