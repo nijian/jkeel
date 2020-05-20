@@ -30,11 +30,14 @@ public abstract class Behavior implements Function<BehaviorInput, Object> {
         return behaviorResult;
     }
 
+    protected <T extends ConfigItem<?>> T getConfigItem(BehaviorInput behaviorInput, Class<T> requiredType) {
+        return (T) behaviorInput.getConfigItem();
+    }
+
     protected Object execute(BehaviorInput behaviorInput) throws Exception {
         //default impl
         return behaviorInput.getValue();
     }
-
 
     private Object perform(BehaviorInput behaviorInput, ConfigItem<?> currentBehaviorConfig) {
         try {
@@ -111,7 +114,6 @@ public abstract class Behavior implements Function<BehaviorInput, Object> {
         if (!iClz.isAssignableFrom(realValue.getClass())) {
             throw new BehaviorException("please check iclass of this config item");
         }
-
 
         BehaviorInput nextBehaviorInput = new BehaviorInput(ctx, nextBehaviorConfig, realValue);
         return nextBehavior.apply(nextBehaviorInput);

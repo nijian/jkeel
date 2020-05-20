@@ -4,6 +4,7 @@ import com.github.nijian.jkeel.concept.ConfigItem;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 public class BehaviorsConfigAdapter extends XmlAdapter<BehaviorsConfig, BehaviorsConfig> {
@@ -34,7 +35,12 @@ public class BehaviorsConfigAdapter extends XmlAdapter<BehaviorsConfig, Behavior
         } else if (type.equals(BehaviorType.AC)) {
             fix0(link, root, root.getActionConfigMap().get(ref));
         } else if (type.equals(BehaviorType.AL)) {
-            fix0(link, root, root.getAlgorithmConfigMap().get(ref));
+            AlgorithmConfig algorithmConfig = root.getAlgorithmConfigMap().get(ref);
+            fix0(link, root, algorithmConfig);
+            List<Use> useList = algorithmConfig.getUseList();
+            for (Use use : useList) {
+                use.setBehaviorConfig(root.getDataAccessorConfigMap().get(use.getRef()));
+            }
         } else {
             throw new RuntimeException("ffafdsa");
         }

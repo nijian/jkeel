@@ -16,7 +16,7 @@
         <algorithms>
             <algorithm id="xxx@FOO"
                        iclass="com.github.nijian.jkeel.commons.entity.query.Query"
-                       rclass="com.github.nijian.jkeel.commons.entity.query.Query">
+                       rclass="com.github.nijian.jkeel.biz.troubleshooting.entity.ABC">
                 <use type="DA" ref="Get Contracts Data@JPA_LOAD"/>
             </algorithm>
         </algorithms>
