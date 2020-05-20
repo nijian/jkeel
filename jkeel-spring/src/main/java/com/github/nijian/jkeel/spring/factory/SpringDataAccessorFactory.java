@@ -11,7 +11,7 @@ public class SpringDataAccessorFactory implements DataAccessorFactory {
     @Override
     public DataAccessor getDataAccessor(String dataName) {
 
-        if (dataName.equals("JPA_PERSIS")) {
+        if (dataName.equals("JPA_PERSIST")) {
             return new JPAPersist();
         } else if (dataName.equals("SPRING_DATA_QUERY_LIST")) {
             return new SpringDataQueryForList();

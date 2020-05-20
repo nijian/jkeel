@@ -15,10 +15,13 @@ public class FooAlgorithm extends Algorithm {
 
         AlgorithmConfig algorithmConfig = getConfigItem(behaviorInput, AlgorithmConfig.class);
 
-        //Behavior is stateless function. in same cases, to simplify, use BehaviorState to execute
-        BehaviorProxy behaviorProxy = use(behaviorInput, "Get Contracts Data@JPA_LOAD"); //data accessor
-        ABC abc = behaviorProxy.apply(new SqlQuery(), ABC.class);
+        ABC abc = new ABC();
+        abc.setName("xxx");
 
-        return abc;
+        //Behavior is stateless function. in same cases, to simplify, use BehaviorState to execute
+        BehaviorProxy behaviorProxy = use(behaviorInput, "save contract info@JPA_PERSIST"); //data accessor
+        ABC ok = behaviorProxy.apply(abc, ABC.class);
+
+        return ok;
     }
 }
