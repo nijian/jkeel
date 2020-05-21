@@ -1,6 +1,6 @@
 package com.github.nijian.jkeel.biz.troubleshooting;
 
-import com.github.nijian.jkeel.commons.JsonAppender;
+import com.github.nijian.jkeel.commons.JsonReactor;
 import com.github.nijian.jkeel.commons.entity.query.Query;
 import com.github.nijian.jkeel.concept.ServiceContext;
 import com.github.nijian.jkeel.concept.User;
@@ -34,26 +34,29 @@ public class BizTroubleshootingController {
     @RequestMapping(value = "/initQueryContracts", consumes = {"application/JSON"}, produces = {"application/JSON"}, method = RequestMethod.POST)
     public String initQueryContracts(@RequestHeader("jkeel-org-id") String orgId, @RequestBody Query query, Authentication authentication) {
 
-        JsonAppender response = new JsonAppender();
+        JsonReactor reactor = new JsonReactor();
 
 //        String userName = authentication.getName();
         User user = new User(orgId);
-        ServiceContext ctx = ServiceContext.newInstance(manager, user, "initQueryContracts", query);
-        response.append(ctx);
+        ServiceContext ctx = ServiceContext.newInstance(manager, user, "initQueryContracts");
+        reactor.appendContext(ctx);
 
-        return response.toString();
+        ctx = ServiceContext.newInstance(manager, user, "queryContracts");
+        reactor.appendContext(ctx);
+
+        return reactor.responseTo(query);
     }
 
     @Transactional
     @RequestMapping(value = "/queryContracts", consumes = {"application/JSON"}, produces = {"application/JSON"}, method = RequestMethod.POST)
     public String queryContracts(@RequestHeader("jkeel-org-id") String orgId, @RequestBody Query query, Authentication authentication) {
-        JsonAppender response = new JsonAppender();
+        JsonReactor reactor = new JsonReactor();
 
         User user = new User(orgId);
-        ServiceContext ctx = ServiceContext.newInstance(manager, user, "queryContracts", query);
-        response.append(ctx);
+        ServiceContext ctx = ServiceContext.newInstance(manager, user, "queryContracts");
+        reactor.appendContext(ctx);
 
-        return response.toString();
+        return reactor.responseTo(query);
     }
 
 }

@@ -32,7 +32,7 @@
             </action>
         </actions>
         <services>
-            <service id="initQueryContracts">
+            <service id="initQueryContracts" transactionRequired="true">
                 <!--<validation id="Get Contracts Data@JKEEL_VALIDATION"/>-->
                 <inMapping id="Get Contracts Data@JKEEL_MAPPING"
                            iclass="com.github.nijian.jkeel.commons.entity.query.Query"

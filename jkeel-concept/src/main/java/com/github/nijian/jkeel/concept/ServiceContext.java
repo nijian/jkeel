@@ -18,7 +18,7 @@ public final class ServiceContext implements BehaviorListener {
 
     private final String serviceId;
 
-    private final Object originalValue;
+    private Object originalValue;
 
     private final Transaction transaction;
 
@@ -38,10 +38,11 @@ public final class ServiceContext implements BehaviorListener {
 
     private boolean needSyncData;
 
-    private ServiceContext(Manager manager, User user, String serviceId, Object originalValue) {
+    private boolean destroyed;
+
+    private ServiceContext(Manager manager, User user, String serviceId) {
         this.manager = manager;
         this.user = user;
-        this.originalValue = originalValue;
         this.serviceId = serviceId;
 
         this.transaction = new Transaction() {
@@ -58,8 +59,8 @@ public final class ServiceContext implements BehaviorListener {
         this.currentRTO = rootRTO;
     }
 
-    public static ServiceContext newInstance(Manager manager, User user, String serviceEntryName, Object originalValue) {
-        return new ServiceContext(manager, user, serviceEntryName, originalValue);
+    public static ServiceContext newInstance(Manager manager, User user, String serviceId) {
+        return new ServiceContext(manager, user, serviceId);
     }
 
     public Manager getManager() {
@@ -179,12 +180,22 @@ public final class ServiceContext implements BehaviorListener {
         }
     }
 
-    public Map<String, Object> run() {
+    public Map<String, Object> run(Object request) {
+
+        if (destroyed) {
+            throw new BehaviorException("you only can use the context once");
+        }
+
+        this.originalValue = request;
 
         ServiceConfig serviceConfig = getServiceConfig();
         Service service = serviceConfig.getBehavior();
-        BehaviorInput serviceInput = new BehaviorInput(this, serviceConfig, originalValue);
+
+        BehaviorInput serviceInput = new BehaviorInput(this, serviceConfig, request);
         service.apply(serviceInput);
+
+        //destroy self
+        destroyed = true;
 
         return out;
     }
