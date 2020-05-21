@@ -39,18 +39,12 @@ public abstract class Behavior implements Function<BehaviorInput, Object> {
         return (T) behaviorInput.getConfigItem();
     }
 
-    protected Object execute(BehaviorInput behaviorInput) {
-        //default impl
-        return behaviorInput.getValue();
-    }
+    protected abstract Object execute(BehaviorInput behaviorInput);
 
     private Object perform(BehaviorInput behaviorInput, ConfigItem<?> currentBehaviorConfig) {
-        //validation
         if (!behaviorInput.verify()) {
             throw new BehaviorException("Validation failed");
         }
-
-        //in mapping
         Object convertedObject = behaviorInput.convert();
 
         ServiceContext ctx = behaviorInput.getContext();
@@ -59,18 +53,7 @@ public abstract class Behavior implements Function<BehaviorInput, Object> {
             return executeLink(ctx, nextLink, convertedObject);
         } else {
             Object result = execute(behaviorInput);
-            //check return class type
-            String rClassName = currentBehaviorConfig.getRclass();
-            try {
-                if (!ClassUtilsEx.isAssignable(result, currentBehaviorConfig.getRclass())) {
-                    logger.error("Expected type is ('{}') but found ('{}')", rClassName, result.getClass());
-                    throw new BehaviorException("Expected type is not matched with result type");
-                }
-            } catch (ClassNotFoundException e) {
-                logger.error("Expected type '{}' is not found", rClassName);
-                throw new BehaviorException("Expected type is not found");
-            }
-
+            checkType(result, currentBehaviorConfig.getRclass());
             MappingConfig outMappingConfig = currentBehaviorConfig.getOutMapping();
             if (outMappingConfig == null) {
                 return result;
@@ -96,8 +79,8 @@ public abstract class Behavior implements Function<BehaviorInput, Object> {
         ConfigItem<?> nextBehaviorConfig = link.getBehaviorConfig();
         Behavior nextBehavior = nextBehaviorConfig.getBehavior();
 
-        //default to use value chain, if param exists, use param
         Object realValue = value;
+        //TODO
         List<Param> paramList = link.getParamList();
         if (paramList != null && paramList.size() > 0) {
             Param param = paramList.get(0);
@@ -107,17 +90,7 @@ public abstract class Behavior implements Function<BehaviorInput, Object> {
                 throw new RuntimeException("xxvc");
             }
         }
-        //check input class type
-        String iClassName = nextBehaviorConfig.getIclass();
-        Class<?> iClz;
-        try {
-            iClz = Class.forName(iClassName);
-        } catch (Exception e) {
-            throw new BehaviorException("iclass is not exist");
-        }
-        if (!iClz.isAssignableFrom(realValue.getClass())) {
-            throw new BehaviorException("please check iclass of this config item");
-        }
+        checkType(realValue, nextBehaviorConfig.getIclass());
 
         BehaviorInput nextBehaviorInput = new BehaviorInput(ctx, nextBehaviorConfig, realValue);
         return nextBehavior.apply(nextBehaviorInput);
@@ -135,4 +108,15 @@ public abstract class Behavior implements Function<BehaviorInput, Object> {
         return null;
     }
 
+    private void checkType(Object object, String toClassName) {
+        try {
+            if (!ClassUtilsEx.isAssignable(object, toClassName)) {
+                logger.error("Expected type is ('{}') but found ('{}')", toClassName, object.getClass());
+                throw new BehaviorException("Expected type is not matched with result type");
+            }
+        } catch (ClassNotFoundException e) {
+            logger.error("Expected type '{}' is not found", toClassName);
+            throw new BehaviorException("Expected type is not found");
+        }
+    }
 }

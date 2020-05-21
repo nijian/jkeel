@@ -11,6 +11,11 @@ public final class Service extends Behavior {
         return instance;
     }
 
+    @Override
+    protected Object execute(BehaviorInput behaviorInput) {
+        return behaviorInput.getValue();
+    }
+
     //for config change
     public Object rollbackAndReapply(ServiceContext ctx) {
         return null;
