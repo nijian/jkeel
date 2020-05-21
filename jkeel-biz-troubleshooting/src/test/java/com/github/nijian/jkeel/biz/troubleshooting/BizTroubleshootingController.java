@@ -45,7 +45,7 @@ public class BizTroubleshootingController {
         ctx = ServiceContext.newInstance(manager, user, "queryContracts");
         reactor.appendContext(ctx);
 
-        ctx = ServiceContext.newInstance(manager, user, "queryContracts", "xxx");
+        ctx = ServiceContext.newInstance(manager, user, "queryContracts");
         reactor.appendContext(ctx);
 
         return reactor.responseTo(query);

@@ -1,6 +1,5 @@
 package com.github.nijian.jkeel.concept;
 
-//stateless
 public final class Service extends Behavior {
 
     private static final Service instance = new Service();

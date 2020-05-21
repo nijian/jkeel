@@ -94,7 +94,7 @@ public abstract class ConfigItem<C extends Behavior> {
         this.validation = validation;
     }
 
-    public Class<?> getRclz() throws Exception {
+    public Class<?> getRclz() {
         try {
             return Class.forName(rclass);
         } catch (Exception e) {

@@ -3,12 +3,17 @@ package com.github.nijian.jkeel.concept;
 import com.github.nijian.jkeel.concept.config.Link;
 import com.github.nijian.jkeel.concept.config.MappingConfig;
 import com.github.nijian.jkeel.concept.config.Param;
+import com.github.nijian.jkeel.concept.util.ClassUtilsEx;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Stack;
 import java.util.function.Function;
 
 public abstract class Behavior implements Function<BehaviorInput, Object> {
+
+    private static Logger logger = LoggerFactory.getLogger(Behavior.class);
 
     @Override
     public final Object apply(BehaviorInput behaviorInput) {
@@ -34,46 +39,45 @@ public abstract class Behavior implements Function<BehaviorInput, Object> {
         return (T) behaviorInput.getConfigItem();
     }
 
-    protected Object execute(BehaviorInput behaviorInput) throws Exception {
+    protected Object execute(BehaviorInput behaviorInput) {
         //default impl
         return behaviorInput.getValue();
     }
 
     private Object perform(BehaviorInput behaviorInput, ConfigItem<?> currentBehaviorConfig) {
-        try {
+        //validation
+        if (!behaviorInput.verify()) {
+            throw new BehaviorException("Validation failed");
+        }
 
-            //validation
-            if (!behaviorInput.verify()) {
-                throw new BehaviorException();
+        //in mapping
+        Object convertedObject = behaviorInput.convert();
+
+        ServiceContext ctx = behaviorInput.getContext();
+        Link nextLink = nextLink(behaviorInput);
+        if (nextLink != null) {
+            return executeLink(ctx, nextLink, convertedObject);
+        } else {
+            Object result = execute(behaviorInput);
+            //check return class type
+            String rClassName = currentBehaviorConfig.getRclass();
+            try {
+                if (!ClassUtilsEx.isAssignable(result, currentBehaviorConfig.getRclass())) {
+                    logger.error("Expected type is ('{}') but found ('{}')", rClassName, result.getClass());
+                    throw new BehaviorException("Expected type is not matched with result type");
+                }
+            } catch (ClassNotFoundException e) {
+                logger.error("Expected type '{}' is not found", rClassName);
+                throw new BehaviorException("Expected type is not found");
             }
 
-            //in mapping
-            Object convertedObject = behaviorInput.convert();
-
-            ServiceContext ctx = behaviorInput.getContext();
-
-            Link nextLink = nextLink(behaviorInput);
-            if (nextLink != null) {
-                return executeLink(ctx, nextLink, convertedObject);
-            } else {
-                Object result = execute(behaviorInput);
-
-                //check return class type
-                String rClassName = currentBehaviorConfig.getRclass();
-                Class<?> rClz = Class.forName(rClassName);
-                if (!rClz.isAssignableFrom(result.getClass())) {
-                    throw new BehaviorException("please check rclass of this config item");
-                }
-                MappingConfig outMappingConfig = currentBehaviorConfig.getOutMapping();
-                if (outMappingConfig == null) {
-                    return result;
-                }
-                Mapping outMapping = outMappingConfig.getBehavior();
-                BehaviorInput mappingBehaviorInput = new BehaviorInput(ctx, outMappingConfig, result);
-                return outMapping.apply(mappingBehaviorInput);
+            MappingConfig outMappingConfig = currentBehaviorConfig.getOutMapping();
+            if (outMappingConfig == null) {
+                return result;
             }
-        } catch (Exception e) {
-            throw new RuntimeException("xxx", e);
+            Mapping outMapping = outMappingConfig.getBehavior();
+            BehaviorInput mappingBehaviorInput = new BehaviorInput(ctx, outMappingConfig, result);
+            return outMapping.apply(mappingBehaviorInput);
         }
     }
 

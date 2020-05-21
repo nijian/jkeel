@@ -11,7 +11,7 @@ import com.github.nijian.jkeel.concept.config.AlgorithmConfig;
 public class FooAlgorithm extends Algorithm {
 
     @Override
-    protected Object execute(BehaviorInput behaviorInput) throws Exception {
+    protected Object execute(BehaviorInput behaviorInput)  {
 
         AlgorithmConfig algorithmConfig = getConfigItem(behaviorInput, AlgorithmConfig.class);
 

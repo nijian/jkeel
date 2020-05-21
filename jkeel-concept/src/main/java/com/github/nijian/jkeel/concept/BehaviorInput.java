@@ -2,8 +2,12 @@ package com.github.nijian.jkeel.concept;
 
 import com.github.nijian.jkeel.concept.config.MappingConfig;
 import com.github.nijian.jkeel.concept.config.ValidationConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class BehaviorInput {
+
+    private static Logger logger = LoggerFactory.getLogger(BehaviorInput.class);
 
     private final ServiceContext ctx;
 
@@ -38,7 +42,8 @@ public final class BehaviorInput {
 
         Validation validation = validationConfig.getBehavior();
         if (validation == null) {
-            throw new RuntimeException("ffsa");
+            logger.error("Validation('{}') is not found", validationConfig.getId());
+            throw new BehaviorException("Validation is not found");
         }
 
         BehaviorInput behaviorInput = new BehaviorInput(ctx, validationConfig, value);
@@ -46,7 +51,7 @@ public final class BehaviorInput {
         if (pass) {
             return true;
         }
-
+        logger.error("Validation('{}') failed", validationConfig.getId());
         return false;
     }
 
