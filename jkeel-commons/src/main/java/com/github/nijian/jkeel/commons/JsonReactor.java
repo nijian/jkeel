@@ -33,14 +33,17 @@ public final class JsonReactor {
         }
     }
 
-    public String responseTo(Object request) {
+    public String responseTo(final Object request) {
+        logger.info("Service list size is:{} and parallel list size is:{}", ctxList.size(), parallelCtxList.size());
         if (ctxList.size() > 0) {
-            ctxList.stream().forEach(ctx -> localJsonMap.put(ctx.getServiceId(), ctx.run(request)));
+            ctxList.stream().forEach(ctx ->
+                    localJsonMap.put(ctx.getServiceAlias() == null ? ctx.getServiceId() : ctx.getServiceAlias(), ctx.run(request)));
         }
-
         if (parallelCtxList.size() > 0) {
-            parallelCtxList.parallelStream().forEach(ctx -> localJsonMap.put(ctx.getServiceId(), ctx.run(request)));
+            parallelCtxList.parallelStream().forEach(ctx ->
+                    localJsonMap.put(ctx.getServiceAlias() == null ? ctx.getServiceId() : ctx.getServiceAlias(), ctx.run(request)));
         }
+        logger.info("Service list has been performed successfully");
         return JsonUtil.map2Json(localJsonMap);
     }
 

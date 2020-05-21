@@ -33,15 +33,19 @@ public class BizTroubleshootingController {
     @Transactional
     @RequestMapping(value = "/initQueryContracts", consumes = {"application/JSON"}, produces = {"application/JSON"}, method = RequestMethod.POST)
     public String initQueryContracts(@RequestHeader("jkeel-org-id") String orgId, @RequestBody Query query, Authentication authentication) {
-
+        logger.info("Initializing query contracts");
         JsonReactor reactor = new JsonReactor();
 
 //        String userName = authentication.getName();
         User user = new User(orgId);
+
         ServiceContext ctx = ServiceContext.newInstance(manager, user, "initQueryContracts");
         reactor.appendContext(ctx);
 
         ctx = ServiceContext.newInstance(manager, user, "queryContracts");
+        reactor.appendContext(ctx);
+
+        ctx = ServiceContext.newInstance(manager, user, "queryContracts", "xxx");
         reactor.appendContext(ctx);
 
         return reactor.responseTo(query);
@@ -53,6 +57,7 @@ public class BizTroubleshootingController {
         JsonReactor reactor = new JsonReactor();
 
         User user = new User(orgId);
+
         ServiceContext ctx = ServiceContext.newInstance(manager, user, "queryContracts");
         reactor.appendContext(ctx);
 

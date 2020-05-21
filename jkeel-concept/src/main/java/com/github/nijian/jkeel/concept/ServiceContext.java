@@ -5,6 +5,8 @@ import com.github.nijian.jkeel.concept.config.Link;
 import com.github.nijian.jkeel.concept.config.ServiceConfig;
 import com.github.nijian.jkeel.concept.runtime.BehaviorListener;
 import com.github.nijian.jkeel.concept.runtime.RTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,11 +14,15 @@ import java.util.Stack;
 
 public final class ServiceContext implements BehaviorListener {
 
+    private static Logger logger = LoggerFactory.getLogger(ServiceContext.class);
+
     private final Manager manager;
 
     private final User user;
 
     private final String serviceId;
+
+    private final String serviceAlias;
 
     private Object originalValue;
 
@@ -40,10 +46,11 @@ public final class ServiceContext implements BehaviorListener {
 
     private boolean destroyed;
 
-    private ServiceContext(Manager manager, User user, String serviceId) {
+    private ServiceContext(Manager manager, User user, String serviceId, String serviceAlias) {
         this.manager = manager;
         this.user = user;
         this.serviceId = serviceId;
+        this.serviceAlias = serviceAlias;
 
         this.transaction = new Transaction() {
             @Override
@@ -60,7 +67,11 @@ public final class ServiceContext implements BehaviorListener {
     }
 
     public static ServiceContext newInstance(Manager manager, User user, String serviceId) {
-        return new ServiceContext(manager, user, serviceId);
+        return new ServiceContext(manager, user, serviceId, null);
+    }
+
+    public static ServiceContext newInstance(Manager manager, User user, String serviceId, String serviceAlias) {
+        return new ServiceContext(manager, user, serviceId, serviceAlias);
     }
 
     public Manager getManager() {
@@ -73,6 +84,10 @@ public final class ServiceContext implements BehaviorListener {
 
     public String getServiceId() {
         return serviceId;
+    }
+
+    public String getServiceAlias() {
+        return serviceAlias;
     }
 
     public Object getOriginalValue() {
@@ -175,15 +190,16 @@ public final class ServiceContext implements BehaviorListener {
         try {
             RTO rto = rtoStack.pop();
             rto.setExecutionTime(System.currentTimeMillis() - rto.getStartTime());
-        } catch (Exception e) {
-            System.out.println("xxvsafdsa");
+        } catch (RuntimeException e) {
+            logger.warn("Runtime('{}') execution encounters unknown issue", serviceId);
         }
     }
 
-    public Map<String, Object> run(Object request) {
+    public Map<String, Object> run(final Object request) {
 
         if (destroyed) {
-            throw new BehaviorException("you only can use the context once");
+            logger.error("Service('{}') context can not be reused", serviceId);
+            throw new BehaviorException("Service context can not be reused");
         }
 
         this.originalValue = request;
@@ -194,6 +210,7 @@ public final class ServiceContext implements BehaviorListener {
         BehaviorInput serviceInput = new BehaviorInput(this, serviceConfig, request);
         service.apply(serviceInput);
 
+        logger.info("Service '{}'({}) has been performed successfully", serviceId, serviceAlias == null ? serviceId : serviceAlias);
         //destroy self
         destroyed = true;
 
