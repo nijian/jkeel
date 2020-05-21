@@ -4,10 +4,14 @@ import com.github.nijian.jkeel.concept.config.AlgorithmConfig;
 import com.github.nijian.jkeel.concept.config.BehaviorType;
 import com.github.nijian.jkeel.concept.config.Use;
 import com.github.nijian.jkeel.concept.spi.DataAccessorFactoryProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 public abstract class Algorithm extends Behavior {
+
+    private static Logger logger = LoggerFactory.getLogger(Algorithm.class);
 
     protected BehaviorProxy use(BehaviorInput behaviorInput, String ref) {
 
@@ -15,9 +19,10 @@ public abstract class Algorithm extends Behavior {
         AlgorithmConfig algorithmConfig = getConfigItem(behaviorInput, AlgorithmConfig.class);
 
         List<Use> useList = algorithmConfig.getUseList();
-        Use use = useList.stream().filter(item -> item.getRef().equals(ref)).findFirst().get();
+        Use use = useList.stream().filter(item -> item.getRef().equals(ref)).findFirst().orElse(null);
         if (use == null) {
-            throw new BehaviorException("used an unavailable behavior");
+            logger.error("Behavior('{}') does not exists or is not allowed to use in Algorithm('{}')", ref, algorithmConfig.getId());
+            throw new BehaviorException("Please check config and ask for use right");
         }
 
         BehaviorType behaviorType = use.getType();
@@ -28,7 +33,7 @@ public abstract class Algorithm extends Behavior {
             BehaviorProxy behaviorProxy = new BehaviorProxy(ctx, dataAccessorConfig, behavior);
             return behaviorProxy;
         } else {
-            throw new BehaviorException("Only support dataaccessor type here");
+            throw new BehaviorException("Only support DA for Algorithm use element");
         }
     }
 }

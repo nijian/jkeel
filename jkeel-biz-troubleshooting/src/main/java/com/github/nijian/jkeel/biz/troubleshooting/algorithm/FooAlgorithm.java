@@ -19,7 +19,7 @@ public class FooAlgorithm extends Algorithm {
         abc.setName("xxx");
 
         //Behavior is stateless function. in same cases, to simplify, use BehaviorState to execute
-        BehaviorProxy behaviorProxy = use(behaviorInput, "save contract info@JPA_PERSIST"); //data accessor
+        BehaviorProxy behaviorProxy = use(behaviorInput, "savex contract info@JPA_PERSIST"); //data accessor
         ABC ok = behaviorProxy.apply(abc, ABC.class);
 
         return ok;
