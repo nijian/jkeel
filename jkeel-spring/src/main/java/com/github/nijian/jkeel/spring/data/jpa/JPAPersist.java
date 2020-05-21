@@ -9,7 +9,7 @@ import javax.persistence.EntityManager;
 public class JPAPersist extends AbstractJPAPersist {
 
     @Override
-    protected Object doPersist(ServiceContext<?> ctx, Object entity) {
+    protected Object doPersist(ServiceContext ctx, Object entity) {
         SpringManager manager = (SpringManager) ctx.getManager();
         EntityManager entityManager = manager.getEntityManager();
 
@@ -18,7 +18,7 @@ public class JPAPersist extends AbstractJPAPersist {
     }
 
     @Override
-    protected void sync(ServiceContext<?> ctx) {
+    protected void sync(ServiceContext ctx) {
 
     }
 }

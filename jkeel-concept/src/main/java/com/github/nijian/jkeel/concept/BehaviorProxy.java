@@ -2,19 +2,19 @@ package com.github.nijian.jkeel.concept;
 
 public final class BehaviorProxy {
 
-    private ServiceContext<?> ctx;
+    private ServiceContext ctx;
 
     private ConfigItem<?> configItem;
 
     private Behavior behavior;
 
-    public BehaviorProxy(ServiceContext<?> ctx, ConfigItem<?> configItem, Behavior behavior) {
+    public BehaviorProxy(ServiceContext ctx, ConfigItem<?> configItem, Behavior behavior) {
         this.ctx = ctx;
         this.configItem = configItem;
         this.behavior = behavior;
     }
 
-    public ServiceContext<?> getCtx() {
+    public ServiceContext getCtx() {
         return ctx;
     }
 

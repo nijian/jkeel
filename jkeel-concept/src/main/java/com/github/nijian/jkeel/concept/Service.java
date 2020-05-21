@@ -13,12 +13,12 @@ public final class Service extends Behavior {
     }
 
     //for config change
-    public Object rollbackAndReapply(ServiceContext<?> ctx) {
+    public Object rollbackAndReapply(ServiceContext ctx) {
         return null;
         //new service context
 //        ctx.destroy();
 
-//        ServiceContext<?> newCtx = new ServiceContext<>(ctx.getManager(), ctx.getUser(), ctx.getOriginalValue());
+//        ServiceContext newCtx = new ServiceContext<>(ctx.getManager(), ctx.getUser(), ctx.getOriginalValue());
 //        BehaviorInput newBehaviorInput = new BehaviorInput(newCtx, null, newCtx.getOriginalValue());
 //        return apply(newBehaviorInput);
     }

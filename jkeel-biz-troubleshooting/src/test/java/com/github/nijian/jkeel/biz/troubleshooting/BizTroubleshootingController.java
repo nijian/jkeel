@@ -38,9 +38,8 @@ public class BizTroubleshootingController {
 
 //        String userName = authentication.getName();
         User user = new User(orgId);
-        ServiceContext<SpringManager> ctx = new ServiceContext<>(manager, user,
-                "initQueryContracts", query);
-        response.appendBy(ctx);
+        ServiceContext ctx = ServiceContext.newInstance(manager, user, "initQueryContracts", query);
+        response.append(ctx);
 
         return response.toString();
     }
@@ -51,9 +50,8 @@ public class BizTroubleshootingController {
         JsonAppender response = new JsonAppender();
 
         User user = new User(orgId);
-        ServiceContext<SpringManager> ctx = new ServiceContext<>(manager, user,
-                "queryContracts", query);
-        response.appendBy(ctx);
+        ServiceContext ctx = ServiceContext.newInstance(manager, user, "queryContracts", query);
+        response.append(ctx);
 
         return response.toString();
     }

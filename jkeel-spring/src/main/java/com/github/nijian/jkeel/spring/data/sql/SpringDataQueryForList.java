@@ -11,7 +11,7 @@ public class SpringDataQueryForList extends SqlQueryForList {
 
 
     @Override
-    protected QueryResult doQuery(ServiceContext<?> ctx, QueryResult queryResult, String queryDSL, Object... args) {
+    protected QueryResult doQuery(ServiceContext ctx, QueryResult queryResult, String queryDSL, Object... args) {
 
         SpringManager manager = (SpringManager) ctx.getManager();
         List<?> valueList;
@@ -26,7 +26,7 @@ public class SpringDataQueryForList extends SqlQueryForList {
     }
 
     @Override
-    protected Long count(ServiceContext<?> ctx, String queryDSL, Object... args) {
+    protected Long count(ServiceContext ctx, String queryDSL, Object... args) {
         SpringManager manager = (SpringManager) ctx.getManager();
         Long count;
         if (args == null || args.length == 0) {
@@ -38,7 +38,7 @@ public class SpringDataQueryForList extends SqlQueryForList {
     }
 
     @Override
-    protected void sync(ServiceContext<?> ctx) {
+    protected void sync(ServiceContext ctx) {
         SpringManager manager = (SpringManager) ctx.getManager();
         manager.getEntityManager().flush();
     }

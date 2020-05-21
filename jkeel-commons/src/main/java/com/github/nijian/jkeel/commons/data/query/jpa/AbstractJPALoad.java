@@ -6,7 +6,7 @@ import com.github.nijian.jkeel.concept.ServiceContext;
 public abstract class AbstractJPALoad extends QueryForObject {
 
     @Override
-    protected void preLoad(ServiceContext<?> ctx) {
+    protected void preLoad(ServiceContext ctx) {
         if (!ctx.isUseJPA()) {
             ctx.setUseJPA(true);
         }

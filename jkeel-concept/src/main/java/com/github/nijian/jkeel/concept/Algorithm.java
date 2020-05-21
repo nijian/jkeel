@@ -11,7 +11,7 @@ public abstract class Algorithm extends Behavior {
 
     protected BehaviorProxy use(BehaviorInput behaviorInput, String ref) {
 
-        ServiceContext<?> ctx = behaviorInput.getContext();
+        ServiceContext ctx = behaviorInput.getContext();
         AlgorithmConfig algorithmConfig = getConfigItem(behaviorInput, AlgorithmConfig.class);
 
         List<Use> useList = algorithmConfig.getUseList();

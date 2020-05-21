@@ -6,7 +6,7 @@ import com.github.nijian.jkeel.concept.ServiceContext;
 public abstract class AbstractJPAPersist extends Persist {
 
     @Override
-    protected void prePersist(ServiceContext<?> ctx) {
+    protected void prePersist(ServiceContext ctx) {
         if (!ctx.isUseJPA()) {
             ctx.setUseJPA(true);
         }

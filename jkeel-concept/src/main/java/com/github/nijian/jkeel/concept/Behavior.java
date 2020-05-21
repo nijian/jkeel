@@ -12,7 +12,7 @@ public abstract class Behavior implements Function<BehaviorInput, Object> {
 
     @Override
     public final Object apply(BehaviorInput behaviorInput) {
-        ServiceContext<?> ctx = behaviorInput.getContext();
+        ServiceContext ctx = behaviorInput.getContext();
         ConfigItem<?> currentBehaviorConfig = behaviorInput.getConfigItem();
 
         ctx.onStart(currentBehaviorConfig);
@@ -50,7 +50,7 @@ public abstract class Behavior implements Function<BehaviorInput, Object> {
             //in mapping
             Object convertedObject = behaviorInput.convert();
 
-            ServiceContext<?> ctx = behaviorInput.getContext();
+            ServiceContext ctx = behaviorInput.getContext();
 
             Link nextLink = nextLink(behaviorInput);
             if (nextLink != null) {
@@ -77,7 +77,7 @@ public abstract class Behavior implements Function<BehaviorInput, Object> {
         }
     }
 
-    private void storeValue(ServiceContext<?> ctx, Link link, Object value) {
+    private void storeValue(ServiceContext ctx, Link link, Object value) {
         String linkId = link.getRef();
         if (link.isVar()) {
             ctx.getVars().put(linkId, value);
@@ -87,7 +87,7 @@ public abstract class Behavior implements Function<BehaviorInput, Object> {
         }
     }
 
-    private Object executeLink(ServiceContext<?> ctx, Link link, Object value) {
+    private Object executeLink(ServiceContext ctx, Link link, Object value) {
         ctx.getLinkStack().push(link);
         ConfigItem<?> nextBehaviorConfig = link.getBehaviorConfig();
         Behavior nextBehavior = nextBehaviorConfig.getBehavior();
@@ -123,7 +123,7 @@ public abstract class Behavior implements Function<BehaviorInput, Object> {
         return behaviorInput.getConfigItem().getLink();
     }
 
-    private Link backwardLink(ServiceContext<?> ctx) {
+    private Link backwardLink(ServiceContext ctx) {
         Stack<Link> linkStack = ctx.getLinkStack();
         if (linkStack.size() > 0) {
             return linkStack.pop();

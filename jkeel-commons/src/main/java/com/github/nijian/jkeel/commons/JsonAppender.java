@@ -1,24 +1,24 @@
 package com.github.nijian.jkeel.commons;
 
-
-import com.github.nijian.jkeel.concept.BehaviorInput;
-import com.github.nijian.jkeel.concept.Service;
 import com.github.nijian.jkeel.concept.ServiceContext;
-import com.github.nijian.jkeel.concept.config.ServiceConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public final class JsonAppender {
 
+    private static Logger logger = LoggerFactory.getLogger(JsonAppender.class);
+
     private final Map<String, Object> localJsonMap;
 
     public JsonAppender() {
-        this.localJsonMap = new HashMap<>();
+        localJsonMap = new HashMap<>();
     }
 
-    public void appendBy(ServiceContext<?> ctx) {
-        localJsonMap.put(ctx.getServiceEntryName(), ctx.run());
+    public void append(ServiceContext ctx) {
+        localJsonMap.put(ctx.getServiceId(), ctx.run());
         System.out.println(ctx.rtInfo());
     }
 

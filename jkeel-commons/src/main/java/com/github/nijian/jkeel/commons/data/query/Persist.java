@@ -8,12 +8,12 @@ public abstract class Persist extends DataAccessor<Object> {
 
     @Override
     public final Object execute(BehaviorInput behaviorInput) throws Exception {
-        ServiceContext<?> ctx = behaviorInput.getContext();
+        ServiceContext ctx = behaviorInput.getContext();
         prePersist(ctx);
         return doPersist(ctx, behaviorInput.getValue());
     }
 
-    protected abstract Object doPersist(ServiceContext<?> ctx, Object entity);
+    protected abstract Object doPersist(ServiceContext ctx, Object entity);
 
-    protected abstract void prePersist(ServiceContext<?> ctx);
+    protected abstract void prePersist(ServiceContext ctx);
 }

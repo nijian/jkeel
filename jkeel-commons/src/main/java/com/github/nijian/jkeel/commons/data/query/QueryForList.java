@@ -18,7 +18,7 @@ public abstract class QueryForList extends DataAccessor<QueryResult> {
 
         QueryResult queryResult = new QueryResult();
 
-        ServiceContext<?> ctx = behaviorInput.getContext();
+        ServiceContext ctx = behaviorInput.getContext();
         DataAccessorConfig dataAccessorConfig = (DataAccessorConfig) behaviorInput.getConfigItem();
 
         //check input class type, TODO just work around
@@ -108,8 +108,8 @@ public abstract class QueryForList extends DataAccessor<QueryResult> {
     // Query to Sql DSL for count
     protected abstract QueryDSL generateCountDSL(DataAccessorConfig dataAccessorConfig, Query query);
 
-    protected abstract QueryResult doQuery(ServiceContext<?> ctx, QueryResult queryResult, String queryDSL, Object... args);
+    protected abstract QueryResult doQuery(ServiceContext ctx, QueryResult queryResult, String queryDSL, Object... args);
 
-    protected abstract Long count(ServiceContext<?> ctx, String queryDSL, Object... args);
+    protected abstract Long count(ServiceContext ctx, String queryDSL, Object... args);
 
 }

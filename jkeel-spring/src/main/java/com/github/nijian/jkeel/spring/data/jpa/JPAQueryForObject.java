@@ -9,7 +9,7 @@ import javax.persistence.EntityManager;
 public class JPAQueryForObject extends AbstractJPALoad {
 
     @Override
-    protected Object doLoad(ServiceContext<?> ctx, Class<?> returnClass, Object pk) {
+    protected Object doLoad(ServiceContext ctx, Class<?> returnClass, Object pk) {
         SpringManager manager = (SpringManager) ctx.getManager();
         EntityManager entityManager = manager.getEntityManager();
 
@@ -17,7 +17,7 @@ public class JPAQueryForObject extends AbstractJPALoad {
     }
 
     @Override
-    protected void sync(ServiceContext<?> ctx) {
+    protected void sync(ServiceContext ctx) {
         SpringManager manager = (SpringManager) ctx.getManager();
         EntityManager entityManager = manager.getEntityManager();
         entityManager.flush();

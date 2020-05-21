@@ -10,13 +10,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 
-public final class ServiceContext<M extends Manager> implements BehaviorListener {
+public final class ServiceContext implements BehaviorListener {
 
-    private final M manager;
+    private final Manager manager;
 
     private final User user;
 
-    private final String serviceEntryName;
+    private final String serviceId;
 
     private final Object originalValue;
 
@@ -38,11 +38,11 @@ public final class ServiceContext<M extends Manager> implements BehaviorListener
 
     private boolean needSyncData;
 
-    public ServiceContext(M manager, User user, String serviceEntryName, Object originalValue) {
+    private ServiceContext(Manager manager, User user, String serviceId, Object originalValue) {
         this.manager = manager;
         this.user = user;
         this.originalValue = originalValue;
-        this.serviceEntryName = serviceEntryName;
+        this.serviceId = serviceId;
 
         this.transaction = new Transaction() {
             @Override
@@ -58,7 +58,11 @@ public final class ServiceContext<M extends Manager> implements BehaviorListener
         this.currentRTO = rootRTO;
     }
 
-    public M getManager() {
+    public static ServiceContext newInstance(Manager manager, User user, String serviceEntryName, Object originalValue) {
+        return new ServiceContext(manager, user, serviceEntryName, originalValue);
+    }
+
+    public Manager getManager() {
         return manager;
     }
 
@@ -66,8 +70,8 @@ public final class ServiceContext<M extends Manager> implements BehaviorListener
         return user;
     }
 
-    public String getServiceEntryName() {
-        return serviceEntryName;
+    public String getServiceId() {
+        return serviceId;
     }
 
     public Object getOriginalValue() {
@@ -111,7 +115,7 @@ public final class ServiceContext<M extends Manager> implements BehaviorListener
     }
 
     public ServiceConfig getServiceConfig() {
-        ServiceConfig serviceConfig = getServicesConfig().getServiceConfigMap().get(serviceEntryName);
+        ServiceConfig serviceConfig = getServicesConfig().getServiceConfigMap().get(serviceId);
         return serviceConfig;
     }
 
