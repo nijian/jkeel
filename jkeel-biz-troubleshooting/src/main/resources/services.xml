@@ -40,10 +40,10 @@
                 <link id="1" type="AC" ref="Get ABC ID@POPULATE" var="true" out="true">
                     <link id="2" type="DA" ref="Count Contracts Data@SPRING_DATA_QUERY_LIST" var="true"
                           out="true">
-                        <param name="a" type="original"/>
+                        <param type="original"/>
                         <!--<param name="b" type="reference" link="1"/>-->
                         <link id="3" type="AL" ref="xxx@FOO" var="true">
-                            <param name="a" type="original"/>
+                            <param type="original"/>
                         </link>
                     </link>
                 </link>

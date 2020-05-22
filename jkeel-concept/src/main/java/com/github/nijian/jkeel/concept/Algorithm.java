@@ -13,7 +13,7 @@ public abstract class Algorithm extends Behavior {
 
     private static Logger logger = LoggerFactory.getLogger(Algorithm.class);
 
-    protected BehaviorProxy use(BehaviorInput behaviorInput, String ref) {
+    protected BehaviorProxy use(final BehaviorInput behaviorInput, final String ref) {
 
         ServiceContext ctx = behaviorInput.getContext();
         AlgorithmConfig algorithmConfig = getConfigItem(behaviorInput, AlgorithmConfig.class);

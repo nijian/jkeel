@@ -7,7 +7,6 @@ import com.github.nijian.jkeel.concept.util.ClassUtilsEx;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
 import java.util.Stack;
 import java.util.function.Function;
 
@@ -81,9 +80,8 @@ public abstract class Behavior implements Function<BehaviorInput, Object> {
 
         Object realValue = value;
         //TODO
-        List<Param> paramList = link.getParamList();
-        if (paramList != null && paramList.size() > 0) {
-            Param param = paramList.get(0);
+        Param param = link.getParam();
+        if (param != null) {
             if (param.getType().equals("original")) {
                 realValue = ctx.getOriginalValue();
             } else {

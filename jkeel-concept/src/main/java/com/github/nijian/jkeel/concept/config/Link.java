@@ -4,7 +4,6 @@ package com.github.nijian.jkeel.concept.config;
 import com.github.nijian.jkeel.concept.ConfigItem;
 
 import javax.xml.bind.annotation.*;
-import java.util.List;
 
 @XmlType
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -25,8 +24,11 @@ public class Link {
     @XmlAttribute
     private boolean out;
 
-    @XmlElement(name = "param")
-    private List<Param> paramList;
+    @XmlElement
+    private Param param;
+
+    @XmlElement
+    private ParamMap paramMap;
 
     private ConfigItem<?> behaviorConfig;
 
@@ -75,12 +77,20 @@ public class Link {
         this.out = out;
     }
 
-    public List<Param> getParamList() {
-        return paramList;
+    public Param getParam() {
+        return param;
     }
 
-    public void setParamList(List<Param> paramList) {
-        this.paramList = paramList;
+    public void setParam(Param param) {
+        this.param = param;
+    }
+
+    public ParamMap getParamMap() {
+        return paramMap;
+    }
+
+    public void setParamMap(ParamMap paramMap) {
+        this.paramMap = paramMap;
     }
 
     public ConfigItem<?> getBehaviorConfig() {
