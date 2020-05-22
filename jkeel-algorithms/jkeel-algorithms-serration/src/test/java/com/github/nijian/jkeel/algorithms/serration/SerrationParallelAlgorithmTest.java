@@ -38,6 +38,7 @@ public class SerrationParallelAlgorithmTest {
     public static void setUp0() throws Exception {
 
 
+//        env.setProperty(Const.CACHING_PROVIDER_NAME_KEY, "org.ehcache.jsr107.EhcacheCachingProvider");
         env.setProperty(Const.CACHING_PROVIDER_NAME_KEY, "org.ehcache.jcache.JCacheCachingProvider");
         env.setProperty(Const.CALC_CLASS_NAME_KEY, "com.github.nijian.jkeel.algorithms.serration.MyCalc");
         env.setProperty(Const.CALC_CONFIG_CLASS_NAME_KEY, "com.github.nijian.jkeel.algorithms.serration.MyCalcConfig");
@@ -68,7 +69,7 @@ public class SerrationParallelAlgorithmTest {
 
     @Test
     public void perform0() throws Exception {
-        algorithm.perform(null, varMap, ac);
+        algorithm.perform(null, varMap, ac, true);
         Thread.sleep(1000 * 5);
         assertEquals(1, 1);
     }

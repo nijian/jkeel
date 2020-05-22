@@ -263,7 +263,7 @@ public final class Serration<I> extends Algorithm<I, Context<I>, TemplateAlgorit
         }
 
         try {
-            FileWriter fileWriter = new FileWriter("a.csv");
+            FileWriter fileWriter = new FileWriter("d:/a.csv");
             OutputFactoryProvider.getInstance().getOutput(CSVOutput.class.getName()).write(dataTable, headers, fileWriter);
         } catch (Exception e) {
             logger.warn("Failed to write debug output", e);
