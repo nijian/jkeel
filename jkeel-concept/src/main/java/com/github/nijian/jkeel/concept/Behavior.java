@@ -3,6 +3,7 @@ package com.github.nijian.jkeel.concept;
 import com.github.nijian.jkeel.concept.config.Link;
 import com.github.nijian.jkeel.concept.config.MappingConfig;
 import com.github.nijian.jkeel.concept.config.Param;
+import com.github.nijian.jkeel.concept.config.ParamType;
 import com.github.nijian.jkeel.concept.util.ClassUtilsEx;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,18 +74,17 @@ public abstract class Behavior implements Function<BehaviorInput, Object> {
         }
     }
 
-    private Object executeLink(ServiceContext ctx, Link link, Object value) {
+    private Object executeLink(ServiceContext ctx, Link link, final Object value) {
         ctx.getLinkStack().push(link);
         ConfigItem<?> nextBehaviorConfig = link.getBehaviorConfig();
         Behavior nextBehavior = nextBehaviorConfig.getBehavior();
 
         Object realValue = value;
-        //TODO
         Param param = link.getParam();
         if (param != null) {
-            if (param.getType().equals("original")) {
+            if (param.getType().equals(ParamType.ORIGINAL)) {
                 realValue = ctx.getOriginalValue();
-            } else {
+            } else { //TODO, for REFERENCE, CONST, etc.
                 throw new RuntimeException("xxvc");
             }
         }

@@ -12,14 +12,14 @@ public class Param {
     @XmlAttribute
     private String name;
 
-    @XmlAttribute
-    private String type;
+    @XmlAttribute(required = true)
+    private ParamType type;
 
     @XmlAttribute
     private String value;
 
     @XmlAttribute
-    private String link;
+    private String refLink;
 
     public String getName() {
         return name;
@@ -29,11 +29,11 @@ public class Param {
         this.name = name;
     }
 
-    public String getType() {
+    public ParamType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(ParamType type) {
         this.type = type;
     }
 
@@ -45,11 +45,11 @@ public class Param {
         this.value = value;
     }
 
-    public String getLink() {
-        return link;
+    public String getRefLink() {
+        return refLink;
     }
 
-    public void setLink(String link) {
-        this.link = link;
+    public void setRefLink(String refLink) {
+        this.refLink = refLink;
     }
 }
