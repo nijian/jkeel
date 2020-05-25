@@ -1,4 +1,4 @@
-package com.github.nijian.jkeel.commons.entity.query;
+package com.github.nijian.jkeel.query.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

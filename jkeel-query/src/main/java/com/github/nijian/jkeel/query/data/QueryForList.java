@@ -1,12 +1,12 @@
-package com.github.nijian.jkeel.commons.data.query;
+package com.github.nijian.jkeel.query.data;
 
-import com.github.nijian.jkeel.commons.entity.query.QueryRequest;
-import com.github.nijian.jkeel.commons.entity.query.QueryDSL;
-import com.github.nijian.jkeel.commons.entity.query.QueryResult;
 import com.github.nijian.jkeel.concept.BehaviorInput;
 import com.github.nijian.jkeel.concept.DataAccessor;
 import com.github.nijian.jkeel.concept.ServiceContext;
 import com.github.nijian.jkeel.concept.config.DataAccessorConfig;
+import com.github.nijian.jkeel.query.entity.QueryDSL;
+import com.github.nijian.jkeel.query.entity.QueryRequest;
+import com.github.nijian.jkeel.query.entity.QueryResult;
 
 import java.util.List;
 

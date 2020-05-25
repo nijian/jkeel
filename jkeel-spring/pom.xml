@@ -13,7 +13,7 @@
     <dependencies>
         <dependency>
             <groupId>com.github.nijian.jkeel</groupId>
-            <artifactId>jkeel-commons</artifactId>
+            <artifactId>jkeel-query</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

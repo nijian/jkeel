@@ -1,7 +1,7 @@
-package com.github.nijian.jkeel.commons.data.query.jpa;
+package com.github.nijian.jkeel.query.data.jpa;
 
-import com.github.nijian.jkeel.commons.data.query.QueryForObject;
 import com.github.nijian.jkeel.concept.ServiceContext;
+import com.github.nijian.jkeel.query.data.QueryForObject;
 
 public abstract class AbstractJPALoad extends QueryForObject {
 

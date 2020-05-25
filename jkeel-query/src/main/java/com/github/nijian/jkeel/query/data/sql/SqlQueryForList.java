@@ -1,13 +1,13 @@
-package com.github.nijian.jkeel.commons.data.query.sql;
+package com.github.nijian.jkeel.query.data.sql;
 
-import com.github.nijian.jkeel.commons.data.query.QueryForList;
-import com.github.nijian.jkeel.commons.entity.query.Condition;
-import com.github.nijian.jkeel.commons.entity.query.QueryRequest;
-import com.github.nijian.jkeel.commons.entity.query.QueryDSL;
 import com.github.nijian.jkeel.concept.BehaviorException;
 import com.github.nijian.jkeel.concept.config.ConditionMeta;
 import com.github.nijian.jkeel.concept.config.ConditionOperator;
 import com.github.nijian.jkeel.concept.config.DataAccessorConfig;
+import com.github.nijian.jkeel.query.data.QueryForList;
+import com.github.nijian.jkeel.query.entity.Condition;
+import com.github.nijian.jkeel.query.entity.QueryDSL;
+import com.github.nijian.jkeel.query.entity.QueryRequest;
 import org.apache.commons.text.StringSubstitutor;
 
 import java.util.ArrayList;

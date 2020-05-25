@@ -1,4 +1,4 @@
-package com.github.nijian.jkeel.commons.data.query;
+package com.github.nijian.jkeel.query.data;
 
 import com.github.nijian.jkeel.concept.DataAccessor;
 

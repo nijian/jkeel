@@ -1,7 +1,7 @@
 package com.github.nijian.jkeel.spring.data.jpa;
 
-import com.github.nijian.jkeel.commons.data.query.jpa.AbstractJPAPersist;
 import com.github.nijian.jkeel.concept.ServiceContext;
+import com.github.nijian.jkeel.query.data.jpa.AbstractJPAPersist;
 import com.github.nijian.jkeel.spring.SpringManager;
 
 import javax.persistence.EntityManager;

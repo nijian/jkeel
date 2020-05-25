@@ -1,9 +1,9 @@
-package com.github.nijian.jkeel.commons.entity.query;
+package com.github.nijian.jkeel.query.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.github.nijian.jkeel.commons.entity.query.sql.SqlQueryRequest;
+import com.github.nijian.jkeel.query.entity.sql.SqlQueryRequest;
 
 import java.util.List;
 
