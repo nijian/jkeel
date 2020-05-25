@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlType;
 public enum ParamType {
     ORIGINAL,
     REFERENCE,
-    CONST;
+    CONST_LONG;
 
     public String value() {
         return name();

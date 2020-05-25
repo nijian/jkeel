@@ -2,7 +2,7 @@ package com.github.nijian.jkeel.commons.data.query.sql;
 
 import com.github.nijian.jkeel.commons.data.query.QueryForList;
 import com.github.nijian.jkeel.commons.entity.query.Condition;
-import com.github.nijian.jkeel.commons.entity.query.Query;
+import com.github.nijian.jkeel.commons.entity.query.QueryRequest;
 import com.github.nijian.jkeel.commons.entity.query.QueryDSL;
 import com.github.nijian.jkeel.concept.BehaviorException;
 import com.github.nijian.jkeel.concept.config.ConditionMeta;
@@ -18,15 +18,15 @@ import java.util.Map;
 public abstract class SqlQueryForList extends QueryForList {
 
     @Override
-    protected QueryDSL generateQueryDSL(DataAccessorConfig dataAccessorConfig, Query query) {
+    protected QueryDSL generateQueryDSL(DataAccessorConfig dataAccessorConfig, QueryRequest queryRequest) {
         String sql = dataAccessorConfig.getSelect() + " " + dataAccessorConfig.getFrom();
-        return generate(sql, query.getConditionList(), dataAccessorConfig.getConditionMetaList());
+        return generate(sql, queryRequest.getConditionList(), dataAccessorConfig.getConditionMetaList());
     }
 
     @Override
-    protected QueryDSL generateCountDSL(DataAccessorConfig dataAccessorConfig, Query query) {
+    protected QueryDSL generateCountDSL(DataAccessorConfig dataAccessorConfig, QueryRequest queryRequest) {
         String sql = "select count(1) " + dataAccessorConfig.getFrom();
-        return generate(sql, query.getConditionList(), dataAccessorConfig.getConditionMetaList());
+        return generate(sql, queryRequest.getConditionList(), dataAccessorConfig.getConditionMetaList());
     }
 
     private QueryDSL generate(String sql, List<Condition<?>> conditionList, List<ConditionMeta> conditionMetaList) {

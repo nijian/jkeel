@@ -6,11 +6,11 @@
                           rclass="com.github.nijian.jkeel.biz.troubleshooting.entity.ABC">
             </dataAccessor>
             <dataAccessor id="Get Contracts Data@JPA_LOAD"
-                          iclass="com.github.nijian.jkeel.commons.entity.query.Query"
+                          iclass="java.lang.Long"
                           rclass="com.github.nijian.jkeel.biz.troubleshooting.entity.ABC">
             </dataAccessor>
             <dataAccessor id="Count Contracts Data@SPRING_DATA_QUERY_LIST"
-                          iclass="com.github.nijian.jkeel.commons.entity.query.Query"
+                          iclass="com.github.nijian.jkeel.commons.entity.query.QueryRequest"
                           rclass="com.github.nijian.jkeel.commons.entity.query.QueryResult">
                 <select>select id, name</select>
                 <from>from abc t ${id}</from>
@@ -19,15 +19,15 @@
         </dataAccessors>
         <algorithms>
             <algorithm id="xxx@FOO"
-                       iclass="com.github.nijian.jkeel.commons.entity.query.Query"
+                       iclass="com.github.nijian.jkeel.commons.entity.query.QueryRequest"
                        rclass="com.github.nijian.jkeel.biz.troubleshooting.entity.ABC">
                 <use type="DA" ref="save contract info@JPA_PERSIST"/>
             </algorithm>
         </algorithms>
         <actions>
             <action id="Get ABC ID@POPULATE"
-                    iclass="com.github.nijian.jkeel.commons.entity.query.Query"
-                    rclass="com.github.nijian.jkeel.commons.entity.query.Query">
+                    iclass="java.lang.Long"
+                    rclass="com.github.nijian.jkeel.commons.entity.query.QueryRequest">
                 <link type="DA" ref="Get Contracts Data@JPA_LOAD"/>
             </action>
         </actions>
@@ -35,9 +35,10 @@
             <service id="initQueryContracts" transactionRequired="true">
                 <!--<validation id="Get Contracts Data@JKEEL_VALIDATION"/>-->
                 <inMapping id="Get Contracts Data@JKEEL_MAPPING"
-                           iclass="com.github.nijian.jkeel.commons.entity.query.Query"
-                           rclass="com.github.nijian.jkeel.commons.entity.query.Query"/>
+                           iclass="com.github.nijian.jkeel.commons.entity.query.QueryRequest"
+                           rclass="com.github.nijian.jkeel.commons.entity.query.QueryRequest"/>
                 <link id="1" type="AC" ref="Get ABC ID@POPULATE" var="true" out="true">
+                    <param type="CONST_LONG" value="1"/>
                     <link id="2" type="DA" ref="Count Contracts Data@SPRING_DATA_QUERY_LIST" var="true"
                           out="true">
                         <param type="ORIGINAL"/>

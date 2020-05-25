@@ -12,8 +12,8 @@ public class QueryTest {
 
         try {
             URL url = this.getClass().getClassLoader().getResource("query.json");
-            Query query = ObjectHolder.objectMapper.readValue(url, Query.class);
-            System.out.println(query);
+            QueryRequest queryRequest = ObjectHolder.objectMapper.readValue(url, QueryRequest.class);
+            System.out.println(queryRequest);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

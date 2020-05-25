@@ -82,9 +82,16 @@ public abstract class Behavior implements Function<BehaviorInput, Object> {
         Object realValue = value;
         Param param = link.getParam();
         if (param != null) {
-            if (param.getType().equals(ParamType.ORIGINAL)) {
+            ParamType paramType = param.getType();
+            if (paramType.equals(ParamType.ORIGINAL)) {
                 realValue = ctx.getOriginalValue();
-            } else { //TODO, for REFERENCE, CONST, etc.
+            } else if (paramType.equals(ParamType.CONST_LONG)) {
+                try {
+                    realValue = Long.parseLong(param.getValue());
+                } catch (NumberFormatException e) {
+                    throw new BehaviorException("check value?");
+                }
+            } else { //TODO, for REFERENCE, etc.
                 throw new RuntimeException("xxvc");
             }
         }

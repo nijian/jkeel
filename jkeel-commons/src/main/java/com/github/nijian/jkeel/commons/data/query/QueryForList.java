@@ -1,6 +1,6 @@
 package com.github.nijian.jkeel.commons.data.query;
 
-import com.github.nijian.jkeel.commons.entity.query.Query;
+import com.github.nijian.jkeel.commons.entity.query.QueryRequest;
 import com.github.nijian.jkeel.commons.entity.query.QueryDSL;
 import com.github.nijian.jkeel.commons.entity.query.QueryResult;
 import com.github.nijian.jkeel.concept.BehaviorInput;
@@ -10,7 +10,6 @@ import com.github.nijian.jkeel.concept.config.DataAccessorConfig;
 
 import java.util.List;
 
-// not available for jpa
 public abstract class QueryForList extends DataAccessor<QueryResult> {
 
     @Override
@@ -18,68 +17,16 @@ public abstract class QueryForList extends DataAccessor<QueryResult> {
 
         QueryResult queryResult = new QueryResult();
 
+        QueryRequest queryRequest = (QueryRequest) behaviorInput.getValue();
         ServiceContext ctx = behaviorInput.getContext();
         DataAccessorConfig dataAccessorConfig = (DataAccessorConfig) behaviorInput.getConfigItem();
 
-        //check input class type, TODO just work around
-        Query query;
-        try {
-            query = (Query) behaviorInput.getValue();
-        } catch (Exception e) {
-            query = new Query() {
-                @Override
-                public String getType() {
-                    return super.getType();
-                }
-
-                @Override
-                public void setType(String type) {
-                    super.setType(type);
-                }
-
-                @Override
-                public Long getPageNum() {
-                    return super.getPageNum();
-                }
-
-                @Override
-                public void setPageNum(Long pageNum) {
-                    super.setPageNum(pageNum);
-                }
-
-                @Override
-                public Integer getPageSize() {
-                    return super.getPageSize();
-                }
-
-                @Override
-                public void setPageSize(Integer pageSize) {
-                    super.setPageSize(pageSize);
-                }
-
-
-                @Override
-                public boolean isWithCount() {
-                    return super.isWithCount();
-                }
-
-                @Override
-                public void setWithCount(boolean withCount) {
-                    super.setWithCount(withCount);
-                }
-            };
-        }
-        query.setWithCount(true);//for test
-
-        // perform real execution
-        boolean isWithCount = query.isWithCount();
-        long count = 0l;
-
+        long count = -1l;
         QueryDSL queryDSL;
         List<Object> args;
 
-        if (isWithCount) {
-            queryDSL = generateCountDSL(dataAccessorConfig, query);
+        if (queryRequest.isWithCount()) {
+            queryDSL = generateCountDSL(dataAccessorConfig, queryRequest);
             args = queryDSL.getArgs();
             if (args == null) {
                 count = count(ctx, queryDSL.getDsl());
@@ -89,8 +36,8 @@ public abstract class QueryForList extends DataAccessor<QueryResult> {
             queryResult.setCount(count);
         }
 
-        if (count > 0) {
-            queryDSL = generateQueryDSL(dataAccessorConfig, query);
+        if (count != 0) {
+            queryDSL = generateQueryDSL(dataAccessorConfig, queryRequest);
             args = queryDSL.getArgs();
             if (args == null) {
                 queryResult = doQuery(ctx, queryResult, queryDSL.getDsl());
@@ -102,11 +49,11 @@ public abstract class QueryForList extends DataAccessor<QueryResult> {
         return queryResult;
     }
 
-    // Query to Sql DSL and args
-    protected abstract QueryDSL generateQueryDSL(DataAccessorConfig dataAccessorConfig, Query query);
+    // QueryRequest to Sql DSL and args
+    protected abstract QueryDSL generateQueryDSL(DataAccessorConfig dataAccessorConfig, QueryRequest queryRequest);
 
-    // Query to Sql DSL for count
-    protected abstract QueryDSL generateCountDSL(DataAccessorConfig dataAccessorConfig, Query query);
+    // QueryRequest to Sql DSL for count
+    protected abstract QueryDSL generateCountDSL(DataAccessorConfig dataAccessorConfig, QueryRequest queryRequest);
 
     protected abstract QueryResult doQuery(ServiceContext ctx, QueryResult queryResult, String queryDSL, Object... args);
 

@@ -3,14 +3,14 @@ package com.github.nijian.jkeel.commons.entity.query;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.github.nijian.jkeel.commons.entity.query.sql.SqlQuery;
+import com.github.nijian.jkeel.commons.entity.query.sql.SqlQueryRequest;
 
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type", visible = true)
-@JsonSubTypes({@JsonSubTypes.Type(value = SqlQuery.class, name = "sql")})
-public abstract class Query<T extends Condition> {
+@JsonSubTypes({@JsonSubTypes.Type(value = SqlQueryRequest.class, name = "sql")})
+public abstract class QueryRequest<T extends Condition> {
 
     private String type;
 

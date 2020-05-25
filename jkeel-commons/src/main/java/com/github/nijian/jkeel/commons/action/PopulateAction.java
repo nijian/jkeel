@@ -7,6 +7,6 @@ public class PopulateAction extends Action {
 
     @Override
     protected Object execute(BehaviorInput behaviorInput) {
-        return super.execute(behaviorInput);
+        return behaviorInput.getValue();
     }
 }

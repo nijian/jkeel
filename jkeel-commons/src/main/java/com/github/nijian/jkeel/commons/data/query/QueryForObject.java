@@ -9,12 +9,14 @@ public abstract class QueryForObject extends DataAccessor<Object> {
     @Override
     public final Object execute(BehaviorInput behaviorInput) {
         ServiceContext ctx = behaviorInput.getContext();
-        Class<?> returnClass = behaviorInput.getConfigItem().getRclz();
         preLoad(ctx);
-        return doLoad(ctx, returnClass, behaviorInput.getValue());
+
+        Object identifier = behaviorInput.getValue();
+        Class<?> returnClass = behaviorInput.getConfigItem().getRclz();
+        return doLoad(ctx, returnClass, identifier);
     }
 
-    protected abstract Object doLoad(ServiceContext ctx, Class<?> returnClass, Object pk);
+    protected abstract Object doLoad(ServiceContext ctx, Class<?> returnClass, Object identifier);
 
     protected abstract void preLoad(ServiceContext ctx);
 

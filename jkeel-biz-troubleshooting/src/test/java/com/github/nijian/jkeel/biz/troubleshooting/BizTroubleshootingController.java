@@ -1,7 +1,7 @@
 package com.github.nijian.jkeel.biz.troubleshooting;
 
 import com.github.nijian.jkeel.commons.JsonReactor;
-import com.github.nijian.jkeel.commons.entity.query.Query;
+import com.github.nijian.jkeel.commons.entity.query.QueryRequest;
 import com.github.nijian.jkeel.concept.ServiceContext;
 import com.github.nijian.jkeel.concept.User;
 import com.github.nijian.jkeel.spring.SpringManager;
@@ -25,15 +25,15 @@ public class BizTroubleshootingController {
     /**
      * 从性能的角度考虑，应该尽量减少前后端的交互。
      *
-     * @param query
+     * @param queryRequest
      * @return
      */
 
 
     @Transactional
     @RequestMapping(value = "/initQueryContracts", consumes = {"application/JSON"}, produces = {"application/JSON"}, method = RequestMethod.POST)
-    public String initQueryContracts(@RequestHeader("jkeel-org-id") String orgId, @RequestBody Query query, Authentication authentication) {
-        logger.info("Initializing query contracts");
+    public String initQueryContracts(@RequestHeader("jkeel-org-id") String orgId, @RequestBody QueryRequest queryRequest, Authentication authentication) {
+        logger.info("Initializing queryRequest contracts");
         JsonReactor reactor = new JsonReactor();
 
 //        String userName = authentication.getName();
@@ -48,12 +48,12 @@ public class BizTroubleshootingController {
         ctx = ServiceContext.newInstance(manager, user, "queryContracts");
         reactor.appendContext(ctx);
 
-        return reactor.responseTo(query);
+        return reactor.responseTo(queryRequest);
     }
 
     @Transactional
     @RequestMapping(value = "/queryContracts", consumes = {"application/JSON"}, produces = {"application/JSON"}, method = RequestMethod.POST)
-    public String queryContracts(@RequestHeader("jkeel-org-id") String orgId, @RequestBody Query query, Authentication authentication) {
+    public String queryContracts(@RequestHeader("jkeel-org-id") String orgId, @RequestBody QueryRequest queryRequest, Authentication authentication) {
         JsonReactor reactor = new JsonReactor();
 
         User user = new User(orgId);
@@ -61,7 +61,7 @@ public class BizTroubleshootingController {
         ServiceContext ctx = ServiceContext.newInstance(manager, user, "queryContracts");
         reactor.appendContext(ctx);
 
-        return reactor.responseTo(query);
+        return reactor.responseTo(queryRequest);
     }
 
 }

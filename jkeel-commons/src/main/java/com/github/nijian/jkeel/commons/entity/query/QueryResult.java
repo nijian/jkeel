@@ -1,14 +1,17 @@
 package com.github.nijian.jkeel.commons.entity.query;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class QueryResult {
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Long count;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Long pageNum;
 
     private List<?> valueList;
