@@ -1,9 +1,9 @@
 package com.github.nijian.jkeel.biz.troubleshooting;
 
-import com.github.nijian.jkeel.biz.troubleshooting.entity.ABC;
 import com.github.nijian.jkeel.commons.JsonReactor;
 import com.github.nijian.jkeel.concept.ServiceContext;
 import com.github.nijian.jkeel.concept.User;
+import com.github.nijian.jkeel.query.entity.EntityIdentifier;
 import com.github.nijian.jkeel.query.entity.QueryRequest;
 import com.github.nijian.jkeel.spring.SpringManager;
 import org.slf4j.Logger;
@@ -26,14 +26,14 @@ public class BizTroubleshootingController {
     /**
      * 从性能的角度考虑，应该尽量减少前后端的交互。
      *
-     * @param abc
+     * @param entityIdentifier
      * @return
      */
 
 
     @Transactional
     @RequestMapping(value = "/initQueryContracts", consumes = {"application/JSON"}, produces = {"application/JSON"}, method = RequestMethod.POST)
-    public String initQueryContracts(@RequestHeader("jkeel-org-id") String orgId, @RequestBody ABC abc, Authentication authentication) {
+    public String initQueryContracts(@RequestHeader("jkeel-org-id") String orgId, @RequestBody EntityIdentifier entityIdentifier, Authentication authentication) {
         logger.info("Initializing queryRequest contracts");
         JsonReactor reactor = new JsonReactor();
 
@@ -43,7 +43,7 @@ public class BizTroubleshootingController {
         ServiceContext ctx = ServiceContext.newInstance(manager, user, "initQueryContracts");
         reactor.appendContext(ctx);
 
-        return reactor.responseTo(abc);
+        return reactor.responseTo(entityIdentifier);
     }
 
     @Transactional

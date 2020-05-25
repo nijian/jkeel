@@ -3,6 +3,7 @@ package com.github.nijian.jkeel.query.data;
 import com.github.nijian.jkeel.concept.BehaviorInput;
 import com.github.nijian.jkeel.concept.DataAccessor;
 import com.github.nijian.jkeel.concept.ServiceContext;
+import com.github.nijian.jkeel.query.entity.EntityIdentifier;
 
 public abstract class QueryForObject extends DataAccessor<Object> {
 
@@ -11,12 +12,12 @@ public abstract class QueryForObject extends DataAccessor<Object> {
         ServiceContext ctx = behaviorInput.getContext();
         preLoad(ctx);
 
-        Object identifier = behaviorInput.getValue();
+        EntityIdentifier entityIdentifier = (EntityIdentifier) behaviorInput.getValue();
         Class<?> returnClass = behaviorInput.getConfigItem().getRclz();
-        return doLoad(ctx, returnClass, identifier);
+        return doLoad(ctx, returnClass, entityIdentifier);
     }
 
-    protected abstract Object doLoad(ServiceContext ctx, Class<?> returnClass, Object identifier);
+    protected abstract Object doLoad(ServiceContext ctx, Class<?> returnClass, EntityIdentifier entityIdentifier);
 
     protected abstract void preLoad(ServiceContext ctx);
 
