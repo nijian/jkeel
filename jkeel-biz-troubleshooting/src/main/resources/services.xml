@@ -5,7 +5,7 @@
                           iclass="com.github.nijian.jkeel.biz.troubleshooting.entity.ABC"
                           rclass="com.github.nijian.jkeel.biz.troubleshooting.entity.ABC">
             </dataAccessor>
-            <dataAccessor id="Get Contracts Data@JPA_LOAD"
+            <dataAccessor id="load contract info by id@JPA_LOAD"
                           iclass="com.github.nijian.jkeel.query.entity.EntityIdentifier"
                           rclass="com.github.nijian.jkeel.biz.troubleshooting.entity.ABC">
             </dataAccessor>
@@ -28,7 +28,7 @@
             <action id="Get ABC ID@POPULATE"
                     iclass="com.github.nijian.jkeel.query.entity.EntityIdentifier"
                     rclass="com.github.nijian.jkeel.biz.troubleshooting.entity.ABC">
-                <link type="DA" ref="Get Contracts Data@JPA_LOAD"/>
+                <link type="DA" ref="load contract info by id@JPA_LOAD"/>
             </action>
         </actions>
         <services>
@@ -40,12 +40,12 @@
                 <link id="1" type="AC" ref="Get ABC ID@POPULATE" var="true" out="true">
                     <param type="ORIGINAL"/>
                     <!--<link id="2" type="DA" ref="Count Contracts Data@SPRING_DATA_QUERY_LIST" var="true"-->
-                          <!--out="true">-->
-                        <!--<param type="ORIGINAL"/>-->
-                        <!--&lt;!&ndash;<param name="b" type="reference" refLink="1"/>&ndash;&gt;-->
-                        <!--<link id="3" type="AL" ref="xxx@FOO" var="true">-->
-                            <!--<param type="ORIGINAL"/>-->
-                        <!--</link>-->
+                    <!--out="true">-->
+                    <!--<param type="ORIGINAL"/>-->
+                    <!--&lt;!&ndash;<param name="b" type="reference" refLink="1"/>&ndash;&gt;-->
+                    <!--<link id="3" type="AL" ref="xxx@FOO" var="true">-->
+                    <!--<param type="ORIGINAL"/>-->
+                    <!--</link>-->
                     <!--</link>-->
                 </link>
 
@@ -57,6 +57,9 @@
             </service>
             <service id="queryContracts">
                 <link id="10" type="DA" ref="Count Contracts Data@SPRING_DATA_QUERY_LIST" var="true" out="true"/>
+            </service>
+            <service id="load contract information">
+                <link id="11" type="DA" ref="load contract info by id@JPA_LOAD" var="true" out="true"/>
             </service>
         </services>
     </behaviors>

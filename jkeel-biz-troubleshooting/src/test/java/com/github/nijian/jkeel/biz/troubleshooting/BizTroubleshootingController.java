@@ -59,4 +59,17 @@ public class BizTroubleshootingController {
         return reactor.responseTo(queryRequest);
     }
 
+    @Transactional
+    @RequestMapping(value = "/loadContract", consumes = {"application/JSON"}, produces = {"application/JSON"}, method = RequestMethod.POST)
+    public String loadContract(@RequestHeader("jkeel-org-id") String orgId, @RequestBody EntityIdentifier entityIdentifier, Authentication authentication) {
+        JsonReactor reactor = new JsonReactor();
+
+        User user = new User(orgId);
+
+        ServiceContext ctx = ServiceContext.newInstance(manager, user, "load contract information");
+        reactor.appendContext(ctx);
+
+        return reactor.responseTo(entityIdentifier);
+    }
+
 }

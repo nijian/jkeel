@@ -19,7 +19,7 @@ public class BizTroubleshootingSecurityConfig extends WebSecurityConfigurerAdapt
 
         http
                 .authorizeRequests()
-                .antMatchers("/", "/home", "/initQueryContracts", "/queryContracts").permitAll()
+                .antMatchers("/", "/home", "/initQueryContracts", "/queryContracts", "/loadContract").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
