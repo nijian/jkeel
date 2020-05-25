@@ -13,7 +13,7 @@ public class JPAQueryForObject extends AbstractJPALoad {
         SpringManager manager = (SpringManager) ctx.getManager();
         EntityManager entityManager = manager.getEntityManager();
 
-        return entityManager.find(returnClass, 1);
+        return entityManager.find(returnClass, identifier);
     }
 
     @Override

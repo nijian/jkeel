@@ -27,7 +27,7 @@
         <actions>
             <action id="Get ABC ID@POPULATE"
                     iclass="java.lang.Long"
-                    rclass="com.github.nijian.jkeel.query.entity.QueryRequest">
+                    rclass="com.github.nijian.jkeel.biz.troubleshooting.entity.ABC">
                 <link type="DA" ref="Get Contracts Data@JPA_LOAD"/>
             </action>
         </actions>
@@ -35,18 +35,18 @@
             <service id="initQueryContracts" transactionRequired="true">
                 <!--<validation id="Get Contracts Data@JKEEL_VALIDATION"/>-->
                 <inMapping id="Get Contracts Data@JKEEL_MAPPING"
-                           iclass="com.github.nijian.jkeel.query.entity.QueryRequest"
-                           rclass="com.github.nijian.jkeel.query.entity.QueryRequest"/>
+                           iclass="com.github.nijian.jkeel.biz.troubleshooting.entity.ABC"
+                           rclass="com.github.nijian.jkeel.biz.troubleshooting.entity.ABC"/>
                 <link id="1" type="AC" ref="Get ABC ID@POPULATE" var="true" out="true">
-                    <param type="CONST_LONG" value="1"/>
-                    <link id="2" type="DA" ref="Count Contracts Data@SPRING_DATA_QUERY_LIST" var="true"
-                          out="true">
-                        <param type="ORIGINAL"/>
-                        <!--<param name="b" type="reference" refLink="1"/>-->
-                        <link id="3" type="AL" ref="xxx@FOO" var="true">
-                            <param type="ORIGINAL"/>
-                        </link>
-                    </link>
+                    <param type="REFERENCE_FIELD" value="id"/>
+                    <!--<link id="2" type="DA" ref="Count Contracts Data@SPRING_DATA_QUERY_LIST" var="true"-->
+                          <!--out="true">-->
+                        <!--<param type="ORIGINAL"/>-->
+                        <!--&lt;!&ndash;<param name="b" type="reference" refLink="1"/>&ndash;&gt;-->
+                        <!--<link id="3" type="AL" ref="xxx@FOO" var="true">-->
+                            <!--<param type="ORIGINAL"/>-->
+                        <!--</link>-->
+                    <!--</link>-->
                 </link>
 
                 <!--<outMapping>-->

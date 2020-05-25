@@ -5,9 +5,11 @@ import com.github.nijian.jkeel.concept.config.MappingConfig;
 import com.github.nijian.jkeel.concept.config.Param;
 import com.github.nijian.jkeel.concept.config.ParamType;
 import com.github.nijian.jkeel.concept.util.ClassUtilsEx;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.Method;
 import java.util.Stack;
 import java.util.function.Function;
 
@@ -85,6 +87,13 @@ public abstract class Behavior implements Function<BehaviorInput, Object> {
             ParamType paramType = param.getType();
             if (paramType.equals(ParamType.ORIGINAL)) {
                 realValue = ctx.getOriginalValue();
+            } else if (paramType.equals(ParamType.REFERENCE_FIELD)) {
+                try {
+                    Method m = value.getClass().getMethod("get" + StringUtils.capitalize(param.getValue()));
+                    realValue = m.invoke(value);
+                } catch (Exception e) {
+                    throw new BehaviorException("check value?");
+                }
             } else if (paramType.equals(ParamType.CONST_LONG)) {
                 try {
                     realValue = Long.parseLong(param.getValue());

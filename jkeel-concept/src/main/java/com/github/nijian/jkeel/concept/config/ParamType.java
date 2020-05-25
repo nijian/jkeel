@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlType;
 public enum ParamType {
     ORIGINAL,
     REFERENCE,
+    REFERENCE_FIELD,
     CONST_LONG;
 
     public String value() {

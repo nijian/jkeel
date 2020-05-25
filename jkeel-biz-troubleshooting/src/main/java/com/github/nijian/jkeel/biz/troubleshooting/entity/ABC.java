@@ -1,5 +1,6 @@
 package com.github.nijian.jkeel.biz.troubleshooting.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -8,6 +9,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "abc")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ABC {
 
     @Id
@@ -22,16 +24,16 @@ public class ABC {
             }
     )
     @Column(name = "id")
-    private Integer id;
+    private Long id;
 
     @Column(name = "name")
     private String name;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
