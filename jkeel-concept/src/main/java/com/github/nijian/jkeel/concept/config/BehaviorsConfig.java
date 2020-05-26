@@ -25,6 +25,10 @@ public class BehaviorsConfig {
     @XmlJavaTypeAdapter(DataAccessorsConfigAdapter.class)
     private Map<String, DataAccessorConfig> dataAccessorConfigMap;
 
+    @XmlElement(name = "codes")
+    @XmlJavaTypeAdapter(CodesConfigAdapter.class)
+    private Map<String, CodeConfig> codeConfigMap;
+
     public Map<String, ServiceConfig> getServiceConfigMap() {
         return serviceConfigMap;
     }
@@ -55,5 +59,13 @@ public class BehaviorsConfig {
 
     public void setDataAccessorConfigMap(Map<String, DataAccessorConfig> dataAccessorConfigMap) {
         this.dataAccessorConfigMap = dataAccessorConfigMap;
+    }
+
+    public Map<String, CodeConfig> getCodeConfigMap() {
+        return codeConfigMap;
+    }
+
+    public void setCodeConfigMap(Map<String, CodeConfig> codeConfigMap) {
+        this.codeConfigMap = codeConfigMap;
     }
 }

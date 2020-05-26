@@ -17,6 +17,11 @@
                 <condition alias="t" name="id" operator="FIRST"/>
             </dataAccessor>
         </dataAccessors>
+        <codes>
+            <code id="fdafdsa">
+                <source type="DA" ref="Count Contracts Data@SPRING_DATA_QUERY_LIST"/>
+            </code>
+        </codes>
         <algorithms>
             <algorithm id="xxx@FOO"
                        iclass="com.github.nijian.jkeel.query.entity.QueryRequest"
@@ -33,6 +38,10 @@
         </actions>
         <services>
             <service id="initQueryContracts" transactionRequired="true">
+
+                <listener type="CO" ref="fdafdsa"></listener>
+
+                <!-- main flow -->
                 <!--<validation id="Get Contracts Data@JKEEL_VALIDATION"/>-->
                 <inMapping id="Get Contracts Data@JKEEL_MAPPING"
                            iclass="com.github.nijian.jkeel.query.entity.EntityIdentifier"
