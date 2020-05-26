@@ -55,6 +55,10 @@ public abstract class Behavior implements Function<BehaviorInput, Object> {
             return executeLink(ctx, nextLink, convertedObject);
         } else {
             Object result = execute(behaviorInput);
+            if (result == null) {
+                logger.warn("Nothing is produced by the behavior('{}')", currentBehaviorConfig.getId());
+                return null;
+            }
             checkType(result, currentBehaviorConfig.getRclass());
             MappingConfig outMappingConfig = currentBehaviorConfig.getOutMapping();
             if (outMappingConfig == null) {
