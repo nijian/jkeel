@@ -10,11 +10,24 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ServiceConfig extends ConfigItem<Service> {
 
+    @XmlID
+    @XmlAttribute
+    private String id;
+
     @XmlAttribute
     private boolean transactionRequired;
 
     @XmlElement(name = "listener")
     private List<Listener> listenerList;
+
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public boolean isTransactionRequired() {
         return transactionRequired;

@@ -1,12 +1,10 @@
 package com.github.nijian.jkeel.concept.config;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-@XmlRootElement(name = "root")
+@XmlRootElement(name = "root",namespace = "https://github.com/nijian/jkeel")
+@XmlType(name = "rootConfig")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class RootConfig {
 

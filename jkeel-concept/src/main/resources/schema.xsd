@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="https://github.com/nijian/jkeel"
+           xmlns="https://github.com/nijian/jkeel" elementFormDefault="qualified">
+
+    <xs:include schemaLocation="services.xsd"/>
+    <xs:include schemaLocation="actions.xsd"/>
+    <xs:include schemaLocation="validations.xsd"/>
+    <xs:include schemaLocation="mappings.xsd"/>
+    <xs:include schemaLocation="codes.xsd"/>
+    <xs:include schemaLocation="algorithms.xsd"/>
+    <xs:include schemaLocation="dataAccessors.xsd"/>
+
+    <xs:element name="root" type="rootConfig"/>
+
+    <xs:complexType name="action">
+        <xs:complexContent>
+            <xs:extension base="configItem">
+                <xs:sequence/>
+                <xs:attribute name="id" type="actions"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="configItem" abstract="true">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string" minOccurs="0"/>
+            <xs:element name="link" type="link" minOccurs="0"/>
+            <xs:element name="inMapping" type="mappingConfig" minOccurs="0"/>
+            <xs:element name="outMapping" type="mappingConfig" minOccurs="0"/>
+            <xs:element name="validation" type="validationConfig" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="iclass" type="xs:string"/>
+        <xs:attribute name="rclass" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="link">
+        <xs:sequence>
+            <xs:element name="param" type="param" minOccurs="0"/>
+            <xs:element name="paramMap" type="paramMap" minOccurs="0"/>
+            <xs:element name="behaviorConfig" type="configItem" minOccurs="0"/>
+            <xs:element name="link" type="link" minOccurs="0"/>
+            <xs:element name="decision" type="decision" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string"/>
+        <xs:attribute name="type" type="behaviorType" use="required"/>
+        <xs:attribute name="ref" type="xs:string"/>
+        <xs:attribute name="var" type="xs:boolean"/>
+        <xs:attribute name="out" type="xs:boolean"/>
+    </xs:complexType>
+
+    <xs:complexType name="param">
+        <xs:sequence/>
+        <xs:attribute name="name" type="xs:string"/>
+        <xs:attribute name="type" type="paramType" use="required"/>
+        <xs:attribute name="value" type="xs:string"/>
+        <xs:attribute name="refLink" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="paramMap">
+        <xs:sequence>
+            <xs:element name="param" type="param" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="decision">
+        <xs:sequence/>
+    </xs:complexType>
+
+    <xs:complexType name="mappingConfig">
+        <xs:complexContent>
+            <xs:extension base="configItem">
+                <xs:sequence/>
+                <xs:attribute name="id" type="mappings"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="validationConfig">
+        <xs:complexContent>
+            <xs:extension base="configItem">
+                <xs:sequence/>
+                <xs:attribute name="id" type="validations"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="actionConfigMapType">
+        <xs:sequence>
+            <xs:element name="action" type="action" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="actionsConfigAdapter">
+        <xs:complexContent>
+            <xs:extension base="xmlAdapter">
+                <xs:sequence/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="xmlAdapter" abstract="true">
+        <xs:sequence/>
+    </xs:complexType>
+
+    <xs:complexType name="algorithm">
+        <xs:complexContent>
+            <xs:extension base="configItem">
+                <xs:sequence>
+                    <xs:element name="use" type="use" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:sequence>
+                <xs:attribute name="id" type="algorithms"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="use">
+        <xs:sequence>
+            <xs:element name="behaviorConfig" type="configItem" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="type" type="behaviorType" use="required"/>
+        <xs:attribute name="ref" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="algorithmConfigMapType">
+        <xs:sequence>
+            <xs:element name="algorithm" type="algorithm" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="algorithmsConfigAdapter">
+        <xs:complexContent>
+            <xs:extension base="xmlAdapter">
+                <xs:sequence/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="behaviorsConfig">
+        <xs:all>
+            <xs:element name="services" type="serviceConfigMapType" minOccurs="0"/>
+            <xs:element name="actions" type="actionConfigMapType" minOccurs="0"/>
+            <xs:element name="algorithms" type="algorithmConfigMapType" minOccurs="0"/>
+            <xs:element name="dataAccessors" type="dataAccessorConfigMapType" minOccurs="0"/>
+            <xs:element name="codes" type="codeConfigMapType" minOccurs="0"/>
+        </xs:all>
+    </xs:complexType>
+
+    <xs:complexType name="serviceConfigMapType">
+        <xs:sequence>
+            <xs:element name="service" type="service" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="service">
+        <xs:complexContent>
+            <xs:extension base="configItem">
+                <xs:all>
+                    <xs:element name="listener" type="listener" minOccurs="0"/>
+                </xs:all>
+                <xs:attribute name="id" type="services"/>
+                <xs:attribute name="transactionRequired" type="xs:boolean"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="listener">
+        <xs:sequence>
+            <xs:element name="behaviorConfig" type="configItem" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="type" type="behaviorType" use="required"/>
+        <xs:attribute name="ref" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="dataAccessorConfigMapType">
+        <xs:sequence>
+            <xs:element name="dataAccessor" type="dataAccessor" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="dataAccessor">
+        <xs:complexContent>
+            <xs:extension base="configItem">
+                <xs:sequence>
+                    <xs:element name="query" type="xs:string" minOccurs="0"/>
+                    <xs:element name="select" type="xs:string" minOccurs="0"/>
+                    <xs:element name="from" type="xs:string" minOccurs="0"/>
+                    <xs:element name="where" type="xs:string" minOccurs="0"/>
+                    <xs:element name="condition" type="condition" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:sequence>
+                <xs:attribute name="id" type="dataAccessors"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="condition">
+        <xs:sequence/>
+        <xs:attribute name="alias" type="xs:string"/>
+        <xs:attribute name="name" type="xs:string"/>
+        <xs:attribute name="operator" type="conditionOperator" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="codeConfigMapType">
+        <xs:sequence>
+            <xs:element name="code" type="code" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="code">
+        <xs:complexContent>
+            <xs:extension base="configItem">
+                <xs:sequence>
+                    <xs:element name="source" type="source" minOccurs="0"/>
+                </xs:sequence>
+                <xs:attribute name="id" type="codes"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="source">
+        <xs:sequence>
+            <xs:element name="behaviorConfig" type="configItem" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="type" type="behaviorType" use="required"/>
+        <xs:attribute name="ref" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="behaviorsConfigAdapter">
+        <xs:complexContent>
+            <xs:extension base="xmlAdapter">
+                <xs:sequence/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="codesConfigAdapter">
+        <xs:complexContent>
+            <xs:extension base="xmlAdapter">
+                <xs:sequence/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="dataAccessorsConfigAdapter">
+        <xs:complexContent>
+            <xs:extension base="xmlAdapter">
+                <xs:sequence/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="rootConfig">
+        <xs:sequence>
+            <xs:element name="behaviors" type="behaviorsConfig"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="servicesConfigAdapter">
+        <xs:complexContent>
+            <xs:extension base="xmlAdapter">
+                <xs:sequence/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:simpleType name="behaviorType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="AC"/>
+            <xs:enumeration value="DA"/>
+            <xs:enumeration value="SE"/>
+            <xs:enumeration value="CO"/>
+            <xs:enumeration value="AL"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="paramType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="REFERENCE_FIELD"/>
+            <xs:enumeration value="ORIGINAL"/>
+            <xs:enumeration value="REFERENCE"/>
+            <xs:enumeration value="CONST_LONG"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="conditionOperator">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="AND"/>
+            <xs:enumeration value="OR"/>
+            <xs:enumeration value="FIRST"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>
+

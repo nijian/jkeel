@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="https://github.com/nijian/jkeel"
+           xmlns="https://github.com/nijian/jkeel">
+
+    <xs:simpleType name="validations">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="s1"/>
+            <xs:enumeration value="s2"/>
+            <xs:enumeration value="s3"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

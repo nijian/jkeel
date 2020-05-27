@@ -9,10 +9,6 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 public abstract class ConfigItem<C extends Behavior> {
 
-    @XmlID
-    @XmlAttribute
-    private String id;
-
     @XmlElement
     private String name;
 
@@ -31,17 +27,11 @@ public abstract class ConfigItem<C extends Behavior> {
 
     private ValidationConfig validation;
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
+    public abstract String getId();
 
     public String getName() {
         if (name == null) {
-            name = Entry.parse(id).getConceptName();
+            name = Entry.parse(getId()).getConceptName();
         }
         return name;
     }

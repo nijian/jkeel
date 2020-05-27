@@ -1,4 +1,5 @@
-<root>
+<?xml version="1.0" encoding="UTF-8"?>
+<root xmlns="https://github.com/nijian/jkeel">
     <behaviors>
         <dataAccessors>
             <dataAccessor id="save contract info@JPA_PERSIST"
@@ -39,9 +40,7 @@
         <services>
             <service id="initQueryContracts" transactionRequired="true">
 
-
                 <listener type="CO" ref="fdafdsa"></listener>
-
 
                 <!-- main flow -->
                 <!--<validation id="Get Contracts Data@JKEEL_VALIDATION"/>-->
