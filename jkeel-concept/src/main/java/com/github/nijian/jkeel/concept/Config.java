@@ -4,6 +4,7 @@ import com.github.nijian.jkeel.concept.config.BehaviorsConfig;
 import com.github.nijian.jkeel.concept.config.RootConfig;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Unmarshaller;
 import java.io.StringReader;
 
 public abstract class Config {
@@ -21,8 +22,8 @@ public abstract class Config {
             StringReader servicesConfigReader = new StringReader(servicesConfigString);
             try {
                 JAXBContext context = JAXBContext.newInstance(RootConfig.class);
-                RootConfig rootConfig = (RootConfig) context.createUnmarshaller()
-                        .unmarshal(servicesConfigReader);
+                Unmarshaller unmarshaller = context.createUnmarshaller();
+                RootConfig rootConfig = (RootConfig) unmarshaller.unmarshal(servicesConfigReader);
                 behaviorsConfig = rootConfig.getBehaviorsConfig();
             } catch (Exception e) {
                 throw new RuntimeException(e);

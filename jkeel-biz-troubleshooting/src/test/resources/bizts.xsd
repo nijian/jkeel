@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="https://github.com/nijian/jkeel"
+           xmlns="https://github.com/nijian/jkeel" elementFormDefault="qualified">
+
+    <xs:redefine schemaLocation="schema.xsd">
+        <xs:simpleType name="actions">
+            <xs:restriction base="actions">
+                <xs:enumeration value="Get ABC ID@POPULATE"/>
+            </xs:restriction>
+        </xs:simpleType>
+        <xs:simpleType name="algorithms">
+            <xs:restriction base="algorithms">
+                <xs:enumeration value="xxx@FOO"/>
+                <xs:enumeration value="123"/>
+            </xs:restriction>
+        </xs:simpleType>
+        <xs:simpleType name="codes">
+            <xs:restriction base="codes">
+                <xs:enumeration value="currency"/>
+            </xs:restriction>
+        </xs:simpleType>
+        <xs:simpleType name="dataAccessors">
+            <xs:restriction base="dataAccessors">
+                <xs:enumeration value="save contract info@JPA_PERSIST"/>
+                <xs:enumeration value="load contract info by id@JPA_LOAD"/>
+                <xs:enumeration value="Count Contracts Data@SPRING_DATA_QUERY_LIST"/>
+            </xs:restriction>
+        </xs:simpleType>
+        <xs:simpleType name="mappings">
+            <xs:restriction base="mappings">
+                <xs:enumeration value="Get Contracts Data@JKEEL_MAPPING"/>
+            </xs:restriction>
+        </xs:simpleType>
+        <xs:simpleType name="services">
+            <xs:restriction base="services">
+                <xs:enumeration value="initQueryContracts"/>
+                <xs:enumeration value="queryContracts"/>
+                <xs:enumeration value="load contract information"/>
+            </xs:restriction>
+        </xs:simpleType>
+        <xs:simpleType name="validations">
+            <xs:restriction base="validations">
+                <xs:enumeration value="s1"/>
+                <xs:enumeration value="s2"/>
+                <xs:enumeration value="s3"/>
+            </xs:restriction>
+        </xs:simpleType>
+
+        <xs:complexType name="action">
+            <xs:complexContent>
+                <xs:extension base="action">
+                    <xs:attribute name="id" type="actions"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+        <xs:complexType name="algorithm">
+            <xs:complexContent>
+                <xs:extension base="algorithm">
+                    <xs:attribute name="id" type="algorithms"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+        <xs:complexType name="code">
+            <xs:complexContent>
+                <xs:extension base="code">
+                    <xs:attribute name="id" type="codes"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+        <xs:complexType name="dataAccessor">
+            <xs:complexContent>
+                <xs:extension base="dataAccessor">
+                    <xs:attribute name="id" type="dataAccessors"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+        <xs:complexType name="mapping">
+            <xs:complexContent>
+                <xs:extension base="mapping">
+                    <xs:attribute name="id" type="mappings"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+        <xs:complexType name="service">
+            <xs:complexContent>
+                <xs:extension base="service">
+                    <xs:attribute name="id" type="services"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+        <xs:complexType name="validation">
+            <xs:complexContent>
+                <xs:extension base="validation">
+                    <xs:attribute name="id" type="validations"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:redefine>
+
+</xs:schema>

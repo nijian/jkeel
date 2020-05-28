@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlID;
 import javax.xml.bind.annotation.XmlType;
 
-@XmlType
+@XmlType(name = "validation")
 public class ValidationConfig extends ConfigItem<Validation> {
 
     @XmlID

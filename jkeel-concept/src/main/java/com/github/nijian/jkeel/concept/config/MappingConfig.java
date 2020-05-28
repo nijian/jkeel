@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlID;
 import javax.xml.bind.annotation.XmlType;
 
-@XmlType
+@XmlType(name = "mapping")
 public class MappingConfig extends ConfigItem<Mapping> {
 
     @XmlID
