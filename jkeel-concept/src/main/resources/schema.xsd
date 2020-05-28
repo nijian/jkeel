@@ -134,7 +134,6 @@
         <xs:sequence>
             <xs:element name="param" type="param" minOccurs="0"/>
             <xs:element name="paramMap" type="paramMap" minOccurs="0"/>
-            <xs:element name="behaviorConfig" type="configItem" minOccurs="0"/>
             <xs:element name="link" type="link" minOccurs="0"/>
             <xs:element name="decision" type="decision" minOccurs="0"/>
         </xs:sequence>
@@ -173,25 +172,16 @@
     </xs:complexType>
 
     <xs:complexType name="use">
-        <xs:sequence>
-            <xs:element name="behaviorConfig" type="configItem" minOccurs="0"/>
-        </xs:sequence>
         <xs:attribute name="type" type="behaviorType" use="required"/>
         <xs:attribute name="ref" type="xs:string"/>
     </xs:complexType>
 
     <xs:complexType name="listener">
-        <xs:sequence>
-            <xs:element name="behaviorConfig" type="configItem" minOccurs="0"/>
-        </xs:sequence>
         <xs:attribute name="type" type="behaviorType" use="required"/>
         <xs:attribute name="ref" type="xs:string"/>
     </xs:complexType>
 
     <xs:complexType name="source">
-        <xs:sequence>
-            <xs:element name="behaviorConfig" type="configItem" minOccurs="0"/>
-        </xs:sequence>
         <xs:attribute name="type" type="behaviorType" use="required"/>
         <xs:attribute name="ref" type="xs:string"/>
     </xs:complexType>

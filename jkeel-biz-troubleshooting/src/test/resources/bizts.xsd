@@ -95,6 +95,13 @@
                 </xs:extension>
             </xs:complexContent>
         </xs:complexType>
+        <!--<xs:complexType name="source">-->
+            <!--<xs:complexContent>-->
+                <!--<xs:extension base="source">-->
+                    <!--<xs:attribute name="ref" type="dataAccessors"/>-->
+                <!--</xs:extension>-->
+            <!--</xs:complexContent>-->
+        <!--</xs:complexType>-->
     </xs:redefine>
 
 </xs:schema>
