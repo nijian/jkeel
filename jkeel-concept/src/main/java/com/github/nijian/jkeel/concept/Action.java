@@ -1,5 +1,7 @@
 package com.github.nijian.jkeel.concept;
 
-public abstract class Action extends Behavior {
+import com.github.nijian.jkeel.concept.config.ActionConfig;
+
+public abstract class Action extends Behavior<Action, ActionConfig> {
 
 }

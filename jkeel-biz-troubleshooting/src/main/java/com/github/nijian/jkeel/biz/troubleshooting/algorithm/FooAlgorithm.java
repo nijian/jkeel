@@ -9,9 +9,9 @@ import com.github.nijian.jkeel.concept.config.AlgorithmConfig;
 public class FooAlgorithm extends Algorithm {
 
     @Override
-    protected Object execute(BehaviorInput behaviorInput) {
+    protected Object execute(BehaviorInput<Algorithm, AlgorithmConfig> behaviorInput) {
 
-        AlgorithmConfig algorithmConfig = getConfigItem(behaviorInput, AlgorithmConfig.class);
+        AlgorithmConfig algorithmConfig = behaviorInput.getConfigItem();
 
         ABC abc = new ABC();
         abc.setName("xxx");

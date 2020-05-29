@@ -1,6 +1,8 @@
 package com.github.nijian.jkeel.concept;
 
-public final class Service extends Behavior {
+import com.github.nijian.jkeel.concept.config.ServiceConfig;
+
+public final class Service extends Behavior<Service, ServiceConfig> {
 
     private static final Service instance = new Service();
 
@@ -12,7 +14,7 @@ public final class Service extends Behavior {
     }
 
     @Override
-    protected Object execute(BehaviorInput behaviorInput) {
+    protected Object execute(BehaviorInput<Service, ServiceConfig> behaviorInput) {
         return behaviorInput.getValue();
     }
 

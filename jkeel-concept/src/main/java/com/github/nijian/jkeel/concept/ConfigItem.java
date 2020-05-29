@@ -31,7 +31,7 @@ public abstract class ConfigItem<C extends Behavior> {
 
     public String getName() {
         if (name == null) {
-            name = Entry.parse(getId()).getConceptName();
+            name = Entry.parse(getId()).getBehaviorName();
         }
         return name;
     }

@@ -16,7 +16,7 @@
         <module>jkeel-biz-troubleshooting</module>
         <module>jkeel-cache</module>
         <module>jkeel-commons</module>
-        <!--<module>jkeel-code</module>-->
+        <module>jkeel-code</module>
         <!--<module>jkeel-code-i18n</module>-->
         <module>jkeel-concept</module>
         <module>jkeel-config-cfg4j</module>

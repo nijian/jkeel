@@ -1,4 +1,6 @@
 package com.github.nijian.jkeel.concept;
 
-public abstract class Code extends Behavior{
+import com.github.nijian.jkeel.concept.config.CodeConfig;
+
+public abstract class Code extends Behavior<Code, CodeConfig> {
 }

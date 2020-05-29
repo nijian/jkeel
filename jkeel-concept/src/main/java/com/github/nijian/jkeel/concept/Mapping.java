@@ -1,9 +1,11 @@
 package com.github.nijian.jkeel.concept;
 
-public class Mapping extends Behavior {
+import com.github.nijian.jkeel.concept.config.MappingConfig;
+
+public class Mapping extends Behavior<Mapping, MappingConfig> {
 
     @Override
-    protected Object execute(BehaviorInput behaviorInput) {
+    protected Object execute(BehaviorInput<Mapping, MappingConfig> behaviorInput) {
         return behaviorInput.getValue();
     }
 }

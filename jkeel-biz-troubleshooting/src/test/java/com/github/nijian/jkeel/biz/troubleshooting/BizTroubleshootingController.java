@@ -11,25 +11,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @ComponentScan(basePackages = "com.github.nijian.jkeel.spring")
+@Component
 public class BizTroubleshootingController {
 
     @Autowired
     SpringManager manager;
 
     private static Logger logger = LoggerFactory.getLogger(BizTroubleshootingController.class);
-
-    /**
-     * 从性能的角度考虑，应该尽量减少前后端的交互。
-     *
-     * @param entityIdentifier
-     * @return
-     */
-
 
     @Transactional
     @RequestMapping(value = "/initQueryContracts", consumes = {"application/JSON"}, produces = {"application/JSON"}, method = RequestMethod.POST)

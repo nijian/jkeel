@@ -5,17 +5,17 @@ import com.github.nijian.jkeel.concept.config.ValidationConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public final class BehaviorInput {
+public final class BehaviorInput<T extends Behavior, C extends ConfigItem<T>> {
 
     private static Logger logger = LoggerFactory.getLogger(BehaviorInput.class);
 
     private final ServiceContext ctx;
 
-    private final ConfigItem<?> configItem;
+    private final C configItem;
 
     private final Object value;
 
-    public BehaviorInput(ServiceContext ctx, ConfigItem<?> configItem, Object value) {
+    public BehaviorInput(ServiceContext ctx, C configItem, Object value) {
         this.ctx = ctx;
         this.configItem = configItem;
         this.value = value;
@@ -25,7 +25,7 @@ public final class BehaviorInput {
         return ctx;
     }
 
-    public ConfigItem<?> getConfigItem() {
+    public C getConfigItem() {
         return configItem;
     }
 
@@ -46,7 +46,7 @@ public final class BehaviorInput {
             throw new BehaviorException("Validation is not found");
         }
 
-        BehaviorInput behaviorInput = new BehaviorInput(ctx, validationConfig, value);
+        BehaviorInput<Validation, ValidationConfig> behaviorInput = new BehaviorInput<>(ctx, validationConfig, value);
         Boolean pass = (Boolean) validation.apply(behaviorInput);
         if (pass) {
             return true;
@@ -66,7 +66,7 @@ public final class BehaviorInput {
             throw new RuntimeException("ffsa");
         }
 
-        BehaviorInput behaviorInput = new BehaviorInput(ctx, inMappingConfig, value);
+        BehaviorInput<Mapping, MappingConfig> behaviorInput = new BehaviorInput<>(ctx, inMappingConfig, value);
         return inMapping.apply(behaviorInput);
     }
 }

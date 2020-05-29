@@ -13,14 +13,14 @@ import java.lang.reflect.Method;
 import java.util.Stack;
 import java.util.function.Function;
 
-public abstract class Behavior implements Function<BehaviorInput, Object> {
+public abstract class Behavior<T extends Behavior, C extends ConfigItem<T>> implements Function<BehaviorInput<T, C>, Object> {
 
     private static Logger logger = LoggerFactory.getLogger(Behavior.class);
 
     @Override
-    public final Object apply(BehaviorInput behaviorInput) {
+    public final Object apply(BehaviorInput<T, C> behaviorInput) {
         ServiceContext ctx = behaviorInput.getContext();
-        ConfigItem<?> currentBehaviorConfig = behaviorInput.getConfigItem();
+        C currentBehaviorConfig = behaviorInput.getConfigItem();
 
         ctx.onStart(currentBehaviorConfig);
         Object behaviorResult = perform(behaviorInput, currentBehaviorConfig);
@@ -37,13 +37,9 @@ public abstract class Behavior implements Function<BehaviorInput, Object> {
         return behaviorResult;
     }
 
-    protected <T extends ConfigItem<?>> T getConfigItem(BehaviorInput behaviorInput, Class<T> requiredType) {
-        return (T) behaviorInput.getConfigItem();
-    }
+    protected abstract Object execute(BehaviorInput<T, C> behaviorInput);
 
-    protected abstract Object execute(BehaviorInput behaviorInput);
-
-    private Object perform(BehaviorInput behaviorInput, ConfigItem<?> currentBehaviorConfig) {
+    private Object perform(BehaviorInput<T, C> behaviorInput, ConfigItem<T> currentBehaviorConfig) {
         if (!behaviorInput.verify()) {
             throw new BehaviorException("Validation failed");
         }
@@ -65,7 +61,7 @@ public abstract class Behavior implements Function<BehaviorInput, Object> {
                 return result;
             }
             Mapping outMapping = outMappingConfig.getBehavior();
-            BehaviorInput mappingBehaviorInput = new BehaviorInput(ctx, outMappingConfig, result);
+            BehaviorInput<Mapping, MappingConfig> mappingBehaviorInput = new BehaviorInput<>(ctx, outMappingConfig, result);
             return outMapping.apply(mappingBehaviorInput);
         }
     }
@@ -81,9 +77,8 @@ public abstract class Behavior implements Function<BehaviorInput, Object> {
     }
 
     private Object executeLink(ServiceContext ctx, Link link, final Object value) {
+
         ctx.getLinkStack().push(link);
-        ConfigItem<?> nextBehaviorConfig = link.getBehaviorConfig();
-        Behavior nextBehavior = nextBehaviorConfig.getBehavior();
 
         Object realValue = value;
         Param param = link.getParam();
@@ -108,9 +103,12 @@ public abstract class Behavior implements Function<BehaviorInput, Object> {
                 throw new RuntimeException("xxvc");
             }
         }
+
+        ConfigItem<?> nextBehaviorConfig = link.getBehaviorConfig();
+        Behavior nextBehavior = nextBehaviorConfig.getBehavior();
         checkType(realValue, nextBehaviorConfig.getIclass());
 
-        BehaviorInput nextBehaviorInput = new BehaviorInput(ctx, nextBehaviorConfig, realValue);
+        BehaviorInput<Behavior, ConfigItem<Behavior>> nextBehaviorInput = new BehaviorInput(ctx, nextBehaviorConfig, realValue);
         return nextBehavior.apply(nextBehaviorInput);
     }
 

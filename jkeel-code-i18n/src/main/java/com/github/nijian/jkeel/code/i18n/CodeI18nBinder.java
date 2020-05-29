@@ -1,6 +1,6 @@
 package com.github.nijian.jkeel.code.i18n;
 
-import com.github.nijian.jkeel.code.domain.Code;
+import com.github.nijian.jkeel.code.entity.Code;
 import com.github.nijian.jkeel.commons.feature.Feature;
 import com.github.nijian.jkeel.commons.feature.FeatureBinder;
 import com.github.nijian.jkeel.commons.feature.FeatureParam;

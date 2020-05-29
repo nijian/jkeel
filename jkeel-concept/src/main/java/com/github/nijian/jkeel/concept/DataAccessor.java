@@ -1,9 +1,11 @@
 package com.github.nijian.jkeel.concept;
 
-public abstract class DataAccessor<R> extends Behavior {
+import com.github.nijian.jkeel.concept.config.DataAccessorConfig;
+
+public abstract class DataAccessor<R> extends Behavior<DataAccessor, DataAccessorConfig> {
 
     @Override
-    protected abstract R execute(BehaviorInput behaviorInput);
+    protected abstract R execute(BehaviorInput<DataAccessor, DataAccessorConfig> behaviorInput);
 
     protected abstract void sync(ServiceContext ctx);
 

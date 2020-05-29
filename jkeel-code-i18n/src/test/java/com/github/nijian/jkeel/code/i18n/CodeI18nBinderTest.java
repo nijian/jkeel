@@ -1,7 +1,7 @@
 package com.github.nijian.jkeel.code.i18n;
 
-import com.github.nijian.jkeel.code.domain.Code;
-import com.github.nijian.jkeel.code.domain.CodeDef;
+import com.github.nijian.jkeel.code.entity.Code;
+import com.github.nijian.jkeel.code.entity.CodeDef;
 import com.github.nijian.jkeel.commons.feature.FeatureBinder;
 import com.github.nijian.jkeel.i18n.I18nFeature;
 import org.junit.After;

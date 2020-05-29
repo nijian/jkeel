@@ -2,16 +2,16 @@ package com.github.nijian.jkeel.concept;
 
 public class Entry {
 
-    private String conceptName;
+    private String behaviorName;
 
     private String configName;
 
-    public String getConceptName() {
-        return conceptName;
+    public String getBehaviorName() {
+        return behaviorName;
     }
 
-    public void setConceptName(String conceptName) {
-        this.conceptName = conceptName;
+    public void setBehaviorName(String behaviorName) {
+        this.behaviorName = behaviorName;
     }
 
     public String getConfigName() {
@@ -32,9 +32,9 @@ public class Entry {
             throw new RuntimeException("xxx");
         } else if (len == 2) {
             entry.setConfigName(segs[0]);
-            entry.setConceptName(segs[1]);
+            entry.setBehaviorName(segs[1]);
         } else {
-            entry.setConceptName(segs[0]);
+            entry.setBehaviorName(segs[0]);
         }
 
         return entry;

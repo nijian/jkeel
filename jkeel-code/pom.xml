@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.github.nijian.jkeel</groupId>
         <artifactId>jkeel-parent</artifactId>
-        <version>0.0.6-SNAPSHOT</version>
+        <version>0.0.7-SNAPSHOT</version>
     </parent>
     <artifactId>jkeel-code</artifactId>
     <name>JKeel Code</name>
@@ -14,6 +14,11 @@
         <dependency>
             <groupId>com.github.nijian.jkeel</groupId>
             <artifactId>jkeel-commons</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.nijian.jkeel</groupId>
+            <artifactId>jkeel-concept</artifactId>
             <version>${project.version}</version>
         </dependency>
         <!-- log -->

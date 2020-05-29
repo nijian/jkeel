@@ -1,4 +1,4 @@
-package com.github.nijian.jkeel.code.domain;
+package com.github.nijian.jkeel.code.entity;
 
 import com.github.nijian.jkeel.commons.Const;
 

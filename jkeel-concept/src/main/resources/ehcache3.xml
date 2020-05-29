@@ -31,7 +31,7 @@
           <!--OPTIONAL, defaults to java.lang.Object-->
             <!--The FQCN of the type of values V we'll use with the Cache<K, V>-->
         <!--&ndash;&gt;-->
-        <!--<ehcache:value-type copier="org.ehcache.impl.copy.SerializingCopier">com.pany.domain.Product</ehcache:value-type>-->
+        <!--<ehcache:value-type copier="org.ehcache.impl.copy.SerializingCopier">com.pany.entity.Product</ehcache:value-type>-->
 
         <!--&lt;!&ndash;-->
           <!--OPTIONAL, defaults to no expiry-->
