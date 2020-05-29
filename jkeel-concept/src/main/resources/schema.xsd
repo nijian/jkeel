@@ -172,8 +172,13 @@
     </xs:complexType>
 
     <xs:complexType name="use">
-        <xs:attribute name="type" type="behaviorType" use="required"/>
-        <xs:attribute name="ref" type="xs:string"/>
+        <xs:sequence>
+            <xs:choice>
+                <xs:element name="actionRef" type="actionRef"/>
+                <xs:element name="dataAccessorRef" type="dataAccessorRef"/>
+                <xs:element name="serviceRef" type="serviceRef"/>
+            </xs:choice>
+        </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="listener">

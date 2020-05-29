@@ -75,7 +75,13 @@ public class BehaviorsConfigAdapter extends XmlAdapter<BehaviorsConfig, Behavior
             fix0(link, root, algorithmConfig);
             List<Use> useList = algorithmConfig.getUseList();
             for (Use use : useList) {
-                use.setBehaviorConfig(root.getDataAccessorConfigMap().get(use.getRef()));
+                BehaviorReference behaviorReference = use.getBehaviorReference();
+                String myRef = behaviorReference.getRef();
+                if (behaviorReference instanceof DataAccessorReference) {
+                    behaviorReference.setBehaviorConfig(root.getDataAccessorConfigMap().get(myRef));
+                } else {
+                    throw new BehaviorException("wwwwwwait....");
+                }
             }
         } else {
             throw new RuntimeException("ffafdsa");
