@@ -46,6 +46,8 @@
             </xs:restriction>
         </xs:simpleType>
 
+        <!-- commons -->
+
         <xs:complexType name="action">
             <xs:complexContent>
                 <xs:extension base="action">
@@ -95,13 +97,34 @@
                 </xs:extension>
             </xs:complexContent>
         </xs:complexType>
-        <!--<xs:complexType name="source">-->
-            <!--<xs:complexContent>-->
-                <!--<xs:extension base="source">-->
-                    <!--<xs:attribute name="ref" type="dataAccessors"/>-->
-                <!--</xs:extension>-->
-            <!--</xs:complexContent>-->
-        <!--</xs:complexType>-->
-    </xs:redefine>
+        <xs:complexType name="actionRef">
+            <xs:complexContent>
+                <xs:extension base="actionRef">
+                    <xs:attribute name="ref" type="actions"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+        <xs:complexType name="algorithmRef">
+            <xs:complexContent>
+                <xs:extension base="algorithmRef">
+                    <xs:attribute name="ref" type="algorithms"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+        <xs:complexType name="dataAccessorRef">
+            <xs:complexContent>
+                <xs:extension base="dataAccessorRef">
+                    <xs:attribute name="ref" type="dataAccessors"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+        <xs:complexType name="serviceRef">
+            <xs:complexContent>
+                <xs:extension base="serviceRef">
+                    <xs:attribute name="ref" type="services"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
 
+    </xs:redefine>
 </xs:schema>

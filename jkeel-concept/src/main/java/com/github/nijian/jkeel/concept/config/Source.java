@@ -1,45 +1,26 @@
 package com.github.nijian.jkeel.concept.config;
 
-import com.github.nijian.jkeel.concept.ConfigItem;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
 
 @XmlType
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Source {
 
-    @XmlAttribute(required = true)
-    private BehaviorType type;
+    @XmlElements(value = {
+            @XmlElement(name = "actionRef",
+                    type = ActionReference.class),
+            @XmlElement(name = "dataAccessorRef",
+                    type = DataAccessorReference.class),
+            @XmlElement(name = "serviceRef",
+                    type = ServiceReference.class),
+    })
+    private BehaviorReference behaviorReference;
 
-    @XmlAttribute
-    private String ref;
-
-    private ConfigItem<?> behaviorConfig;
-
-    public BehaviorType getType() {
-        return type;
+    public BehaviorReference getBehaviorReference() {
+        return behaviorReference;
     }
 
-    public void setType(BehaviorType type) {
-        this.type = type;
-    }
-
-    public String getRef() {
-        return ref;
-    }
-
-    public void setRef(String ref) {
-        this.ref = ref;
-    }
-
-    public ConfigItem<?> getBehaviorConfig() {
-        return behaviorConfig;
-    }
-
-    public void setBehaviorConfig(ConfigItem<?> behaviorConfig) {
-        this.behaviorConfig = behaviorConfig;
+    public void setBehaviorReference(BehaviorReference behaviorReference) {
+        this.behaviorReference = behaviorReference;
     }
 }

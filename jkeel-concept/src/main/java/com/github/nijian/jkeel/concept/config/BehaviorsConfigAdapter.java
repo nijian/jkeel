@@ -40,11 +40,12 @@ public class BehaviorsConfigAdapter extends XmlAdapter<BehaviorsConfig, Behavior
                     listener.setBehaviorConfig(codeConfig);
 
                     Source source = codeConfig.getSource();
-                    type = source.getType();
-                    ref = source.getRef();
-                    if (type.equals(BehaviorType.DA)) {
-                        DataAccessorConfig dataAccessorConfig = v.getDataAccessorConfigMap().get(ref);
-                        source.setBehaviorConfig(dataAccessorConfig);
+                    BehaviorReference behaviorReference = source.getBehaviorReference();
+                    String myRef = behaviorReference.getRef();
+
+                    if (behaviorReference instanceof DataAccessorReference) {
+                        DataAccessorConfig dataAccessorConfig = v.getDataAccessorConfigMap().get(myRef);
+                        behaviorReference.setBehaviorConfig(dataAccessorConfig);
                         if (dataAccessorConfig.getLink() != null) {
                             fixLink(dataAccessorConfig.getLink(), v);
                         }

@@ -20,7 +20,9 @@
         </dataAccessors>
         <codes>
             <code id="currency">
-                <source type="DA" ref="Count Contracts Data@SPRING_DATA_QUERY_LIST"/>
+                <source>
+                    <dataAccessorRef ref="Count Contracts Data@SPRING_DATA_QUERY_LIST"/>
+                </source>
             </code>
         </codes>
         <algorithms>

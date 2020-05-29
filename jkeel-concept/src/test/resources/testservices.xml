@@ -20,7 +20,9 @@
         </dataAccessors>
         <codes>
             <code id="currency">
-                <source type="DA" ref="Count Contracts Data@SPRING_DATA_QUERY_LIST"/>
+                <source>
+                    <dataAccessorRef ref="Count Contracts Data@SPRING_DATA_QUERY_LIST"/>
+                </source>
             </code>
         </codes>
         <algorithms>
@@ -40,7 +42,7 @@
         <services>
             <service id="initQueryContracts" transactionRequired="true">
 
-                <listener type="CO" ref="currency"/>
+                <listener type="CO" ref="currency"></listener>
 
                 <!-- main flow -->
                 <!--<validation id="Get Contracts Data@JKEEL_VALIDATION"/>-->

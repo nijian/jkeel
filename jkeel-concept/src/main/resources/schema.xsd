@@ -182,8 +182,29 @@
     </xs:complexType>
 
     <xs:complexType name="source">
-        <xs:attribute name="type" type="behaviorType" use="required"/>
-        <xs:attribute name="ref" type="xs:string"/>
+        <xs:sequence>
+            <xs:choice>
+                <xs:element name="actionRef" type="actionRef"/>
+                <xs:element name="dataAccessorRef" type="dataAccessorRef"/>
+                <xs:element name="serviceRef" type="serviceRef"/>
+            </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="actionRef">
+        <xs:attribute name="ref" type="actions"/>
+    </xs:complexType>
+
+    <xs:complexType name="algorithmRef">
+        <xs:attribute name="ref" type="algorithms"/>
+    </xs:complexType>
+
+    <xs:complexType name="dataAccessorRef">
+        <xs:attribute name="ref" type="dataAccessors"/>
+    </xs:complexType>
+
+    <xs:complexType name="serviceRef">
+        <xs:attribute name="ref" type="services"/>
     </xs:complexType>
 
     <!-- helper -->
