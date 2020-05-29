@@ -2,10 +2,7 @@ package com.github.nijian.jkeel.code;
 
 import com.github.nijian.jkeel.code.entity.CodeItem;
 import com.github.nijian.jkeel.concept.*;
-import com.github.nijian.jkeel.concept.config.BehaviorType;
-import com.github.nijian.jkeel.concept.config.CodeConfig;
-import com.github.nijian.jkeel.concept.config.DataAccessorConfig;
-import com.github.nijian.jkeel.concept.config.Source;
+import com.github.nijian.jkeel.concept.config.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,13 +16,13 @@ public class SingleCodeList extends Code {
         Map<String, List<CodeItem>> codeList = new HashMap<>();
 
         ServiceContext ctx = behaviorInput.getContext();
-        CodeConfig codeConfig = (CodeConfig) behaviorInput.getConfigItem();
+        CodeConfig codeConfig = behaviorInput.getConfigItem();
         String key = (String) behaviorInput.getValue();
 
         Source source = codeConfig.getSource();
-        BehaviorType behaviorType = source.getType();
-        if (behaviorType.equals(BehaviorType.DA)) {
-            DataAccessorConfig dataAccessorConfig = (DataAccessorConfig) source.getBehaviorConfig();
+        BehaviorReference behaviorReference = source.getBehaviorReference();
+        if (behaviorReference instanceof DataAccessorReference) {
+            DataAccessorConfig dataAccessorConfig = (DataAccessorConfig) behaviorReference.getBehaviorConfig();
             DataAccessor dataAccessor = dataAccessorConfig.getBehavior();
 
             BehaviorInput<DataAccessor, DataAccessorConfig> newBehaviorInput = new BehaviorInput<>(ctx, dataAccessorConfig, key);
