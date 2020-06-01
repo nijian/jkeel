@@ -97,6 +97,9 @@
                 </xs:extension>
             </xs:complexContent>
         </xs:complexType>
+
+        <!-- behavior reference -->
+
         <xs:complexType name="actionRef">
             <xs:complexContent>
                 <xs:extension base="actionRef">
@@ -108,6 +111,13 @@
             <xs:complexContent>
                 <xs:extension base="algorithmRef">
                     <xs:attribute name="ref" type="algorithms"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+        <xs:complexType name="codeRef">
+            <xs:complexContent>
+                <xs:extension base="codeRef">
+                    <xs:attribute name="ref" type="codes"/>
                 </xs:extension>
             </xs:complexContent>
         </xs:complexType>

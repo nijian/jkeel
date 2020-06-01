@@ -44,7 +44,9 @@
         <services>
             <service id="initQueryContracts" transactionRequired="true">
 
-                <listener type="CO" ref="currency"></listener>
+                <listener>
+                    <codeRef ref="currency"/>
+                </listener>
 
                 <!-- main flow -->
                 <!--<validation id="Get Contracts Data@JKEEL_VALIDATION"/>-->
