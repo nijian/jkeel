@@ -38,7 +38,9 @@
             <action id="Get ABC ID@POPULATE"
                     iclass="com.github.nijian.jkeel.query.entity.EntityIdentifier"
                     rclass="com.github.nijian.jkeel.biz.troubleshooting.entity.ABC">
-                <link type="DA" ref="load contract info by id@JPA_LOAD"/>
+                <link>
+                    <dataAccessorRef ref="load contract info by id@JPA_LOAD"/>
+                </link>
             </action>
         </actions>
         <services>
@@ -53,7 +55,8 @@
                 <inMapping id="Get Contracts Data@JKEEL_MAPPING"
                            iclass="com.github.nijian.jkeel.query.entity.EntityIdentifier"
                            rclass="com.github.nijian.jkeel.query.entity.EntityIdentifier"/>
-                <link id="1" type="AC" ref="Get ABC ID@POPULATE" var="true" out="true">
+                <link id="1" var="true" out="true">
+                    <actionRef ref="Get ABC ID@POPULATE"/>
                     <param type="ORIGINAL"/>
                     <!--<link id="2" type="DA" ref="Count Contracts Data@SPRING_DATA_QUERY_LIST" var="true"-->
                     <!--out="true">-->
@@ -72,10 +75,14 @@
 
             </service>
             <service id="queryContracts">
-                <link id="10" type="DA" ref="Count Contracts Data@SPRING_DATA_QUERY_LIST" var="true" out="true"/>
+                <link id="10" var="true" out="true">
+                    <dataAccessorRef ref="Count Contracts Data@SPRING_DATA_QUERY_LIST"/>
+                </link>
             </service>
             <service id="load contract information">
-                <link id="11" type="DA" ref="load contract info by id@JPA_LOAD" var="true" out="true"/>
+                <link id="11" var="true" out="true">
+                    <dataAccessorRef ref="load contract info by id@JPA_LOAD"/>
+                </link>
             </service>
         </services>
     </behaviors>

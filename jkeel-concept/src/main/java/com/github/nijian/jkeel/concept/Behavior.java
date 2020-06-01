@@ -67,7 +67,7 @@ public abstract class Behavior<T extends Behavior, C extends ConfigItem<T>> impl
     }
 
     private void storeValue(ServiceContext ctx, Link link, Object value) {
-        String linkId = link.getRef();
+        String linkId = link.getBehaviorReference().getRef();
         if (link.isVar()) {
             ctx.getVars().put(linkId, value);
         }
@@ -104,7 +104,7 @@ public abstract class Behavior<T extends Behavior, C extends ConfigItem<T>> impl
             }
         }
 
-        ConfigItem<?> nextBehaviorConfig = link.getBehaviorConfig();
+        ConfigItem<?> nextBehaviorConfig = link.getBehaviorReference().getBehaviorConfig();
         Behavior nextBehavior = nextBehaviorConfig.getBehavior();
         checkType(realValue, nextBehaviorConfig.getIclass());
 

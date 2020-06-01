@@ -1,8 +1,6 @@
 package com.github.nijian.jkeel.concept.config;
 
 
-import com.github.nijian.jkeel.concept.ConfigItem;
-
 import javax.xml.bind.annotation.*;
 
 @XmlType
@@ -12,11 +10,23 @@ public class Link {
     @XmlAttribute
     private String id;
 
-    @XmlAttribute(required = true)
-    private BehaviorType type;
-
-    @XmlAttribute
-    private String ref;
+    @XmlElements(value = {
+            @XmlElement(name = "actionRef",
+                    type = ActionReference.class),
+            @XmlElement(name = "algorithmRef",
+                    type = AlgorithmReference.class),
+            @XmlElement(name = "codeRef",
+                    type = CodeReference.class),
+            @XmlElement(name = "dataAccessorRef",
+                    type = DataAccessorReference.class),
+            @XmlElement(name = "mappingRef",
+                    type = MappingReference.class),
+            @XmlElement(name = "serviceRef",
+                    type = ServiceReference.class),
+            @XmlElement(name = "validationRef",
+                    type = ValidationReference.class),
+    })
+    private BehaviorReference behaviorReference;
 
     @XmlAttribute
     private boolean var;
@@ -29,8 +39,6 @@ public class Link {
 
     @XmlElement
     private ParamMap paramMap;
-
-    private ConfigItem<?> behaviorConfig;
 
     @XmlElement
     private Link link;
@@ -45,20 +53,12 @@ public class Link {
         this.id = id;
     }
 
-    public BehaviorType getType() {
-        return type;
+    public BehaviorReference getBehaviorReference() {
+        return behaviorReference;
     }
 
-    public void setType(BehaviorType type) {
-        this.type = type;
-    }
-
-    public String getRef() {
-        return ref;
-    }
-
-    public void setRef(String ref) {
-        this.ref = ref;
+    public void setBehaviorReference(BehaviorReference behaviorReference) {
+        this.behaviorReference = behaviorReference;
     }
 
     public boolean isVar() {
@@ -91,14 +91,6 @@ public class Link {
 
     public void setParamMap(ParamMap paramMap) {
         this.paramMap = paramMap;
-    }
-
-    public ConfigItem<?> getBehaviorConfig() {
-        return behaviorConfig;
-    }
-
-    public void setBehaviorConfig(ConfigItem<?> behaviorConfig) {
-        this.behaviorConfig = behaviorConfig;
     }
 
     public Link getLink() {

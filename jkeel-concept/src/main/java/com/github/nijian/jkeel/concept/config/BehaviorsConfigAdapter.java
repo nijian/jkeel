@@ -62,23 +62,23 @@ public class BehaviorsConfigAdapter extends XmlAdapter<BehaviorsConfig, Behavior
     }
 
     private void fixLink(Link link, BehaviorsConfig root) {
-        BehaviorType type = link.getType();
-        String ref = link.getRef();
-        if (type.equals(BehaviorType.SE)) {
+        BehaviorReference behaviorReference = link.getBehaviorReference();
+        String ref = behaviorReference.getRef();
+        if (behaviorReference instanceof ServiceReference) {
             fix0(link, root, root.getServiceConfigMap().get(ref));
-        } else if (type.equals(BehaviorType.DA)) {
+        } else if (behaviorReference instanceof DataAccessorReference) {
             fix0(link, root, root.getDataAccessorConfigMap().get(ref));
-        } else if (type.equals(BehaviorType.AC)) {
+        } else if (behaviorReference instanceof ActionReference) {
             fix0(link, root, root.getActionConfigMap().get(ref));
-        } else if (type.equals(BehaviorType.AL)) {
+        } else if (behaviorReference instanceof AlgorithmReference) {
             AlgorithmConfig algorithmConfig = root.getAlgorithmConfigMap().get(ref);
             fix0(link, root, algorithmConfig);
             List<Use> useList = algorithmConfig.getUseList();
             for (Use use : useList) {
-                BehaviorReference behaviorReference = use.getBehaviorReference();
-                String myRef = behaviorReference.getRef();
+                behaviorReference = use.getBehaviorReference();
+                ref = behaviorReference.getRef();
                 if (behaviorReference instanceof DataAccessorReference) {
-                    behaviorReference.setBehaviorConfig(root.getDataAccessorConfigMap().get(myRef));
+                    behaviorReference.setBehaviorConfig(root.getDataAccessorConfigMap().get(ref));
                 } else {
                     throw new BehaviorException("wwwwwwait....");
                 }
@@ -87,7 +87,7 @@ public class BehaviorsConfigAdapter extends XmlAdapter<BehaviorsConfig, Behavior
             throw new RuntimeException("ffafdsa");
         }
 
-        Link nextLink = link.getBehaviorConfig().getLink();
+        Link nextLink = link.getBehaviorReference().getBehaviorConfig().getLink();
         if (nextLink != null) {
             fixLink(nextLink, root);
         }
@@ -97,7 +97,7 @@ public class BehaviorsConfigAdapter extends XmlAdapter<BehaviorsConfig, Behavior
         if (configItem == null) {
             throw new RuntimeException("xxx");
         }
-        link.setBehaviorConfig(configItem);
+        link.getBehaviorReference().setBehaviorConfig(configItem);
         Link nextLink = link.getLink();
         if (nextLink != null) {
             fixLink(nextLink, root);

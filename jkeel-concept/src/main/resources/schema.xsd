@@ -132,14 +132,18 @@
     <!-- flow -->
     <xs:complexType name="link">
         <xs:sequence>
+            <xs:choice>
+                <xs:element name="actionRef" type="actionRef"/>
+                <xs:element name="algorithmRef" type="algorithmRef"/>
+                <xs:element name="dataAccessorRef" type="dataAccessorRef"/>
+                <xs:element name="serviceRef" type="serviceRef"/>
+            </xs:choice>
             <xs:element name="param" type="param" minOccurs="0"/>
             <xs:element name="paramMap" type="paramMap" minOccurs="0"/>
             <xs:element name="link" type="link" minOccurs="0"/>
             <xs:element name="decision" type="decision" minOccurs="0"/>
         </xs:sequence>
         <xs:attribute name="id" type="xs:string"/>
-        <xs:attribute name="type" type="behaviorType" use="required"/>
-        <xs:attribute name="ref" type="xs:string"/>
         <xs:attribute name="var" type="xs:boolean"/>
         <xs:attribute name="out" type="xs:boolean"/>
     </xs:complexType>
@@ -218,8 +222,16 @@
         <xs:attribute name="ref" type="dataAccessors"/>
     </xs:complexType>
 
+    <xs:complexType name="mappingRef">
+        <xs:attribute name="ref" type="mappings"/>
+    </xs:complexType>
+
     <xs:complexType name="serviceRef">
         <xs:attribute name="ref" type="services"/>
+    </xs:complexType>
+
+    <xs:complexType name="validationRef">
+        <xs:attribute name="ref" type="validations"/>
     </xs:complexType>
 
     <!-- helper -->
