@@ -33,7 +33,7 @@ public final class BehaviorInput<T extends Behavior, C extends ConfigItem<T>> {
         return value;
     }
 
-    public boolean verify() throws BehaviorException {
+    boolean verify() throws BehaviorException {
 
         ValidationConfig validationConfig = configItem.getValidation();
         if (validationConfig == null) {
@@ -55,7 +55,7 @@ public final class BehaviorInput<T extends Behavior, C extends ConfigItem<T>> {
         return false;
     }
 
-    public Object convert() {
+    Object convert() {
         MappingConfig inMappingConfig = configItem.getInMapping();
         if (inMappingConfig == null) {
             return value;

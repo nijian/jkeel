@@ -34,7 +34,7 @@ public class CodeConfig extends ConfigItem<Code> {
     }
 
     @Override
-    protected Code getBehavior() {
+    public Code getBehavior() {
         return null;
     }
 }

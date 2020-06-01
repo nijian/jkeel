@@ -1,18 +1,16 @@
 package com.github.nijian.jkeel.concept.config;
 
 import com.github.nijian.jkeel.concept.ConfigItem;
+import com.github.nijian.jkeel.concept.ServiceContext;
 
-public abstract class BehaviorReference {
-
-    private ConfigItem<?> behaviorConfig;
+public abstract class BehaviorReference<T extends ConfigItem> {
 
     public abstract String getRef();
 
-    public ConfigItem<?> getBehaviorConfig() {
-        return behaviorConfig;
-    }
+    public abstract T getBehaviorConfig();
 
-    public void setBehaviorConfig(ConfigItem<?> behaviorConfig) {
-        this.behaviorConfig = behaviorConfig;
-    }
+    public abstract void setBehaviorConfig(T behaviorConfig);
+
+    public abstract Object execute(ServiceContext ctx, Link link, Object realValue);
+
 }

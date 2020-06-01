@@ -8,4 +8,6 @@ public class Mapping extends Behavior<Mapping, MappingConfig> {
     protected Object execute(BehaviorInput<Mapping, MappingConfig> behaviorInput) {
         return behaviorInput.getValue();
     }
+
+
 }

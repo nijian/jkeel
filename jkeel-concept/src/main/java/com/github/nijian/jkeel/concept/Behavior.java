@@ -103,13 +103,7 @@ public abstract class Behavior<T extends Behavior, C extends ConfigItem<T>> impl
                 throw new RuntimeException("xxvc");
             }
         }
-
-        ConfigItem<?> nextBehaviorConfig = link.getBehaviorReference().getBehaviorConfig();
-        Behavior nextBehavior = nextBehaviorConfig.getBehavior();
-        checkType(realValue, nextBehaviorConfig.getIclass());
-
-        BehaviorInput<Behavior, ConfigItem<Behavior>> nextBehaviorInput = new BehaviorInput(ctx, nextBehaviorConfig, realValue);
-        return nextBehavior.apply(nextBehaviorInput);
+        return link.getBehaviorReference().execute(ctx, link, realValue);
     }
 
     private Link nextLink(BehaviorInput behaviorInput) {
@@ -124,7 +118,7 @@ public abstract class Behavior<T extends Behavior, C extends ConfigItem<T>> impl
         return null;
     }
 
-    private void checkType(Object object, String toClassName) {
+    public void checkType(Object object, String toClassName) {
         try {
             if (!ClassUtilsEx.isAssignable(object, toClassName)) {
                 logger.error("Expected type is ('{}') but found ('{}')", toClassName, object.getClass());

@@ -8,7 +8,7 @@ public final class BehaviorProxy {
 
     private Behavior behavior;
 
-    public BehaviorProxy(ServiceContext ctx, ConfigItem<?> configItem, Behavior behavior) {
+    BehaviorProxy(ServiceContext ctx, ConfigItem<?> configItem, Behavior behavior) {
         this.ctx = ctx;
         this.configItem = configItem;
         this.behavior = behavior;

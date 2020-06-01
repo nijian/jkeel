@@ -35,4 +35,5 @@ public abstract class Algorithm extends Behavior<Algorithm, AlgorithmConfig> {
             throw new BehaviorException("Only support DA for Algorithm use element");
         }
     }
+
 }

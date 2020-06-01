@@ -2,10 +2,6 @@ package com.github.nijian.jkeel.concept;
 
 public class BehaviorException extends RuntimeException {
 
-    public BehaviorException() {
-        super();
-    }
-
     public BehaviorException(String message) {
         super(message);
     }

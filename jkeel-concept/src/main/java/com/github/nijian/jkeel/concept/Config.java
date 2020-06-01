@@ -9,13 +9,13 @@ import java.io.StringReader;
 
 public abstract class Config {
 
-    public final static String SERVICES = "root";
+    private final static String SERVICES = "root";
 
     private BehaviorsConfig behaviorsConfig;
 
     public abstract String get(String term);
 
-    public BehaviorsConfig getBehaviorsConfig() {
+    BehaviorsConfig getBehaviorsConfig() {
 
         if (behaviorsConfig == null) {
             String servicesConfigString = get(Config.SERVICES);
