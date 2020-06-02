@@ -7,7 +7,7 @@ import java.util.Map;
 public class ActionsConfigAdapter extends XmlAdapter<ActionConfigMapType, Map<String, ActionConfig>> {
 
     @Override
-    public Map<String, ActionConfig> unmarshal(ActionConfigMapType v) throws Exception {
+    public Map<String, ActionConfig> unmarshal(ActionConfigMapType v) {
         Map<String, ActionConfig> map = new HashMap<>();
         for (ActionConfig actionConfig : v.getActionConfigList()) {
             map.put(actionConfig.getId(), actionConfig);
@@ -16,7 +16,7 @@ public class ActionsConfigAdapter extends XmlAdapter<ActionConfigMapType, Map<St
     }
 
     @Override
-    public ActionConfigMapType marshal(Map<String, ActionConfig> v) throws Exception {
+    public ActionConfigMapType marshal(Map<String, ActionConfig> v) {
         return null;
     }
 }

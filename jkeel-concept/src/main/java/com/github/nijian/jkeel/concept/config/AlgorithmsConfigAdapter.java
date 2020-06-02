@@ -7,7 +7,7 @@ import java.util.Map;
 public class AlgorithmsConfigAdapter extends XmlAdapter<AlgorithmConfigMapType, Map<String, AlgorithmConfig>> {
 
     @Override
-    public Map<String, AlgorithmConfig> unmarshal(AlgorithmConfigMapType v) throws Exception {
+    public Map<String, AlgorithmConfig> unmarshal(AlgorithmConfigMapType v) {
         Map<String, AlgorithmConfig> map = new HashMap<>();
         for (AlgorithmConfig actionConfig : v.getAlgorithmConfigList()) {
             map.put(actionConfig.getId(), actionConfig);
@@ -16,7 +16,7 @@ public class AlgorithmsConfigAdapter extends XmlAdapter<AlgorithmConfigMapType, 
     }
 
     @Override
-    public AlgorithmConfigMapType marshal(Map<String, AlgorithmConfig> v) throws Exception {
+    public AlgorithmConfigMapType marshal(Map<String, AlgorithmConfig> v) {
         return null;
     }
 }

@@ -15,7 +15,7 @@ public class BehaviorsConfigAdapter extends XmlAdapter<BehaviorsConfig, Behavior
     private static Logger logger = LoggerFactory.getLogger(BehaviorsConfigAdapter.class);
 
     @Override
-    public BehaviorsConfig unmarshal(BehaviorsConfig v) throws Exception {
+    public BehaviorsConfig unmarshal(BehaviorsConfig v) {
         Map<String, ServiceConfig> serviceMap = v.getServiceConfigMap();
         Iterator<String> serviceIdIter = serviceMap.keySet().iterator();
         while (serviceIdIter.hasNext()) {
@@ -57,7 +57,7 @@ public class BehaviorsConfigAdapter extends XmlAdapter<BehaviorsConfig, Behavior
     }
 
     @Override
-    public BehaviorsConfig marshal(BehaviorsConfig v) throws Exception {
+    public BehaviorsConfig marshal(BehaviorsConfig v) {
         return null;
     }
 

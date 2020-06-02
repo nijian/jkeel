@@ -160,7 +160,7 @@ public final class ServiceContext implements BehaviorListener {
     }
 
     private void appendInfo(StringBuffer sb, RTO currentRTO, int level) {
-        StringBuffer preSb = new StringBuffer();
+        StringBuilder preSb = new StringBuilder();
         for (int i = 0; i < level; i++) {
             preSb.append("-> ");
         }
@@ -207,7 +207,7 @@ public final class ServiceContext implements BehaviorListener {
         ServiceConfig serviceConfig = getServiceConfig();
         Service service = serviceConfig.getBehavior();
 
-        BehaviorInput serviceInput = new BehaviorInput(this, serviceConfig, request);
+        BehaviorInput<Service, ServiceConfig> serviceInput = new BehaviorInput<>(this, serviceConfig, request);
         service.apply(serviceInput);
 
         logger.info("Service '{}'({}) has been performed successfully", serviceId, serviceAlias == null ? serviceId : serviceAlias);

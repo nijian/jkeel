@@ -327,16 +327,6 @@
         </xs:complexContent>
     </xs:complexType>
 
-    <xs:simpleType name="behaviorType">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="AC"/>
-            <xs:enumeration value="DA"/>
-            <xs:enumeration value="SE"/>
-            <xs:enumeration value="CO"/>
-            <xs:enumeration value="AL"/>
-        </xs:restriction>
-    </xs:simpleType>
-
     <xs:simpleType name="paramType">
         <xs:restriction base="xs:string">
             <xs:enumeration value="REFERENCE_FIELD"/>

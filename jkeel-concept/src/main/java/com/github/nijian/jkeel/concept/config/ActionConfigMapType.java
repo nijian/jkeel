@@ -11,7 +11,7 @@ public class ActionConfigMapType {
     @XmlElement(name = "action")
     private List<ActionConfig> actionConfigList;
 
-    public List<ActionConfig> getActionConfigList() {
+    List<ActionConfig> getActionConfigList() {
         return actionConfigList;
     }
 
