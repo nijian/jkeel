@@ -26,6 +26,7 @@
         <!--<module>jkeel-i18n</module>-->
         <!--<module>jkeel-integration</module>-->
         <module>jkeel-mapping</module>
+        <module>jkeel-meta</module>
         <module>jkeel-query</module>
         <!--<module>jkeel-report</module>-->
         <!--<module>jkeel-repository</module>-->
