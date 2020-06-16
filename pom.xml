@@ -20,6 +20,7 @@
         <!--<module>jkeel-code-i18n</module>-->
         <module>jkeel-concept</module>
         <module>jkeel-config-cfg4j</module>
+        <module>jkeel-converter</module>
         <!--<module>jkeel-currency</module>-->
         <module>jkeel-dsls</module>
         <!--<module>jkeel-exchange</module>-->

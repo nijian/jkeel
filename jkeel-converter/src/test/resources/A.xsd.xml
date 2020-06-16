@@ -1,0 +1,5 @@
+<x:root xmlns:x="https://github.com/nijian/jkeel">
+  <x:link xmlns:x="https://github.com/nijian/jkeel">
+    <id>string</id>
+  </x:link>
+</x:root>
