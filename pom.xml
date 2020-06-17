@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.nijian.jkeel</groupId>
@@ -20,7 +21,6 @@
         <!--<module>jkeel-code-i18n</module>-->
         <module>jkeel-concept</module>
         <module>jkeel-config-cfg4j</module>
-        <module>jkeel-converter</module>
         <!--<module>jkeel-currency</module>-->
         <module>jkeel-dsls</module>
         <!--<module>jkeel-exchange</module>-->
@@ -97,6 +97,13 @@
         <org.antlr.version>4.7.2</org.antlr.version>
         <org.ow2.asm.version>7.1</org.ow2.asm.version>
 
+        <!-- json xml converter -->
+        <com.sun.xml.bind.external.rngom.version>2.3.3</com.sun.xml.bind.external.rngom.version>
+        <org.eclipse.persistence.version>2.7.7</org.eclipse.persistence.version>
+        <maven-jaxb2-plugin.version>0.14.0</maven-jaxb2-plugin.version>
+        <javax.json-api.version>1.1.4</javax.json-api.version>
+
+
         <!-- for test -->
         <junit.version>4.12</junit.version>
         <spring.version>5.2.4.RELEASE</spring.version>
@@ -128,6 +135,37 @@
 
     <dependencyManagement>
         <dependencies>
+            <!-- json xml converter -->
+            <dependency>
+                <groupId>com.sun.xml.bind.external</groupId>
+                <artifactId>rngom</artifactId>
+                <version>${com.sun.xml.bind.external.rngom.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.persistence</groupId>
+                <artifactId>eclipselink</artifactId>
+                <version>${org.eclipse.persistence.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.persistence</groupId>
+                <artifactId>org.eclipse.persistence.moxy</artifactId>
+                <version>${org.eclipse.persistence.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jvnet.jaxb2.maven2</groupId>
+                <artifactId>maven-jaxb2-plugin</artifactId>
+                <version>${maven-jaxb2-plugin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.json</groupId>
+                <artifactId>javax.json-api</artifactId>
+                <version>${javax.json-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish</groupId>
+                <artifactId>javax.json</artifactId>
+                <version>${javax.json-api.version}</version>
+            </dependency>
             <!-- log -->
             <dependency>
                 <groupId>org.slf4j</groupId>

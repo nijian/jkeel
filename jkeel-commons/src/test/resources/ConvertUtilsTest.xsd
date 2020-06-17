@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="https://github.com/nijian/jkeel/converter"
+           xmlns="https://github.com/nijian/jkeel/converter" elementFormDefault="qualified"
+           attributeFormDefault="qualified">
+
+    <xs:element name="cat" type="cat"/>
+
+    <xs:complexType name="cat">
+        <xs:sequence>
+            <xs:element name="eye" type="eye"/>
+        </xs:sequence>
+        <xs:attribute name="type" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="eye">
+        <xs:sequence>
+            <xs:element name="color" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+
+</xs:schema>
+
