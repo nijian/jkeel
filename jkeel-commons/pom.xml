@@ -20,6 +20,11 @@
         </dependency>
         <!-- json xml converter -->
         <dependency>
+            <groupId>org.apache.ws.xmlschema</groupId>
+            <artifactId>xmlschema-core</artifactId>
+            <version>2.2.5</version>
+        </dependency>
+        <dependency>
             <groupId>com.sun.xml.bind.external</groupId>
             <artifactId>rngom</artifactId>
         </dependency>

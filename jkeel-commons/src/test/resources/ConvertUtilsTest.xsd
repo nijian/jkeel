@@ -2,7 +2,7 @@
 <xs:schema version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema"
            targetNamespace="https://github.com/nijian/jkeel/converter"
            xmlns="https://github.com/nijian/jkeel/converter" elementFormDefault="qualified"
-           attributeFormDefault="qualified">
+           attributeFormDefault="qualified" id="xxx">
 
     <xs:element name="cat" type="cat"/>
 
