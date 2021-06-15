@@ -93,7 +93,7 @@
 
         <ribbon.version>2.2.2</ribbon.version>
         <io.reactivex.version>1.0.10</io.reactivex.version>
-        <org.apache.pdfbox.version>2.0.15</org.apache.pdfbox.version>
+        <org.apache.pdfbox.version>2.0.24</org.apache.pdfbox.version>
         <org.antlr.version>4.7.2</org.antlr.version>
         <org.ow2.asm.version>7.1</org.ow2.asm.version>
 
