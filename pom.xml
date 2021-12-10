@@ -86,7 +86,7 @@
         <org.apache.bcel.version>6.3.1</org.apache.bcel.version>
         <commons-jxpath.version>1.3</commons-jxpath.version>
         <org.slf4j.version>1.7.25</org.slf4j.version>
-        <org.apache.logging.log4j.version>2.11.2</org.apache.logging.log4j.version>
+        <org.apache.logging.log4j.version>2.15.0</org.apache.logging.log4j.version>
 
         <jasper.version>6.7.0</jasper.version>
         <xalan.version>2.7.0</xalan.version>
