@@ -79,7 +79,7 @@
         <jackson.version>2.13.2.2</jackson.version>
         <org.ehcache.version>3.7.0</org.ehcache.version>
         <org.apache.commons.lang3.version>3.9</org.apache.commons.lang3.version>
-        <org.apache.commons.text.version>1.8</org.apache.commons.text.version>
+        <org.apache.commons.text.version>1.10.0</org.apache.commons.text.version>
         <org.apache.commons.pool.version>2.4.2</org.apache.commons.pool.version>
         <org.apache.commons.io.version>2.11.0</org.apache.commons.io.version>
         <org.apache.commons.csv.version>1.4</org.apache.commons.csv.version>
